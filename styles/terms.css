@@ -1,0 +1,22 @@
+body {
+    height: 100dvh;
+    padding: 0;
+    margin:0;
+}
+
+.fill {
+    color: red;
+}
+
+ul {
+    padding-bottom:16px;
+}
+
+#articles {
+    padding-top: 0.25rem;
+    list-style-type: none;
+}
+
+#articles > li {
+    padding-top: 2rem;
+}
