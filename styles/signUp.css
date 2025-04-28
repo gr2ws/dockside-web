@@ -1,10 +1,7 @@
-* {
-    padding: 0;
-    margin:0;
-}
-
 body {
     height: 100dvh;
+    padding: 0;
+    margin:0;
 }
 
 .login-form {
@@ -15,3 +12,5 @@ body {
 .form-group {
     width: 100%;
 }
+
+
