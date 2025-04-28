@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles -->
+    <style>
+        .carousel-section {
+            height: 30vh;
+            background-color: #f8f9fa;
+        }
+        .img-placeholder {
+            height: 400px;
+            background-color: #dee2e6;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">Hotel</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Accommodation</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Rates</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">More</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href=""><i class="bi bi-circle"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Carousel/Hero Section -->
+    <div class="carousel-section d-flex flex-column justify-content-center align-items-center text-center">
+        <div class="container">
+            <h1 class="display-4">Name of Hotel</h1>
+            <button class="btn btn-primary btn-lg mt-3">Book Now</button>
+        </div>
+    </div>
+
+    <!-- Info Container -->
+    <div class="container my-5">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <div class="img-placeholder"></div>
+            </div>
+            <div class="col-md-6 text-center py-4">
+                <h2 class="mb-4">HOTEL</h2>
+                <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                    enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                    nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+                    in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                    nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                    sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <button class="btn btn-outline-dark">FIND OUT MORE</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Description Container -->
+    <div class="container my-5">
+        <h1 class="text-center mb-5">THE HOTEL</h1>
+
+        <!-- Location Section -->
+        <div class="row align-items-center mb-5">
+            <div class="col-md-6">
+                <div class="img-placeholder"></div>
+            </div>
+            <div class="col-md-6 text-center py-4">
+                <h2 class="mb-4">THE LOCATION</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                    enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                    nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+                    in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                    nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                    sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            </div>
+        </div>
+
+        <!-- Rooms Section -->
+        <div class="row align-items-center">
+            <div class="col-md-6 order-md-2">
+                <div class="img-placeholder"></div>
+            </div>
+            <div class="col-md-6 order-md-1 text-center py-4">
+                <h2 class="mb-4">ROOMS</h2>
+                <p class="mb-4">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                    enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                    nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+                    in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                    nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                    sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
+                <button class="btn btn-outline-dark">VIEW OUR ACCOMMODATIONS</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Photo Gallery -->
+    <div class="container my-5">
+        <h1 class="text-center mb-5">PHOTO GALLERY</h1>
+        <div class="row g-3">
+            <div class="col-md-4 col-sm-6">
+                <div class="img-placeholder"></div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="img-placeholder"></div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="img-placeholder"></div>
+            </div>
+            <div class="col-md-6 col-sm-6">
+                <div class="img-placeholder"></div>
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <div class="img-placeholder"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container">
+            <!-- Footer Navigation -->
+            <div class="row mb-4">
+                <div class="col-md-6 mb-3 mb-md-0">
+                    <h5 class="mb-3">Quick Links</h5>
+                    <ul class="nav flex-column">
+                        <li class="nav-item mb-2">
+                            <a href="" class="nav-link p-0 text-white">Home</a>
+                        </li>
+                        <li class="nav-item mb-2">
+                            <a href="" class="nav-link p-0 text-white">Accommodation</a>
+                        </li>
+                        <li class="nav-item mb-2">
+                            <a href="" class="nav-link p-0 text-white">Rates</a>
+                        </li>
+                        <li class="nav-item mb-2">
+                            <a href="" class="nav-link p-0 text-white">More</a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="col-md-6">
+                    <h5 class="mb-3">Contact Us</h5>
+                    <address class="mb-0">
+                        <p class="mb-1">123 Hotel Street</p>
+                        <p class="mb-1">City, Country</p>
+                        <p class="mb-1">Phone: (123) 456-7890</p>
+                        <p class="mb-0">Email: info@hotel.com</p>
+                    </address>
+                </div>
+            </div>
+            
+            <!-- Copyright -->
+            <div class="border-top pt-3">
+                <p class="text-center mb-0">
+                    Copyright © 2025 HOTEL - All Rights Reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
