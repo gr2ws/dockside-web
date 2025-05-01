@@ -1,14 +1,56 @@
 body {
-    height: 100dvh;
+    min-height: 100dvh;
     padding: 0;
-    margin:0;
+    margin: 0;
 }
 
-.login-form {
-    border: 1px solid gray;
-    padding: 2rem;
+.flex-col-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#login-form {
+    width: 25vw;
+}
+
+.form-control {
+    width: 85% !important;
 }
 
 .form-group {
-    width: 100%;
+    width: inherit;
+    align-items: start;
+    gap: 8px;
+}
+
+.fill {
+    color: red;
+}
+
+ul {
+    padding-bottom:16px;
+}
+
+#articles {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+#articles > li {
+    padding-top: 2rem;
+}
+
+#terms-section {
+    width: 30vw;
+    padding: 1.5rem;
+    display: none;
+}
+
+button {
+    padding: 0;
+    border: 0;
+    background-color: inherit;
+    font-style: italic;
 }
