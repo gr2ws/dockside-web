@@ -42,8 +42,16 @@ ul {
     padding-top: 2rem;
 }
 
+
+#terms-and-cond {
+    /* background-color: rgb(212, 212, 212); */
+    width: 100vw;
+}
+
 #terms-section {
-    width: 30vw;
+    width: 30%;
+    height: 75dvh;
+    overflow-y:scroll;
     padding: 1.5rem;
     display: none;
 }
