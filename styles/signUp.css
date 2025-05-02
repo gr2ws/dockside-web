@@ -2,6 +2,11 @@ body {
     min-height: 100dvh;
     padding: 0;
     margin: 0;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../assets/hotelfront.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    position: relative;
 }
 
 .flex-col-center {
@@ -39,6 +44,7 @@ button {
 
 #create-acc-form {
     position: relative;
+    background-color: #f5f5f5;
 }
 
 /* Area surrounding the terms container */
