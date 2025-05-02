@@ -11,26 +11,21 @@ body {
     align-items: center;
 }
 
-#login-form {
-    width: 25vw;
-}
-
-.form-control {
-    width: 85% !important;
-}
-
 .form-group {
     width: inherit;
     align-items: start;
     gap: 8px;
 }
 
-.fill {
-    color: red;
-}
-
 ul {
     padding-bottom:16px;
+}
+
+button {
+    padding: 0;
+    border: 0;
+    background-color: inherit;
+    font-style: italic;
 }
 
 #articles {
@@ -42,22 +37,37 @@ ul {
     padding-top: 2rem;
 }
 
-
-#terms-and-cond {
-    width: 100vw;
+#create-acc-form {
+    position: relative;
 }
 
+/* Area surrounding the terms container */
+#terms-and-cond {
+    width: 100vw;
+    height: 100dvh;
+    position: absolute;
+    top: 0;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    background-color: rgba(0, 0, 0, 0.1); /* dark semi-transparent bg */
+    backdrop-filter: blur(3px);          /* the actual blur effect */
+    -webkit-backdrop-filter: blur(3px);  /* for Safari */
+    position: absolute;
+    top: 0;
+}
+
+/* Terms container itself */
 #terms-section {
     width: 30%;
-    height: 75dvh;
-    overflow-y:scroll;
+    height: 50dvh;
+    overflow-y: scroll;
     padding: 1.5rem;
     display: none;
 }
 
-button {
-    padding: 0;
-    border: 0;
-    background-color: inherit;
-    font-style: italic;
+button#hide-terms:hover {
+    text-decoration: underline !important;
 }

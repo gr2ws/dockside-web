@@ -8,17 +8,20 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
 </head>
 <body class = "px-3 flex-col-center">
-    <form id = "login-form" class = "d-flex flex-column justify-content-center align-items-start gap-3 border border-secondary rounded-3 p-4">
+
+    <!-- sign up form -->
+    <form id = "create-acc-form" class = "d-flex flex-column justify-content-center align-items-start gap-3 border border-secondary rounded-3 p-4
+    w-sm-50 w-md-25 px-2">
         <h1 class = "fw-bolder align-self-center"> Sign Up </h1>
-        <div class="form-group flex-col-center">
+        <div class="form-group flex-col-center container">
           <label for="name">Name:</label>
           <input type="text" class="form-control" id="name" aria-describedby="emailHelp" placeholder="Enter your name">
         </div>
-        <div class="form-group flex-col-center">
+        <div class="form-group flex-col-center container">
           <label for="email">Email:</label>
           <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
         </div>
-        <div class="form-group flex-col-center">
+        <div class="form-group flex-col-center container">
           <label for="password">Password:</label>
           <input type="password" class="form-control" id="password" placeholder="Password">
         </div>
@@ -30,9 +33,11 @@
           <small id="emailHelp" class="form-text text-muted">To proceed, you must read the <button type = "button" onclick = "showTerms()" class = "text-muted"><u>Terms and Conditions</u></button> of the website.</small></i>
     </form>
 
-    <div id = "terms-and-cond">
+
+    <div id = "terms-and-cond"> <!-- Area surrounding the terms container -->
+      <!-- The terms container itself -->
       <section id = "terms-section" class = "mx-auto bg-white border border-dark">
-        <h2 class = "py-5 bg-secondary text-white text-center">Terms and Conditions for Hotel Accommodations</h2>
+        <h2 class = "py-3 bg-secondary text-white text-center">Terms and Conditions for Hotel Accommodations</h2>
         <ul id = "articles"> 
             <li class = "lead">ARTICLE 1: General Guidelines</li>
             <hr>
@@ -105,7 +110,8 @@
         </ul>
 
         <div>
-          <button onclick = "hideTerms()">
+          <button id = "hide-terms" onclick = "hideTerms()" class = "d-flex align-items-center justify-content-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left-icon lucide-arrow-left"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
             <span class = "fs-5"> Back </span>
           </button>
         </div>
@@ -119,12 +125,19 @@
   
   function showTerms() {
     const termsContainer = document.getElementById('terms-section');
+    const termsBackground = document.getElementById('terms-and-cond');
+
     termsContainer.style.display = 'block'; 
+    termsBackground.style.display = 'flex'; 
+
   }
 
   function hideTerms() {
     const termsContainer = document.getElementById('terms-section');
-    termsContainer.style.display = 'none';  
+    const termsBackground = document.getElementById('terms-and-cond');
+
+    termsContainer.style.display = 'none'; 
+    termsBackground.style.display = 'none'; 
   }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
