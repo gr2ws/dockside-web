@@ -57,17 +57,42 @@ button {
     -webkit-backdrop-filter: blur(3px);  /* for Safari */
     position: absolute;
     top: 0;
+
 }
 
 /* Terms container itself */
 #terms-section {
-    width: 30%;
+    width: 50%;
     height: 50dvh;
     overflow-y: scroll;
     padding: 1.5rem;
     display: none;
+    animation: fade-in 0.5s ease 0s 1 normal forwards;
+}
+
+@keyframes fade-in {
+	0% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+	}
+}
+
+@media (max-width:740px) {
+    #terms-section {
+        width: 80%;
+    }
 }
 
 button#hide-terms:hover {
     text-decoration: underline !important;
+    transition: background-color 0.2s ease, stroke 0.2s ease;
+}
+
+svg#x-terms:hover {
+    background-color: rgb(110, 0, 0);
+    stroke: white;
+    transition: background-color 0.2s ease, stroke 0.2s ease;
 }
