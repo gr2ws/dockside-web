@@ -69,7 +69,7 @@ button {
 /* Terms container itself */
 #terms-section {
     width: 50%;
-    height: 50dvh;
+    height: 50%;
     overflow-y: scroll;
     padding: 1.5rem;
     display: none;
@@ -85,6 +85,14 @@ button {
 		opacity: 1;
 	}
 }
+
+@media (max-width: 1400px) {
+    /* bigger height to be rational with shorter-height devices */
+    #terms-section {
+        height: 75%; 
+    }
+}
+
 
 @media (max-width:740px) {
     #terms-section {
