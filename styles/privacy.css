@@ -4,21 +4,19 @@ body {
     margin: 0;
 }
 
-.accordion-button:not(.collapsed) {
-    background-color: #1e2a3a !important;
-    color: #f5f5f5 !important;
-    border-left: 8px solid rgb(205, 196, 196); 
-    transition: background-color 0.3s ease;
-    box-shadow: none !important; 
+.flex-col-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-/* svg color control, collapsed accordion item */
-.accordion-button::after {
-    filter: brightness(0);
-  }
-  
-/* svg color control, expanded accordion item */
-  .accordion-button:not(.collapsed)::after {
-    filter: invert(1) brightness(2);
-  }
-  
+#main {
+position: relative;
+}
+
+#back-top-btn {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
