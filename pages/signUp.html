@@ -9,31 +9,35 @@
 </head>
 <body class = "px-3 flex-col-center">
 
-    <!-- sign up form -->
-    <form id = "create-acc-form" class = "d-flex flex-column justify-content-center align-items-start border border-secondary rounded-3 
-    gap-4 gap-sm-3 p-4 p-sm-1
-    w-sm-50 w-md-25 px-2">
-        <h1 class = "fw-bolder align-self-center pt-3"> Sign Up </h1>
-        <div class="form-group flex-col-center container">
-          <label for="name">Name:</label>
-          <input type="text" class="form-control" id="name" aria-describedby="emailHelp" placeholder="Enter your name">
-        </div>
-        <div class="form-group flex-col-center container">
-          <label for="email">Email:</label>
-          <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
-        </div>
-        <div class="form-group flex-col-center container">
-          <label for="password">Password:</label>
-          <input type="password" class="form-control" id="password" placeholder="Password">
-        </div>
-        <button type="submit" class="btn btn-primary align-self-center">Sign Up</button>
+    <div id = "content" class="row container-fluid px-sm-5 py-4">
+        <section id="side-thumbnail" class = "d-none d-sm-block col-md-4"></section>
 
-        <i class = "align-self-center">
-          <small id="emailHelp" class="form-text text-muted">Have an account?</small> <u>Log in here!</u></i>
-        <i class = "align-self-center text-center px-5 pb-3">
-          <small id="emailHelp" class="form-text text-muted">To proceed, you must read the <button type = "button" id = "show-terms" onclick = "showTerms()" class = "text-muted"><u>Terms and Conditions</u></button> of the website.</small></i>
-    </form>
+        <section class = "col-12 w-sm-100 col-md-8">
+          <!-- sign up form -->
+          <form id = "create-acc-form" class = "d-flex flex-column justify-content-center align-items-start
+          border border-secondary gap-2 w-sm-50 w-md-25 p-1 p-lg-3">
+            <h1 class = "fw-bolder align-self-center pt-3"> Sign Up </h1>
+            <div class="form-group flex-col-center container">
+              <label for="name">Name:</label>
+              <input type="text" class="form-control" id="name" aria-describedby="emailHelp" placeholder="Enter your name">
+            </div>
+            <div class="form-group flex-col-center container">
+              <label for="email">Email:</label>
+              <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+            </div>
+            <div class="form-group flex-col-center container">
+              <label for="password">Password:</label>
+              <input type="password" class="form-control" id="password" placeholder="Password">
+            </div>
+            <button type="submit" class="btn btn-primary align-self-center my-2">Sign Up</button>
 
+            <i class = "align-self-center text-center px-5 my-1">
+              <small id="emailHelp" class="form-text text-muted">Have an account?</small> <u class="text-muted">Log in here!</u></i>
+            <i class = "align-self-center text-center px-5 mt-1 mb-3">
+              <small id="emailHelp" class="form-text text-muted">To proceed, you must read the <button type = "button" id = "show-terms" onclick = "showTerms()" class = "text-muted"><i><u>Terms and Conditions</u></i></button> of the website.</small></i>
+          </form>
+        </section>
+    </div>
 
     <div id = "terms-and-cond"> <!-- Area surrounding the terms container -->
       <!-- The terms container itself -->
