@@ -23,6 +23,20 @@ body {
     gap: 8px;
 }
 
+@media (min-width:1200px) {
+    #content {
+        padding-left: 5rem !important;
+        padding-right: 5rem !important;
+    }
+}
+
+@media (min-width:1400px) {
+    #content {
+        padding-left: 7rem !important;
+        padding-right: 7rem !important;
+    }
+}
+
 body, #side-thumbnail {
     background-repeat: no-repeat;
     background-size: cover;
