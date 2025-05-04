@@ -1,4 +1,4 @@
-@import url("./global.css");
+@import url("global.css");
 
 * {
 	padding: 0;
@@ -6,127 +6,121 @@
 	box-sizing: border-box;
 }
 
-/* Hero Section Styling */
-.carousel-section {
-	background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-		url("https://via.placeholder.com/1920x1080");
-	background-size: cover;
-	background-position: center;
-	color: white;
-	min-height: 60vh;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	text-align: center;
-	margin-bottom: 3rem;
+/* Header */
+
+.nav-hotel-name {
+	font: var(--heading-font);
+	text-decoration: none;
+	white-space: nowrap;
+	color: var(--base);
 }
 
-.carousel-section h1 {
-	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+.header-nav {
+	background-color: var(--background);
+	border-bottom: 1px solid var(--accent);
 }
 
-/* Image Placeholders */
-.img-placeholder {
-	background-color: #f0f0f0;
-	border-radius: 8px;
-	overflow: hidden;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-	transition: transform 0.3s ease;
+.header-c {
+	font-size: 0.55rem;
+	vertical-align: super;
 }
 
-.img-placeholder:hover {
-	transform: translateY(-5px);
+.mobile-menu-btn {
+	background: none;
+	border: none;
+	transform: scale(1.8);
+	padding-left: 0.5rem;
+	color: var(--base);
+	cursor: pointer;
+	z-index: 1001;
 }
 
-/* Buttons */
-.btn-primary {
-	background-color: #3a506b;
-	border-color: #3a506b;
-}
-
-.btn-primary:hover {
-	background-color: #2a3f54;
-	border-color: #2a3f54;
-}
-
-.btn-outline-dark {
-	transition: all 0.3s ease;
-}
-
-.btn-outline-dark:hover {
-	background-color: #3a506b;
-	border-color: #3a506b;
-}
-
-/* Section Styling */
-.section-heading {
-	position: relative;
-	display: inline-block;
-	margin-bottom: 2rem;
-}
-
-.section-heading::after {
-	content: "";
-	position: absolute;
-	bottom: -10px;
-	left: 50%;
-	transform: translateX(-50%);
-	width: 50px;
-	height: 3px;
-	background-color: #3a506b;
-}
-
-/* Footer Styling */
-footer {
-	background-color: #1e2a3a !important;
-}
-
-footer h5 {
-	font-weight: 600;
-}
-
-footer .border-bottom {
-	border-color: #3a506b !important;
-}
-
-footer a:hover {
-	color: #ffffff;
-}
-
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-	.carousel-section {
-		min-height: 40vh;
-	}
-
-	.order-sm-reverse {
-		flex-direction: column-reverse;
-	}
-}
-
-/* Animation */
-.fade-in {
-	animation: fadeIn 1s ease-in;
-}
-
-@keyframes fadeIn {
-	from {
-		opacity: 0;
-	}
-	to {
-		opacity: 1;
-	}
-}
-
-.carousel-section {
-	height: 30vh;
+/* Mobile Side Menu */
+.mobile-nav {
+	position: fixed;
+	top: 0;
+	right: -300px;
+	width: 300px;
 	background-color: #f8f9fa;
+	height: 100vh;
+	padding: 2rem 1rem;
+	z-index: 1050;
+	transition: all 0.3s ease-in-out;
+	overflow-y: auto;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-.img-placeholder {
-	height: 400px;
-	background-color: #dee2e6;
+
+.mobile-nav .nav-hotel-name {
+	display: block;
+	margin-bottom: 2rem;
+	font-size: 1.5rem;
+	text-align: center;
+	color: var(--primary-color);
+	opacity: 0;
+	transform: translateX(20px);
+	transition: all 0.3s 0.1s ease-in-out;
 }
-.hover-light:hover {
-	color: white !important;
-	transition: color 0.3s ease;
+
+.mobile-nav.show {
+	right: 0;
 }
+
+.mobile-nav.show .nav-hotel-name,
+.mobile-nav.show ul li a {
+	opacity: 1;
+	transform: translateX(0);
+}
+
+.mobile-nav ul {
+	list-style: none;
+	padding: 0;
+}
+
+.mobile-nav li {
+	margin-bottom: 0.5rem;
+}
+
+.mobile-nav a {
+	display: block;
+	padding: 0.75rem 1rem;
+	color: #333;
+	text-decoration: none;
+	font-weight: 500;
+	border-radius: 5px;
+	opacity: 0;
+	transform: translateX(20px);
+	transition: all 0.3s ease-in-out;
+}
+
+.mobile-nav a:hover {
+	background-color: rgba(var(--primary-rgb), 0.1);
+	color: var(--primary-color);
+}
+
+.menu-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 999;
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.menu-overlay.show {
+	opacity: 1;
+	visibility: visible;
+}
+
+/* Hide mobile menu on larger screens */
+@media (min-width: 768px) {
+	.mobile-nav,
+	.menu-overlay {
+		display: none;
+	}
+}
+
+/* Header */

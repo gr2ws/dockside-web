@@ -21,147 +21,77 @@
 	</head>
 
 	<body>
-		<!-- Navbar -->
-		<nav
-			class="navbar navbar-expand-lg navbar-dark sticky-top"
-			style="background-color: #1e2a3a"
-		>
+		<!-- TODO: move to reusable .js component -->
+		<!-- Header Navbar -->
+		<nav class="header-nav navbar navbar-expand-md shadow-sm">
 			<div class="container">
-				<a class="navbar-brand" href="#">
-					<span class="fw-bold">LUXURY</span> HOTEL
-				</a>
 				<button
-					class="navbar-toggler"
 					type="button"
-					data-bs-toggle="collapse"
-					data-bs-target="#navbarNav"
+					class="mobile-menu-btn d-xs-block d-sm-block d-md-none d-lg-none d-xl-none d-xxl-none"
+					id="mobileMenuToggle"
 				>
-					<span class="navbar-toggler-icon"></span>
+					<i class="bi-list"></i>
 				</button>
-				<div class="collapse navbar-collapse" id="navbarNav">
+
+				<a class="nav-hotel-name" href="#">
+					Dockside Hotel
+					<sup class="header-c bi-c-circle"></sup>
+				</a>
+
+				<div class="collapse navbar-collapse">
 					<ul class="navbar-nav ms-auto">
-						<li class="nav-item">
-							<a class="nav-link active" href="">Home</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="">Accommodation</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="">Rates</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="">Facilities</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="">Contact</a>
-						</li>
-						<li class="nav-item ms-lg-3">
-							<a class="btn btn-sm btn-primary mt-1" href="">Book Now</a>
-						</li>
+						<li class="nav-link">Home</li>
+						<!-- TODO: dropdown -->
+						<li class="nav-link">Accomodations</li>
+						<li class="nav-link">Facilities</li>
+						<li class="nav-link">Events</li>
 					</ul>
+				</div>
+
+				<div class="dropdown">
+					<!-- TODO: fix position in mobile -->
+					<button
+						class="btn dropdown-toggle"
+						type="button"
+						data-bs-toggle="dropdown"
+					>
+						<!-- TODO: remove down arrow, change color, conditional hiding of join us based on size -->
+						<i class="bi-person-fill"></i>
+						<span class="d-none d-lg">Sign In | Join Us</span>
+					</button>
+
+					<!-- TODO: add user dashboard link, user info, account settings, etc. add design to user buttons -->
+					<div class="dropdown-menu">
+						<button class="dropdown-item">Join Us</button>
+						<button class="dropdown-item">Sign In</button>
+					</div>
 				</div>
 			</div>
 		</nav>
 
-		<!-- Carousel/Hero Section -->
-		<div
-			class="carousel-section d-flex flex-column justify-content-center align-items-center text-center"
-		>
-			<div class="container fade-in">
-				<h1 class="display-4 mb-4">LUXURY HOTEL EXPERIENCE</h1>
-				<p class="lead mb-4">
-					Experience unparalleled comfort and exceptional service
-				</p>
-				<button class="btn btn-primary btn-lg px-4 py-2 mt-3">Book Now</button>
-			</div>
+		<!-- TODO: Refactor Design -->
+		<!-- Mobile Side Menu -->
+		<div class="mobile-nav" id="mobileSideMenu">
+			<a class="nav-hotel-name mobile-nav" href="#">
+				Dockside Hotel
+				<sup class="header-c bi-c-circle"></sup>
+			</a>
+			<ul>
+				<li><a href="#">Home</a></li>
+				<li><a href="#">Accommodations</a></li>
+				<li><a href="#">Facilities</a></li>
+				<li><a href="#">Events</a></li>
+			</ul>
 		</div>
 
-		<!-- Info Container -->
-		<div class="container my-5">
-			<div class="row align-items-center">
-				<div class="col-md-6">
-					<div class="img-placeholder"></div>
-				</div>
-				<div class="col-md-6 text-center py-4">
-					<h2 class="mb-4">HOTEL</h2>
-					<p class="mb-4">
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-						eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-						ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-						aliquip ex ea commodo consequat. Duis aute irure dolor in
-						reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-						pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-						culpa qui officia deserunt mollit anim id est laborum.
-					</p>
-					<button class="btn btn-outline-dark">FIND OUT MORE</button>
-				</div>
-			</div>
-		</div>
+		<!-- Overlay for darkening the screen -->
+		<div class="menu-overlay" id="menuOverlay"></div>
 
-		<!-- Description Container -->
-		<div class="container my-5">
-			<h1 class="text-center mb-5">THE HOTEL</h1>
-			<!-- Location Section -->
-			<div class="row align-items-center mb-5">
-				<div class="col-md-6">
-					<div class="img-placeholder"></div>
-				</div>
-				<div class="col-md-6 text-center py-4">
-					<h2 class="mb-4">THE LOCATION</h2>
-					<p>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-						eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-						ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-						aliquip ex ea commodo consequat. Duis aute irure dolor in
-						reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-						pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-						culpa qui officia deserunt mollit anim id est laborum.
-					</p>
-				</div>
-			</div>
-
-			<!-- Rooms Section -->
-			<div class="row align-items-center">
-				<div class="col-md-6 order-md-2">
-					<div class="img-placeholder"></div>
-				</div>
-				<div class="col-md-6 order-md-1 text-center py-4">
-					<h2 class="mb-4">ROOMS</h2>
-					<p class="mb-4">
-						"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-						eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-						ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-						aliquip ex ea commodo consequat. Duis aute irure dolor in
-						reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-						pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-						culpa qui officia deserunt mollit anim id est laborum."
-					</p>
-					<button class="btn btn-outline-dark">VIEW OUR ACCOMMODATIONS</button>
-				</div>
-			</div>
-		</div>
-
-		<!-- Photo Gallery -->
-		<div class="container my-5">
-			<h1 class="text-center mb-5">PHOTO GALLERY</h1>
-			<div class="row g-3">
-				<div class="col-md-4 col-sm-6">
-					<div class="img-placeholder"></div>
-				</div>
-				<div class="col-md-4 col-sm-6">
-					<div class="img-placeholder"></div>
-				</div>
-				<div class="col-md-4 col-sm-6">
-					<div class="img-placeholder"></div>
-				</div>
-				<div class="col-md-6 col-sm-6">
-					<div class="img-placeholder"></div>
-				</div>
-				<div class="col-md-6 col-sm-12">
-					<div class="img-placeholder"></div>
-				</div>
-			</div>
-		</div>
+		<!-- Booking Header -->
+		<!-- Hero Section -->
+		<!-- Accommodations -->
+		<!-- Rates -->
+		<!-- Facilities -->
 
 		<!-- Footer -->
 		<footer class="bg-dark text-white py-5 mt-5">
@@ -267,6 +197,9 @@
 				</div>
 			</div>
 		</footer>
+
+		<!-- Showing/hiding navigation menu in mobile -->
+		<script src="scripts/mobileNav.js"></script>
 
 		<!-- Bootstrap w/ Popper -->
 		<script
