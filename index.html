@@ -56,7 +56,7 @@
 						data-bs-toggle="dropdown"
 					>
 						<!-- TODO: remove down arrow, change color, conditional hiding of join us based on size -->
-						<i class="bi-person-fill"></i>
+						<i class="bi-person-circle"></i>
 						<span class="d-none d-lg">Sign In | Join Us</span>
 					</button>
 
@@ -69,18 +69,28 @@
 			</div>
 		</nav>
 
-		<!-- TODO: Refactor Design -->
-		<!-- Mobile Side Menu -->
+		<!-- Mobile Navigation -->
 		<div class="mobile-nav" id="mobileSideMenu">
-			<a class="nav-hotel-name mobile-nav" href="#">
+			<!-- Added close button for mobile navigation -->
+			<button
+				type="button"
+				class="mobile-menu-close-btn d-xs-block d-sm-block d-md-none d-lg-none d-xl-none d-xxl-none"
+				id="mobileMenuClose"
+			>
+				<i class="bi-x-lg"></i>
+			</button>
+
+			<p class="nav-hotel-name text-end me-2" href="#">
 				Dockside Hotel
 				<sup class="header-c bi-c-circle"></sup>
-			</a>
-			<ul>
-				<li><a href="#">Home</a></li>
-				<li><a href="#">Accommodations</a></li>
-				<li><a href="#">Facilities</a></li>
-				<li><a href="#">Events</a></li>
+			</p>
+
+			<ul class="navbar-nav ms-auto">
+				<li class="nav-link">Home</li>
+				<!-- TODO: dropdown -->
+				<li class="nav-link">Accomodations</li>
+				<li class="nav-link">Facilities</li>
+				<li class="nav-link">Events</li>
 			</ul>
 		</div>
 
@@ -198,7 +208,7 @@
 			</div>
 		</footer>
 
-		<!-- Showing/hiding navigation menu in mobile -->
+		<!-- Mobile Side Menus -->
 		<script src="scripts/mobileNav.js"></script>
 
 		<!-- Bootstrap w/ Popper -->

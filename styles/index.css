@@ -26,49 +26,44 @@
 }
 
 .mobile-menu-btn {
+	/* Styles for the open button */
 	background: none;
 	border: none;
 	transform: scale(1.8);
 	padding-left: 0.5rem;
 	color: var(--base);
 	cursor: pointer;
-	z-index: 1001;
+}
+
+.mobile-menu-close-btn {
+	background: none;
+	border: none;
+	transform: scale(1.8);
+	padding: 0.5rem 0.5rem 0.5rem 0.7rem;
+	color: var(--base);
+	cursor: pointer;
+	position: fixed;
 }
 
 /* Mobile Side Menu */
 .mobile-nav {
 	position: fixed;
+	overflow: hidden;
 	top: 0;
-	right: -300px;
-	width: 300px;
-	background-color: #f8f9fa;
-	height: 100vh;
-	padding: 2rem 1rem;
-	z-index: 1050;
-	transition: all 0.3s ease-in-out;
-	overflow-y: auto;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.mobile-nav .nav-hotel-name {
-	display: block;
-	margin-bottom: 2rem;
-	font-size: 1.5rem;
-	text-align: center;
-	color: var(--primary-color);
+	left: -310px;
 	opacity: 0;
-	transform: translateX(20px);
-	transition: all 0.3s 0.1s ease-in-out;
+	width: 310px;
+	padding: 0.5rem;
+	height: 100vh;
+	background-color: var(--background);
+	z-index: 1000;
+	transition: left 0.5s ease, opacity 0.5s ease;
 }
 
 .mobile-nav.show {
-	right: 0;
-}
-
-.mobile-nav.show .nav-hotel-name,
-.mobile-nav.show ul li a {
 	opacity: 1;
-	transform: translateX(0);
+	transition: left 0.5s ease, opacity 0.5s ease;
+	left: 0px;
 }
 
 .mobile-nav ul {
@@ -76,25 +71,9 @@
 	padding: 0;
 }
 
-.mobile-nav li {
-	margin-bottom: 0.5rem;
-}
-
 .mobile-nav a {
-	display: block;
-	padding: 0.75rem 1rem;
-	color: #333;
+	color: var(--text);
 	text-decoration: none;
-	font-weight: 500;
-	border-radius: 5px;
-	opacity: 0;
-	transform: translateX(20px);
-	transition: all 0.3s ease-in-out;
-}
-
-.mobile-nav a:hover {
-	background-color: rgba(var(--primary-rgb), 0.1);
-	color: var(--primary-color);
 }
 
 .menu-overlay {
