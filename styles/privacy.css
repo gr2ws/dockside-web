@@ -39,10 +39,23 @@ body {
   margin-bottom: 0.35rem;
 }
 
-a {
+a#force-up {
   text-decoration: none;
 }
 
 a:hover {
   text-decoration: underline;
+}
+
+#to-top {
+  padding: 1rem;
+  background-color: #006D77;
+  border: 1px solid transparent;
+  border-radius: 50%;
+}
+
+#to-top:hover {
+  transition: background-color 0.15s ease-in; /* Apply ease-in for smooth transition */
+  background-color: #0da7b5;
+  border: 1px solid transparent;
 }
