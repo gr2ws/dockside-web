@@ -1,3 +1,5 @@
+@import url("global.css");
+
 body {
     min-height: 100dvh;
     padding: 0;
@@ -23,4 +25,24 @@ body {
 
 #left-content {
   padding-top: 12vh;
+}
+
+.anchor-offset {
+  scroll-margin-top: 5rem;
+}
+
+#mini-nav {
+  list-style-type: none;
+}
+
+#mini-nav > *, #contact > ul > *  {
+  margin-bottom: 0.35rem;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
 }
