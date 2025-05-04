@@ -8,7 +8,42 @@
   <link rel="stylesheet" href="../styles/privacy.css">
 </head>
 <body>
-  <section id = "main" class="container-fluid my-5 min-vh-100">
+
+   <!-- Navbar -->
+   <nav class="navbar navbar-expand-lg navbar-dark sticky-top" style="background-color: #1e2a3a;">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <span class="fw-bold">LUXURY</span> HOTEL
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">Accommodation</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">Rates</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">Facilities</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">Contact</a>
+                </li>
+                <li class="nav-item ms-lg-3">
+                    <a class="btn btn-sm btn-primary mt-1" href="">Book Now</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+  </nav>
+
+  <section id = "main" class="container-fluid row my-5 min-vh-100">
     <h1 class="text-center fw-bold mb-3">Privacy Policy</h1>
     <p class="text-muted text-center">Effective Date: May 03, 2025</p>
     <p class="text-center">
@@ -16,11 +51,39 @@
       <strong>Location:</strong> Dumaguete City, Philippines
     </p>
   
-    <hr class="my-4">
+    <br><br><br><br><br>
   
-    <section id ="content" class = "px-5">
-      <h2 class="h4">1. Collection of Personal Data</h2>
-      <p>
+    <section id = "statics" class = "d-flex justify-content-around align-items-center">
+      <div id = "left-content" class = "d-none d-lg-block col-2 min-vh-100 align-self-start ">
+        <p> On this page </p>
+        <hr>
+        <ul>
+          <li>Collection of Personal Data</li>
+          <li>How We Use Your Information</li>
+          <li>Sharing and Disclosure</li>
+          <li>Data Storage and Retention</li>
+          <li>Data Protection and Security</li>
+          </ul>
+      </div>
+
+      <div id = "middle-space" class = "col-6">
+
+      </div>
+
+      <div id = "right-content" class = "d-none d-md-block col-2">
+        <section id = "back-top-btn" class = "container-fluid min-vh-100 d-flex justify-content-end align-items-center">
+          <button class = "align-self-end me-3 mb-4 p-3 rounded-circle">
+            <a href = "#">
+              <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-icon lucide-arrow-up"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
+            </a>
+          </button>
+        </section>
+      </div>
+    </section>
+
+    <section id ="content" class = "col-md-8 col-lg-6 px-3 px-md-5 mx-3 mx-md-5 mx-lg-auto">
+      <h2 class = "pt-2">Collection of Personal Data</h2>
+      <p class = " py-3 lh-lg">
         We collect personal information to provide better service to our guests. 
         This happens when you book a room, check in, request services, 
         or engage with us online. We may also collect information when you subscribe to our
@@ -30,16 +93,16 @@
         We only collect what's necessary for us to serve you well.
       </p>
     
-      <h2 class="h4 mt-5">2. How We Use Your Information</h2>
-      <p>
+      <h2 class = "pt-2">How We Use Your Information</h2>
+      <p class = "py-3 lh-lg">
         We use the data you provide to process reservations, manage your stay, respond to your
         inquiries, and handle payments. It also helps us personalize your experience and send
         you relevant newsletters or promotions—if you've opted in. Additionally, we may use your 
         information to comply with legal obligations.
       </p>
     
-      <h2 class="h4 mt-5">3. Sharing and Disclosure</h2>
-      <p>
+      <h2 class = "pt-2">Sharing and Disclosure</h2>
+      <p class = "py-3 lh-lg">
         Luxury Hotel <strong>does not and will not</strong> sell your personal information. However, 
         we may share (limited) data with service providers who help us run our business: payment processors,
         transportation providers, and legal advisors. We also comply with government or legal 
@@ -47,16 +110,16 @@
         confidential.
       </p>
     
-      <h2 class="h4 mt-5">4. Data Storage and Retention</h2>
-      <p>
+      <h2 class = "pt-2">Data Storage and Retention</h2>
+      <p class = "py-3 lh-lg">
         Your data is stored securely using technical and organizational safeguards. 
         We keep it only for as long as it is needed—for example, to fulfill a booking or to
         meet legal requirements. When the data is no longer needed, we delete or anonymize it 
         in a secure way.
       </p>
     
-      <h2 class="h4 mt-5">5. Data Protection and Security</h2>
-      <p>
+      <h2 class = "pt-2">Data Protection and Security</h2>
+      <p class = "py-3 lh-lg">
         We take your privacy seriously. Our systems include protections like secure networks 
         and login portals, and limited access to sensitive data. Staff are trained to handle 
         personal information responsibly. While no system is 100% perfect, we work hard to keep 
@@ -64,10 +127,9 @@
       </p>
     </section>
   
-    <hr class="my-4">
 
-    <section id="contact">
-      <h2 class="h4 mt-5">Contact Us</h2>
+    <!-- <section id="contact" class = "col-2">
+      <h2 class="h3 mt-5">Contact Us</h2>
       <p>If you have questions about this policy or your personal data, please contact our 
         Data Protection Officer:</p>
       <ul>
@@ -76,12 +138,10 @@
         <li><strong>Email:</strong> [Email Address]</li>
         <li><strong>Phone:</strong> [Phone Number]</li>
       </ul>
-    </section>
+    </section> -->
   </section>
 
-  <section id = "back-top-btn" class = "container-fluid min-vh-100 d-flex justify-content-end align-items-center">
-    <button class = "align-self-end me-3 mb-4">Back to Top</button>
-  </section>
+ 
   
 </body>
 </html>

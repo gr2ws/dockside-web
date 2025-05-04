@@ -12,11 +12,15 @@ body {
 }
 
 #main {
-position: relative;
+  position: relative;
 }
 
-#back-top-btn {
-  position: absolute;
+#statics {
+  position: fixed;
   top: 0;
   left: 0;
+}
+
+#left-content {
+  padding-top: 12vh;
 }
