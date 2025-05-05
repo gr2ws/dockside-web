@@ -25,15 +25,15 @@ body {
 
 @media (min-width:1200px) {
     #content {
-        padding-left: 5rem !important;
-        padding-right: 5rem !important;
+        padding-left: 7.5rem !important;
+        padding-right: 7.5rem !important;
     }
 }
 
 @media (min-width:1400px) {
     #content {
-        padding-left: 7rem !important;
-        padding-right: 7rem !important;
+        padding-left: 10rem !important;
+        padding-right: 10rem !important;
     }
 }
 

@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Luxury Hotel | Sign Up</title>
+	<link rel="stylesheet" href="../styles/signUp.css" />
+	<link
+		href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css"
+		rel="stylesheet"
+		integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7"
+		crossorigin="anonymous" />
+</head>
+
+<body class="px-0 px-md-3 flex-col-center">
+	<div id="content" class="row w-75 py-4">
+		<section id="side-thumbnail" class="d-none d-md-block col-md-5"></section>
+
+		<section class="col-12 w-sm-100 col-md-7">
+			<!-- sign up form -->
+			<form
+				method="POST"
+				id="create-acc-form"
+				class="d-flex flex-column justify-content-center align-items-start border border-secondary gap-2 w-sm-50 w-md-25 p-1 p-lg-3">
+				<h1 class="fw-bolder align-self-center pt-3">Sign Up</h1>
+				<div class="form-group flex-col-center container">
+					<label for="fname">First Name:</label>
+					<input
+						type="text"
+						class="form-control"
+						id="fname"
+						aria-describedby="emailHelp"
+						placeholder="Enter your First Name"
+						required />
+				</div>
+				<div class="form-group flex-col-center container">
+					<label for="lname">Last Name:</label>
+					<input
+						type="text"
+						class="form-control"
+						id="lname"
+						aria-describedby="emailHelp"
+						placeholder="Enter your Last Name"
+						required />
+				</div>
+				<div class="form-group flex-col-center container">
+					<label for="email">Email:</label>
+					<input
+						type="email"
+						class="form-control"
+						id="email"
+						aria-describedby="emailHelp"
+						placeholder="Enter email"
+						required />
+				</div>
+				<div class="form-group flex-col-center container">
+					<label for="password">Password:</label>
+					<input
+						type="password"
+						class="form-control"
+						id="password"
+						placeholder="Password"
+						required />
+				</div>
+				<button type="submit" class="btn btn-primary align-self-center my-2">
+					Sign Up
+				</button>
+
+				<?php
+				if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+					$servername = "localhost";
+					$username = "root";
+					$password = "";
+
+					// create DB command
+
+					if (isset($_POST['name'])) {
+						// no dbname yet (in prep for create db command)
+						$conn = new mysqli($servername, $username, $password);
+
+						if ($conn->connect_error) {
+							die("Connection failed! Error log: " . $conn->connect_error);
+						}
+
+						$SQLcommand = "CREATE DATABASE docksideDB"; // set command
+
+						// logging (part 1)
+						if ($conn->query($SQLcommand) === TRUE) {
+							echo "<br><br>
+									<span id = 'log' class = 'visible'> Command Success! $SQLcommand </span>
+								<br>";
+						} else {
+							echo "<br><br>
+									<span id = 'log' class = 'visible'>Error! Log: $conn->error </span>
+								<br><br>";
+						}
+
+						$dbname = "maltodbe6";
+						$conn = new mysqli($servername, $username, $password, $dbname);
+
+						$SQLcommand = "CREATE TABLE IF NOT EXISTS `docksideDB`.`guest` (
+								`EmpID` INT NOT NULL , 
+								`FName` VARCHAR(25) NOT NULL , 
+								`LName` VARCHAR(25) NOT NULL , 
+								`Birthday` DATE NOT NULL , 
+								`Position` VARCHAR(100) NOT NULL , 
+								`Salary` INT NOT NULL , 
+								PRIMARY KEY (`EmpID`)) ENGINE = InnoDB;
+						";
+					}
+				}
+				?>
+
+				<i class="align-self-center text-center px-5 my-1">
+					<small id="emailHelp" class="form-text text-muted">Have an account?</small>
+					<u class="text-muted">Log in here!</u></i>
+				<i class="align-self-center text-center px-5 mt-1 mb-3">
+					<small id="emailHelp" class="form-text text-muted">To proceed, you must read the
+						<button
+							type="button"
+							id="show-terms"
+							onclick="showTerms()"
+							class="text-muted">
+							<i><u>Terms and Conditions</u></i>
+						</button>
+						of the website.</small></i>
+			</form>
+		</section>
+	</div>
+
+	<div id="terms-and-cond">
+		<!-- Area surrounding the terms container -->
+		<!-- The terms container itself -->
+		<section id="terms-section" class="mx-auto bg-white border border-dark">
+			<div
+				class="d-flex justify-content-end align-items-center bg-white mb-2"
+				style="margin-top: -8px">
+				<svg
+					id="x-terms"
+					xmlns="http://www.w3.org/2000/svg"
+					width="28"
+					height="28"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					class="lucide lucide-x-icon lucide-x"
+					style="cursor: pointer"
+					onclick="hideTerms()">
+					<path d="M18 6 6 18" />
+					<path d="m6 6 12 12" />
+				</svg>
+			</div>
+
+			<h2 class="py-3 bg-secondary text-white text-center">
+				Terms and Conditions for Hotel Accommodations
+			</h2>
+			<ul id="articles">
+				<li class="lead">ARTICLE 1: General Guidelines</li>
+				<hr />
+				<p>
+					By booking and staying at Luxury Hotel, guests agree to the
+					following terms and conditions, which are governed by the laws of
+					the Republic of the Philippines. These are designed to ensure a
+					safe, pleasant, and legally compliant experience for all guests and
+					staff.
+				</p>
+
+				<li class="lead">ARTICLE 2: Reservations and Check-In</li>
+				<hr />
+				<ul>
+					<li>
+						Standard check-in time is <strong>2:00 PM</strong>, and check-out
+						time is <strong>12:00 NN</strong> (Philippine Time).
+					</li>
+					<li>
+						Early check-in or late check-out is subject to availability and
+						may incur additional charges.
+					</li>
+					<li>
+						All guests must present a
+						<strong>valid government-issued ID</strong> and a
+						<strong>credit/debit card or cash deposit</strong> upon check-in.
+					</li>
+				</ul>
+
+				<li class="lead">
+					ARTICLE 3: Booking, Cancellation, and No-Show Policy
+				</li>
+				<hr />
+				<ul>
+					<li>
+						Cancellations made at least <strong>48 hours</strong> before
+						check-in are free of charge.
+					</li>
+					<li>
+						Late cancellations or no-shows will be charged
+						<strong>one (1) night's stay</strong>.
+					</li>
+					<li>
+						Non-refundable or promotional bookings cannot be changed or
+						refunded.
+					</li>
+				</ul>
+
+				<li class="lead">ARTICLE 4: Payment Policy</li>
+				<hr />
+				<ul>
+					<li>
+						We accept <strong>cash (PHP only)</strong>, credit/debit cards,
+						GCash/PayMaya, or bank transfer.
+					</li>
+					<li>
+						Full payment may be required upon check-in unless already
+						pre-paid.
+					</li>
+					<li>
+						A security deposit may be collected and refunded upon check-out
+						after inspection.
+					</li>
+				</ul>
+
+				<li class="lead">ARTICLE 5: Child and Extra Bed Policy</li>
+				<hr />
+				<ul>
+					<li>
+						Children aged <strong>0-6 years old</strong> are eligible for a
+						free stay given at least one (1) paying adult.
+					</li>
+					<li>
+						Extra beds are available on request, subject to availability and
+						additional charge.
+					</li>
+				</ul>
+
+				<li class="lead">ARTICLE 6: Guest Conduct and Hotel Policies</li>
+				<hr />
+				<ul>
+					<li>
+						Guests must act respectfully at all times and avoid disturbing
+						other patrons.
+					</li>
+					<li>
+						Performing illegal activities and engaging in disruptive behavior
+						may lead to
+						<strong>eviction without refund and/or legal repercussion.</strong>
+					</li>
+					<li>
+						Damage to hotel property will be charged to the customer upon
+						checkout.
+					</li>
+					<li>
+						Dangerous or illegal items such as drugs and firearms are strictly
+						prohibited within the premises.
+					</li>
+				</ul>
+
+				<li class="lead">ARTICLE 7: Smoking and Alcohol</li>
+				<hr />
+				<ul>
+					<li>
+						This is a <strong>non-smoking hotel</strong> except in designated
+						areas (per RA 9211).
+					</li>
+					<li>
+						A <strong>PHP 500</strong> cleaning fee applies for violations.
+					</li>
+					<li>
+						Alcohol is allowed in private rooms only unless otherwise
+						permitted.
+					</li>
+				</ul>
+
+				<li class="lead">ARTICLE 8: Pets</li>
+				<hr />
+				<ul>
+					<li>
+						Pets are allowed with prior notice and an additional pet
+						accommodation fee of
+						<strong>8% the highest-charged guest</strong>, per pet.
+					</li>
+					<li>
+						Owners are expected to be responsible for their pets at all times.
+						Luxury Hotel cannot be held responsible for any untoward accidents
+						involving a guest's pet/s.
+					</li>
+				</ul>
+
+				<li class="lead">ARTICLE 9: Liability and Loss of Property</li>
+				<hr />
+				<ul>
+					<li>The hotel is not liable for lost, stolen, or damaged items.</li>
+					<li>
+						Please use in-room safes or deposit valuables at the front desk.
+					</li>
+					<li>
+						Guests may be charged for missing items provided by the hotel upon
+						check-in.
+					</li>
+				</ul>
+
+				<li class="lead">ARTICLE 10: Force Majeure</li>
+				<hr />
+				<p>
+					The hotel is not liable for events beyond its control such as
+					natural disasters, power failures, or government regulations.
+				</p>
+
+				<li class="lead">ARTICLE 11: Privacy and Data Protection</li>
+				<hr />
+				<p>
+					We comply with the
+					<strong>Data Privacy Act of 2012 (RA 10173)</strong>. Guest data is
+					kept confidential and shared only as required by law.
+				</p>
+
+				<li class="lead">ARTICLE 12: Governing Law</li>
+				<hr />
+				<p>
+					These terms are governed by Philippine laws. Legal disputes shall be
+					settled in the courts of <strong>Dumaguete City</strong>.
+				</p>
+			</ul>
+
+			<div>
+				<button
+					id="hide-terms"
+					onclick="hideTerms()"
+					class="d-flex align-items-center justify-content-center gap-2">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="24"
+						height="24"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						class="lucide lucide-arrow-left-icon lucide-arrow-left">
+						<path d="m12 19-7-7 7-7" />
+						<path d="M19 12H5" />
+					</svg>
+					<span class="fs-5"> Back </span>
+				</button>
+			</div>
+		</section>
+	</div>
+</body>
+<script>
+	// javascript logic for conditional rendering
+
+	function showTerms() {
+		const termsContainer = document.getElementById("terms-section");
+		const termsBackground = document.getElementById("terms-and-cond");
+
+		termsContainer.style.display = "block";
+		termsBackground.style.display = "flex";
+	}
+
+	function hideTerms() {
+		const termsContainer = document.getElementById("terms-section");
+		const termsBackground = document.getElementById("terms-and-cond");
+
+		termsContainer.style.display = "none";
+		termsBackground.style.display = "none";
+	}
+</script>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+	crossorigin="anonymous"></script>
+
+</html>
