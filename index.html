@@ -38,32 +38,52 @@
 					<sup class="header-c bi-c-circle"></sup>
 				</a>
 
+				<!-- TODO: typography and color fixes -->
 				<div class="collapse navbar-collapse">
 					<ul class="navbar-nav ms-auto">
 						<li class="nav-link">Home</li>
-						<!-- TODO: dropdown -->
-						<li class="nav-link">Accomodations</li>
+						<li class="nav-item dropdown">
+							<a
+								class="nav-link"
+								href="#"
+								id="accommodationsDropdown"
+								role="button"
+								data-bs-toggle="dropdown"
+								aria-expanded="false"
+							>
+								<span>Accommodations <i class="bi-chevron-down"></i></span>
+							</a>
+							<ul
+								class="dropdown-menu"
+								aria-labelledby="accommodationsDropdown"
+							>
+								<span class="dropdown-header">Find your perfect stay...</span>
+								<hr class="dropdown-divider" />
+								<li><a class="dropdown-item" href="#">Room 1</a></li>
+								<li><a class="dropdown-item" href="#">Room 2</a></li>
+								<li><a class="dropdown-item" href="#">Room 3</a></li>
+								<li><a class="dropdown-item" href="#">Room 4</a></li>
+							</ul>
+						</li>
 						<li class="nav-link">Facilities</li>
 						<li class="nav-link">Events</li>
 					</ul>
 				</div>
 
 				<div class="dropdown">
-					<!-- TODO: fix position in mobile -->
-					<button
-						class="btn dropdown-toggle"
-						type="button"
-						data-bs-toggle="dropdown"
-					>
-						<!-- TODO: remove down arrow, change color, conditional hiding of join us based on size -->
+					<button class="btn" type="button" data-bs-toggle="dropdown">
 						<i class="bi-person-circle"></i>
-						<span class="d-none d-lg">Sign In | Join Us</span>
+						<span class="d-none d-lg-inline">Sign In | Join Us </span>
+						<i class="bi-chevron-down"></i>
 					</button>
 
 					<!-- TODO: add user dashboard link, user info, account settings, etc. add design to user buttons -->
+					<!-- TODO: refactor design, suhid hyatt (blur bg) -->
 					<div class="dropdown-menu">
-						<button class="dropdown-item">Join Us</button>
+						<span class="dropdown-header">Welcome to the Dockside Hotel!</span>
+						<hr class="dropdown-divider" />
 						<button class="dropdown-item">Sign In</button>
+						<button class="dropdown-item">Join Us</button>
 					</div>
 				</div>
 			</div>
@@ -71,7 +91,6 @@
 
 		<!-- Mobile Navigation -->
 		<div class="mobile-nav" id="mobileSideMenu">
-			<!-- Added close button for mobile navigation -->
 			<button
 				type="button"
 				class="mobile-menu-close-btn d-xs-block d-sm-block d-md-none d-lg-none d-xl-none d-xxl-none"
@@ -84,17 +103,40 @@
 				Dockside Hotel
 				<sup class="header-c bi-c-circle"></sup>
 			</p>
-
+			<hr />
 			<ul class="navbar-nav ms-auto">
 				<li class="nav-link">Home</li>
-				<!-- TODO: dropdown -->
-				<li class="nav-link">Accomodations</li>
+				<hr />
+
+				<!-- TODO: refactor design -->
+				<li class="nav-link">
+					<span
+						data-bs-toggle="collapse"
+						href="#mobileAccommodationsCollapse"
+						aria-controls="mobileAccommodationsCollapse"
+					>
+						Accommodations <i class="bi-chevron-down"></i>
+					</span>
+					<div class="collapse" id="mobileAccommodationsCollapse">
+						<ul class="list-unstyled ps-3">
+							<li><a class="nav-link" href="#">Room 1</a></li>
+							<li><a class="nav-link" href="#">Room 2</a></li>
+							<li><a class="nav-link" href="#">Room 3</a></li>
+							<li><a class="nav-link" href="#">Room 4</a></li>
+						</ul>
+					</div>
+				</li>
+				<hr />
+
 				<li class="nav-link">Facilities</li>
+				<hr />
+
 				<li class="nav-link">Events</li>
+				<hr />
 			</ul>
 		</div>
 
-		<!-- Overlay for darkening the screen -->
+		<!-- Darkening overlay on opened mobile menu -->
 		<div class="menu-overlay" id="menuOverlay"></div>
 
 		<!-- Booking Header -->

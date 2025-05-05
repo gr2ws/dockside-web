@@ -45,7 +45,12 @@
 	position: fixed;
 }
 
+span.dropdown-header {
+	font: var(--subheading-font) !important;
+}
+
 /* Mobile Side Menu */
+
 .mobile-nav {
 	position: fixed;
 	overflow: hidden;
