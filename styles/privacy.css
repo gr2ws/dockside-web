@@ -17,14 +17,24 @@ body {
 #to-top {
   background-color: #006D77;
   transition: background-color 0.2s ease;
+  position: fixed;
+
 }
 
 .anchor-offset {
   scroll-margin-top: 5rem;
 }
 
-#left, #right {
+#left {
   height: 100vh;
+}
+
+#right {
+  height: 90vh;
+}
+
+#left-content {
+  position: fixed;
 }
 
 #mini-nav > *  {
@@ -46,4 +56,10 @@ a:hover {
 #to-top:hover {
   background-color: #00a7b6;
   cursor: pointer;
+}
+
+@media (max-width: 575px) {
+  #content {
+    padding: 1.5rem !important;
+  }
 }
