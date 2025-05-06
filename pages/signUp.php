@@ -30,9 +30,14 @@
 						type="text"
 						class="form-control"
 						id="fname"
+						name="fname"
 						aria-describedby="emailHelp"
 						placeholder="Enter your First Name"
+						maxlength="40"
+						value="<?php echo isset($_POST['fname']) ? $_POST['fname'] : ''; ?>"
 						required />
+					<!-- php code in ternary form used to refill values in case of thrown
+						sqli error. -->
 				</div>
 				<div class="form-group flex-col-center container">
 					<label for="lname">Last Name:</label>
@@ -40,9 +45,14 @@
 						type="text"
 						class="form-control"
 						id="lname"
+						name="lname"
 						aria-describedby="emailHelp"
 						placeholder="Enter your Last Name"
+						maxlength="40"
+						value="<?php echo isset($_POST['lname']) ? $_POST['lname'] : ''; ?>"
 						required />
+					<!-- php code in ternary form used to refill values in case of thrown
+						sqli error. -->
 				</div>
 				<div class="form-group flex-col-center container">
 					<label for="email">Email:</label>
@@ -50,8 +60,10 @@
 						type="email"
 						class="form-control"
 						id="email"
+						name="email"
 						aria-describedby="emailHelp"
 						placeholder="Enter email"
+						maxlength="255"
 						required />
 				</div>
 				<div class="form-group flex-col-center container">
@@ -60,60 +72,82 @@
 						type="password"
 						class="form-control"
 						id="password"
+						name="password"
 						placeholder="Password"
+						maxlength="30"
 						required />
 				</div>
-				<button type="submit" class="btn btn-primary align-self-center my-2">
+				<button id="signup-btn" type="submit" class="btn align-self-center my-2">
 					Sign Up
 				</button>
 
 				<?php
 				if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-					$servername = "localhost";
+					$fname = $_POST['fname'];
+					$lname = $_POST['lname'];
+					$email = $_POST['email'];
+					$pass = $_POST['password'];
+
+					$servername = "127.0.0.1:3307";
+					//$servername = "localhost";
 					$username = "root";
 					$password = "";
+					$dbname = "docksidedb";
 
 					// create DB command
 
-					if (isset($_POST['name'])) {
-						// no dbname yet (in prep for create db command)
-						$conn = new mysqli($servername, $username, $password);
-
-						if ($conn->connect_error) {
-							die("Connection failed! Error log: " . $conn->connect_error);
-						}
-
-						$SQLcommand = "CREATE DATABASE docksideDB"; // set command
-
-						// logging (part 1)
-						if ($conn->query($SQLcommand) === TRUE) {
-							echo "<br><br>
-									<span id = 'log' class = 'visible'> Command Success! $SQLcommand </span>
-								<br>";
-						} else {
-							echo "<br><br>
-									<span id = 'log' class = 'visible'>Error! Log: $conn->error </span>
-								<br><br>";
-						}
-
-						$dbname = "maltodbe6";
+					if ((isset($_POST['fname'])) && (isset($_POST['lname'])) && (isset($_POST['email'])) && (isset($_POST['password']))) {
 						$conn = new mysqli($servername, $username, $password, $dbname);
 
-						$SQLcommand = "CREATE TABLE IF NOT EXISTS `docksideDB`.`guest` (
-								`EmpID` INT NOT NULL , 
-								`FName` VARCHAR(25) NOT NULL , 
-								`LName` VARCHAR(25) NOT NULL , 
-								`Birthday` DATE NOT NULL , 
-								`Position` VARCHAR(100) NOT NULL , 
-								`Salary` INT NOT NULL , 
-								PRIMARY KEY (`EmpID`)) ENGINE = InnoDB;
-						";
+						// Check connection
+						if ($conn->connect_error) {
+							die("Connection failed: " . $conn->connect_error);
+						}
+
+						$fname = $_POST['fname'];
+						$lname = $_POST['lname'];
+						$pass = $_POST['password'];
+
+						// read table to check if there's no instance of the given email yet:
+						$email = $_POST['email'];
+						$exec_SQLCommand = $conn->query("SELECT COUNT(*) AS instanceCount FROM $dbname.`person` WHERE pers_email = '$email'");
+						$doesExist = $exec_SQLCommand->fetch_assoc(); // prints non-zero value if email exists already.
+
+						// if email instance already exists in database, output error message.
+						if ($doesExist['instanceCount'] != 0) {
+							echo "<p class='text-danger m-auto'>Email already exists. Please use another.</p>";
+						} else {
+							$result = $conn->query("SELECT MAX(pers_id) AS max_id FROM person");
+							// we need fetch_assoc() since we're expecting a hard number value to be returned from the query.
+							$row = $result->fetch_assoc();
+							$nextId = $row['max_id'] + 1;
+							$conn->query("ALTER TABLE person AUTO_INCREMENT = $nextId");
+
+							// the code above adjusts the next ID number of new records in situations like:
+							//
+							// (1) INSERT ROWS ID = 10000, ID = 10001
+							// (2) DELETE ROW ID = 10001 			
+							// (3) INSERT NEW ROW 					
+							//
+							// (new row will have ID 10001  
+							// instead of straight to 10002, 
+							// allowing for logical idnum increment)
+
+							$SQLcommand = "INSERT INTO $dbname.`person` (pers_fname, pers_lname, pers_email, pers_pass) 
+										VALUES ('$fname', '$lname', '$email', '$pass')";
+
+							if ($conn->query($SQLcommand) === TRUE) {
+								echo "<p class='text-success m-auto'>Account created successfully!</p>";
+							} else {
+								echo "<p class='text-danger text-center'>Error: " . $conn->error . "</p>";
+							}
+						}
 					}
 				}
 				?>
 
-				<i class="align-self-center text-center px-5 my-1">
+				<i class=" align-self-center text-center px-5 my-1">
 					<small id="emailHelp" class="form-text text-muted">Have an account?</small>
 					<u class="text-muted">Log in here!</u></i>
 				<i class="align-self-center text-center px-5 mt-1 mb-3">
