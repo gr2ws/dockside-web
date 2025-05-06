@@ -1,0 +1,272 @@
+<style>
+    @import url("global.css");
+
+    * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    /* Header */
+
+    .nav-hotel-name {
+        font: var(--heading-font);
+        text-decoration: none;
+        white-space: nowrap;
+        color: var(--base);
+    }
+
+    .header-nav {
+        background-color: var(--background);
+        border-bottom: 1px solid var(--accent);
+    }
+
+    .header-c {
+        font-size: 0.55rem;
+        vertical-align: super;
+    }
+
+    .mobile-menu-btn {
+        background: none;
+        border: none;
+        transform: scale(1.8);
+        padding-left: 0.5rem;
+        color: var(--base);
+        cursor: pointer;
+    }
+
+    .mobile-menu-close-btn {
+        background: none;
+        border: none;
+        transform: scale(1.8);
+        padding: 0.5rem 0.5rem 0.5rem 0.7rem;
+        color: var(--base);
+        cursor: pointer;
+        position: fixed;
+    }
+
+    .header-menu li.nav-link,
+    .header-menu a.nav-link {
+        font: var(--body-font);
+        font-size: 1.1rem;
+        color: var(--text) !important;
+        cursor: pointer;
+    }
+
+    .header-menu li.nav-link:hover,
+    .header-menu a.nav-link:hover {
+        color: var(--base) !important;
+    }
+
+    .header-menu li.nav-link.active {
+        color: var(--base) !important;
+        font-weight: 500;
+    }
+
+    .rooms-dpd,
+    .user-dpd {
+        width: 250px !important;
+        background-color: rgba(255, 255, 255, 0.9) !important;
+        backdrop-filter: blur(7px);
+        border: solid 1px var(--accent) !important;
+        border-radius: 3px !important;
+    }
+
+    .rooms-dpd hr.dropdown-divider,
+    .user-dpd hr.dropdown-divider {
+        background-color: var(--accent) !important;
+        opacity: 0.9;
+    }
+
+    .rooms-dpd a.dropdown-item,
+    .user-dpd a.dropdown-item {
+        font: var(--body-font) !important;
+        padding: 0.75rem;
+    }
+
+    .user-dpd a.dropdown-item:hover,
+    .rooms-dpd a.dropdown-item:hover {
+        background-color: rgba(255, 255, 255, 0) !important;
+        color: var(--base) !important;
+    }
+
+    .navbar-nav a.nav-link[aria-expanded="true"] {
+        color: var(--base) !important;
+    }
+
+    .user-dpd {
+        width: 300px !important;
+    }
+
+    .user-dpd-toggle {
+        color: var(--text) !important;
+        font: var(--body-font) !important;
+    }
+
+    .user-dpd-toggle[aria-expanded="true"] {
+        color: var(--base) !important;
+        border: solid 1px var(--accent) !important;
+        transition: border 0.1s ease-in-out;
+    }
+
+    .user-dpd .dropdown-header {
+        font: var(--body-font);
+        padding: 2rem 1.2rem;
+        height: 220px;
+        margin-top: -8px;
+        margin-bottom: -8px;
+        border-radius: 2px 2px 0px 0px;
+        background-image: url(/assets/svg-patterns/cube1-bg-wh.svg);
+        background-size: 10%;
+    }
+
+    .user-dpd .dropdown-header span {
+        margin-bottom: 1.5rem !important;
+        text-align: center;
+        font: var(--heading-font);
+        font-size: 1.3rem;
+        color: var(--base);
+    }
+
+    .user-dpd a.dropdown-item,
+    .rooms-dpd li a.dropdown-item {
+        padding-left: 20px !important;
+    }
+
+    a.join div,
+    a.sign-in div {
+        text-align: center;
+        padding: 0.5rem;
+        margin: 0.7rem 0;
+        border-radius: 2px !important;
+    }
+
+    a.sign-in div {
+        border: solid 2px transparent;
+        background-color: var(--base);
+        color: white;
+        transition: all 0.3s ease;
+    }
+
+    a.sign-in div:hover {
+        filter: brightness(120%);
+        transition: all 0.3s ease;
+    }
+
+    a.join div {
+        border: solid 2px var(--base) !important;
+        color: var(--base);
+        transition: all 0.3s ease;
+    }
+
+    a.join div:hover {
+        background-color: rgba(131, 197, 191, 0.35);
+        transition: all 0.3s ease;
+    }
+
+    /* Mobile Side Menu */
+
+    .mobile-nav {
+        position: fixed;
+        overflow: hidden;
+        top: 0;
+        left: -310px;
+        opacity: 0;
+        width: 310px;
+        padding: 0.5rem;
+        height: 100vh;
+        background-color: var(--background);
+        z-index: 1000;
+        transition: left 0.5s ease, opacity 0.5s ease;
+    }
+
+    .mobile-nav-head {
+        border-bottom: solid 1px var(--accent);
+        width: 310px;
+        margin-left: -8px;
+    }
+
+    li.nav-item-1 {
+        padding: 0rem 1rem 0rem 1.5rem;
+        font: var(--body-font);
+        font-size: 1.1rem;
+        color: var(--text);
+        cursor: pointer;
+    }
+
+    .nav-item-1:hover {
+        color: var(--base);
+    }
+
+    .mobile-nav hr {
+        color: var(--base);
+    }
+
+    .mob-rooms a:hover {
+        color: var(--base);
+    }
+
+    .mob-rooms li {
+        margin: 13px 0px;
+    }
+
+    li.nav-item-1 a {
+        cursor: pointer;
+    }
+
+    .nav-gradient {
+        width: 310px;
+        margin-left: -8px;
+        background-image: linear-gradient(to bottom,
+                var(--background) 0%,
+                transparent 15%),
+            url(/assets/svg-patterns/cube1-bg-wh.svg);
+        zoom: 160%;
+    }
+
+    .mobile-nav.show {
+        opacity: 1;
+        transition: left 0.5s ease, opacity 0.5s ease;
+        left: 0px;
+    }
+
+    .mobile-nav ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .mobile-nav a {
+        color: var(--text);
+        text-decoration: none;
+    }
+
+    .menu-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(2px);
+        -webkit-backdrop-filter: blur(2px);
+        /* Safari support */
+        z-index: 999;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .menu-overlay.show {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    /* Hide mobile menu on larger screens */
+    @media (min-width: 768px) {
+
+        .mobile-nav,
+        .menu-overlay {
+            display: none;
+        }
+    }
+</style>
