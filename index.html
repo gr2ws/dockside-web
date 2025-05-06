@@ -38,10 +38,10 @@
 					<sup class="header-c bi-c-circle"></sup>
 				</a>
 
-				<!-- TODO: typography and color fixes -->
-				<div class="collapse navbar-collapse">
+				<!-- TODO: adding active js class depending on page -->
+				<div class="collapse navbar-collapse header-menu">
 					<ul class="navbar-nav ms-auto">
-						<li class="nav-link">Home</li>
+						<li class="nav-link active">Home</li>
 						<li class="nav-item dropdown">
 							<a
 								class="nav-link"
@@ -51,17 +51,23 @@
 								data-bs-toggle="dropdown"
 								aria-expanded="false"
 							>
-								<span>Accommodations <i class="bi-chevron-down"></i></span>
+								<span
+									>Accommodations
+									<i
+										class="bi-chevron-down d-md-none d-lg-inline d-xl-inline d-xxl-inline"
+									></i
+								></span>
 							</a>
 							<ul
-								class="dropdown-menu"
+								class="dropdown-menu dropdown-menu-end rooms-dpd shadow-sm"
 								aria-labelledby="accommodationsDropdown"
 							>
-								<span class="dropdown-header">Find your perfect stay...</span>
-								<hr class="dropdown-divider" />
 								<li><a class="dropdown-item" href="#">Room 1</a></li>
+
 								<li><a class="dropdown-item" href="#">Room 2</a></li>
+
 								<li><a class="dropdown-item" href="#">Room 3</a></li>
+
 								<li><a class="dropdown-item" href="#">Room 4</a></li>
 							</ul>
 						</li>
@@ -71,19 +77,36 @@
 				</div>
 
 				<div class="dropdown">
-					<button class="btn" type="button" data-bs-toggle="dropdown">
+					<button
+						class="btn user-dpd-toggle"
+						type="button"
+						data-bs-toggle="dropdown"
+						aria-expanded="false"
+					>
 						<i class="bi-person-circle"></i>
-						<span class="d-none d-lg-inline">Sign In | Join Us </span>
 						<i class="bi-chevron-down"></i>
 					</button>
 
-					<!-- TODO: add user dashboard link, user info, account settings, etc. add design to user buttons -->
-					<!-- TODO: refactor design, suhid hyatt (blur bg) -->
-					<div class="dropdown-menu">
-						<span class="dropdown-header">Welcome to the Dockside Hotel!</span>
+					<div class="dropdown-menu dropdown-menu-end user-dpd">
+						<div class="dropdown-header">
+							<span class="welcome mb-3 d-block"
+								>Welcome to Dockside Hotel<sup class="header-c">©</sup></span
+							>
+							<a href="" class="sign-in text-decoration-none">
+								<div class="shadow-sm">Sign In</div>
+							</a>
+
+							<a href="" class="join text-decoration-none">
+								<div class="shadow-sm">Join Us</div>
+							</a>
+						</div>
+
 						<hr class="dropdown-divider" />
-						<button class="dropdown-item">Sign In</button>
-						<button class="dropdown-item">Join Us</button>
+
+						<a href="" class="dropdown-item disabled">Dashboard</a>
+						<a href="" class="dropdown-item disabled">Bookings</a>
+						<a href="" class="dropdown-item disabled">Booking History</a>
+						<a href="" class="dropdown-item disabled">Settings & Preferences</a>
 					</div>
 				</div>
 			</div>
