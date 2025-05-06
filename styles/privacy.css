@@ -1,10 +1,25 @@
-@import url("global.css");
+@import url('../styles/global.css');
 
-body {
+#privacy-page {
     min-height: 100dvh;
     padding: 0;
     margin: 0;
     overflow-x: hidden;
+
+    color: var(--text) !important;
+    font-family: var(--body-font) !important;
+}
+
+.global-heading {
+  font-family: var(--heading-font) !important;
+}
+
+.global-subheading {
+  font-family: var(--subheading-font) !important;
+}
+
+p {
+  text-align:justify;
 }
 
 .flex-col-center {
@@ -25,8 +40,8 @@ body {
   scroll-margin-top: 5rem;
 }
 
-#left {
-  height: 100vh;
+#left-content {
+  min-height: 100vh;
 }
 
 #right {
@@ -45,11 +60,11 @@ body {
   margin-bottom: 0.35rem;
 }
 
-a {
+#mini-nav > li > a {
   text-decoration: none;
 }
 
-a:hover {
+#mini-nav > li > a:hover {
   text-decoration: underline;
 } 
 
