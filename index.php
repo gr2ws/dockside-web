@@ -18,11 +18,12 @@
 		rel="stylesheet"
 		href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
 
-	<?php include('common.php') ?>
+	<?php require 'common.php'; ?>
+
 </head>
 
 <body>
-	<?php include('header.php'); ?>
+	<?php require 'components/header.php'; ?>
 
 	<!-- Booking Header -->
 	<!-- Hero Section -->
