@@ -1,13 +1,17 @@
 @import url('../styles/global.css');
 
-body {
+#signup-page {
     min-height: 100dvh;
     padding: 0;
     margin: 0;
     background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../assets/hotelfront.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
     position: relative;
     color: var(--text) !important;
     font-family: var(--body-font) !important;
+    overflow-x:hidden;
 }
 
 .global-heading {
@@ -55,7 +59,7 @@ body, #side-thumbnail {
     background-position: center;
 }
 
-ul {
+#terms-section ul {
     padding-bottom:16px;
 }
 
@@ -76,8 +80,7 @@ ul {
     #create-acc-form {
         border-top-left-radius: 12px;
         border-bottom-left-radius: 12px;
-    }
-    
+    }   
 }
 
 button {
@@ -97,8 +100,8 @@ button {
 
 /* Area surrounding the terms container */
 #terms-and-cond {
-    width: 100vw;
-    height: 100dvh;
+    width: 100vw !important;
+    height: 100% !important;
     position: absolute;
     top: 0;
     display: none;
@@ -109,14 +112,13 @@ button {
     background-color: rgba(0, 0, 0, 0.1); /* dark semi-transparent bg */
     backdrop-filter: blur(3px);          /* the actual blur effect */
     position: absolute;
-    top: 0;
 
 }
 
 /* Terms container itself */
 #terms-section {
     width: 50%;
-    height: 50%;
+    height: 60dvh;
     overflow-y: scroll;
     padding: 1.5rem;
     display: none;
@@ -131,19 +133,6 @@ button {
 	100% {
 		opacity: 1;
 	}
-}
-
-@media (max-width: 1400px) {
-    /* bigger height to be rational with shorter-height devices */
-    #terms-section {
-        height: 75%; 
-    }
-}
-
-@media (max-width:740px) {
-    #terms-section {
-        width: 80%;
-    }
 }
 
 button#hide-terms:hover {
