@@ -15,7 +15,7 @@
 
 <!-- follow this format for html pages in pages/ -->
 
-<link rel="stylesheet" href="<?php echo $escape ?>styles/header.css">
-<link rel="stylesheet" href="<?php echo $escape ?>styles/footer.css">
+<link rel="stylesheet" href="../styles/header.css">
+<link rel="stylesheet" href="../styles/header.css">
 
 <!-- Nothing below the footer! -->
