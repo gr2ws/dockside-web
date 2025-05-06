@@ -1,5 +1,3 @@
-<?php require '../components/header.php'; ?> <!-- import -->
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,13 +9,12 @@
 		href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css"
 		rel="stylesheet" />
 	<link rel="stylesheet" href="../styles/privacy.css" />
-	<?php require '../common.php'; ?> <!-- import -->
+	<?php require 'common.php'; ?>
 </head>
 
 <body>
+	<?php placeHeader() ?>
 	<div id="privacy-page">
-
-		<!-- contents -->
 
 		<div id="page-content" class="container-fluid">
 			<div class="row">
@@ -242,10 +239,8 @@
 			</div>
 		</div>
 	</div>
+
+	<?php placeFooter() ?>
 </body>
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
-	integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
-	crossorigin="anonymous"></script>
 
 </html>

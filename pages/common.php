@@ -11,7 +11,33 @@
 
 <!-- Put all component styles here -->
 
-<link rel="stylesheet" href="styles/header.css">
-<link rel="stylesheet" href="styles/footer.css">
+<?php
+// Determine if in  root directory or a subdirectory
+$baseDir = '';
+if (strpos($_SERVER['SCRIPT_NAME'], '/pages/') !== false) {
+    $baseDir = '../';
+}
+?>
+
+<link rel="stylesheet" href="<?php echo $baseDir; ?>styles/header.css">
+<link rel="stylesheet" href="<?php echo $baseDir; ?>styles/footer.css">
 
 <!-- Nothing below the footer! -->
+
+<?php
+function placeHeader()
+{
+    require getAbsPath() . '/../components/header.html';
+}
+
+function placeFooter()
+{
+    require getAbsPath() . '/../components/footer.html';
+}
+
+function getAbsPath()
+{
+    return __DIR__;
+}
+
+?>

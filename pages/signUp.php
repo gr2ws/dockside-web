@@ -1,5 +1,3 @@
-<?php require '../components/header.php'; ?> <!-- import -->
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,7 +10,7 @@
 </head>
 
 <body>
-	<?php require '../components/header.php'; ?>
+	<?php placeHeader() ?>
 
 	<div id="signup-page" class="px-0 px-md-3 flex-col-center">
 		<div id="content" class="row w-75 py-4">
@@ -37,31 +35,8 @@
 							maxlength="40"
 							value="<?php echo isset($_POST['fname']) ? $_POST['fname'] : ''; ?>"
 							required />
-						<!-- php code in ternary form used to refill values in case of thrown
-<<<<<<< HEAD
-						sqli error. -->
-						=======
-						sqli error. -->
-						>>>>>>> e358c5359c36be2162b8ba05376256fa375594ac
-					</div>
-					<div class="form-group flex-col-center container">
-						<label for="lname">Last Name:</label>
-						<input
-							type="text"
-							class="form-control"
-							id="lname"
-							name="lname"
-							aria-describedby="emailHelp"
-							placeholder="Enter your Last Name"
-							maxlength="40"
-							value="<?php echo isset($_POST['lname']) ? $_POST['lname'] : ''; ?>"
-							required />
-						<!-- php code in ternary form used to refill values in case of thrown
-<<<<<<< HEAD
-						sqli error. -->
-						=======
-						sqli error. -->
-						>>>>>>> e358c5359c36be2162b8ba05376256fa375594ac
+						<!-- php code in ternary form used to refill values in case of thrown sqli error. -->
+
 					</div>
 					<div class="form-group flex-col-center container">
 						<label for="email">Email:</label>
@@ -173,238 +148,230 @@
 			</section>
 		</div>
 
-		<<<<<<< HEAD
-			<div id="terms-and-cond">
-			<!-- Area surrounding the terms container -->
+		<!-- Area surrounding the terms container -->
+		<div id="terms-and-cond">
 			<!-- The terms container itself -->
-			<section id="terms-section" class="mx-auto bg-white border border-dark">
+			<section id="terms-section" class="bg-white border border-dark">
 				<div
-					class="d-flex justify-content-end align-items-center bg-white mb-2"
-					style="margin-top: -8px">
-					=======
-					<!-- Area surrounding the terms container -->
-					<div id="terms-and-cond">
-						<!-- The terms container itself -->
-						<section id="terms-section" class="bg-white border border-dark">
-							<div
-								class="d-flex justify-content-end align-items-center bg-white"
-								style="margin-top: -8px !important; margin-bottom: 12px !important;">
-								>>>>>>> e358c5359c36be2162b8ba05376256fa375594ac
-								<svg
-									id="x-terms"
-									xmlns="http://www.w3.org/2000/svg"
-									width="28"
-									height="28"
-									viewBox="0 0 24 24"
-									fill="none"
-									stroke="currentColor"
-									stroke-width="2"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									class="lucide lucide-x-icon lucide-x"
-									style="cursor: pointer"
-									onclick="hideTerms()">
-									<path d="M18 6 6 18" />
-									<path d="m6 6 12 12" />
-								</svg>
-							</div>
+					class="d-flex justify-content-end align-items-center bg-white"
+					style="margin-top: -8px !important; margin-bottom: 12px !important;">
+					<svg
+						id="x-terms"
+						xmlns="http://www.w3.org/2000/svg"
+						width="28"
+						height="28"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						class="lucide lucide-x-icon lucide-x"
+						style="cursor: pointer"
+						onclick="hideTerms()">
+						<path d="M18 6 6 18" />
+						<path d="m6 6 12 12" />
+					</svg>
+				</div>
 
-							<h2 class="py-3 bg-secondary text-white text-center">
-								Terms and Conditions for Hotel Accommodations
-							</h2>
-							<ul id="articles">
-								<li class="lead">ARTICLE 1: General Guidelines</li>
-								<hr />
-								<p>
-									By booking and staying at Luxury Hotel, guests agree to the
-									following terms and conditions, which are governed by the laws of
-									the Republic of the Philippines. These are designed to ensure a
-									safe, pleasant, and legally compliant experience for all guests and
-									staff.
-								</p>
+				<h2 class="py-3 bg-secondary text-white text-center">
+					Terms and Conditions for Hotel Accommodations
+				</h2>
+				<ul id="articles">
+					<li class="lead">ARTICLE 1: General Guidelines</li>
+					<hr />
+					<p>
+						By booking and staying at Luxury Hotel, guests agree to the
+						following terms and conditions, which are governed by the laws of
+						the Republic of the Philippines. These are designed to ensure a
+						safe, pleasant, and legally compliant experience for all guests and
+						staff.
+					</p>
 
-								<li class="lead">ARTICLE 2: Reservations and Check-In</li>
-								<hr />
-								<ul>
-									<li>
-										Standard check-in time is <strong>2:00 PM</strong>, and check-out
-										time is <strong>12:00 NN</strong> (Philippine Time).
-									</li>
-									<li>
-										Early check-in or late check-out is subject to availability and
-										may incur additional charges.
-									</li>
-									<li>
-										All guests must present a
-										<strong>valid government-issued ID</strong> and a
-										<strong>credit/debit card or cash deposit</strong> upon check-in.
-									</li>
-								</ul>
+					<li class="lead">ARTICLE 2: Reservations and Check-In</li>
+					<hr />
+					<ul>
+						<li>
+							Standard check-in time is <strong>2:00 PM</strong>, and check-out
+							time is <strong>12:00 NN</strong> (Philippine Time).
+						</li>
+						<li>
+							Early check-in or late check-out is subject to availability and
+							may incur additional charges.
+						</li>
+						<li>
+							All guests must present a
+							<strong>valid government-issued ID</strong> and a
+							<strong>credit/debit card or cash deposit</strong> upon check-in.
+						</li>
+					</ul>
 
-								<li class="lead">
-									ARTICLE 3: Booking, Cancellation, and No-Show Policy
-								</li>
-								<hr />
-								<ul>
-									<li>
-										Cancellations made at least <strong>48 hours</strong> before
-										check-in are free of charge.
-									</li>
-									<li>
-										Late cancellations or no-shows will be charged
-										<strong>one (1) night's stay</strong>.
-									</li>
-									<li>
-										Non-refundable or promotional bookings cannot be changed or
-										refunded.
-									</li>
-								</ul>
+					<li class="lead">
+						ARTICLE 3: Booking, Cancellation, and No-Show Policy
+					</li>
+					<hr />
+					<ul>
+						<li>
+							Cancellations made at least <strong>48 hours</strong> before
+							check-in are free of charge.
+						</li>
+						<li>
+							Late cancellations or no-shows will be charged
+							<strong>one (1) night's stay</strong>.
+						</li>
+						<li>
+							Non-refundable or promotional bookings cannot be changed or
+							refunded.
+						</li>
+					</ul>
 
-								<li class="lead">ARTICLE 4: Payment Policy</li>
-								<hr />
-								<ul>
-									<li>
-										We accept <strong>cash (PHP only)</strong>, credit/debit cards,
-										GCash/PayMaya, or bank transfer.
-									</li>
-									<li>
-										Full payment may be required upon check-in unless already
-										pre-paid.
-									</li>
-									<li>
-										A security deposit may be collected and refunded upon check-out
-										after inspection.
-									</li>
-								</ul>
+					<li class="lead">ARTICLE 4: Payment Policy</li>
+					<hr />
+					<ul>
+						<li>
+							We accept <strong>cash (PHP only)</strong>, credit/debit cards,
+							GCash/PayMaya, or bank transfer.
+						</li>
+						<li>
+							Full payment may be required upon check-in unless already
+							pre-paid.
+						</li>
+						<li>
+							A security deposit may be collected and refunded upon check-out
+							after inspection.
+						</li>
+					</ul>
 
-								<li class="lead">ARTICLE 5: Child and Extra Bed Policy</li>
-								<hr />
-								<ul>
-									<li>
-										Children aged <strong>0-6 years old</strong> are eligible for a
-										free stay given at least one (1) paying adult.
-									</li>
-									<li>
-										Extra beds are available on request, subject to availability and
-										additional charge.
-									</li>
-								</ul>
+					<li class="lead">ARTICLE 5: Child and Extra Bed Policy</li>
+					<hr />
+					<ul>
+						<li>
+							Children aged <strong>0-6 years old</strong> are eligible for a
+							free stay given at least one (1) paying adult.
+						</li>
+						<li>
+							Extra beds are available on request, subject to availability and
+							additional charge.
+						</li>
+					</ul>
 
-								<li class="lead">ARTICLE 6: Guest Conduct and Hotel Policies</li>
-								<hr />
-								<ul>
-									<li>
-										Guests must act respectfully at all times and avoid disturbing
-										other patrons.
-									</li>
-									<li>
-										Performing illegal activities and engaging in disruptive behavior
-										may lead to
-										<strong>eviction without refund and/or legal repercussion.</strong>
-									</li>
-									<li>
-										Damage to hotel property will be charged to the customer upon
-										checkout.
-									</li>
-									<li>
-										Dangerous or illegal items such as drugs and firearms are strictly
-										prohibited within the premises.
-									</li>
-								</ul>
+					<li class="lead">ARTICLE 6: Guest Conduct and Hotel Policies</li>
+					<hr />
+					<ul>
+						<li>
+							Guests must act respectfully at all times and avoid disturbing
+							other patrons.
+						</li>
+						<li>
+							Performing illegal activities and engaging in disruptive behavior
+							may lead to
+							<strong>eviction without refund and/or legal repercussion.</strong>
+						</li>
+						<li>
+							Damage to hotel property will be charged to the customer upon
+							checkout.
+						</li>
+						<li>
+							Dangerous or illegal items such as drugs and firearms are strictly
+							prohibited within the premises.
+						</li>
+					</ul>
 
-								<li class="lead">ARTICLE 7: Smoking and Alcohol</li>
-								<hr />
-								<ul>
-									<li>
-										This is a <strong>non-smoking hotel</strong> except in designated
-										areas (per RA 9211).
-									</li>
-									<li>
-										A <strong>PHP 500</strong> cleaning fee applies for violations.
-									</li>
-									<li>
-										Alcohol is allowed in private rooms only unless otherwise
-										permitted.
-									</li>
-								</ul>
+					<li class="lead">ARTICLE 7: Smoking and Alcohol</li>
+					<hr />
+					<ul>
+						<li>
+							This is a <strong>non-smoking hotel</strong> except in designated
+							areas (per RA 9211).
+						</li>
+						<li>
+							A <strong>PHP 500</strong> cleaning fee applies for violations.
+						</li>
+						<li>
+							Alcohol is allowed in private rooms only unless otherwise
+							permitted.
+						</li>
+					</ul>
 
-								<li class="lead">ARTICLE 8: Pets</li>
-								<hr />
-								<ul>
-									<li>
-										Pets are allowed with prior notice and an additional pet
-										accommodation fee of
-										<strong>8% the highest-charged guest</strong>, per pet.
-									</li>
-									<li>
-										Owners are expected to be responsible for their pets at all times.
-										Luxury Hotel cannot be held responsible for any untoward accidents
-										involving a guest's pet/s.
-									</li>
-								</ul>
+					<li class="lead">ARTICLE 8: Pets</li>
+					<hr />
+					<ul>
+						<li>
+							Pets are allowed with prior notice and an additional pet
+							accommodation fee of
+							<strong>8% the highest-charged guest</strong>, per pet.
+						</li>
+						<li>
+							Owners are expected to be responsible for their pets at all times.
+							Luxury Hotel cannot be held responsible for any untoward accidents
+							involving a guest's pet/s.
+						</li>
+					</ul>
 
-								<li class="lead">ARTICLE 9: Liability and Loss of Property</li>
-								<hr />
-								<ul>
-									<li>The hotel is not liable for lost, stolen, or damaged items.</li>
-									<li>
-										Please use in-room safes or deposit valuables at the front desk.
-									</li>
-									<li>
-										Guests may be charged for missing items provided by the hotel upon
-										check-in.
-									</li>
-								</ul>
+					<li class="lead">ARTICLE 9: Liability and Loss of Property</li>
+					<hr />
+					<ul>
+						<li>The hotel is not liable for lost, stolen, or damaged items.</li>
+						<li>
+							Please use in-room safes or deposit valuables at the front desk.
+						</li>
+						<li>
+							Guests may be charged for missing items provided by the hotel upon
+							check-in.
+						</li>
+					</ul>
 
-								<li class="lead">ARTICLE 10: Force Majeure</li>
-								<hr />
-								<p>
-									The hotel is not liable for events beyond its control such as
-									natural disasters, power failures, or government regulations.
-								</p>
+					<li class="lead">ARTICLE 10: Force Majeure</li>
+					<hr />
+					<p>
+						The hotel is not liable for events beyond its control such as
+						natural disasters, power failures, or government regulations.
+					</p>
 
-								<li class="lead">ARTICLE 11: Privacy and Data Protection</li>
-								<hr />
-								<p>
-									We comply with the
-									<strong>Data Privacy Act of 2012 (RA 10173)</strong>. Guest data is
-									kept confidential and shared only as required by law.
-								</p>
+					<li class="lead">ARTICLE 11: Privacy and Data Protection</li>
+					<hr />
+					<p>
+						We comply with the
+						<strong>Data Privacy Act of 2012 (RA 10173)</strong>. Guest data is
+						kept confidential and shared only as required by law.
+					</p>
 
-								<li class="lead">ARTICLE 12: Governing Law</li>
-								<hr />
-								<p>
-									These terms are governed by Philippine laws. Legal disputes shall be
-									settled in the courts of <strong>Dumaguete City</strong>.
-								</p>
-							</ul>
+					<li class="lead">ARTICLE 12: Governing Law</li>
+					<hr />
+					<p>
+						These terms are governed by Philippine laws. Legal disputes shall be
+						settled in the courts of <strong>Dumaguete City</strong>.
+					</p>
+				</ul>
 
-							<div>
-								<button
-									id="hide-terms"
-									onclick="hideTerms()"
-									class="d-flex align-items-center justify-content-center gap-2">
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										width="24"
-										height="24"
-										viewBox="0 0 24 24"
-										fill="none"
-										stroke="currentColor"
-										stroke-width="2"
-										stroke-linecap="round"
-										stroke-linejoin="round"
-										class="lucide lucide-arrow-left-icon lucide-arrow-left">
-										<path d="m12 19-7-7 7-7" />
-										<path d="M19 12H5" />
-									</svg>
-									<span class="fs-5"> Back </span>
-								</button>
-							</div>
-						</section>
-					</div>
-					<<<<<<< HEAD=======</div>
-						>>>>>>> e358c5359c36be2162b8ba05376256fa375594ac
+				<div>
+					<button
+						id="hide-terms"
+						onclick="hideTerms()"
+						class="d-flex align-items-center justify-content-center gap-2">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="24"
+							height="24"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							class="lucide lucide-arrow-left-icon lucide-arrow-left">
+							<path d="m12 19-7-7 7-7" />
+							<path d="M19 12H5" />
+						</svg>
+						<span class="fs-5"> Back </span>
+					</button>
+				</div>
+			</section>
+		</div>
+	</div>
+
+	<?php placeFooter() ?>
+
 </body>
 <script>
 	// javascript logic for conditional rendering
