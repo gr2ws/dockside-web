@@ -11,11 +11,7 @@
 
 <!-- Put all component styles here -->
 
-<?php $escape = (basename(__DIR__) === 'pages') ? '../' : ''; ?>
-
-<!-- follow this format for html pages in pages/ -->
-
-<link rel="stylesheet" href="<?php echo $escape ?>styles/header.css">
-<link rel="stylesheet" href="<?php echo $escape ?>styles/footer.css">
+<link rel="stylesheet" href="styles/header.css">
+<link rel="stylesheet" href="styles/footer.css">
 
 <!-- Nothing below the footer! -->
