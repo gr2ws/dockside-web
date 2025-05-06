@@ -98,7 +98,6 @@
 			<li class="nav-item-1">Home</li>
 		</a>
 		<hr />
-		<!-- TODO: refactor design -->
 		<li class="nav-item-1">
 			<span
 				data-bs-toggle="collapse"

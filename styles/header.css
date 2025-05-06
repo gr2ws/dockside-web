@@ -115,7 +115,7 @@
 	margin-top: -8px;
 	margin-bottom: -8px;
 	border-radius: 2px 2px 0px 0px;
-	background-image: url(/assets/svg-patterns/cube1-bg-wh.svg);
+	background-image: url(../assets/svg-patterns/cube1-bg-wh.svg);
 	background-size: 10%;
 }
 
@@ -221,7 +221,7 @@ li.nav-item-1 a {
 			var(--background) 0%,
 			transparent 15%
 		),
-		url(/assets/svg-patterns/cube1-bg-wh.svg);
+		url(../assets/svg-patterns/cube1-bg-wh.svg);
 	zoom: 160%;
 }
 
