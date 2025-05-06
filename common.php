@@ -10,5 +10,12 @@
     href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
 
 <!-- Put all component styles here -->
-<link rel="stylesheet" href="styles/header.css">
-<link rel="stylesheet" href="styles/footer.css">
+
+<?php $escape = (basename(__DIR__) === 'pages') ? '../' : ''; ?>
+
+<!-- follow this format for html pages in pages/ -->
+
+<link rel="stylesheet" href="<?php echo $escape ?>styles/header.css">
+<link rel="stylesheet" href="<?php echo $escape ?>styles/footer.css">
+
+<!-- Nothing below the footer! -->
