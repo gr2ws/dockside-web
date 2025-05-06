@@ -1,9 +1,21 @@
+@import url('../styles/global.css');
+
 body {
     min-height: 100dvh;
     padding: 0;
     margin: 0;
     background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../assets/hotelfront.jpg');
     position: relative;
+    color: var(--text) !important;
+    font-family: var(--body-font) !important;
+}
+
+.global-heading {
+    font-family: var(--heading-font) !important;
+}
+
+.global-subheading {
+    font-family: var(--subheading-font) !important;
 }
 
 .flex-col-center {
@@ -143,4 +155,14 @@ svg#x-terms:hover {
     background-color: rgb(110, 0, 0);
     stroke: white;
     transition: background-color 0.2s ease, stroke 0.2s ease;
+}
+
+button#signup-btn {
+    background-color: var(--base) !important;
+    color: #f5f5f5;
+    transition: background-color 0.2s ease;
+}
+
+button#signup-btn:hover {
+    background-color: #0095a3 !important;
 }
