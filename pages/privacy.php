@@ -18,7 +18,7 @@
 				<!-- left side -->
 				<section id="left" class="d-none d-xl-block col-xl-3">
 					<div id="left-content" class="ps-5 pe-5 pt-4">
-						<span>Privacy Policy Outline</span>
+						<span class="lead">Privacy Policy Outline</span>
 						<hr />
 						<ul id="mini-nav">
 							<li>
@@ -60,7 +60,7 @@
 					id="middle"
 					class="min-vh-100 col-12 col-md-9 col-lg-9 col-xl-7 pt-4">
 					<!-- header group-->
-					<h1 class="text-center fw-bold mt-1">Privacy Policy</h1>
+					<h1 class="text-center fw-bold mt-1 global-heading">Privacy Policy</h1>
 					<p class="text-muted text-center">Effective Date: May 03, 2025</p>
 					<p class="text-center">
 						<strong>Hotel Name:</strong> Dockside Hotel<br />
@@ -70,11 +70,8 @@
 					<!-- privacy policy actual contents -->
 					<section id="content" class="mx-xl-auto p-3">
 						<hr />
-
-						<br />
-
 						<!-- Collection of Personal Data -->
-						<h2 id="item-0" class="pt-2 anchor-offset">
+						<h2 id="item-0" class="pt-2 anchor-offset global-subheading">
 							Collection of Personal Data
 						</h2>
 						<p class="py-2 lh-lg">
@@ -90,7 +87,7 @@
 						</p>
 
 						<!-- Legal Basis for Processing -->
-						<h2 id="item-1" class="pt-2 anchor-offset">
+						<h2 id="item-1" class="pt-2 anchor-offset global-subheading">
 							Legal Basis for Processing
 						</h2>
 						<p class="py-2 lh-lg">
@@ -102,7 +99,7 @@
 						</p>
 
 						<!-- How We Use Your Information -->
-						<h2 id="item-2" class="pt-2 anchor-offset">
+						<h2 id="item-2" class="pt-2 anchor-offset global-subheading">
 							How We Use Your Information
 						</h2>
 						<p class="py-2 lh-lg">
@@ -114,7 +111,7 @@
 						</p>
 
 						<!-- Sharing and Disclosure -->
-						<h2 id="item-3" class="pt-2 anchor-offset">
+						<h2 id="item-3" class="pt-2 anchor-offset global-subheading">
 							Sharing and Disclosure
 						</h2>
 						<p class="py-2 lh-lg">
@@ -128,7 +125,7 @@
 						</p>
 
 						<!-- Data Storage and Retention -->
-						<h2 id="item-4" class="pt-2 anchor-offset">
+						<h2 id="item-4" class="pt-2 anchor-offset global-subheading">
 							Data Storage and Retention
 						</h2>
 						<p class="py-2 lh-lg">
@@ -140,7 +137,7 @@
 						</p>
 
 						<!-- Data Protection and Security -->
-						<h2 id="item-5" class="pt-2 anchor-offset">
+						<h2 id="item-5" class="pt-2 anchor-offset global-subheading">
 							Data Protection and Security
 						</h2>
 						<p class="py-2 lh-lg">
@@ -151,7 +148,7 @@
 						</p>
 
 						<!-- Your Rights -->
-						<h2 id="item-6" class="pt-2 anchor-offset">Your Rights</h2>
+						<h2 id="item-6" class="pt-2 anchor-offset global-subheading">Your Rights</h2>
 						<p class="py-2 lh-lg">
 							Depending on your location, you may have the right to:
 						</p>
@@ -171,7 +168,7 @@
 						</p>
 
 						<!-- Cookies and Online Tracking -->
-						<h2 id="item-7" class="pt-2 anchor-offset">
+						<h2 id="item-7" class="pt-2 anchor-offset global-subheading">
 							Cookies and Online Tracking
 						</h2>
 						<p class="py-2 lh-lg">
@@ -182,7 +179,7 @@
 						</p>
 
 						<!-- Children's Privacy -->
-						<h2 id="item-8" class="pt-2 anchor-offset">Children's Privacy</h2>
+						<h2 id="item-8" class="pt-2 anchor-offset global-subheading">Children's Privacy</h2>
 						<p class="pt-2 pb-4 lh-lg">
 							Our services are intended for adults. We do not knowingly collect
 							personal information from anyone under the age of 13. If we learn
@@ -192,7 +189,7 @@
 
 						<hr class="py-2" />
 
-						<h2 class="h3 my-3">Contact Us</h2>
+						<h2 class="h3 my-3 global-subheading">Contact Us</h2>
 						<p class="lh-lg">
 							If you have questions about this policy or with how we process
 							your personal data, please contact our Data Protection Officer:
@@ -206,6 +203,7 @@
 							<li><strong>Email:</strong> cdpo@dockstel.biz</li>
 							<li><strong>Phone:</strong> (+63) 0917 662 8471</li>
 						</ul>
+						<br><br>
 					</section>
 				</section>
 

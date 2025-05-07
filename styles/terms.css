@@ -1,0 +1,81 @@
+@import url('../styles/global.css');
+
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100dvh;
+    width: 100vw;
+    overflow-x: hidden;
+}
+
+.lead {
+    font: var(--heading-font) !important;
+    font-size: 1.5rem !important;
+}
+
+.global-subheading {
+    font: var(--subheading-font) !important;
+    font-size: 2.25rem !important;
+}
+
+p {
+    font: var(--body-font) !important;
+    font-size: 1rem !important;
+}
+
+#terms-section ul {
+    padding-bottom:16px;
+}
+
+#articles {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+#articles > li {
+    padding-top: 1rem;
+}
+
+ul.enum > li {
+    font: var(--body-font) !important;
+    font-size: 1rem !important;
+}
+
+#terms-section {
+    margin: 0 3rem;
+    animation: fade-in 2s ease 0s 1 normal forwards;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+@keyframes fade-in {
+	0% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+	}
+}
+
+#to-top {
+    background-color: #006D77;
+    transition: background-color 0.2s ease;
+    position: fixed;
+  
+  }
+
+  #right {
+    height: 90vh;
+}
+
+a#redirect {
+    color: black !important;
+    text-decoration: none !important;
+}
+
+a#redirect:hover {
+    text-decoration: underline !important;
+}
