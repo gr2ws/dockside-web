@@ -32,7 +32,7 @@
             <sup class="header-c bi-c-circle"></sup>
         </p>
         <hr />
-        <ul class="navbar-nav ms-auto">
+        < class="navbar-nav ms-auto">
             <li class="nav-link">Home</li>
             <hr />
 
@@ -61,7 +61,7 @@
 
             <li class="nav-link">Events</li>
             <hr />
-        </ul>
+</ul>
     </div>
     <div class="mobile-nav" id="mobileSideMenu">
 			<button
