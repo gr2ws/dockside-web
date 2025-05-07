@@ -7,15 +7,17 @@
     overflow-x: hidden;
 
     color: var(--text) !important;
-    font-family: var(--body-font) !important;
+    font: var(--body-font) !important;
 }
 
 .global-heading {
-  font-family: var(--heading-font) !important;
+  font: var(--heading-font) !important;
+  font-size: 2.5rem !important;
 }
 
 .global-subheading {
-  font-family: var(--subheading-font) !important;
+  font: var(--subheading-font) !important;
+  font-size: 2rem !important;
 }
 
 p {
@@ -33,7 +35,6 @@ p {
   background-color: #006D77;
   transition: background-color 0.2s ease;
   position: fixed;
-
 }
 
 .anchor-offset {
@@ -48,12 +49,23 @@ p {
   height: 90vh;
 }
 
-#left-content {
-  position: fixed;
+#mini-nav li {
+  list-style-type: none;
+  margin-bottom: 0.75rem;
 }
 
-#mini-nav > *  {
-  margin-bottom: 0.75rem;
+#mini-nav {
+  padding-left: 0;
+}
+
+#mini-nav li > a {
+  font-size: 0.9rem !important;
+}
+
+@media (min-width: 1600px) {
+  #mini-nav li > a {
+    font-size: 1.15rem !important;
+  }
 }
 
 #content > ul > * {

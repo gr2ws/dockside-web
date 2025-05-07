@@ -10,16 +10,22 @@
     background-position: center;
     position: relative;
     color: var(--text) !important;
-    font-family: var(--body-font) !important;
     overflow-x:hidden;
 }
 
 .global-heading {
-    font-family: var(--heading-font) !important;
-}
-
-.global-subheading {
-    font-family: var(--subheading-font) !important;
+    font: var(--heading-font) !important;
+    font-size: 2.5rem !important;
+  }
+  
+  .global-subheading {
+    font: var(--subheading-font) !important;
+    font-size: 2rem !important;
+  }
+  
+label {
+    font: var(--body-font) !important;
+    font-weight: 600 !important;
 }
 
 .flex-col-center {
