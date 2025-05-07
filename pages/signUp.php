@@ -140,7 +140,7 @@ session_start();
 							maxlength="40"
 							value="<?php echo isset($_POST['lname']) ? $_POST['lname'] : ''; ?>"
 							required />
-						<!-- php code in ternary form used to refill values in case of thrown sqli error. -->
+						<!-- php code in ternary form used to refill form input values in case of thrown sqli error. -->
 					</div>
 					<div class="form-group flex-col-center container">
 						<label for="address">Address:</label>
@@ -151,8 +151,9 @@ session_start();
 							name="address"
 							placeholder="Enter your Address"
 							maxlength="255"
+							value="<?php echo isset($_POST['address']) ? $_POST['address'] : ''; ?>"
 							required />
-						<!-- php code in ternary form used to refill values in case of thrown sqli error. -->
+						<!-- php code in ternary form used to refill form input values in case of thrown sqli error. -->
 					</div>
 					<div class="form-group flex-col-center container">
 						<label for="phone">Enter your phone number:</label>
@@ -163,6 +164,7 @@ session_start();
 							name="phone"
 							placeholder="Phone Number"
 							pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}"
+							value="<?php echo isset($_POST['phone']) ? $_POST['phone'] : ''; ?>"
 							required />
 						<small><i class="text-muted">Format: 0912-345-6789</i></small>
 					</div>
@@ -220,26 +222,6 @@ session_start();
 			</section>
 		</div>
 	</div>
-
-	<script>
-		// javascript logic for conditional rendering
-
-		function showTerms() {
-			const termsContainer = document.getElementById("terms-section");
-			const termsBackground = document.getElementById("terms-and-cond");
-
-			termsContainer.style.display = "block";
-			termsBackground.style.display = "flex";
-		}
-
-		function hideTerms() {
-			const termsContainer = document.getElementById("terms-section");
-			const termsBackground = document.getElementById("terms-and-cond");
-
-			termsContainer.style.display = "none";
-			termsBackground.style.display = "none";
-		}
-	</script>
 	<?php placeFooter() ?>
 </body>
 
