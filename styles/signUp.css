@@ -45,6 +45,34 @@ label {
     gap: 8px;
 }
 
+form > h1 {
+    animation: fadeTop 1s ease 0s 1 normal forwards;
+}
+
+form div {
+    animation: fadeTop 1.75s ease 0s 1 normal forwards;
+}
+
+form button {
+    animation: fadeTop 2.25s ease 0s 1 normal forwards;
+}
+
+form i {
+    animation: fadeTop 3s ease 0s 1 normal forwards;
+}
+
+@keyframes fadeTop {
+	0% {
+		opacity: 0;
+		transform: translateY(50px);
+	}
+
+	100% {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
 @media (min-width:1200px) {
     #content {
         padding-left: 7.5rem !important;
