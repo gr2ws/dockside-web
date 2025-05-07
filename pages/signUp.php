@@ -215,8 +215,26 @@ session_start();
 		</div>
 	</div>
 
-	<?php placeFooter() ?>
+	<script>
+		// javascript logic for conditional rendering
 
+		function showTerms() {
+			const termsContainer = document.getElementById("terms-section");
+			const termsBackground = document.getElementById("terms-and-cond");
+
+			termsContainer.style.display = "block";
+			termsBackground.style.display = "flex";
+		}
+
+		function hideTerms() {
+			const termsContainer = document.getElementById("terms-section");
+			const termsBackground = document.getElementById("terms-and-cond");
+
+			termsContainer.style.display = "none";
+			termsBackground.style.display = "none";
+		}
+	</script>
+	<?php placeFooter() ?>
 </body>
 
 </html>
