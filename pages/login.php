@@ -12,7 +12,7 @@
         <?php if (isset($_GET['error'])): ?>        
             <div class="error-message"><?= htmlspecialchars($_GET['error']); ?></div>
         <?php endif; ?>
-        <form id="loginForm" action="../php/process_login.php" method="POST">  
+        <form id="loginForm" action="../scripts/process_login.php" method="POST">  
             <div class="form-group">
                 <label for="email">Email Address</label>
                 <input type="email" id="email" name="email" placeholder="Enter your email" required>
