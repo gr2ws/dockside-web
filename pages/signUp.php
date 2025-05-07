@@ -128,7 +128,7 @@ session_start();
 
 					<i class=" align-self-center text-center px-5 my-1">
 						<small id="emailHelp" class="form-text text-muted">Have an account?</small>
-						<a href="./LogIn.html" class="text-muted">Log in here!</a></i>
+						<a href="./login.php" class="text-muted">Log in here!</a></i>
 					<i class="align-self-center text-center px-5 mt-1 mb-3">
 						<small id="emailHelp" class="form-text text-muted">To proceed, you must read the
 							<a

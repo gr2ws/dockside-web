@@ -13,8 +13,7 @@
     <?php placeHeader() ?>
 
     <div class="login-body container-fluid my-auto">
-
-        <div class="login-container">
+        <div class="login-container py-4">
             <h1>Sign In</h1>
             <?php if (isset($_GET['error'])): ?>
                 <div class="error-message"><?= htmlspecialchars($_GET['error']); ?></div>
