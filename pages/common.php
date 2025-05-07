@@ -14,6 +14,7 @@
 
 <?php
 # Determine if in  root directory or a subdirectory
+# makes
 $baseDir = '';
 if (strpos($_SERVER['SCRIPT_NAME'], '/pages/') !== false) {
     $baseDir = '../';
@@ -22,6 +23,7 @@ if (strpos($_SERVER['SCRIPT_NAME'], '/pages/') !== false) {
 
 <link rel="stylesheet" href="<?php echo $baseDir; ?>styles/header.css">
 <link rel="stylesheet" href="<?php echo $baseDir; ?>styles/footer.css">
+<script src="<?php echo $baseDir; ?>scripts/mobileNav.js"></script>
 
 <!-- Nothing below the footer! -->
 
