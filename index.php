@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Dockside Hotel ©</title>
+	<title>Dockside Hotel© </title>
 	<link rel="stylesheet" href="./styles/index.css" />
 
 	<?php require 'pages/common.php'; ?>

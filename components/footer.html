@@ -1,87 +1,101 @@
-<footer class="bg-dark text-white py-5 mt-5">
-	<div class="container">
+<footer class="footer-container">
+	<div class="container py-2">
 		<!-- Footer Navigation -->
 		<div class="row mb-4">
-			<div class="col-md-4 mb-4 mb-md-0">
-				<h5 class="mb-3 fw-bold border-bottom pb-2">Quick Links</h5>
-				<ul class="nav flex-column">
-					<li class="nav-item mb-2">
-						<a href="" class="nav-link p-0 text-white-50 hover-light">Home</a>
+			<div class="col-md-4">
+				<span class="footer-titles">Quick Links</span>
+				<ul class="nav flex-column quick-links">
+					<li class="nav-item">
+						<a href="" class="nav-link active">Home</a>
 					</li>
-					<li class="nav-item mb-2">
-						<a href="" class="nav-link p-0 text-white-50 hover-light"
-							>Accommodation</a
+					<li class="nav-item dropdown">
+						<a
+							class="nav-link footer-dpd-toggle"
+							href="#"
+							id="accommodationsDropdown"
+							role="button"
+							data-bs-toggle="dropdown"
+							aria-expanded="false"
 						>
+							<span
+								>Accommodations
+								<i class="bi-chevron-down d-lg-none"></i>
+
+								<i class="bi-chevron-right d-none d-lg-inline"></i>
+							</span>
+						</a>
+						<ul
+							class="dropdown-menu rooms-dpd footer-dpd shadow-sm"
+							aria-labelledby="accommodationsDropdown"
+						>
+							<li><a class="dropdown-item" href="#">Room 1</a></li>
+
+							<li><a class="dropdown-item" href="#">Room 2</a></li>
+
+							<li><a class="dropdown-item" href="#">Room 3</a></li>
+
+							<li><a class="dropdown-item" href="#">Room 4</a></li>
+						</ul>
 					</li>
-					<li class="nav-item mb-2">
-						<a href="" class="nav-link p-0 text-white-50 hover-light">Rates</a>
+					<li class="nav-item">
+						<a href="" class="nav-link">Facilities</a>
 					</li>
-					<li class="nav-item mb-2">
-						<a href="" class="nav-link p-0 text-white-50 hover-light">More</a>
+					<li class="nav-item">
+						<a href="" class="nav-link">Events</a>
 					</li>
 				</ul>
 			</div>
 
-			<div class="col-md-4 mb-4 mb-md-0">
-				<h5 class="mb-3 fw-bold border-bottom pb-2">Contact Us</h5>
-				<address class="mb-0 text-white-50">
-					<p class="mb-1">
-						<i class="bi bi-geo-alt-fill me-2"></i>123 Hotel Street
-					</p>
-					<p class="mb-1">City, Country</p>
-					<p class="mb-1">
-						<i class="bi bi-telephone-fill me-2"></i>(123) 456-7890
-					</p>
-					<p class="mb-0">
-						<i class="bi bi-envelope-fill me-2"></i>info@hotel.com
-					</p>
+			<div class="col-md-4">
+				<span class="footer-titles">Contact Us</span>
+				<address class="footer-list-cont">
+					<p>123 Opal St.</p>
+					<p>Dumaguete City, Negros Oriental</p>
+					<p class="fst-italic">(+63) 0917 662 8471</p>
+					<p class="fst-italic">cdpo@dockstel.biz</p>
 				</address>
 			</div>
 
 			<div class="col-md-4">
-				<h5 class="mb-3 fw-bold border-bottom pb-2">Connect With Us</h5>
-				<div class="d-flex gap-3 mb-4">
-					<a href="#" class="text-white fs-5"><i class="bi bi-facebook"></i></a>
-					<a href="#" class="text-white fs-5"
-						><i class="bi bi-instagram"></i
-					></a>
-					<a href="#" class="text-white fs-5"><i class="bi bi-twitter"></i></a>
-					<a href="#" class="text-white fs-5"><i class="bi bi-linkedin"></i></a>
+				<span class="footer-titles"
+					>Connect With
+					<span class="d-md-inline d-lg-none">Us</span>
+					<span class="d-none d-md-none d-lg-inline">Dockside</span>
+				</span>
+				<div class="footer-list-cont soc-med">
+					<a href="#"><i class="bi bi-facebook"></i></a>
+					<a href="#"><i class="bi bi-instagram"></i></a>
+					<a href="#"><i class="bi bi-twitter"></i></a>
+					<a href="#"><i class="bi bi-linkedin"></i></a>
 				</div>
-				<div>
-					<h6 class="mb-2">Subscribe to Newsletter</h6>
-					<div class="input-group">
-						<input
-							type="email"
-							class="form-control"
-							placeholder="Enter your email"
-						/>
-						<button class="btn btn-primary" type="button">Subscribe</button>
-					</div>
+				<span class="newsletter-sub">Subscribe to our newsletter!</span>
+
+				<div class="subscribe-group">
+					<input type="email" placeholder="Enter your email..." />
+					<button type="button">Subscribe</button>
 				</div>
 			</div>
 		</div>
 
 		<!-- Copyright -->
-		<div class="border-top border-secondary pt-4 mt-2">
+		<div class="copyright-section pt-4 mt-2">
 			<div class="row align-items-center">
 				<div class="col-md-6">
-					<p class="mb-md-0 text-white-50 small">
-						Copyright © 2025 HOTEL - All Rights Reserved.
-					</p>
+					<p>Copyright © 2025 Dockside Hotel</p>
 				</div>
-				<div class="col-md-6">
-					<ul class="list-inline mb-0 text-md-end">
+				<div class="col-md-6 text-md-end">
+					<ul class="copyright-links list-inline">
 						<li class="list-inline-item">
-							<a href="#" class="text-white-50 text-decoration-none small"
-								>Privacy Policy</a
-							>
+							<a href="#" class="cpr-link">FAQs</a>
 						</li>
-						<li class="list-inline-item mx-2">|</li>
 						<li class="list-inline-item">
-							<a href="#" class="text-white-50 text-decoration-none small"
-								>Terms of Use</a
-							>
+							<a href="#" class="cpr-link">About Us</a>
+						</li>
+						<li class="list-inline-item">
+							<a href="#" class="cpr-link">Privacy Policy</a>
+						</li>
+						<li class="list-inline-item">
+							<a href="#" class="cpr-link">Terms and Conditions</a>
 						</li>
 					</ul>
 				</div>

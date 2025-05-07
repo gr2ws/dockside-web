@@ -1,12 +1,21 @@
 @import url("global.css");
 
-* {
+nav.header-nav * {
 	padding: 0;
 	margin: 0;
 	box-sizing: border-box;
 }
 
-/* Header */
+/* Explicitly re-declaring container to fix above */
+nav.header-nav div.container {
+	--bs-gutter-x: 1.5rem;
+	--bs-gutter-y: 0;
+	width: 100%;
+	padding-right: calc(var(--bs-gutter-x) * 0.5);
+	padding-left: calc(var(--bs-gutter-x) * 0.5);
+	margin-right: auto;
+	margin-left: auto;
+}
 
 .nav-hotel-name {
 	font: var(--heading-font);
@@ -95,11 +104,13 @@
 
 .user-dpd {
 	width: 300px !important;
+	height: 436.8px;
 }
 
 .user-dpd-toggle {
 	color: var(--text) !important;
 	font: var(--body-font) !important;
+	padding: 0.2rem 0.5rem !important;
 }
 
 .user-dpd-toggle[aria-expanded="true"] {
@@ -110,13 +121,16 @@
 
 .user-dpd .dropdown-header {
 	font: var(--body-font);
-	padding: 2rem 1.2rem;
-	height: 220px;
-	margin-top: -8px;
-	margin-bottom: -8px;
-	border-radius: 2px 2px 0px 0px;
-	background-image: url(../assets/svg-patterns/cube1-bg-wh.svg);
+	height: 220px !important;
+	overflow: hidden;
 	background-size: 10%;
+	border-radius: 2px 2px 0px 0px;
+}
+
+.user-dpd .dropdown-header .user-dpd-header-cont {
+	padding: 2rem 1.2rem;
+	height: 230px;
+	background-image: url(../assets/svg-patterns/cube1-bg-wh.svg);
 }
 
 .user-dpd .dropdown-header span {
@@ -129,7 +143,7 @@
 
 .user-dpd a.dropdown-item,
 .rooms-dpd li a.dropdown-item {
-	padding-left: 20px !important;
+	padding: 0.85rem 20px !important;
 }
 
 a.join div,
@@ -263,7 +277,6 @@ li.nav-item-1 a {
 	visibility: visible;
 }
 
-/* Hide mobile menu on larger screens */
 @media (min-width: 768px) {
 	.mobile-nav,
 	.menu-overlay {

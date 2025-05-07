@@ -4,6 +4,7 @@
     rel="stylesheet"
     integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7"
     crossorigin="anonymous" />
+
 <!-- Bootstrap Icons -->
 <link
     rel="stylesheet"
@@ -12,7 +13,7 @@
 <!-- Put all component styles here -->
 
 <?php
-// Determine if in  root directory or a subdirectory
+# Determine if in  root directory or a subdirectory
 $baseDir = '';
 if (strpos($_SERVER['SCRIPT_NAME'], '/pages/') !== false) {
     $baseDir = '../';
@@ -27,17 +28,12 @@ if (strpos($_SERVER['SCRIPT_NAME'], '/pages/') !== false) {
 <?php
 function placeHeader()
 {
-    require getAbsPath() . '/../components/header.html';
+    require __DIR__ . '/../components/header.html';
 }
 
 function placeFooter()
 {
-    require getAbsPath() . '/../components/footer.html';
-}
-
-function getAbsPath()
-{
-    return __DIR__;
+    require __DIR__ . '/../components/footer.html';
 }
 
 ?>
