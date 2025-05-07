@@ -83,37 +83,48 @@
 
         <!-- Facilities Preview -->
         <section class="facilities-section">
-            <h2 class="section-title text-center">Look Around Our Facilities</h2>
+        <h2 class="section-title text-center">LOOK AROUND</h2>
             <div id="facilitiesCarousel" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img src="../assets/pool.jpg" alt="Swimming Pool">
-                        <div class="carousel-caption">
-                            <h3>Infinity Pool</h3>
-                            <p>Overlooking the ocean with stunning sunset views</p>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="../assets/spa.jpg" alt="Spa">
-                        <div class="carousel-caption">
-                            <h3>Luxury Spa</h3>
-                            <p>Rejuvenate your body and soul</p>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="../assets/restaurant.jpg" alt="Restaurant">
-                        <div class="carousel-caption">
-                            <h3>Fine Dining</h3>
-                            <p>World-class cuisine with ocean views</p>
-                        </div>
+                    <img src="../assets/pool.jpg" alt="Swimming Pool">
+                    <div class="carousel-text">
+                        <h3>SWIM.RELAX.UNWIND</h3>
                     </div>
                 </div>
+                <div class="carousel-item">
+                    <img src="../assets/spa.jpg" alt="Spa">
+                    <div class="carousel-text">
+                        <h3>PAMPER.RESTORE.REJUVENATE</h3>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="../assets/resto.jpg" alt="Restaurant">
+                    <div class="carousel-text">
+                        <h3>DINE.SAVOR.INDULGE</h3>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="../assets/gym.jpg" alt="Gym">
+                    <div class="carousel-text">
+                        <h3>TRAIN.ENERGIZE.CONQUER</h3>
+                    </div>
+                </div>
+            </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#facilitiesCarousel" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon"></span>
                 </button>
                 <button class="carousel-control-next" type="button" data-bs-target="#facilitiesCarousel" data-bs-slide="next">
                     <span class="carousel-control-next-icon"></span>
                 </button>
+            </div>
+        </section>
+
+        <!-- Room Title Section -->
+        <section class="room-title-section">
+            <div class="container text-center py-5">
+                <h2 class="section-title" data-aos="fade-up">Our Rooms</h2>
+                <div class="title-underline"></div>
             </div>
         </section>
 
