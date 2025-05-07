@@ -1,196 +1,343 @@
-@import url('../styles/global.css');
-
-.accommodations-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
+/* Base Styles */
+:root {
+    --transition-speed: 0.3s;
+    --shadow-color: rgba(0,0,0,0.1);
+    --overlay-dark: rgba(0,0,0,0.7);
+    --overlay-gradient: linear-gradient(transparent, rgba(0,0,0,0.8));
 }
 
+/* Hero Section */
 .hero-section {
-    text-align: center;
-    padding: 4rem 0;
-    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('../images/hero-bg.jpg');
-    background-size: cover;
-    color: white;
-    margin-bottom: 3rem;
-}
-
-.hero-section h1 {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-}
-
-.subtitle {
-    font-size: 1.5rem;
-    opacity: 0.9;
-}
-
-.rooms-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-bottom: 3rem;
-}
-
-.room-card {
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease;
-    background: white;
+    padding: 6rem 0;
+    background: var(--light-bg);
     overflow: hidden;
 }
 
-.room-card:hover {
-    transform: translateY(-5px);
+.hero-section h1 {
+    font-size: 3.5rem;
+    margin-bottom: 2rem;
+    color: var(--heading);
 }
 
-.room-card.premium {
-    border: 2px solid gold;
-}
-
-.room-image {
+.hero-image {
     width: 100%;
-    height: 250px;
+    height: 400px;
     object-fit: cover;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px var(--shadow-color);
 }
 
-.room-details {
-    padding: 1.5rem;
+/* Preview Cards */
+.preview-section {
+    padding: 4rem 0;
+    background: white;
 }
 
-.room-details h2 {
-    color: #333;
-    margin-bottom: 1rem;
+.preview-card {
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px var(--shadow-color);
+    transition: transform var(--transition-speed) ease;
+    height: 300px;
 }
 
-.amenities-list {
-    list-style: none;
-    padding: 0;
-    margin: 1rem 0;
+.preview-card:hover {
+    transform: translateY(-10px);
 }
 
-.amenities-list li {
-    padding: 0.5rem 0;
-    color: #666;
-    display: flex;
-    align-items: center;
-}
-
-.amenities-list li::before {
-    content: "✓";
-    color: #4CAF50;
-    margin-right: 0.5rem;
-}
-
-.price {
-    font-size: 1.5rem;
-    color: #2c3e50;
-    font-weight: bold;
-    margin: 1rem 0;
-}
-
-.book-now {
-    width: 100%;
-    padding: 1rem;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.book-now:hover {
-    background-color: #45a049;
-}
-
-.booking-info {
-    background: #f9f9f9;
-    padding: 2rem;
-    border-radius: 10px;
-    margin-top: 2rem;
-}
-
-.contact-info {
-    margin-top: 1rem;
-    text-align: center;
-}
-
-.contact-info a {
-    color: #4CAF50;
-    text-decoration: none;
-}
-
-
-/* Add this to your existing CSS file */
-
-.booking-modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
+.preview-card img {
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.5);
-    z-index: 1000;
+    object-fit: cover;
+    transition: transform var(--transition-speed) ease;
 }
 
-.modal-content {
-    background-color: white;
-    margin: 15% auto;
-    padding: 2rem;
-    border-radius: 10px;
-    width: 90%;
-    max-width: 500px;
-    position: relative;
+.preview-card:hover img {
+    transform: scale(1.05);
 }
 
-.close-modal {
+.preview-content {
     position: absolute;
-    right: 1rem;
-    top: 1rem;
+    bottom: 0;
+    width: 100%;
+    padding: 1.5rem;
+    background: var(--overlay-gradient);
+    color: white;
+}
+
+.preview-content h3 {
     font-size: 1.5rem;
-    cursor: pointer;
-}
-
-.form-group {
-    margin-bottom: 1rem;
-}
-
-.form-group label {
-    display: block;
     margin-bottom: 0.5rem;
 }
 
-.form-group input,
-.form-group select {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+.preview-btn {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: var(--base);
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    transition: all var(--transition-speed) ease;
 }
 
-.submit-booking {
+.preview-btn:hover {
+    background: var(--base-dark);
+    transform: translateY(-2px);
+}
+
+/* Facilities Section */
+.facilities-section {
+    position: relative;
+    background: var(--light-bg);
+    padding-top: 4rem;
+    padding-bottom: 0;
+}
+
+.facilities-section .section-title {
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    color: var(--heading);
+    padding: 0 1rem;
+}
+
+.facilities-section .carousel {
     width: 100%;
-    padding: 1rem;
-    background-color: #4CAF50;
+}
+
+.carousel-item {
+    height: 600px;
+}
+
+.carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.carousel-caption {
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    padding: 2rem;
+    max-width: 600px;
+    margin: 0 auto;
+    bottom: 2rem;
+}
+
+.carousel-caption h3 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.carousel-caption p {
+    font-size: 1.1rem;
+    margin-bottom: 0;
+}
+
+/* Room Sections */
+.room-section {
+    padding: 6rem 0;
+}
+
+.room-section:nth-child(even) {
+    background: var(--light-bg);
+}
+
+.room-info {
+    padding: 2rem;
+}
+
+.room-info h2 {
+    font-size: 2.8rem;
+    margin-bottom: 1rem;
+    color: var(--heading);
+}
+
+.room-description {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    color: var(--text);
+}
+
+/* Amenities */
+.amenities-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin: 1.5rem 0;
+}
+
+.amenity-item {
+    flex: 0 0 auto;
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+    background: rgba(var(--base-rgb), 0.1);
+    border-radius: 50px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all var(--transition-speed) ease;
+}
+
+.amenity-item i {
+    font-size: 0.9rem;
+    color: var(--base);
+}
+
+.amenity-item:hover {
+    background: rgba(var(--base-rgb), 0.2);
+    transform: translateY(-2px);
+}
+
+/* Room Gallery */
+.room-gallery img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px var(--shadow-color);
+}
+
+/* Pricing Section */
+.room-pricing {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.price {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--heading);
+}
+
+.book-btn {
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+    background: var(--base);
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 50px;
     cursor: pointer;
-    margin-top: 1rem;
+    transition: all var(--transition-speed) ease;
 }
 
-.submit-booking:hover {
-    background-color: #45a049;
+.book-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px var(--shadow-color);
+    background: var(--base-dark);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 1s ease forwards;
+}
+
+.fade-in-delay {
+    animation-delay: 0.3s;
+}
+
+/* Media Queries */
+@media (max-width: 1200px) {
+    .room-info h2 {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .hero-section {
+        padding: 4rem 0;
+    }
+
+    .hero-section h1 {
+        font-size: 2.5rem;
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .room-section .row {
+        flex-direction: column-reverse;
+    }
+
+    .room-info {
+        text-align: center;
+        padding: 2rem 0;
+    }
+
+    .room-pricing {
+        justify-content: center;
+    }
+
+    .amenities-grid {
+        justify-content: center;
+    }
 }
 
 @media (max-width: 768px) {
-    .rooms-grid {
-        grid-template-columns: 1fr;
+    .carousel-item img,
+    .room-gallery img {
+        height: 300px;
     }
-    
+
+    .preview-card {
+        height: 250px;
+    }
+
+    .room-pricing {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .amenity-item {
+        font-size: 0.85rem;
+        padding: 0.4rem 0.8rem;
+    }
+}
+
+@media (max-width: 576px) {
     .hero-section h1 {
         font-size: 2rem;
+    }
+
+    .room-info h2 {
+        font-size: 2rem;
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+    }
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .carousel-item {
+        height: 400px;
+    }
+    
+    .carousel-caption {
+        padding: 1rem;
+        bottom: 1rem;
+    }
+    
+    .carousel-caption h3 {
+        font-size: 1.5rem;
+    }
+    
+    .carousel-caption p {
+        font-size: 1rem;
     }
 }

@@ -1,127 +1,278 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dockside Hotel© - Luxury Accommodations</title>
-    <link rel="stylesheet" href="../styles/index.css" />
-    <link rel="stylesheet" href="../styles/accommos.css" />
-    <script src="../scripts/accomms.js" defer></script>
-
-    <?php require 'pages/common.php'; ?>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../styles/global.css" />
+    <link rel="stylesheet" href="../styles/accoms.css" />
+    <?php require 'common.php'; ?>
 </head>
-
 <body>
     <?php placeHeader() ?>
 
-    <main class="accommodations-container">
+    <main>
+        <!-- Hero Section -->
         <section class="hero-section">
-            <h1>Experience Luxury at Dockside Hotel</h1>
-            <p class="subtitle">Choose from our carefully curated selection of premium rooms</p>
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6">
+                        <h1 class="fade-in">Luxury Accommodations</h1>
+                        <p class="lead fade-in-delay">Experience unparalleled comfort and elegance in our carefully crafted rooms and suites. Each space is designed to provide the perfect blend of luxury, comfort, and sophisticated style.</p>
+                    </div>
+                    <div class="col-lg-6">
+                        <img src="../assets/accom.jpg" alt="Luxury Room" class="hero-image fade-in">
+                    </div>
+                </div>
+            </div>
         </section>
 
-        <div class="rooms-grid">
-            <!-- Presidential Suite -->
-            <div class="room-card premium">
-                <h2>Presidential Suite</h2>
-                <img src="./images/presidential-suite.jpg" alt="Presidential Suite" class="room-image">
-                <div class="room-details">
-                    <h3>Ultimate Luxury Experience</h3>
-                    <ul class="amenities-list">
-                        <li>180° Oceanfront View</li>
-                        <li>200m² Private Space</li>
-                        <li>Private Balcony with Jacuzzi</li>
-                        <li>24/7 Personal Butler Service</li>
-                        <li>Complimentary Champagne</li>
-                        <li>Private Dining Room</li>
-                        <li>Premium King-Size Bed</li>
-                        <li>VIP Airport Transfer</li>
-                    </ul>
-                    <p class="price">From $1,200 per night</p>
-                    <button class="book-now">Reserve Now</button>
+        <!-- Room Preview Cards -->
+        <section class="preview-section">
+            <div class="container">
+                <div class="row g-4">
+                    <!-- Presidential Suite Preview -->
+                    <div class="col-lg-3 col-md-6">
+                        <div class="preview-card" data-aos="fade-up">
+                            <img src="../assets/presidential.jpg" alt="Presidential Suite">
+                            <div class="preview-content">
+                                <h3>Presidential Suite</h3>
+                                <p>From ₱25,000/night</p>
+                                <a href="#presidential" class="preview-btn">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Executive Suite Preview -->
+                    <div class="col-lg-3 col-md-6">
+                        <div class="preview-card" data-aos="fade-up" data-aos-delay="100">
+                            <img src="../assets/executive.jpg" alt="Executive Suite">
+                            <div class="preview-content">
+                                <h3>Executive Suite</h3>
+                                <p>From ₱18,500/night</p>
+                                <a href="#executive" class="preview-btn">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Deluxe Room Preview -->
+                    <div class="col-lg-3 col-md-6">
+                        <div class="preview-card" data-aos="fade-up" data-aos-delay="200">
+                            <img src="../assets/deluxe.jpg" alt="Deluxe Room">
+                            <div class="preview-content">
+                                <h3>Deluxe Room</h3>
+                                <p>From ₱15,000/night</p>
+                                <a href="#deluxe" class="preview-btn">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Standard Room Preview -->
+                    <div class="col-lg-3 col-md-6">
+                        <div class="preview-card" data-aos="fade-up" data-aos-delay="300">
+                            <img src="../assets/standard.jpg" alt="Standard Room">
+                            <div class="preview-content">
+                                <h3>Standard Room</h3>
+                                <p>From ₱11,000/night</p>
+                                <a href="#standard" class="preview-btn">View Details</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <!-- Executive Suite -->
-            <div class="room-card deluxe">
-                <h2>Executive Suite</h2>
-                <img src="./images/executive-suite.jpg" alt="Executive Suite" class="room-image">
-                <div class="room-details">
-                    <h3>Premium Comfort</h3>
-                    <ul class="amenities-list">
-                        <li>Ocean View</li>
-                        <li>100m² Living Space</li>
-                        <li>Private Balcony</li>
-                        <li>Living Room Area</li>
-                        <li>Premium Queen-Size Bed</li>
-                        <li>Evening Turn-down Service</li>
-                        <li>Mini Bar</li>
-                        <li>Work Desk</li>
-                    </ul>
-                    <p class="price">From $800 per night</p>
-                    <button class="book-now">Reserve Now</button>
-                </div>
-            </div>
-
-            <!-- Deluxe Room -->
-            <div class="room-card superior">
-                <h2>Deluxe Room</h2>
-                <img src="./images/deluxe-room.jpg" alt="Deluxe Room" class="room-image">
-                <div class="room-details">
-                    <h3>Elegant Comfort</h3>
-                    <ul class="amenities-list">
-                        <li>Partial Ocean View</li>
-                        <li>45m² Space</li>
-                        <li>Queen-Size Bed</li>
-                        <li>Sitting Area</li>
-                        <li>Room Service</li>
-                        <li>Coffee Maker</li>
-                        <li>Smart TV</li>
-                        <li>Free Wi-Fi</li>
-                    </ul>
-                    <p class="price">From $500 per night</p>
-                    <button class="book-now">Reserve Now</button>
-                </div>
-            </div>
-
-            <!-- Standard Room -->
-            <div class="room-card standard">
-                <h2>Standard Room</h2>
-                <img src="./images/standard-room.jpg" alt="Standard Room" class="room-image">
-                <div class="room-details">
-                    <h3>Comfortable Stay</h3>
-                    <ul class="amenities-list">
-                        <li>City View</li>
-                        <li>30m² Space</li>
-                        <li>Double Bed</li>
-                        <li>En-suite Bathroom</li>
-                        <li>Smart TV</li>
-                        <li>Free Wi-Fi</li>
-                        <li>Daily Housekeeping</li>
-                        <li>Air Conditioning</li>
-                    </ul>
-                    <p class="price">From $300 per night</p>
-                    <button class="book-now">Reserve Now</button>
-                </div>
-            </div>
-        </div>
-
-        <section class="booking-info">
-            <h2>Additional Information</h2>
-            <p>All rooms include:</p>
-            <ul>
-                <li>Complimentary high-speed Wi-Fi</li>
-                <li>24/7 room service</li>
-                <li>Access to fitness center</li>
-                <li>Access to swimming pool</li>
-                <li>Daily housekeeping</li>
-            </ul>
-            <p class="contact-info">For special requests or group bookings, please contact us at <a href="tel:+1234567890">+1 (234) 567-890</a></p>
         </section>
+
+        <!-- Facilities Preview -->
+        <section class="facilities-section">
+            <h2 class="section-title text-center">Look Around Our Facilities</h2>
+            <div id="facilitiesCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="../assets/pool.jpg" alt="Swimming Pool">
+                        <div class="carousel-caption">
+                            <h3>Infinity Pool</h3>
+                            <p>Overlooking the ocean with stunning sunset views</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="../assets/spa.jpg" alt="Spa">
+                        <div class="carousel-caption">
+                            <h3>Luxury Spa</h3>
+                            <p>Rejuvenate your body and soul</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="../assets/restaurant.jpg" alt="Restaurant">
+                        <div class="carousel-caption">
+                            <h3>Fine Dining</h3>
+                            <p>World-class cuisine with ocean views</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#facilitiesCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#facilitiesCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Detailed Room Sections -->
+        <!-- Presidential Suite -->
+        <section id="presidential" class="room-section">
+            <div class="container py-5">
+                <div class="row align-items-center" data-aos="fade-right">
+                    <div class="col-lg-6">
+                        <div class="room-info">
+                            <h2>Presidential Suite</h2>
+                            <p class="room-description">Experience the epitome of luxury in our Presidential Suite with panoramic ocean views.</p>
+                            <div class="amenities-grid">
+                                <div class="amenity-item"><i class="bi bi-house-heart"></i> 200m²</div>
+                                <div class="amenity-item"><i class="bi bi-water"></i> Infinity Pool</div>
+                                <div class="amenity-item"><i class="bi bi-star-fill"></i> Ocean View</div>
+                                <div class="amenity-item"><i class="bi bi-water"></i> Jacuzzi</div>
+                                <div class="amenity-item"><i class="bi bi-tv"></i> 65" Smart TV</div>
+                                <div class="amenity-item"><i class="bi bi-cup-hot"></i> Exec Lounge</div>
+                                <div class="amenity-item"><i class="bi bi-wifi"></i> High-Speed WiFi</div>
+                                <div class="amenity-item"><i class="bi bi-moon-stars"></i> King Bed</div>
+                                <div class="amenity-item"><i class="bi bi-music-note-beamed"></i> Sound System</div>
+                                <div class="amenity-item"><i class="bi bi-safe"></i> Digital Safe</div>
+                                <div class="amenity-item"><i class="bi bi-cup"></i> Premium Bar</div>
+                                <div class="amenity-item"><i class="bi bi-door-closed"></i> Private Terrace</div>
+                                <div class="amenity-item"><i class="bi bi-person-check"></i> Butler Service</div>
+                                <div class="amenity-item"><i class="bi bi-laptop"></i> Business Center</div>
+                                <div class="amenity-item"><i class="bi bi-wind"></i> Climate Control</div>
+                                <div class="amenity-item"><i class="bi bi-telephone"></i> IDD Phone</div>
+                            </div>
+                            <div class="room-pricing">
+                                <span class="price">From ₱25,000 per night</span>
+                                <button class="book-btn">Book Now</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="room-gallery">
+                            <img src="../assets/presidential.jpg" alt="Presidential Suite">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Executive Suite -->
+        <section id="executive" class="room-section bg-light">
+            <div class="container py-5">
+                <div class="row align-items-center" data-aos="fade-left">
+                    <div class="col-lg-6">
+                        <div class="room-gallery">
+                            <img src="../assets/executive.jpg" alt="Executive Suite">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="room-info">
+                            <h2>Executive Suite</h2>
+                            <p class="room-description">Perfect for business and leisure travelers seeking premium accommodation.</p>
+                            <div class="amenities-grid">
+                                <div class="amenity-item"><i class="bi bi-house-heart"></i> 100m²</div>
+                                <div class="amenity-item"><i class="bi bi-water"></i> Ocean View</div>
+                                <div class="amenity-item"><i class="bi bi-tv"></i> 55" Smart TV</div>
+                                <div class="amenity-item"><i class="bi bi-cup-hot"></i> Exec Lounge</div>
+                                <div class="amenity-item"><i class="bi bi-wifi"></i> High-Speed WiFi</div>
+                                <div class="amenity-item"><i class="bi bi-moon-stars"></i> King Bed</div>
+                                <div class="amenity-item"><i class="bi bi-laptop"></i> Work Desk</div>
+                                <div class="amenity-item"><i class="bi bi-safe"></i> Digital Safe</div>
+                                <div class="amenity-item"><i class="bi bi-cup"></i> Mini Bar</div>
+                                <div class="amenity-item"><i class="bi bi-wind"></i> Climate Control</div>
+                                <div class="amenity-item"><i class="bi bi-telephone"></i> IDD Phone</div>
+                                <div class="amenity-item"><i class="bi bi-door-closed"></i> Balcony</div>
+                            </div>
+                            <div class="room-pricing">
+                                <span class="price">From ₱18,500 per night</span>
+                                <button class="book-btn">Book Now</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Deluxe Room -->
+        <section id="deluxe" class="room-section">
+            <div class="container py-5">
+                <div class="row align-items-center" data-aos="fade-right">
+                    <div class="col-lg-6">
+                        <div class="room-info">
+                            <h2>Deluxe Room</h2>
+                            <p class="room-description">Modern comfort with partial ocean views and quality amenities.</p>
+                            <div class="amenities-grid">
+                                <div class="amenity-item"><i class="bi bi-house-heart"></i> 45m²</div>
+                                <div class="amenity-item"><i class="bi bi-water"></i> Partial Ocean View</div>
+                                <div class="amenity-item"><i class="bi bi-tv"></i> 43" Smart TV</div>
+                                <div class="amenity-item"><i class="bi bi-wifi"></i> High-Speed WiFi</div>
+                                <div class="amenity-item"><i class="bi bi-moon-stars"></i> Queen Bed</div>
+                                <div class="amenity-item"><i class="bi bi-safe"></i> Digital Safe</div>
+                                <div class="amenity-item"><i class="bi bi-cup-hot"></i> Coffee Maker</div>
+                                <div class="amenity-item"><i class="bi bi-wind"></i> Climate Control</div>
+                                <div class="amenity-item"><i class="bi bi-telephone"></i> IDD Phone</div>
+                                <div class="amenity-item"><i class="bi bi-cup"></i> Mini Bar</div>
+                                <div class="amenity-item"><i class="bi bi-door-closed"></i> Balcony</div>
+                            </div>
+
+                            <div class="room-pricing">
+                                <span class="price">From ₱15,000 per night</span>
+                                <button class="book-btn">Book Now</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="room-gallery">
+                            <img src="../assets/deluxe.jpg" alt="Deluxe Room">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Standard Room -->
+        <section id="standard" class="room-section bg-light">
+            <div class="container py-5">
+                <div class="row align-items-center" data-aos="fade-left">
+                    <div class="col-lg-6">
+                        <div class="room-gallery">
+                            <img src="../assets/standard.jpg" alt="Standard Room">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="room-info">
+                            <h2>Standard Room</h2>
+                            <p class="room-description">Comfortable accommodation with essential amenities.</p>
+                            <div class="amenities-grid">
+                                <div class="amenity-item"><i class="bi bi-house-heart"></i> 30m²</div>
+                                <div class="amenity-item"><i class="bi bi-tv"></i> 40" HD TV</div>
+                                <div class="amenity-item"><i class="bi bi-wifi"></i> WiFi</div>
+                                <div class="amenity-item"><i class="bi bi-wind"></i> AC</div>
+                                <div class="amenity-item"><i class="bi bi-telephone"></i> Phone</div>
+                                <div class="amenity-item"><i class="bi bi-cup-hot"></i> Tea Set</div>
+                                <div class="amenity-item"><i class="bi bi-safe"></i> In-Room Safe</div>
+                                <div class="amenity-item"><i class="bi bi-moon-stars"></i> Double Bed</div>
+                                <div class="amenity-item"><i class="bi bi-door-closed"></i> City View</div>
+                            </div>
+                            <div class="room-pricing">
+                                <span class="price">From ₱11,000 per night</span>
+                                <button class="book-btn">Book Now</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <?php placeFooter() ?>
-</body>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="../scripts/accoms.js" defer></script>
+</body>
 </html>

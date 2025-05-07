@@ -1,79 +1,72 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Handle booking buttons
-    const bookButtons = document.querySelectorAll('.book-now');
-    bookButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            const roomCard = e.target.closest('.room-card');
-            const roomType = roomCard.querySelector('h2').textContent;
-            const price = roomCard.querySelector('.price').textContent;
+    // Initialize AOS animations
+    AOS.init({
+        duration: 1000,
+        once: true,
+        offset: 100
+    });
+
+    // Smooth scroll for preview card links
+    document.querySelectorAll('.preview-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            const targetSection = document.querySelector(targetId);
             
-            // Show booking modal
-            showBookingModal(roomType, price);
+            if (targetSection) {
+                window.scrollTo({
+                    top: targetSection.offsetTop - 80, // Adjust for header height
+                    behavior: 'smooth'
+                });
+            }
         });
     });
 
-    // Create and append modal to body
-    const modal = document.createElement('div');
-    modal.className = 'booking-modal';
-    modal.innerHTML = `
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h2>Book Your Stay</h2>
-            <form id="bookingForm">
-                <div class="form-group">
-                    <label for="checkIn">Check-in Date:</label>
-                    <input type="date" id="checkIn" required>
-                </div>
-                <div class="form-group">
-                    <label for="checkOut">Check-out Date:</label>
-                    <input type="date" id="checkOut" required>
-                </div>
-                <div class="form-group">
-                    <label for="guests">Number of Guests:</label>
-                    <select id="guests">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                    </select>
-                </div>
-                <button type="submit" class="submit-booking">Confirm Booking</button>
-            </form>
-        </div>
-    `;
-    document.body.appendChild(modal);
+    // Initialize Bootstrap carousel
+    const carousel = new bootstrap.Carousel(document.getElementById('facilitiesCarousel'), {
+        interval: 5000,
+        touch: true,
+        pause: 'hover'
+    });
 
-    // Modal functionality
-    function showBookingModal(roomType, price) {
-        modal.style.display = 'block';
-        const modalTitle = modal.querySelector('h2');
-        modalTitle.textContent = `Book ${roomType} - ${price}`;
+    // Lazy loading for images
+    const images = document.querySelectorAll('img[loading="lazy"]');
+    if ('loading' in HTMLImageElement.prototype) {
+        images.forEach(img => {
+            img.src = img.dataset.src;
+        });
+    } else {
+        // Fallback for browsers that don't support lazy loading
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.2/lazysizes.min.js';
+        document.body.appendChild(script);
     }
 
-    // Close modal when clicking X or outside
-    const closeBtn = modal.querySelector('.close-modal');
-    closeBtn.onclick = () => modal.style.display = 'none';
-    window.onclick = (e) => {
-        if (e.target == modal) modal.style.display = 'none';
-    }
+    // Book button click handler
+    document.querySelectorAll('.book-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const roomType = this.closest('.room-section').id;
+            // Add your booking logic here
+            console.log(`Booking ${roomType}`);
+        });
+    });
 
-    // Handle form submission
-    const bookingForm = document.getElementById('bookingForm');
-    bookingForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Get form data
-        const formData = {
-            checkIn: document.getElementById('checkIn').value,
-            checkOut: document.getElementById('checkOut').value,
-            guests: document.getElementById('guests').value
-        };
+    // Intersection Observer for scroll animations
+    const observerOptions = {
+        threshold: 0.2,
+        rootMargin: '0px'
+    };
 
-        // Here you would typically send this data to your server
-        console.log('Booking details:', formData);
-        
-        // Show success message
-        alert('Thank you for your booking! We will contact you shortly to confirm your reservation.');
-        modal.style.display = 'none';
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.room-section').forEach(section => {
+        observer.observe(section);
     });
 });
