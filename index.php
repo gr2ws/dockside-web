@@ -15,8 +15,8 @@
 
 	<!-- Booking Header -->
 	<!-- Hero Section -->
+	<!-- Membership benefits -->
 	<!-- Accommodations -->
-	<!-- Rates -->
 	<!-- Facilities -->
 
 	<?php placeFooter() ?>
