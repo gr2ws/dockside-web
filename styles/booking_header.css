@@ -1,0 +1,7 @@
+@import "global.css";
+
+.booking-header {
+	height: 300px;
+	width: 100%;
+	background-color: red;
+}

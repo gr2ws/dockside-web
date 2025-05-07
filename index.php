@@ -12,6 +12,7 @@
 
 <body>
 	<?php placeHeader() ?>
+	<?php placeBookingHeader() ?>
 
 	<!-- Booking Header -->
 	<!-- Hero Section -->

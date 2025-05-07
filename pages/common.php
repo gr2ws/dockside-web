@@ -14,20 +14,28 @@
 
 <?php
 # Determine if in  root directory or a subdirectory
-# makes
+# to not make special link/scripts for index
+
 $baseDir = '';
 if (strpos($_SERVER['SCRIPT_NAME'], '/pages/') !== false) {
     $baseDir = '../';
 }
 ?>
 
+<!-- Component styles-->
+
 <link rel="stylesheet" href="<?php echo $baseDir; ?>styles/header.css">
+<link rel="stylesheet" href="<?php echo $baseDir; ?>styles/booking_header.css">
 <link rel="stylesheet" href="<?php echo $baseDir; ?>styles/footer.css">
+
+<!-- Scripts for components -->
 <script src="<?php echo $baseDir; ?>scripts/mobileNav.js"></script>
 
-<!-- Nothing below the footer! -->
 
 <?php
+
+# utility functions to make putting components more intuitive
+
 function placeHeader()
 {
     require __DIR__ . '/../components/header.html';
@@ -36,6 +44,11 @@ function placeHeader()
 function placeFooter()
 {
     require __DIR__ . '/../components/footer.html';
+}
+
+function placeBookingHeader()
+{
+    require __DIR__ . '/../components/booking_header.html';
 }
 
 ?>
