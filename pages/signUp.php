@@ -119,7 +119,9 @@ session_start();
 							class="form-control"
 							id="fname"
 							name="fname"
+							pattern="[A-Za-z]*"
 							placeholder="Enter your First Name"
+							title="Only letters are allowed for this field."
 							maxlength="40"
 							value="<?php echo isset($_POST['fname']) ? $_POST['fname'] : ''; ?>"
 							required />
@@ -132,6 +134,8 @@ session_start();
 							class="form-control"
 							id="lname"
 							name="lname"
+							pattern="[A-Za-z]*"
+							title="Only letters are allowed for this field."
 							placeholder="Enter your Last Name"
 							maxlength="40"
 							value="<?php echo isset($_POST['lname']) ? $_POST['lname'] : ''; ?>"
@@ -169,6 +173,7 @@ session_start();
 							class="form-control"
 							id="birth"
 							name="birth"
+							maxlength="8"
 							required />
 					</div>
 					<div class="form-group flex-col-center container">
@@ -190,6 +195,7 @@ session_start();
 							id="password"
 							name="password"
 							placeholder="Password"
+							minlength="8"
 							maxlength="30"
 							required />
 					</div>
