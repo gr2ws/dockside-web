@@ -6,7 +6,7 @@
     <title>Dockside Hotel© - Luxury Accommodations</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="../styles/global.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../styles/accoms.css" />
     <?php require 'common.php'; ?>
 </head>
@@ -122,7 +122,7 @@
 
         <!-- Room Title Section -->
         <section class="room-title-section">
-            <div class="container text-center py-5">
+            <div class="container text-center">
                 <h2 class="section-title" data-aos="fade-up">Our Rooms</h2>
                 <div class="title-underline"></div>
             </div>
@@ -157,7 +157,7 @@
                             </div>
                             <div class="room-pricing">
                                 <span class="price">From ₱25,000 per night</span>
-                                <button class="book-btn">Book Now</button>
+                                <a class="book-btn" href="booking.php">Book Now</a>
                             </div>
                         </div>
                     </div>
@@ -199,7 +199,7 @@
                             </div>
                             <div class="room-pricing">
                                 <span class="price">From ₱18,500 per night</span>
-                                <button class="book-btn">Book Now</button>
+                                <a class="book-btn" href="booking.php">Book Now</a>
                             </div>
                         </div>
                     </div>
@@ -231,7 +231,7 @@
 
                             <div class="room-pricing">
                                 <span class="price">From ₱15,000 per night</span>
-                                <button class="book-btn">Book Now</button>
+                                <a class="book-btn" href="booking.php">Book Now</a>
                             </div>
                         </div>
                     </div>
@@ -270,7 +270,7 @@
                             </div>
                             <div class="room-pricing">
                                 <span class="price">From ₱11,000 per night</span>
-                                <button class="book-btn">Book Now</button>
+                                <a class="book-btn" href="booking.php">Book Now</a>
                             </div>
                         </div>
                     </div>
