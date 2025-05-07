@@ -21,8 +21,7 @@ session_start();
 	<div id="content" class="row w-75 py-4">
 		<section id="side-thumbnail" class="d-none d-md-block col-md-5"></section>
 
-		<<<<<<< Updated upstream
-			<section class="col-12 w-sm-100 col-md-7">
+		<section class="col-12 w-sm-100 col-md-7">
 			<!-- sign up form -->
 			<form
 				method="POST"
@@ -166,9 +165,8 @@ session_start();
 						</button>
 						of the website.</small></i>
 			</form>
-			</section>
+		</section>
 	</div>
-	=======
 	<div id="signup-page" class="px-0 px-md-3 flex-col-center">
 		<?php
 		// Handle form submission
@@ -370,7 +368,6 @@ session_start();
 				</form>
 			</section>
 		</div>
-		>>>>>>> Stashed changes
 
 		<div id="terms-and-cond">
 			<!-- Area surrounding the terms container -->
