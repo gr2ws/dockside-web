@@ -169,11 +169,12 @@ a.sign-in div:hover {
 a.join div {
 	border: solid 2px var(--base) !important;
 	color: var(--base);
+	background-color: white;
 	transition: all 0.3s ease;
 }
 
 a.join div:hover {
-	background-color: rgba(131, 197, 191, 0.35);
+	background-color: var(--background);
 	transition: all 0.3s ease;
 }
 
