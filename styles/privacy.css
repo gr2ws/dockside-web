@@ -15,7 +15,7 @@ body {
 }
 
 #to-top {
-  background-color: #006D77;
+  background-color: #36b1bc;
   transition: background-color 0.2s ease;
   position: fixed;
 
@@ -25,16 +25,8 @@ body {
   scroll-margin-top: 5rem;
 }
 
-#left {
-  height: 100vh;
-}
-
 #right {
   height: 90vh;
-}
-
-#left-content {
-  position: fixed;
 }
 
 #mini-nav > *  {
@@ -45,7 +37,15 @@ body {
   margin-bottom: 0.35rem;
 }
 
-a {
+#mini-nav {
+  padding-left: 0 !important;
+}
+
+#mini-nav > li  {
+  list-style-type: none;
+}
+
+#mini-nav > li > a {
   text-decoration: none;
 }
 
@@ -54,7 +54,7 @@ a:hover {
 } 
 
 #to-top:hover {
-  background-color: #00a7b6;
+  background-color: #00727d;
   cursor: pointer;
 }
 
