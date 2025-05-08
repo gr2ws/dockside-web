@@ -1,14 +1,13 @@
 <?php
 // database connection settings
-$host = 'localhost'; 
-$dbname = 'dbatabase'; 
-$username = 'username'; 
-$password = 'password'; 
+$servername = "127.0.0.1:3307";
+//$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "docksidedb";
 
 try {
-    // create  new PDO instance
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $conn = new mysqli($servername, $username, $password, $dbname);
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // get submitted data
@@ -16,21 +15,18 @@ try {
         $password = $_POST['password'];
 
         // prepare and execute SQL query
-        $stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email");
-        $stmt->bindParam(':email', $email);
-        $stmt->execute();
+        $stmt = $conn->query("SELECT COUNT(*) AS instanceCount FROM $dbname.`person` WHERE 
+        pers_email = '$email' AND pers_pass = '$password'");
+        $doesExist = $stmt->fetch_assoc();
 
-        // fetch the user data
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($user && password_verify($password, $user['password'])) {
-            // password matches, redirect to index.html
-            header("Location: index.html");
+        if ($doesExist['instanceCount'] != 0) {
+            // password matches, redirect to privacy.php (FOR NOW! DEBUG LINE ONLY)
+            header("Location: ../pages/privacy.php");
             exit;
         } else {
             // invalid creds, return to login
             $error = "Invalid email or password.";
-            header("Location: /login.php?error=" . urlencode($error));
+            header("Location: ../pages/wrong_email_pass.php");
             exit;
         }
     }
@@ -40,4 +36,3 @@ try {
     header("Location: /login.php?error=" . urlencode($error));
     exit;
 }
-?>

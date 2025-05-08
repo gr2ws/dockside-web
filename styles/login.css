@@ -1,7 +1,7 @@
 @import url("global.css");
 
 .login-body {
-	min-height: 100dvh;
+	min-height: 100dvh !important;
 	margin: 0;
 	font-family: var(--body-font);
 	color: var(--text);
@@ -10,7 +10,6 @@
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
-	height: 100vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -48,6 +47,7 @@ h1 {
 
 .login-container {
 	background-color: #ffffff;
+	margin: 3rem 0;
 	padding: 2.5rem;
 	border-radius: 12px;
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
