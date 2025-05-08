@@ -8,87 +8,6 @@
     --overlay-gradient: linear-gradient(transparent, rgba(0,0,0,0.8));
 }
 
-/* Hero Section */
-.hero-section {
-    padding: 6rem 0;
-    background: var(--light-bg);
-    overflow: hidden;
-}
-
-.hero-section h1 {
-    font-size: 3.5rem;
-    margin-bottom: 2rem;
-    color: var(--heading);
-}
-
-.hero-image {
-    width: 100%;
-    height: 400px;
-    object-fit: cover;
-    border-radius: 20px;
-    box-shadow: 0 20px 40px var(--shadow-color);
-}
-
-/* Preview Cards */
-.preview-section {
-    padding: 4rem 0;
-    background: white;
-}
-
-.preview-card {
-    position: relative;
-    border-radius: 15px;
-    overflow: hidden;
-    box-shadow: 0 10px 20px var(--shadow-color);
-    transition: transform var(--transition-speed) ease;
-    height: 300px;
-}
-
-.preview-card:hover {
-    transform: translateY(-10px);
-}
-
-.preview-card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform var(--transition-speed) ease;
-}
-
-.preview-card:hover img {
-    transform: scale(1.05);
-}
-
-.preview-content {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    padding: 1.5rem;
-    background: var(--overlay-gradient);
-    color: white;
-}
-
-.preview-content h3 {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
-}
-
-.preview-btn {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    background: var(--base);
-    color: white;
-    text-decoration: none;
-    border-radius: 25px;
-    font-size: 0.9rem;
-    transition: all var(--transition-speed) ease;
-}
-
-.preview-btn:hover {
-    background: var(--base-dark);
-    transform: translateY(-2px);
-}
-
 /* Facilities Section */
 .facilities-section {
     position: relative;
@@ -99,6 +18,7 @@
     font-size: 2.8rem;
     text-align: center;
     margin-bottom: 2rem;
+    padding-top: 2rem;
 }
 
 /* Carousel Controls */

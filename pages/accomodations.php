@@ -4,8 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dockside Hotel© - Luxury Accommodations</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../styles/accoms.css" />
     <?php require 'common.php'; ?>
@@ -14,73 +12,6 @@
     <?php placeHeader() ?>
 
     <main>
-        <!-- Hero Section -->
-        <section class="hero-section">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-lg-6">
-                        <h1 class="fade-in">Luxury Accommodations</h1>
-                        <p class="lead fade-in-delay">Experience unparalleled comfort and elegance in our carefully crafted rooms and suites. Each space is designed to provide the perfect blend of luxury, comfort, and sophisticated style.</p>
-                    </div>
-                    <div class="col-lg-6">
-                        <img src="../assets/accom.jpg" alt="Luxury Room" class="hero-image fade-in">
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Room Preview Cards -->
-        <section class="preview-section">
-            <div class="container">
-                <div class="row g-4">
-                    <!-- Presidential Suite Preview -->
-                    <div class="col-lg-3 col-md-6">
-                        <div class="preview-card" data-aos="fade-up">
-                            <img src="../assets/presidential.jpg" alt="Presidential Suite">
-                            <div class="preview-content">
-                                <h3>Presidential Suite</h3>
-                                <p>From ₱25,000/night</p>
-                                <a href="#presidential" class="preview-btn">View Details</a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Executive Suite Preview -->
-                    <div class="col-lg-3 col-md-6">
-                        <div class="preview-card" data-aos="fade-up" data-aos-delay="100">
-                            <img src="../assets/executive.jpg" alt="Executive Suite">
-                            <div class="preview-content">
-                                <h3>Executive Suite</h3>
-                                <p>From ₱18,500/night</p>
-                                <a href="#executive" class="preview-btn">View Details</a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Deluxe Room Preview -->
-                    <div class="col-lg-3 col-md-6">
-                        <div class="preview-card" data-aos="fade-up" data-aos-delay="200">
-                            <img src="../assets/deluxe.jpg" alt="Deluxe Room">
-                            <div class="preview-content">
-                                <h3>Deluxe Room</h3>
-                                <p>From ₱15,000/night</p>
-                                <a href="#deluxe" class="preview-btn">View Details</a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Standard Room Preview -->
-                    <div class="col-lg-3 col-md-6">
-                        <div class="preview-card" data-aos="fade-up" data-aos-delay="300">
-                            <img src="../assets/standard.jpg" alt="Standard Room">
-                            <div class="preview-content">
-                                <h3>Standard Room</h3>
-                                <p>From ₱11,000/night</p>
-                                <a href="#standard" class="preview-btn">View Details</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <!-- Facilities Preview -->
         <section class="facilities-section">
         <h2 class="section-title text-center">LOOK AROUND</h2>
