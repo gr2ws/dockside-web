@@ -33,6 +33,7 @@ function placeHeader()
     require '../components/header.html';
 }
 
+
 function placeFooter()
 {
     require '../components/footer.html';
