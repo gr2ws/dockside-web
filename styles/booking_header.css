@@ -1,11 +1,8 @@
 @import "global.css";
 
 .booking-header {
-  height: 60px;
-  width: 100%;
   background-color: white;
   font: var(--body-font);
-  padding: 0 25vw;
 }
 
 #start-date,
@@ -16,12 +13,19 @@
   padding-right: 30px;
   border: solid 1px var(--base);
   padding: 5px;
+  margin: 5px;
   border-radius: 2px;
   font-weight: 300 !important;
 }
 
+#start-date:focus,
+#end-date:focus {
+  outline: solid 2px var(--base);
+}
+
 .booking-header-button {
   padding: 5px;
+  margin: 5px;
   width: 100px;
   border: solid 1px transparent;
   border-radius: 2px;
