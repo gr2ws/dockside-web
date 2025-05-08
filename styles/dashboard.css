@@ -1,0 +1,146 @@
+/* Main Layout */
+body {
+    background-color: #f8f9fa;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+footer {
+    margin-top: auto !important;
+}
+
+/* Header Nav Styles */
+.header-nav {
+    background-color: #fff;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.nav-hotel-name {
+    color: #2c3e50;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 1.25rem;
+}
+
+/* Card Styles */
+.card {
+    border: none;
+    border-radius: 10px;
+}
+
+/* Add a new class for non-form cards that should have hover effect */
+.card.hover-enabled {
+    transition: transform 0.2s ease-in-out;
+}
+
+.card.hover-enabled:hover {
+    transform: translateY(-2px);
+}
+
+.card-title {
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+/* Table Styles */
+.table th {
+    border-top: none;
+    background-color: #f8f9fa;
+    font-weight: 600;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+/* Form Styles */
+.form-label {
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+.form-control {
+    border-radius: 7px;
+    border: 1px solid #dee2e6;
+}
+
+.form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Button Styles */
+.btn {
+    border-radius: 7px;
+    padding: 8px 16px;
+}
+
+.btn-sm {
+    padding: 4px 8px;
+}
+
+.btn i {
+    margin-right: 5px;
+}
+
+/* Navigation Styles */
+.nav-link {
+    color: #6c757d;
+    padding: 8px 16px;
+    border-radius: 7px;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    background-color: #f8f9fa;
+    color: #2c3e50;
+}
+
+.nav-link.active {
+    background-color: #e9ecef;
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+.nav-link i {
+    margin-right: 8px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .col-md-3 {
+        margin-top: 1rem;
+    }
+    
+    .table-responsive {
+        margin-bottom: 1rem;
+    }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
