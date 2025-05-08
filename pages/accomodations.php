@@ -67,8 +67,8 @@
                     <div class="col-lg-6">
                         <div class="room-info">
                             <h2>Presidential Suite</h2>
-                            <p class="room-description">Experience the epitome of luxury in our Presidential Suite with panoramic ocean views.</p>
-                            <div class="amenities-grid">
+                            <p class="room-description">Step into a realm of unparalleled opulence within our Presidential Suite, where every detail whispers of exquisite design and indulgent comfort. Floor-to-ceiling windows frame a breathtaking panorama of the endless ocean, painting a living masterpiece that shifts with the sun's embrace. Sink into the embrace of plush, custom-designed furnishings in the expansive living area, a haven for relaxation and sophisticated gatherings. A gourmet kitchen, equipped with state-of-the-art appliances, stands ready for culinary creations, while an elegant dining area invites intimate meals against the backdrop of the shimmering sea. Retreat to the lavishly appointed bedrooms, each a sanctuary of tranquility with premium bedding and spa-inspired ensuite bathrooms, promising rejuvenation and serenity. Private balconies and terraces extend your living space, offering idyllic settings to savor the sea breeze, witness spectacular sunsets, and create memories that will last a lifetime in this haven of refined luxury.</p>
+                                <div class="amenities-grid">
                                 <div class="amenity-item"><i class="bi bi-house-heart"></i> 200m²</div>
                                 <div class="amenity-item"><i class="bi bi-water"></i> Infinity Pool</div>
                                 <div class="amenity-item"><i class="bi bi-star-fill"></i> Ocean View</div>
@@ -81,7 +81,6 @@
                                 <div class="amenity-item"><i class="bi bi-safe"></i> Digital Safe</div>
                                 <div class="amenity-item"><i class="bi bi-cup"></i> Premium Bar</div>
                                 <div class="amenity-item"><i class="bi bi-door-closed"></i> Private Terrace</div>
-                                <div class="amenity-item"><i class="bi bi-person-check"></i> Butler Service</div>
                                 <div class="amenity-item"><i class="bi bi-laptop"></i> Business Center</div>
                                 <div class="amenity-item"><i class="bi bi-wind"></i> Climate Control</div>
                                 <div class="amenity-item"><i class="bi bi-telephone"></i> IDD Phone</div>
@@ -113,7 +112,7 @@
                     <div class="col-lg-6">
                         <div class="room-info">
                             <h2>Executive Suite</h2>
-                            <p class="room-description">Perfect for business and leisure travelers seeking premium accommodation.</p>
+                            <p class="room-description">Step into a comfortable and stylish retreat where the gentle allure of the coast enhances your stay. Generous windows offer pleasant views of the nearby shoreline, allowing natural light to fill the well-appointed space. Relax in the tastefully furnished living area, providing a comfortable setting for unwinding or catching up on work. A convenient fridge, mini - bar and coffee maker offer added convenience for light refreshments. Retreat to a serene bedroom featuring quality bedding and an ensuite bathroom with enhanced amenities. This Executive Suite provides a delightful blend of comfort and coastal ambiance, offering a step up in experience for your time in Dumaguete.</p>
                             <div class="amenities-grid">
                                 <div class="amenity-item"><i class="bi bi-house-heart"></i> 100m²</div>
                                 <div class="amenity-item"><i class="bi bi-water"></i> Ocean View</div>
@@ -145,7 +144,7 @@
                     <div class="col-lg-6">
                         <div class="room-info">
                             <h2>Deluxe Room</h2>
-                            <p class="room-description">Modern comfort with partial ocean views and quality amenities.</p>
+                            <p class="room-description">Imagine entering a haven of refined comfort, where stylish design meets the soothing rhythm of the sea. Expansive windows unveil captivating vistas of the ocean, inviting the vibrant hues of sunrise and the tranquil glow of twilight into your personal sanctuary. Sink into plush, comfortable furnishings in a thoughtfully arranged living space, perfect for unwinding after a day of exploration in Dumaguete. A well-appointed ensuite bathroom offers a refreshing retreat with modern fixtures and premium amenities. Step onto your private balcony to feel the gentle sea breeze and soak in the mesmerizing coastal scenery. This Deluxe Ocean View Room provides an exceptional blend of elegance and tranquility, creating a memorable stay in the heart of the Philippines</p>
                             <div class="amenities-grid">
                                 <div class="amenity-item"><i class="bi bi-house-heart"></i> 45m²</div>
                                 <div class="amenity-item"><i class="bi bi-water"></i> Partial Ocean View</div>
@@ -187,7 +186,7 @@
                     <div class="col-lg-6">
                         <div class="room-info">
                             <h2>Standard Room</h2>
-                            <p class="room-description">Comfortable accommodation with essential amenities.</p>
+                            <p class="room-description">Discover a comfortable and well-appointed space designed for a restful stay. Large windows allow natural light to fill the room, creating a bright and welcoming ambiance. Enjoy the convenience of comfortable bedding, a functional workspace, and a private ensuite bathroom. This Standard Room provides all the essential amenities for a pleasant and convenient stay in Dumaguete, serving as a perfect base for your explorations or business engagements.</p>
                             <div class="amenities-grid">
                                 <div class="amenity-item"><i class="bi bi-house-heart"></i> 30m²</div>
                                 <div class="amenity-item"><i class="bi bi-tv"></i> 40" HD TV</div>
