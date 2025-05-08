@@ -1,0 +1,203 @@
+@import url("../global.css");
+
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+/* Header */
+.nav-hotel-name {
+	font: var(--heading-font);
+	text-decoration: none;
+	white-space: nowrap;
+	color: var(--base);
+}
+
+.header-nav {
+	background-color: var(--background);
+	border-bottom: 1px solid var(--accent);
+}
+
+.header-c {
+	font-size: 0.55rem;
+	vertical-align: super;
+}
+
+.mobile-menu-btn {
+	/* Styles for the open button */
+	background: none;
+	border: none;
+	transform: scale(1.8);
+	padding-left: 0.5rem;
+	color: var(--base);
+	cursor: pointer;
+}
+
+.mobile-menu-close-btn {
+	background: none;
+	border: none;
+	transform: scale(1.8);
+	padding: 0.5rem 0.5rem 0.5rem 0.7rem;
+	color: var(--base);
+	cursor: pointer;
+	position: fixed;
+}
+
+span.dropdown-header {
+	font: var(--subheading-font) !important;
+}
+
+/* Mobile Side Menu */
+
+.mobile-nav {
+	position: fixed;
+	overflow: hidden;
+	top: 0;
+	left: -310px;
+	opacity: 0;
+	width: 310px;
+	padding: 0.5rem;
+	height: 100vh;
+	background-color: var(--background);
+	z-index: 1000;
+	transition: left 0.5s ease, opacity 0.5s ease;
+}
+
+.mobile-nav.show {
+	opacity: 1;
+	transition: left 0.5s ease, opacity 0.5s ease;
+	left: 0px;
+}
+
+.mobile-nav ul {
+	list-style: none;
+	padding: 0;
+}
+
+.mobile-nav a {
+	color: var(--text);
+	text-decoration: none;
+}
+
+.menu-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 999;
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.menu-overlay.show {
+	opacity: 1;
+	visibility: visible;
+}
+
+/* Hide mobile menu on larger screens */
+@media (min-width: 768px) {
+	.mobile-nav,
+	.menu-overlay {
+		display: none;
+	}
+}
+
+/* Hero Section */
+.hero-section {
+    background-color: #f8f9fa;
+}
+
+.hero-section img {
+    max-height: 500px;
+    object-fit: cover;
+    width: 100%;
+}
+
+/* Card Styles */
+.card {
+    transition: transform 0.3s ease-in-out;
+    border-radius: 10px;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* Team Section */
+.team-member img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+}
+
+/* Section Headers */
+section h2 {
+    position: relative;
+    padding-bottom: 15px;
+}
+
+section h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 3px;
+    background-color: #007bff;
+}
+
+/* Text Styles */
+.lead {
+    font-size: 1.25rem;
+    font-weight: 300;
+    line-height: 1.7;
+}
+
+/* Our Story Section Styles */
+.row {
+    margin-bottom: 4rem;
+}
+
+.row:last-child {
+    margin-bottom: 0;
+}
+
+.row img {
+    transition: transform 0.3s ease-in-out;
+}
+
+.row:hover img {
+    transform: scale(1.02);
+}
+
+.lead {
+    color: #2c3e50;
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .row {
+        margin-bottom: 2rem;
+    }
+    
+    .col-md-6:first-child {
+        margin-bottom: 2rem;
+    }
+    
+    .order-md-2 {
+        order: unset;
+    }
+    
+    .order-md-1 {
+        order: unset;
+    }
+}

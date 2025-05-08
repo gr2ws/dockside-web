@@ -1,83 +1,5 @@
 @import url('../styles/global.css');
 
-/* Base Styles */
-:root {
-    --transition-speed: 0.3s;
-    --shadow-color: rgba(0,0,0,0.1);
-    --overlay-dark: rgba(0,0,0,0.7);
-    --overlay-gradient: linear-gradient(transparent, rgba(0,0,0,0.8));
-}
-
-/* Facilities Section */
-.facilities-section {
-    position: relative;
-    background: var(--dark);
-}
-
-.section-title {
-    font-size: 2.8rem;
-    text-align: center;
-    margin-bottom: 2rem;
-    padding-top: 2rem;
-}
-
-/* Carousel Controls */
-.carousel-item {
-    position: relative;
-    height: 80vh;
-    pointer-events: none; /* Disable clicks on carousel items */
-}
-
-.carousel-control-prev,
-.carousel-control-next {
-    width: 5%;
-    opacity: 0.5;
-    transition: opacity 0.3s ease;
-    pointer-events: auto; /* Enable clicks on arrows */
-    z-index: 10;
-}
-
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-    border-radius: 50%;
-    padding: 2rem;
-    background-size: 50%;
-}
-
-.carousel-control-prev:hover,
-.carousel-control-next:hover {
-    opacity: 1;
-}
-
-.carousel-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    filter: brightness(0.5);
-}
-
-.carousel-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    z-index: 2;
-    width: 100%;
-}
-
-.carousel-text h3 {
-    color: white;
-    font-size: 2.5rem;
-    font-weight: 300;
-    letter-spacing: 8px;
-    text-transform: uppercase;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-    margin: 0;
-    font-style: italic;
-    font-family: "Cormorant Garamond", serif; 
-}
-
 /* Room Title Section */
 .room-title-section {
     padding: 6rem 0 0; 
@@ -85,7 +7,7 @@
 }
 
 .room-title-section .section-title {
-    font-size: 2.8rem;
+    font: var(--heading-font);
     color: var(--heading);
     margin-bottom: 0; 
 }
@@ -95,6 +17,24 @@
     height: 3px;
     background: var(--base);
     margin: 0 auto 2rem; 
+}
+
+.subheading-text {
+    font: var(--subheading-font);
+    color: var(--heading);
+    opacity: 0.7;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+.description-text {
+    font: var(--body-font);
+    color: var(--text);
+    margin-top: 0;
+    text-align: center;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* Room Sections */
@@ -111,14 +51,13 @@
 }
 
 .room-info h2 {
-    font-size: 2.8rem;
+    font: var(--heading-font);
     margin-bottom: 1rem;
     color: var(--heading);
-    font-family: var(--heading-font);
 }
 
 .room-description {
-    font-size: 1.1rem;
+    font: var(--body-font);
     line-height: 1.6;
     margin-bottom: 2rem;
     color: var(--text);
@@ -297,4 +236,13 @@
     .carousel-control-next-icon {
         padding: 1.5rem;
     }
+}
+
+/* Added font fixes for welcome to dockside text */
+.mb-4, .thelead {
+    font: var(--heading-font);
+}
+
+p {
+    font: var(--body-font);
 }
