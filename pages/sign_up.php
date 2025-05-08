@@ -108,6 +108,7 @@ session_start();
 							id="password"
 							name="password"
 							placeholder="Password"
+							minlength="8"
 							maxlength="30"
 							required />
 					</div>

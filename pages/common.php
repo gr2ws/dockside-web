@@ -143,7 +143,13 @@ function handleNewAcc()
 
 function handleLogin()
 {
-    $conn = new mysqli("localhost", "root", "", "docksidedb");
+    //$servername = "127.0.0.1:3307";
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "docksidedb";
+
+    $conn = new mysqli($servername, $username, $password, $dbname);
 
     if ($conn->connect_error) {
         return '<div class="alert alert-danger mt-3">Database connection failed.</div>';
@@ -169,7 +175,8 @@ function handleLogin()
             $_SESSION['password'] = $row['pers_pass'];
             $_SESSION['role'] = $row['pers_role'];
 
-            header("Location: ../pages/user_dashboard.php");
+            // header("Location: ../pages/user_dashboard.php");
+            header("Location: ./edit_profile.php");
             exit;
         } else {
             return '<div class="alert alert-danger d-flex align-items-center mt-4 w-50" role="alert">
@@ -184,5 +191,52 @@ function handleLogin()
     return null;
 }
 
+function handleEdit($id)
+{
+    //$servername = "127.0.0.1:3307";
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "docksidedb";
 
+    $conn = new mysqli($servername, $username, $password, $dbname);
+
+    if ($conn->connect_error) {
+        return '<div class="alert alert-danger mt-3">Database connection failed.</div>';
+    }
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $fname = $_POST['fname'];
+        $lname = $_POST['lname'];
+        $address = $_POST['address'];
+        $phone = $_POST['phone'];
+        $birth = $_POST['birth'];
+
+        $SQLcommand =  "UPDATE person 
+                        SET 
+                            pers_fname = '$fname',
+                            pers_lname = '$lname',
+                            pers_address = '$address',
+                            pers_number = '$phone',
+                            pers_birthdate = '$birth'
+                        WHERE pers_id = $id";
+
+        if ($conn->query($SQLcommand) === TRUE) {
+            echo    '<div class="alert alert-success d-flex align-items-center mt-4 mb-n2 w-50" role="alert">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-round-check-icon lucide-user-round-check"><path d="M2 21a8 8 0 0 1 13.292-6"/><circle cx="10" cy="8" r="5"/><path d="m16 19 2 2 4-4"/></svg>									
+                        <div class = "ms-3">	
+                            User profile edited successfully!
+                        </div>
+                    </div>';
+        } else {
+            return '<div class="alert alert-danger d-flex align-items-center mt-4 w-50" role="alert">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-circle-x me-2"><circle cx="12" cy="12" r="10"/>
+                        <path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+                    <div>Incorrect email or password. Please try again.</div>
+                </div>';
+        }
+    }
+}
 ?>

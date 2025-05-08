@@ -39,17 +39,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <form id="loginForm" method="POST">
                 <div class="form-group">
                     <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Enter your email"
+                        maxlength="255"
+                        required>
+
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        minlength="8"
+                        maxlength="30"
+                        required>
                 </div>
                 <button type="submit" class="login-btn">Sign In</button>
                 <a href="/forgot-password" class="forgot-password">Forgot Password?</a>
             </form>
             <div class="or-divider">OR</div>
-            <button class="secondary-btn" onclick="window.location.href='signUp.php'">Create an Account</button>
+            <button class="secondary-btn" onclick="window.location.href='./sign_up.php'">Create an Account</button>
         </div>
     </div>
 
