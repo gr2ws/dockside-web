@@ -114,6 +114,7 @@
     font-size: 2.8rem;
     margin-bottom: 1rem;
     color: var(--heading);
+    font-family: var(--heading-font);
 }
 
 .room-description {
