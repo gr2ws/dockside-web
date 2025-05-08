@@ -19,7 +19,6 @@ session_start();
 	<div id="signup-page" class="px-0 px-md-3 flex-col-center">
 
 		<?php
-		require '../scripts/process_newacc.php';
 		handleSignUp();
 		?>
 
@@ -98,6 +97,7 @@ session_start();
 							name="birth"
 							maxlength="8"
 							required />
+						<small><i class="text-muted">Format: dd/mm/yyyy</i></small>
 					</div>
 					<div class="form-group flex-col-center container">
 						<label for="email">Email:</label>
