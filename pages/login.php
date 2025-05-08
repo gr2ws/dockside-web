@@ -1,24 +1,42 @@
+<?php
+
+require 'common.php';
+
+session_start();
+
+// Prepare a message variable
+$loginMessage = null;
+
+// Handle login before output
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $loginMessage = handleLogin(); // update handleLogin to return message or null
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dockside Hotel© | Log In</title>
+    <title>Dockside Hotel © | Log In</title>
     <link rel="stylesheet" href="../styles/login.css">
-    <?php require 'common.php' ?>
 </head>
 
 <body>
     <?php placeHeader() ?>
 
-    <div class="login-body container-fluid my-auto">
+    <div class="login-body container-fluid my-auto d-flex flex-column justify-center align-items-center">
+
+        <?php
+        if ($loginMessage) {
+            echo $loginMessage;
+        }
+        ?>
+
         <div class="login-container py-4">
             <h1>Sign In</h1>
-            <?php if (isset($_GET['error'])): ?>
-                <div class="error-message"><?= htmlspecialchars($_GET['error']); ?></div>
-            <?php endif; ?>
-            <form id="loginForm" action="../scripts/process_login.php" method="POST">
+            <form id="loginForm" method="POST">
                 <div class="form-group">
                     <label for="email">Email Address</label>
                     <input type="email" id="email" name="email" placeholder="Enter your email" required>

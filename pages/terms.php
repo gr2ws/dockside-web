@@ -18,7 +18,7 @@ session_start();
 
 	<div id="terms-page" class="container-fluid">
 
-		<a id="redirect" href="./signup.php" class="back-btn d-flex flex-row justify-content-start align-items-center gap-2 pt-4 ps-5">
+		<a id="redirect" href="./sign_up.php" class="back-btn d-flex flex-row justify-content-start align-items-center gap-2 pt-4 ps-5">
 			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-move-left-icon lucide-move-left">
 				<path d="M6 8L2 12L6 16" />
 				<path d="M2 12H22" />
