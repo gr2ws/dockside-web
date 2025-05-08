@@ -1,1 +1,21 @@
-<div class="booking-header"></div>
+<div class="booking-header shadow-sm navbar navbar-expand-md">
+  <div class="container">
+    <span>Find your perfect stay! </span>
+    <div class="container-group">
+      <input
+        type="text"
+        id="start-date"
+        class="flatpickr"
+        placeholder="From..."
+      />
+      <input type="text" id="end-date" class="flatpickr" placeholder="To..." />
+    </div>
+    <input class="booking-header-button" type="button" value="Book Now" />
+  </div>
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    flatpickr("#start-date", {});
+    flatpickr("#end-date", {});
+  });
+</script>
