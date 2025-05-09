@@ -165,7 +165,7 @@
     }
 
     .room-section {
-        padding: 3rem 0; /* Further reduced padding for mobile */
+        padding: 3rem 0;
     }
 
     .room-section .row {
@@ -183,9 +183,65 @@
     }
 }
 
+.carousel-item {
+    height: 70vh; 
+    position: relative;
+}
+
+.carousel-item img {
+    height: 100%;
+    object-fit: cover;
+}
+
+.carousel-caption {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    bottom: initial;
+    text-align: center;
+    width: 100%;
+    color: white;
+}
+
+.carousel-caption {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    top: auto;
+    left: auto;
+    transform: none;
+    display: block;
+    height: auto;
+    width: auto;
+    text-align: left;
+    color: white;
+    font-family: 'Cormorant Garamond', serif;
+}
+
+.carousel-caption h5,
+.carousel-caption p {
+    font-style: italic;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    margin: 0.2em 0;
+}
+
+.carousel-item img {
+    height: 100%;
+    object-fit: cover;
+    opacity: 1;
+    transition: none;
+}
+
+.carousel-item:hover img {
+    opacity: 1;
+}
+
 @media (max-width: 768px) {
     .carousel-item {
-        height: 60vh;
+        height: 40vh;
     }
 
     .carousel-text h3 {
@@ -227,7 +283,7 @@
     }
 
     .room-section {
-        padding: 2rem 0; /* Even smaller padding for mobile */
+        padding: 2rem 0; 
     }
 }
 
@@ -238,9 +294,67 @@
     }
 }
 
-/* Added font fixes for welcome to dockside text */
 .mb-4, .thelead {
     font: var(--heading-font);
+}
+
+.intro-section {
+    padding: 4rem 2rem;
+    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    color: var(--heading);
+    text-align: center;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    margin-bottom: 3rem;
+}
+
+.intro-section h2 {
+    font: var(--heading-font);
+    font-size: 2.75rem;
+    margin-bottom: 1rem;
+    color: var(--heading);
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+.intro-section p.lead {
+    font: var(--body-font);
+    font-size: 1.3rem;
+    line-height: 1.8;
+    margin-bottom: 1.25rem;
+    color: var(--text);
+}
+
+.intro-section .btn-primary {
+    background-color: var(--base);
+    color: white;
+    padding: 0.75rem 2rem;
+    font-size: 1.1rem;
+    border-radius: 50px;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+}
+
+.intro-section .btn-primary:hover {
+    background-color: var(--base-dark);
+    color: white;
+    text-decoration: none;
+}
+
+.intro-section h2 {
+    font: var(--heading-font);
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--heading);
+}
+
+.intro-section p.lead {
+    font: var(--body-font);
+    font-size: 1.25rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    color: var(--text);
 }
 
 p {

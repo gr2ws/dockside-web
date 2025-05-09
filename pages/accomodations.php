@@ -12,6 +12,43 @@
     <?php placeHeader() ?>
 
     <main>
+        <!-- Carousel Section -->
+        <section id="accom-carousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#accom-carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#accom-carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#accom-carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="../assets/spa.jpg" class="d-block w-100" alt="Hotel Exterior">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5><em>BREATHE.</em></h5>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="../assets/gym.jpg" class="d-block w-100" alt="Hotel Front">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5><em>UNWIND.</em></h5>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="../assets/pool.jpg" class="d-block w-100" alt="Hotel Pool">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5><em>REJUVENATE.</em></h5>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#accom-carousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#accom-carousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </section>
+
         <!-- Room Title Section -->
         <section class="room-title-section">
             <div class="container text-center">
