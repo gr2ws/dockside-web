@@ -18,15 +18,12 @@ session_start();
 
 	<div id="signup-page" class="px-0 px-md-3 flex-col-center">
 
-		<?php
-		require '../scripts/process_newacc.php';
-		handleSignUp();
-		?>
+		<?php handleNewAcc(); ?>
 
 		<div id="content" class="row w-75 py-4">
 			<section id="side-thumbnail" class="d-none d-md-block col-md-5"></section>
 
-			<section id="form-cont" class="col-12 w-sm-100 col-md-7">
+			<section class="col-12 w-sm-100 col-md-7">
 				<!-- sign up form -->
 				<form
 					method="POST"
@@ -40,9 +37,7 @@ session_start();
 							class="form-control"
 							id="fname"
 							name="fname"
-							pattern="[A-Za-z ]*"
 							placeholder="Enter your First Name"
-							title="Only letters are allowed for this field."
 							maxlength="40"
 							value="<?php echo isset($_POST['fname']) ? $_POST['fname'] : ''; ?>"
 							required />
@@ -55,13 +50,11 @@ session_start();
 							class="form-control"
 							id="lname"
 							name="lname"
-							pattern="[A-Za-z ]*"
-							title="Only letters are allowed for this field."
 							placeholder="Enter your Last Name"
 							maxlength="40"
 							value="<?php echo isset($_POST['lname']) ? $_POST['lname'] : ''; ?>"
 							required />
-						<!-- php code in ternary form used to refill form input values in case of thrown sqli error. -->
+						<!-- php code in ternary form used to refill values in case of thrown sqli error. -->
 					</div>
 					<div class="form-group flex-col-center container">
 						<label for="address">Address:</label>
@@ -72,9 +65,8 @@ session_start();
 							name="address"
 							placeholder="Enter your Address"
 							maxlength="255"
-							value="<?php echo isset($_POST['address']) ? $_POST['address'] : ''; ?>"
 							required />
-						<!-- php code in ternary form used to refill form input values in case of thrown sqli error. -->
+						<!-- php code in ternary form used to refill values in case of thrown sqli error. -->
 					</div>
 					<div class="form-group flex-col-center container">
 						<label for="phone">Enter your phone number:</label>
@@ -85,7 +77,6 @@ session_start();
 							name="phone"
 							placeholder="Phone Number"
 							pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}"
-							value="<?php echo isset($_POST['phone']) ? $_POST['phone'] : ''; ?>"
 							required />
 						<small><i class="text-muted">Format: 0912-345-6789</i></small>
 					</div>
@@ -96,7 +87,6 @@ session_start();
 							class="form-control"
 							id="birth"
 							name="birth"
-							maxlength="8"
 							required />
 					</div>
 					<div class="form-group flex-col-center container">
