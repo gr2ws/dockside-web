@@ -10,30 +10,42 @@
     rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
 
+<!-- Flatpickr Date Picker -->
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+
 <!-- Put all component styles here -->
 
-<?php
-# Determine if in  root directory or a subdirectory
-$baseDir = '';
-if (strpos($_SERVER['SCRIPT_NAME'], '/pages/') !== false) {
-    $baseDir = '../';
-}
-?>
 
-<link rel="stylesheet" href="<?php echo $baseDir; ?>styles/header.css">
-<link rel="stylesheet" href="<?php echo $baseDir; ?>styles/footer.css">
+<!-- Component styles-->
 
-<!-- Nothing below the footer! -->
+<link rel="stylesheet" href="../styles/header.css">
+<link rel="stylesheet" href="../styles/booking_header.css">
+<link rel="stylesheet" href="../styles/footer.css">
 
 <?php
+
+# utility functions to make putting components more intuitive
+
 function placeHeader()
 {
-    require __DIR__ . '/../components/header.html';
+    require '../components/header.html';
 }
 
 function placeFooter()
 {
-    require __DIR__ . '/../components/footer.html';
+    require '../components/footer.html';
 }
+
+function placeBookingHeader()
+{
+    require '../components/booking_header.html';
+}
+
+# backend functions
+require '../scripts/handle_newacc.php';
+require '../scripts/handle_login.php';
+require '../scripts/handle_edit.php';
 
 ?>
