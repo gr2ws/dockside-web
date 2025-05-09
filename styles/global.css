@@ -1,12 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
 
 :root {
-  --base: #005961;
-  --background: #edf6f9;
-  --accent: #83c5be;
-  --text: #3a3335;
+	--base: #005961;
+	--background: #edf6f9;
+	--accent: #83c5be;
+	--text: #3a3335;
 
-  --heading-font: normal normal 500 2rem/1.2 "Playfair Display", serif;
-  --subheading-font: normal normal 600 1rem/1.5 "Cormorant Garamond", serif;
-  --body-font: normal normal 300 1rem/1.6 "Inter", sans-serif;
+	--heading-font: normal normal 500 2rem/1.2 "Playfair Display", serif;
+	--subheading-font: normal normal 600 1rem/1.5 "Cormorant Garamond", serif;
+	--body-font: normal normal 300 1rem/1.6 "Inter", sans-serif;
 }

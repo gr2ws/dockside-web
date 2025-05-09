@@ -81,6 +81,14 @@ nav.header-nav div.container {
 	border-radius: 3px !important;
 }
 
+.user-dpd {
+	top: 45px !important;
+}
+
+.rooms-dpd {
+	top: 42.5px !important;
+}
+
 .rooms-dpd hr.dropdown-divider,
 .user-dpd hr.dropdown-divider {
 	background-color: var(--accent) !important;
