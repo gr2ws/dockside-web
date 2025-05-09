@@ -43,7 +43,7 @@
 .hero-content {
 	position: relative;
 	z-index: 3;
-	transform: translateY(-130px);
+	transform: translateY(-90px);
 }
 
 .hero-header {
