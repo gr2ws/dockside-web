@@ -2,22 +2,26 @@
 session_start();
 
 if (!isset($_SESSION['id'])) {
-    header('Location: login.php');
-    exit();
+    header("Location: login.php");
+    exit;
 }
 
-require 'common.php';
+require_once 'common.php';
 
-// setting data taken from process_login.php
+// Show update result message only if form was submitted
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['id'])) {
+    $message = handleEdit($_SESSION['id']);
+}
+
+// setting data for ui
 $id = $_SESSION['id'];
 $fname = $_SESSION['fname'];
 $lname = $_SESSION['lname'];
-$email = $_SESSION['email'];
 $address = $_SESSION['address'];
 $phone = $_SESSION['phone'];
-$birth = $_SESSION['birth'];
-$pass = $_SESSION['password'];
-
+$birth = $_SESSION['birthday'];
+$email = $_SESSION['email'];
+$pass = $_SESSION['pass'];
 ?>
 
 <!DOCTYPE html>
@@ -32,64 +36,12 @@ $pass = $_SESSION['password'];
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="../styles/user-dashboard.css">
     <link rel="stylesheet" href="../styles/index.css">
+    <?php require_once 'common.php'; ?>
 </head>
 
 <body>
 
-    <?php
-
-    // get db config data
-    $dbConfig  = getDbConfig();
-    $servername = $dbConfig['servername'];
-    $username   = $dbConfig['username'];
-    $dbpassword = $dbConfig['password'];
-    $dbname     = $dbConfig['dbname'];
-
-    $conn = new mysqli($servername, $username, $dbpassword, $dbname);
-
-    if ($conn->connect_error) {
-        return '<div class="alert alert-danger mt-3">Database connection failed.</div>';
-    }
-
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-        //get data from person table
-        $personData = getPersonData();
-        $fname     = $personData['fname'];
-        $lname     = $personData['lname'];
-        $address   = $personData['address'];
-        $phone     = $personData['phone'];
-        $birthday  = $personData['birthday'];
-        $email     = $personData['email'];
-        $pass      = $personData['pass'];
-
-        $SQLcommand =  "UPDATE person 
-                            SET 
-                                pers_fname = '$fname',
-                                pers_lname = '$lname',
-                                pers_address = '$address',
-                                pers_number = '$phone',
-                                pers_birthdate = '$birth'
-                            WHERE pers_id = $id";
-
-        if ($conn->query($SQLcommand) === TRUE) {
-            echo    '<div class="alert alert-success d-flex align-items-center mt-4 mb-n2 w-50" role="alert">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-round-check-icon lucide-user-round-check"><path d="M2 21a8 8 0 0 1 13.292-6"/><circle cx="10" cy="8" r="5"/><path d="m16 19 2 2 4-4"/></svg>									
-                            <div class = "ms-3">	
-                                User profile edited successfully!
-                            </div>
-                        </div>';
-        } else {
-            return '<div class="alert alert-danger d-flex align-items-center mt-4 w-50" role="alert">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="lucide lucide-circle-x me-2"><circle cx="12" cy="12" r="10"/>
-                            <path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
-                        <div>Incorrect email or password. Please try again.</div>
-                    </div>';
-        }
-    }
-    ?>
+    <!-- < ?php placeHeader(); ?> -->
 
     <!-- Header Navigation -->
     <nav class="header-nav navbar navbar-expand-md shadow-sm">
@@ -148,7 +100,7 @@ $pass = $_SESSION['password'];
                     <a class="dropdown-item" href="#profile" data-tab="profile">Profile</a>
                     <a class="dropdown-item" href="#settings" data-tab="settings">Settings</a>
                     <hr class="dropdown-divider">
-                    <a class="dropdown-item text-danger" href="./login.php">Logout</a> <!-- PLEASE CHANGE -->
+                    <a class="dropdown-item text-danger" href="../scripts/handle_logout.php">Logout</a>
                 </div>
             </div>
         </div>
@@ -158,28 +110,32 @@ $pass = $_SESSION['password'];
     <main class="container mt-4">
         <div class="row">
             <!-- Sidebar Navigation -->
-            <div class="col-md-2">
+            <div class="col-md-2 pb-4 pb-lg-0">
                 <div class="card shadow-sm">
                     <div class="card-body">
                         <nav>
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <a href="#dashboard" class="nav-link active" data-tab="dashboard">
+                                    <a href="#dashboard" class="nav-link active" data-tab="dashboard"
+                                        onclick="ridMessage()">
                                         <i class="bi bi-speedometer2"></i> Dashboard
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#reservations" class="nav-link" data-tab="reservations">
+                                    <a href="#reservations" class="nav-link" data-tab="reservations"
+                                        onclick="ridMessage()">
                                         <i class="bi bi-calendar-check"></i> My Reservations
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#profile" class="nav-link" data-tab="profile">
+                                    <a href="#profile" class="nav-link" data-tab="profile"
+                                        onclick="ridMessage()">
                                         <i class="bi bi-person"></i> Profile
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#settings" class="nav-link" data-tab="settings">
+                                    <a href="#settings" class="nav-link" data-tab="settings"
+                                        onclick="ridMessage()">
                                         <i class="bi bi-gear"></i> Settings
                                     </a>
                                 </li>
@@ -191,11 +147,14 @@ $pass = $_SESSION['password'];
 
             <!-- Content Area -->
             <div class="col-md-7">
+
+                <?php echo $message ?? ''; ?>
+
                 <!-- Dashboard Section -->
                 <div class="content-section" id="dashboard-content">
                     <div class="card shadow-sm mb-4">
                         <div class="card-body">
-                            <h2 class="card-title border-bottom pb-2">Welcome Back, <?php echo $fname; ?>!</h2>
+                            <h2 class="card-title border-bottom pb-2">Welcome back, <?php echo $fname . "!"; ?></h2>
                             <p class="lead">Here's an overview of your activity and available rooms.</p>
                         </div>
                     </div>
@@ -290,8 +249,17 @@ $pass = $_SESSION['password'];
                 <div class="content-section d-none" id="profile-content">
                     <div class="card shadow-sm">
                         <div class="card-body">
-                            <h2 class="card-title border-bottom pb-2">My Profile</h2>
-                            <form method="POST" action="./user_dashboard.php#profile" id="profileForm" class="mt-4">
+                            <div class="w-100 d-flex justify-content-between align-items-center">
+                                <h2 class="card-title mt-2">My Profile</h2>
+                                <button
+                                    type="button"
+                                    class="btn btn-primary"
+                                    onclick="makeEditable()">Edit Profile</button>
+                            </div>
+
+                            <hr>
+
+                            <form method="POST" action="./user_dashboard.php" id="profileForm" class="mt-4">
                                 <!-- <div class="mb-4">
                                     <div class="d-flex align-items-center gap-3 mb-3">
                                         <img src="< ?php echo htmlspecialchars($userData['profile_photo'] ?? 'images/default-avatar.png'); ?>"
@@ -304,14 +272,14 @@ $pass = $_SESSION['password'];
                                 </div> -->
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
-                                        <label class="form-label">First Name</label>
-                                        <input type="text" class="form-control" name="first_name"
-                                            value="<?php echo $fname; ?>" required>
+                                        <label for="fname" class="form-label">First Name</label>
+                                        <input type="text" class="form-control" id="fname" name="fname"
+                                            value="<?php echo $fname; ?>" disabled required>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label class="form-label">Last Name</label>
-                                        <input type="text" class="form-control" name="last_name"
-                                            value="<?php echo $lname; ?>" required>
+                                        <label for="lname" class="form-label">Last Name</label>
+                                        <input type="text" class="form-control" id="lname" name="lname"
+                                            value="<?php echo $lname; ?>" disabled required>
                                     </div>
                                 </div>
                                 <div class="mb-3">
@@ -321,8 +289,9 @@ $pass = $_SESSION['password'];
                                         class="form-control"
                                         id="birth"
                                         name="birth"
-                                        required
-                                        value="<?php echo $birth; ?>" required>
+                                        disabled
+                                        value="<?php echo $birth; ?>"
+                                        required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="phone" class="form-label">Phone</label>
@@ -333,12 +302,14 @@ $pass = $_SESSION['password'];
                                         name="phone"
                                         pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}"
                                         value="<?php echo $phone; ?>"
+                                        maxlength="13"
+                                        disabled
                                         required />
                                     <small><i class="text-muted">Format: 0912-345-6789</i></small>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Address</label>
-                                    <textarea class="form-control" name="address" rows="3"><?php echo $address; ?></textarea>
+                                    <textarea class="form-control" name="address" rows="3" disabled><?php echo $address; ?></textarea>
                                 </div>
                                 <button type="submit" class="btn btn-primary">
                                     <i class="bi bi-check-lg"></i> Save Changes
@@ -410,14 +381,14 @@ $pass = $_SESSION['password'];
                                 <label class="form-label">Check-in Date</label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="bi bi-calendar"></i></span>
-                                    <input type="text" class="form-control datepicker" id="checkIn" required>
+                                    <input type="text" class="form-control datepicker" id="checkIn" placeholder="Check-in Date" required>
                                 </div>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Check-out Date</label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="bi bi-calendar"></i></span>
-                                    <input type="text" class="form-control datepicker" id="checkOut" required>
+                                    <input type="text" class="form-control datepicker" id="checkOut" placeholder="Check-out Date" required>
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary w-100">
@@ -452,12 +423,35 @@ $pass = $_SESSION['password'];
     </main>
 
     <!-- Toast Container -->
-    <div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1100">
+        <div id="liveToast" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body" id="toastMessage">
+                    <!-- Message will appear here -->
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="../scripts/user-dashboard.js"></script>
+    <script>
+        function ridMessage() {
+            document.querySelector(".alert-success").classList.remove('d-flex');
+            document.querySelector(".alert-success").classList.add('d-none');
+        }
+
+        function makeEditable() {
+            var readItems = document.querySelectorAll('input[disabled], textarea[disabled]');
+            readItems.forEach((readItem) => {
+                readItem.disabled = false;
+            })
+        }
+    </script>
+
 </body>
 
 </html>
