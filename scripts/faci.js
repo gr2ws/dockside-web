@@ -54,79 +54,154 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    // Slider functionality
-    function initializeSlider() {
-        const container = document.querySelector('.slider-container');
-        if (!container) return;
-
-        const slides = container.querySelectorAll('.slider-card');
-        const prevBtn = container.querySelector('.prev-btn');
-        const nextBtn = container.querySelector('.next-btn');
+    // Experience Slider functionality
+    function initializeExperienceSlider() {
+        const experiences = document.querySelectorAll('.experience');
+        const contents = document.querySelectorAll('.experience-content');
+        const prevBtn = document.querySelector('.prev-btn');
+        const nextBtn = document.querySelector('.next-btn');
         let currentIndex = 0;
 
-        function showSlide(index, direction = 'right') {
-            const currentSlide = container.querySelector('.slider-card.active');
-            const nextSlide = slides[index];
-            
-            // Reset any ongoing animations
-            slides.forEach(slide => {
-                slide.style.animation = '';
+        if (!experiences.length || !contents.length) return;
+
+        function showExperience(index) {
+            experiences.forEach(exp => {
+                exp.classList.remove('active');
+                exp.style.opacity = '0';
+                exp.style.visibility = 'hidden';
             });
+            contents.forEach(content => {
+                content.classList.remove('active');
+                content.style.opacity = '0';
+                content.style.visibility = 'hidden';
+            });
+
+            experiences[index].classList.add('active');
+            experiences[index].style.opacity = '1';
+            experiences[index].style.visibility = 'visible';
             
-            if (currentSlide) {
-                // Display next slide behind current
-                nextSlide.style.display = 'block';
-                
-                // Determine animation direction
-                const animationIn = direction === 'right' ? 'slideLeft' : 'slideRight';
-                nextSlide.style.animation = `${animationIn} 0.5s forwards`;
-                
-                // Remove active class from current slide after animation
-                currentSlide.classList.remove('active');
-                nextSlide.classList.add('active');
-            } else {
-                // First time showing slides
-                nextSlide.classList.add('active');
-                nextSlide.style.display = 'block';
-            }
-        }
-        
-        // Update the nextSlide and prevSlide functions
-        function nextSlide() {
-            currentIndex = (currentIndex + 1) % slides.length;
-            showSlide(currentIndex, 'right');
-        }
-        
-        function prevSlide() {
-            currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-            showSlide(currentIndex, 'left');
+            contents[index].classList.add('active');
+            contents[index].style.opacity = '1';
+            contents[index].style.visibility = 'visible';
         }
 
-        // Initialize first slide
-        showSlide(currentIndex);
+        function nextExperience() {
+            currentIndex = (currentIndex + 1) % experiences.length;
+            showExperience(currentIndex);
+        }
 
-        // Event listeners for buttons
-        nextBtn.addEventListener('click', nextSlide);
-        prevBtn.addEventListener('click', prevSlide);
+        function prevExperience() {
+            currentIndex = (currentIndex - 1 + experiences.length) % experiences.length;
+            showExperience(currentIndex);
+        }
 
-        // Auto-advance slides every 5 seconds
-        let slideInterval = setInterval(nextSlide, 5000);
+        showExperience(0);
 
-        // Pause auto-advance on hover
-        container.addEventListener('mouseenter', () => {
-            clearInterval(slideInterval);
-        });
+        if (prevBtn && nextBtn) {
+            prevBtn.addEventListener('click', () => {
+                prevExperience();
+                resetAutoSlide();
+            });
 
-        container.addEventListener('mouseleave', () => {
-            slideInterval = setInterval(nextSlide, 5000);
-        });
+            nextBtn.addEventListener('click', () => {
+                nextExperience();
+                resetAutoSlide();
+            });
+        }
 
-        // Keyboard navigation
+        let autoSlide = setInterval(nextExperience, 5000);
+
+        function resetAutoSlide() {
+            clearInterval(autoSlide);
+            autoSlide = setInterval(nextExperience, 5000);
+        }
+
+        const sliderSection = document.querySelector('.experience-slider');
+        if (sliderSection) {
+            sliderSection.addEventListener('mouseenter', () => clearInterval(autoSlide));
+            sliderSection.addEventListener('mouseleave', () => autoSlide = setInterval(nextExperience, 5000));
+        }
+
         document.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowLeft') {
-                prevSlide();
+                prevExperience();
+                resetAutoSlide();
             } else if (e.key === 'ArrowRight') {
-                nextSlide();
+                nextExperience();
+                resetAutoSlide();
+            }
+        });
+    }
+
+    // Facility popup functionality
+    function initializeFacilityPopups() {
+        const popup = document.getElementById('facilityPopup');
+        const facilityCards = document.querySelectorAll('.facility-card');
+
+        if (!popup || !facilityCards.length) return;
+
+        // Ensure popup is hidden initially
+        popup.style.display = 'none';
+
+        function closePopup() {
+            popup.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function openPopup(facilityId) {
+            const details = facilityDetails[facilityId];
+            if (!details) return;
+
+            const popupImage = document.getElementById('popupImage');
+            const popupTitle = document.getElementById('popupTitle');
+            const popupDescription = document.getElementById('popupDescription');
+            const popupFeatures = document.getElementById('popupFeatures');
+
+            if (popupImage) popupImage.src = details.image;
+            if (popupTitle) popupTitle.textContent = details.title;
+            if (popupDescription) popupDescription.textContent = details.description;
+
+            if (popupFeatures) {
+                popupFeatures.innerHTML = '';
+                details.features.forEach(feature => {
+                    const featureDiv = document.createElement('div');
+                    featureDiv.className = 'facility-feature';
+                    featureDiv.textContent = feature;
+                    popupFeatures.appendChild(featureDiv);
+                });
+            }
+
+            popup.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        facilityCards.forEach(card => {
+            const overlay = card.querySelector('.facility-overlay');
+            if (!overlay) return;
+
+            overlay.addEventListener('click', (e) => {
+                e.preventDefault();
+                const facilityId = card.getAttribute('data-facility');
+                if (facilityId) {
+                    openPopup(facilityId);
+                }
+            });
+        });
+
+        const closeBtn = popup.querySelector('.facility-popup-close');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', closePopup);
+        }
+
+        popup.addEventListener('click', (e) => {
+            if (e.target === popup) {
+                closePopup();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && popup.style.display === 'flex') {
+                closePopup();
             }
         });
     }
@@ -136,117 +211,34 @@ document.addEventListener('DOMContentLoaded', function() {
         const openGalleryBtn = document.getElementById('openGallery');
         const closeGalleryBtn = document.getElementById('closeGallery');
         const galleryLightbox = document.getElementById('galleryLightbox');
-        const galleryItems = document.querySelectorAll('.gallery-item');
 
         if (!galleryLightbox || !openGalleryBtn || !closeGalleryBtn) return;
 
-        // Ensure gallery is hidden by default
-        galleryLightbox.style.display = 'none';
-        document.body.style.overflow = 'auto';
-
-        openGalleryBtn.addEventListener('click', () => {
-            galleryLightbox.style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        });
-
-        closeGalleryBtn.addEventListener('click', () => {
+        function closeGallery() {
             galleryLightbox.style.display = 'none';
             document.body.style.overflow = 'auto';
-        });
+        }
+
+        function openGallery() {
+            galleryLightbox.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        openGalleryBtn.addEventListener('click', openGallery);
+        closeGalleryBtn.addEventListener('click', closeGallery);
 
         galleryLightbox.addEventListener('click', (e) => {
-            if (e.target === galleryLightbox) {
-                galleryLightbox.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            }
+            if (e.target === galleryLightbox) closeGallery();
         });
 
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && galleryLightbox.style.display === 'block') {
-                galleryLightbox.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            }
-        });
-
-        // Optional: Add click handlers to gallery items for full-screen view
-        galleryItems.forEach(item => {
-            item.addEventListener('click', () => {
-                const img = item.querySelector('img');
-                const caption = item.querySelector('.gallery-caption');
-                // Add your full-screen image view logic here
-            });
-        });
-    }
-
-    // Facility popup functionality
-    function initializeFacilityPopups() {
-        const popup = document.getElementById('facilityPopup');
-        if (!popup) return;
-
-        // Ensure popup is hidden by default
-        popup.style.display = 'none';
-        document.body.style.overflow = 'auto';
-
-        document.querySelectorAll('.facility-card').forEach(card => {
-            const overlay = card.querySelector('.facility-overlay');
-            if (!overlay) return;
-
-            overlay.addEventListener('click', () => {
-                const facilityId = card.getAttribute('data-facility');
-                const details = facilityDetails[facilityId];
-                if (!details) return;
-
-                // Populate popup content
-                const popupImage = document.getElementById('popupImage');
-                const popupTitle = document.getElementById('popupTitle');
-                const popupDescription = document.getElementById('popupDescription');
-                const featuresGrid = document.getElementById('popupFeatures');
-
-                if (popupImage) popupImage.src = details.image;
-                if (popupTitle) popupTitle.textContent = details.title;
-                if (popupDescription) popupDescription.textContent = details.description;
-                
-                if (featuresGrid) {
-                    featuresGrid.innerHTML = ''; // Clear existing features
-                    details.features.forEach(feature => {
-                        const featureElement = document.createElement('div');
-                        featureElement.className = 'facility-feature';
-                        featureElement.textContent = feature;
-                        featuresGrid.appendChild(featureElement);
-                    });
-                }
-
-                // Show popup
-                popup.style.display = 'block';
-                document.body.style.overflow = 'hidden';
-            });
-        });
-
-        // Close popup handlers
-        const closeBtn = popup.querySelector('.facility-popup-close');
-        if (closeBtn) {
-            closeBtn.addEventListener('click', () => {
-                popup.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            });
-        }
-
-        popup.addEventListener('click', (e) => {
-            if (e.target === popup) {
-                popup.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            }
-        });
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && popup.style.display === 'block') {
-                popup.style.display = 'none';
-                document.body.style.overflow = 'auto';
+                closeGallery();
             }
         });
     }
 
-    // Intersection Observer for animations
+    // Initialize animations
     function initializeAnimations() {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -258,28 +250,14 @@ document.addEventListener('DOMContentLoaded', function() {
             threshold: 0.1
         });
 
-        document.querySelectorAll('.facility-card, .amenity-item, .slider-container, .service-column').forEach(el => {
+        document.querySelectorAll('.facility-card, .amenity-item, .service-column').forEach(el => {
             observer.observe(el);
         });
     }
-
+    
     // Initialize all functionalities
-    initializeSlider();
-    initializeGallery();
+    initializeExperienceSlider();
     initializeFacilityPopups();
+    initializeGallery();
     initializeAnimations();
-
-    // Smooth scrolling for internal links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        });
-    });
 });
