@@ -49,9 +49,9 @@
 .booking-header-button {
 	padding: 6px 12px;
 	min-width: 180px;
-	border: solid 1px transparent;
 	border-radius: 2px;
 	background-color: var(--base);
+	border: none;
 	color: white;
 	font: var(--body-font);
 	font-weight: 200 !important;
@@ -59,9 +59,8 @@
 }
 
 .booking-header-button:hover {
-	color: var(--base);
-	border: solid 1px var(--base);
-	background-color: white;
+	filter: brightness(120%) !important;
+	transition: all 0.2s ease;
 }
 
 /* Responsive styles */
