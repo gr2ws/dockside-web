@@ -6,6 +6,8 @@ if (!isset($_SESSION['id'])) {
     exit();
 }
 
+require 'common.php';
+
 // setting data taken from process_login.php
 $id = $_SESSION['id'];
 $fname = $_SESSION['fname'];
@@ -35,13 +37,15 @@ $pass = $_SESSION['password'];
 <body>
 
     <?php
-    //$servername = "127.0.0.1:3307";
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "docksidedb";
 
-    $conn = new mysqli($servername, $username, $password, $dbname);
+    // get db config data
+    $dbConfig  = getDbConfig();
+    $servername = $dbConfig['servername'];
+    $username   = $dbConfig['username'];
+    $dbpassword = $dbConfig['password'];
+    $dbname     = $dbConfig['dbname'];
+
+    $conn = new mysqli($servername, $username, $dbpassword, $dbname);
 
     if ($conn->connect_error) {
         return '<div class="alert alert-danger mt-3">Database connection failed.</div>';
@@ -49,11 +53,15 @@ $pass = $_SESSION['password'];
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-        $fname = $_POST['fname'];
-        $lname = $_POST['lname'];
-        $address = $_POST['address'];
-        $phone = $_POST['phone'];
-        $birth = $_POST['birth'];
+        //get data from person table
+        $personData = getPersonData();
+        $fname     = $personData['fname'];
+        $lname     = $personData['lname'];
+        $address   = $personData['address'];
+        $phone     = $personData['phone'];
+        $birthday  = $personData['birthday'];
+        $email     = $personData['email'];
+        $pass      = $personData['pass'];
 
         $SQLcommand =  "UPDATE person 
                             SET 
@@ -140,7 +148,7 @@ $pass = $_SESSION['password'];
                     <a class="dropdown-item" href="#profile" data-tab="profile">Profile</a>
                     <a class="dropdown-item" href="#settings" data-tab="settings">Settings</a>
                     <hr class="dropdown-divider">
-                    <a class="dropdown-item text-danger" href="logout.php">Logout</a>
+                    <a class="dropdown-item text-danger" href="./login.php">Logout</a> <!-- PLEASE CHANGE -->
                 </div>
             </div>
         </div>

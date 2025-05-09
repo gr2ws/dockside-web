@@ -1,12 +1,15 @@
 <?php
 
+require_once __DIR__ . '/setup_vars.php';
+
 function handleEdit($id)
 {
-    //$servername = "127.0.0.1:3307";
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "docksidedb";
+    // get db config data
+    $dbConfig  = getDbConfig();
+    $servername = $dbConfig['servername'];
+    $username   = $dbConfig['username'];
+    $password   = $dbConfig['password'];
+    $dbname     = $dbConfig['dbname'];
 
     $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -15,11 +18,14 @@ function handleEdit($id)
     }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $fname = $_POST['fname'];
-        $lname = $_POST['lname'];
-        $address = $_POST['address'];
-        $phone = $_POST['phone'];
-        $birth = $_POST['birth'];
+
+        //get data from person table
+        $personData = getPersonData();
+        $fname     = $personData['fname'];
+        $lname     = $personData['lname'];
+        $address   = $personData['address'];
+        $phone     = $personData['phone'];
+        $birth     = $personData['birthday'];
 
         $SQLcommand =  "UPDATE person 
                         SET 
