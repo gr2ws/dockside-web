@@ -173,7 +173,7 @@
                         </div>
                     </div>
                 </section>
-
+                <br><hr><br>
                 <!-- Gallery Section -->
                 <section class="virtual-tour">
                     <div class="tour-content">

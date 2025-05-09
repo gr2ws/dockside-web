@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Facility details data
+    // Facility details data - stores information for facility popups
     const facilityDetails = {
         'infinity-pool': {
             title: 'Infinity Pool',
@@ -54,6 +54,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
+    // Initialize all components
+    initializeExperienceSlider();
+    initializeFacilityPopups();
+    initializeGallery();
+    initializeAnimations();
+
     // Experience Slider functionality
     function initializeExperienceSlider() {
         const experiences = document.querySelectorAll('.experience');
@@ -61,6 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const prevBtn = document.querySelector('.prev-btn');
         const nextBtn = document.querySelector('.next-btn');
         let currentIndex = 0;
+        let autoSlide;
 
         if (!experiences.length || !contents.length) return;
 
@@ -95,8 +102,20 @@ document.addEventListener('DOMContentLoaded', function() {
             showExperience(currentIndex);
         }
 
-        showExperience(0);
+        function startAutoSlide() {
+            autoSlide = setInterval(nextExperience, 5000);
+        }
 
+        function resetAutoSlide() {
+            clearInterval(autoSlide);
+            startAutoSlide();
+        }
+
+        // Initialize first slide and auto-slide
+        showExperience(0);
+        startAutoSlide();
+
+        // Event Listeners
         if (prevBtn && nextBtn) {
             prevBtn.addEventListener('click', () => {
                 prevExperience();
@@ -109,19 +128,14 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
-        let autoSlide = setInterval(nextExperience, 5000);
-
-        function resetAutoSlide() {
-            clearInterval(autoSlide);
-            autoSlide = setInterval(nextExperience, 5000);
-        }
-
+        // Pause auto-slide on hover
         const sliderSection = document.querySelector('.experience-slider');
         if (sliderSection) {
             sliderSection.addEventListener('mouseenter', () => clearInterval(autoSlide));
-            sliderSection.addEventListener('mouseleave', () => autoSlide = setInterval(nextExperience, 5000));
+            sliderSection.addEventListener('mouseleave', startAutoSlide);
         }
 
+        // Keyboard navigation
         document.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowLeft') {
                 prevExperience();
@@ -139,9 +153,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const facilityCards = document.querySelectorAll('.facility-card');
 
         if (!popup || !facilityCards.length) return;
-
-        // Ensure popup is hidden initially
-        popup.style.display = 'none';
 
         function closePopup() {
             popup.style.display = 'none';
@@ -175,6 +186,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.body.style.overflow = 'hidden';
         }
 
+        // Event Listeners
         facilityCards.forEach(card => {
             const overlay = card.querySelector('.facility-overlay');
             if (!overlay) return;
@@ -211,24 +223,38 @@ document.addEventListener('DOMContentLoaded', function() {
         const openGalleryBtn = document.getElementById('openGallery');
         const closeGalleryBtn = document.getElementById('closeGallery');
         const galleryLightbox = document.getElementById('galleryLightbox');
+        const galleryItems = document.querySelectorAll('.gallery-item');
 
         if (!galleryLightbox || !openGalleryBtn || !closeGalleryBtn) return;
 
         function closeGallery() {
-            galleryLightbox.style.display = 'none';
-            document.body.style.overflow = 'auto';
+            galleryLightbox.style.opacity = '0';
+            setTimeout(() => {
+                galleryLightbox.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }, 300);
         }
 
         function openGallery() {
             galleryLightbox.style.display = 'block';
             document.body.style.overflow = 'hidden';
+            requestAnimationFrame(() => {
+                galleryLightbox.style.opacity = '1';
+            });
         }
 
+        // Initialize gallery transitions
+        galleryLightbox.style.transition = 'opacity 0.3s ease';
+        galleryLightbox.style.opacity = '0';
+
+        // Event Listeners
         openGalleryBtn.addEventListener('click', openGallery);
         closeGalleryBtn.addEventListener('click', closeGallery);
 
         galleryLightbox.addEventListener('click', (e) => {
-            if (e.target === galleryLightbox) closeGallery();
+            if (e.target === galleryLightbox) {
+                closeGallery();
+            }
         });
 
         document.addEventListener('keydown', (e) => {
@@ -236,9 +262,23 @@ document.addEventListener('DOMContentLoaded', function() {
                 closeGallery();
             }
         });
+
+        // Gallery item hover effects
+        galleryItems.forEach(item => {
+            const caption = item.querySelector('.gallery-caption');
+            if (!caption) return;
+
+            item.addEventListener('mouseenter', () => {
+                caption.style.transform = 'translateY(0)';
+            });
+
+            item.addEventListener('mouseleave', () => {
+                caption.style.transform = 'translateY(100%)';
+            });
+        });
     }
 
-    // Initialize animations
+    // Animation functionality
     function initializeAnimations() {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -254,10 +294,4 @@ document.addEventListener('DOMContentLoaded', function() {
             observer.observe(el);
         });
     }
-    
-    // Initialize all functionalities
-    initializeExperienceSlider();
-    initializeFacilityPopups();
-    initializeGallery();
-    initializeAnimations();
 });
