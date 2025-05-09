@@ -360,3 +360,8 @@
 p {
     font: var(--body-font);
 }
+
+span, .nav-item {
+    font: var(--body-font);
+}
+
