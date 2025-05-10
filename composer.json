@@ -1,0 +1,27 @@
+{
+	"name": "dockside-web",
+	"description": "Dockside Hotel Web Application",
+	"type": "project",
+	"require": {
+		"php": ">=7.4.0"
+	},
+	"authors": [
+		{
+			"name": "Gian Ross Wennette Asunan",
+			"email": "gianasunan@su.edu.ph"
+		},
+		{
+			"name": "Lanz Alexander Malto",
+			"email": "lanzimalto@su.edu.ph"
+		},
+		{
+			"name": "Adrian Philip Amihan",
+			"email": "adrianamihan283@gmail.com"
+		}
+	],
+	"autoload": {
+		"psr-4": {
+			"App\\": "src/"
+		}
+	}
+}
