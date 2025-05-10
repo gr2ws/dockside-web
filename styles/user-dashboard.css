@@ -284,12 +284,12 @@ body {
     background: #555;
 }
 
-#togshow-pword, #toghide-pword {
+button.togshow-pword, button.toghide-pword {
     padding: 0 !important;
     border: 0 !important;
     background: transparent;
 }
 
-#togshow-pword:hover svg, #toghide-pword:hover svg {
+.togshow-pword:hover svg, .toghide-pword:hover svg {
     stroke: rgb(42, 98, 194); 
 }

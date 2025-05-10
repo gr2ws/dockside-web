@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/setup_vars.php';
 
-function handleChangePass($id, $new_pass)
+function handleChangePass($id, $new_pass, $conf_pass)
 {
     // get db config data
     $dbConfig = getDbConfig();
@@ -15,9 +15,18 @@ function handleChangePass($id, $new_pass)
 
     if ($conn->connect_error) {
         return '<div class="alert alert-danger mt-3">Database connection failed.</div>';
-    }
+    } else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // Check whether or not new_pass and conf_pass are the same
+        if ($new_pass !== $conf_pass) {
+            return '<div class="alert alert-danger d-flex align-items-center" role="alert">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-circle-x me-2"><circle cx="12" cy="12" r="10"/>
+                            <path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+                        <div>Password change failed. "New Password" and "Confirm New Password" fields do not match.</div>
+                    </div>';
+        }
 
         // Change original password to the password parameter passed 
         // from the submission of the  change_password form.

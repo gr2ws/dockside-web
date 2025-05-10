@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['profile_submit'])) {
     $message = handleEdit($_SESSION['id']);
 }
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['password_submit'])) {
-    $message = handleChangePass($_SESSION['id'], $_POST['new_password']);
+    $message = handleChangePass($_SESSION['id'], $_POST['new_password'], $_POST['confirm_password']);
 }
 
 
@@ -299,6 +299,7 @@ $pass = $_SESSION['pass'];
                                         disabled
                                         value="<?php echo $birth; ?>"
                                         required>
+                                    <small><i class="text-muted">Format: dd/mm/yyyy</i></small>
                                 </div>
                                 <div class="mb-3">
                                     <label for="phone" class="form-label">Phone</label>
@@ -342,13 +343,13 @@ $pass = $_SESSION['pass'];
                                     <div class="mb-3">
                                         <div class="d-flex justify-center align-center gap-2 mb-2">
                                             <label class="form-label mb-0">Current Password</label>
-                                            <button type="button" id="togshow-pword" class="show-pword d-block" onclick="showPass()">
+                                            <button type="button" id="one" class="togshow-pword show-pword d-block" onclick="showPass('current_password', 'one', 'two')">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye-icon lucide-eye">
                                                     <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
                                                     <circle cx="12" cy="12" r="3" />
                                                 </svg>
                                             </button>
-                                            <button type="button" id="toghide-pword" class="hide-pword d-none" onclick="hidePass()">
+                                            <button type="button" id="two" class="toghide-pword hide-pword d-none" onclick="hidePass('current_password', 'one', 'two')">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye-off-icon lucide-eye-off">
                                                     <path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49" />
                                                     <path d="M14.084 14.158a3 3 0 0 1-4.242-4.242" />
@@ -357,16 +358,52 @@ $pass = $_SESSION['pass'];
                                                 </svg>
                                             </button>
                                         </div>
-                                        <input id="pass-trg" type="password" class="form-control" name="current_password" value="<?php echo $pass; ?>" disabled>
+                                        <input type="password" class="form-control" id="current_password" name="current_password" value="<?php echo $pass; ?>" disabled>
+                                        <br>
+                                        <small><i class="text-muted">Please ensure that you input the same new password in the two fields below.</i></small>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label" for="new_password">New Password</label>
+                                        <div class="d-flex justify-center align-center gap-2 mb-2">
+                                            <label class="form-label" for="new_password">New Password</label>
+                                            <button type="button" id="three" class="togshow-pword show-pword d-block" onclick="showPass('new_password', 'three', 'four')">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye-icon lucide-eye">
+                                                    <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
+                                                    <circle cx="12" cy="12" r="3" />
+                                                </svg>
+                                            </button>
+                                            <button type="button" id="four" class="toghide-pword hide-pword d-none" onclick="hidePass('new_password', 'three', 'four')">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye-off-icon lucide-eye-off">
+                                                    <path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49" />
+                                                    <path d="M14.084 14.158a3 3 0 0 1-4.242-4.242" />
+                                                    <path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143" />
+                                                    <path d="m2 2 20 20" />
+                                                </svg>
+                                            </button>
+                                        </div>
                                         <input type="password" class="form-control" id="new_password" name="new_password" minlength="8" maxlength="30" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label" for="confirm_password">Confirm New Password</label>
+                                        <div class="d-flex justify-center align-center gap-2 mb-2">
+
+                                            <label class="form-label" for="confirm_password">Confirm New Password</label>
+                                            <button type="button" id="five" class="togshow-pword show-pword d-block" onclick="showPass('confirm_password', 'five', 'six')">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye-icon lucide-eye">
+                                                    <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
+                                                    <circle cx="12" cy="12" r="3" />
+                                                </svg>
+                                            </button>
+                                            <button type="button" id="six" class="toghide-pword hide-pword d-none" onclick="hidePass('confirm_password', 'five', 'six')">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye-off-icon lucide-eye-off">
+                                                    <path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49" />
+                                                    <path d="M14.084 14.158a3 3 0 0 1-4.242-4.242" />
+                                                    <path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143" />
+                                                    <path d="m2 2 20 20" />
+                                                </svg>
+                                            </button>
+                                        </div>
                                         <input type="password" class="form-control" id="confirm_password" name="confirm_password" minlength="8" maxlength="30" required>
                                     </div>
+
                                     <button type="submit" class="btn btn-primary">
                                         <i class="bi bi-key"></i> Update Password
                                     </button>
@@ -468,8 +505,8 @@ $pass = $_SESSION['pass'];
     <script src="../scripts/user-dashboard.js"></script>
     <script>
         function ridMessage() {
-            document.querySelector(".alert-success").classList.remove('d-flex');
-            document.querySelector(".alert-success").classList.add('d-none');
+            document.querySelector(".alert").classList.remove('d-flex');
+            document.querySelector(".alert").classList.add('d-none');
         }
 
         function makeEditable() {
@@ -479,28 +516,28 @@ $pass = $_SESSION['pass'];
             })
         }
 
-        function showPass() {
-            document.querySelector("#pass-trg").type = "text"; // convert to input type = text
+        function showPass(inputId, showBtnId, hideBtnId) {
+            const input = document.getElementById(inputId);
+            const showBtn = document.getElementById(showBtnId);
+            const hideBtn = document.getElementById(hideBtnId);
 
-            // next, hide the eye-open svg
-            document.querySelector(".show-pword").classList.remove("d-block");
-            document.querySelector(".show-pword").classList.add("d-none");
-
-            // last, show the eye-closed svg
-            document.querySelector(".hide-pword").classList.remove("d-none");
-            document.querySelector(".hide-pword").classList.add("d-block");
+            input.type = "text";
+            showBtn.classList.add("d-none");
+            showBtn.classList.remove("d-block");
+            hideBtn.classList.remove("d-none");
+            hideBtn.classList.add("d-block");
         }
 
-        function hidePass() {
-            document.querySelector("#pass-trg").type = "password"; // convert to input type = text
+        function hidePass(inputId, showBtnId, hideBtnId) {
+            const input = document.getElementById(inputId);
+            const showBtn = document.getElementById(showBtnId);
+            const hideBtn = document.getElementById(hideBtnId);
 
-            // next, hide the eye-closed svg
-            document.querySelector(".hide-pword").classList.remove("d-block");
-            document.querySelector(".hide-pword").classList.add("d-none");
-
-            // last, show the eye-open svg
-            document.querySelector(".show-pword").classList.remove("d-none");
-            document.querySelector(".show-pword").classList.add("d-block");
+            input.type = "password";
+            hideBtn.classList.add("d-none");
+            hideBtn.classList.remove("d-block");
+            showBtn.classList.remove("d-none");
+            showBtn.classList.add("d-block");
         }
     </script>
 
