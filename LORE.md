@@ -1,6 +1,6 @@
 # DOCKSIDE HOTEL - COMPREHENSIVE INFORMATION GUIDE
 
-_Last Updated: May 9, 2025_
+_Last Updated: May 12, 2025_
 
 This document serves as the single source of truth for all information related to Dockside Hotel. Use this as a reference to maintain consistency across the website.
 
@@ -42,38 +42,82 @@ To be the leading luxury hotel destination while maintaining our commitment to s
 
 ### Room Types and Rates
 
-#### Standard Room
+#### Presidential Suite
 
-- **Rate:** From ₱3,500/night
-- **Description:** Comfortable accommodations with essential amenities for a relaxing stay.
+- **Rate:** From ₱25,000/night
+- **Size:** 200m²
+- **Description:** Step into a realm of unparalleled opulence within our Presidential Suite, where every detail whispers of exquisite design and indulgent comfort. Floor-to-ceiling windows frame a breathtaking panorama of the endless ocean. The suite includes an expansive living area, gourmet kitchen, elegant dining area, and lavishly appointed bedrooms.
 - **Features:**
-  - Free Wi-Fi
-  - Smart TV
-  - Air Conditioning
-
-#### Deluxe Suite
-
-- **Rate:** From ₱5,200/night
-- **Description:** Spacious suites with premium amenities and breathtaking views.
-- **Features:**
-  - Free Wi-Fi
-  - Smart TV
-  - Coffee Maker
+  - Infinity Pool
+  - Ocean View
+  - Jacuzzi
+  - 65" Smart TV
+  - Executive Lounge Access
+  - High-Speed WiFi
+  - King Bed
+  - Sound System
+  - Digital Safe
+  - Premium Bar
+  - Private Terrace
+  - Business Center
+  - Climate Control
+  - IDD Phone
 
 #### Executive Suite
 
-- **Rate:** From ₱7,800/night
-- **Description:** Luxury accommodations with separate living areas and premium services.
+- **Rate:** From ₱18,500/night
+- **Size:** 100m²
+- **Description:** Step into a comfortable and stylish retreat where the gentle allure of the coast enhances your stay. Generous windows offer pleasant views of the nearby shoreline. Relax in the tastefully furnished living area, with a convenient fridge, mini-bar and coffee maker for added convenience.
 - **Features:**
-  - Free Wi-Fi
-  - Smart TV
-  - Jacuzzi
+  - Ocean View
+  - 55" Smart TV
+  - Executive Lounge Access
+  - High-Speed WiFi
+  - King Bed
+  - Work Desk
+  - Digital Safe
+  - Mini Bar
+  - Climate Control
+  - IDD Phone
+  - Balcony
+
+#### Deluxe Room
+
+- **Rate:** From ₱15,000/night
+- **Size:** 45m²
+- **Description:** Imagine entering a haven of refined comfort, where stylish design meets the soothing rhythm of the sea. Expansive windows unveil captivating vistas of the ocean, inviting the vibrant hues of sunrise and the tranquil glow of twilight into your personal sanctuary.
+- **Features:**
+  - Partial Ocean View
+  - 43" Smart TV
+  - High-Speed WiFi
+  - Queen Bed
+  - Digital Safe
+  - Coffee Maker
+  - Climate Control
+  - IDD Phone
+  - Mini Bar
+  - Balcony
+
+#### Standard Room
+
+- **Rate:** From ₱11,000/night
+- **Size:** 30m²
+- **Description:** Discover a comfortable and well-appointed space designed for a restful stay. Large windows allow natural light to fill the room, creating a bright and welcoming ambiance. Enjoy comfortable bedding, a functional workspace, and a private ensuite bathroom.
+- **Features:**
+  - 40" HD TV
+  - WiFi
+  - Air Conditioning
+  - Phone
+  - Tea Set
+  - In-Room Safe
+  - Double Bed
+  - City View
 
 ### Room Booking Policies
 
 #### Check-in/Check-out
 
-- Standard check-in time: 2:00 PM
+- Standard check-in time: 3:00 PM
 - Standard check-out time: 12:00 NN (Philippine Time)
 - Early check-in or late check-out is subject to availability and may incur additional charges.
 
