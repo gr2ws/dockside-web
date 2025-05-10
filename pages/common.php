@@ -49,6 +49,5 @@ function placeBookingHeader()
 # backend functions
 require '../scripts/handle_newacc.php';
 require '../scripts/handle_login.php';
-require '../scripts/handle_edit.php';
 
 ?>
