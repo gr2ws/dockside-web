@@ -3,7 +3,7 @@
 require_once __DIR__ . '/setup_vars.php';
 
 
-function handleLogin()
+function handleLogin($redirect = '')
 {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -35,6 +35,13 @@ function handleLogin()
             $_SESSION['pass']     = $user['pers_pass'];
             $_SESSION['role'] = $user['pers_role'];
 
+            // Handle redirects if specified
+            if (!empty($redirect)) {
+                header("Location: ../" . ltrim($redirect, '/'));
+                exit;
+            }
+
+            // Default redirects if no redirect specified
             if ($_SESSION['role'] == 'ADMN') {
                 header("Location: ../pages/admin_dashboard.php");
             } else {

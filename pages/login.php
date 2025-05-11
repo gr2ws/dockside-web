@@ -7,9 +7,12 @@ session_start();
 // Prepare a message variable
 $loginMessage = null;
 
+// Check for redirect parameter
+$redirect = isset($_GET['redirect']) ? $_GET['redirect'] : '';
+
 // Handle login before output
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $loginMessage = handleLogin(); // update handleLogin to return message or null
+    $loginMessage = handleLogin($redirect); // update handleLogin to return message or null
 }
 ?>
 
@@ -37,6 +40,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="login-container py-4">
             <h1>Sign In</h1>
             <form id="loginForm" method="POST">
+                <?php if (!empty($redirect)): ?>
+                    <input type="hidden" name="redirect" value="<?php echo htmlspecialchars($redirect); ?>">
+                <?php endif; ?>
                 <div class="form-group">
                     <label for="email">Email Address</label>
                     <input

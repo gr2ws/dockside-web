@@ -8,6 +8,7 @@ if (!isset($_SESSION['id'])) {
 
 require '../scripts/handle_edit.php';
 require '../scripts/handle_pass.php';
+require '../scripts/handle_bookings.php';
 
 // Show update result message only if form was submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['profile_submit'])) {
@@ -16,6 +17,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['profile_submit'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['password_submit'])) {
     $message = handleChangePass($_SESSION['id'], $_POST['new_password'], $_POST['confirm_password']);
 }
+
+// Get user bookings
+$userBookings = getUserBookings($_SESSION['id']);
 
 
 // setting data for ui
@@ -122,9 +126,9 @@ $pass = $_SESSION['pass'];
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#reservations" class="nav-link" data-tab="reservations"
+                                    <a href="#bookings" class="nav-link" data-tab="bookings"
                                         onclick="ridMessage()">
-                                        <i class="bi bi-calendar-check"></i> My Reservations
+                                        <i class="bi bi-calendar-check"></i> My Bookings
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -197,50 +201,73 @@ $pass = $_SESSION['pass'];
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <!-- Reservations Section -->
-                <div class="content-section d-none" id="reservations-content">
+                </div> <!-- Bookings Section -->
+                <div class="content-section d-none" id="bookings-content">
                     <div class="card shadow-sm">
                         <div class="card-body">
-                            <h2 class="card-title border-bottom pb-2">My Reservations</h2>
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Booking ID</th>
-                                            <th>Room Type</th>
-                                            <th>Check-in</th>
-                                            <th>Check-out</th>
-                                            <th>Status</th>
-                                            <th class="text-end">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php foreach ($userBookings as $booking): ?>
+                            <h2 class="card-title border-bottom pb-2">My Bookings</h2>
+
+                            <?php if (isset($_SESSION['booking_message'])): ?>
+                                <div class="alert alert-<?php echo $_SESSION['booking_status'] ?? 'info'; ?> alert-dismissible fade show" role="alert">
+                                    <?php echo $_SESSION['booking_message']; ?>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                                <?php
+                                unset($_SESSION['booking_message']);
+                                unset($_SESSION['booking_status']);
+                                ?>
+                            <?php endif; ?>
+
+                            <?php if (empty($userBookings)): ?>
+                                <div class="text-center my-5">
+                                    <i class="bi bi-calendar-x fs-1 text-muted"></i>
+                                    <p class="mt-3 text-muted">You don't have any bookings yet.</p>
+                                    <a href="../pages/accomodations.php" class="btn btn-primary mt-2">Browse Accommodations</a>
+                                </div>
+                            <?php else: ?>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
                                             <tr>
-                                                <td><?php echo htmlspecialchars($booking['id']); ?></td>
-                                                <td><?php echo htmlspecialchars($booking['room_type']); ?></td>
-                                                <td><?php echo date('M j, Y', strtotime($booking['check_in'])); ?></td>
-                                                <td><?php echo date('M j, Y', strtotime($booking['check_out'])); ?></td>
-                                                <td>
-                                                    <span class="badge">
-                                                        <!-- <span class="badge bg-< ?php echo getStatusColor($booking['status']); ?>"> -->
-                                                        <?php echo htmlspecialchars($booking['status']); ?>
-                                                    </span>
-                                                </td>
-                                                <td class="text-end">
-                                                    <?php if ($booking['status'] !== 'cancelled'): ?>
-                                                        <button class="btn btn-sm btn-outline-danger" onclick="cancelBooking(<?php echo $booking['id']; ?>)">
-                                                            <i class="bi bi-x-circle"></i> Cancel
-                                                        </button>
-                                                    <?php endif; ?>
-                                                </td>
+                                                <th>Booking ID</th>
+                                                <th>Room Type</th>
+                                                <th>Check-in</th>
+                                                <th>Check-out</th>
+                                                <th>Total Price</th>
+                                                <th class="text-end">Action</th>
                                             </tr>
-                                        <?php endforeach; ?>
-                                    </tbody>
-                                </table>
-                            </div>
+                                        </thead>
+                                        <tbody>
+                                            <?php foreach ($userBookings as $booking): ?>
+                                                <?php
+                                                $checkinDate = new DateTime($booking['bkg_datein']);
+                                                $checkoutDate = new DateTime($booking['bkg_dateout']);
+                                                $canCancel = canCancelBooking($booking['bkg_datein']);
+                                                ?>
+                                                <tr>
+                                                    <td>#<?php echo htmlspecialchars($booking['bkg_id']); ?></td>
+                                                    <td><?php echo htmlspecialchars($booking['room_type']); ?></td>
+                                                    <td><?php echo $checkinDate->format('M j, Y'); ?></td>
+                                                    <td><?php echo $checkoutDate->format('M j, Y'); ?></td>
+                                                    <td>₱<?php echo number_format($booking['bkg_totalpr'], 2); ?></td>
+                                                    <td class="text-end">
+                                                        <?php if ($canCancel): ?>
+                                                            <form method="POST" onsubmit="return confirm('Are you sure you want to cancel this booking?');" class="d-inline">
+                                                                <input type="hidden" name="booking_id" value="<?php echo $booking['bkg_id']; ?>">
+                                                                <button type="submit" name="cancel_booking" class="btn btn-sm btn-outline-danger">
+                                                                    <i class="bi bi-x-circle"></i> Cancel
+                                                                </button>
+                                                            </form>
+                                                        <?php else: ?>
+                                                            <small class="text-muted">Can't cancel (within 3 days)</small>
+                                                        <?php endif; ?>
+                                                    </td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
