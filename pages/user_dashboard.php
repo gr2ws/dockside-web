@@ -267,7 +267,8 @@ $pass = $_SESSION['pass'];
                                 <!-- flag for conditional data handling based on what form was submitted -->
                                 <input type="hidden" name="profile_submit" value="1">
 
-                                <!-- <div class="mb-4">
+                                <!-- (SECTION DEPRECATED)  
+                                <div class="mb-4">
                                     <div class="d-flex align-items-center gap-3 mb-3">
                                         <img src="< ?php echo htmlspecialchars($userData['profile_photo'] ?? 'images/default-avatar.png'); ?>"
                                             alt="Profile" class="rounded-circle" width="80" height="80">
@@ -408,7 +409,8 @@ $pass = $_SESSION['pass'];
                                         <i class="bi bi-key"></i> Update Password
                                     </button>
                                 </div>
-                                <!-- <hr>
+                                <!-- (SECTION DEPRECATED)
+                                <hr> 
                                 <div class="mb-4">
                                     <h5>Notification Preferences</h5>
                                     <div class="form-check mb-2">

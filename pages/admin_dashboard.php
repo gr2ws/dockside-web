@@ -49,6 +49,10 @@ if (isset($_POST['roomnum'])) {
 }
 
 $message = '';
+if (isset($_SESSION['message'])) {
+    $message = $_SESSION['message']; // Retrieve the message
+    unset($_SESSION['message']); // Clear the message from the session
+}
 $roomnum = isset($_SESSION['room_num']) ? $_SESSION['room_num'] : '';
 $type = isset($_SESSION['room_type']) ? $_SESSION['room_type'] : '';
 $capacity = isset($_SESSION['room_capacity']) ? $_SESSION['room_capacity'] : '';
@@ -58,13 +62,10 @@ $price = isset($_SESSION['room_price']) ? $_SESSION['room_price'] : '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['type'])) {
     $message = handleRoomEdit($roomnum); // generally means successful form submission once this is triggered
-    $roomnum = $roomtype = $roomdesc = $roomprice = "";
-    unset($_POST['roomnum']);
-    unset($_POST['type']);
-    unset($_POST['capacity']);
-    unset($_POST['availability']);
-    unset($_POST['price']);
-};
+    $_SESSION['message'] = $message; // Store the message in a session variable
+    header("Location: ./admin_dashboard.php");
+    exit(); // Redirect to the same page to avoid resubmission;
+}
 ?>
 
 <!DOCTYPE html>
@@ -148,7 +149,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['type'])) {
                                                 if ($result->num_rows > 0) {
                                                     while ($row = $result->fetch_assoc()) {
                                                         $roomId = $row['room_id'];
-                                                        $isSelected = isset($selectedRoom) && $selectedRoom == $roomId ? 'selected' : '';
+                                                        $isSelected = (isset($selectedRoom) && $selectedRoom == $roomId) || (isset($_SESSION['room_num']) && $_SESSION['room_num'] == $roomId) ? 'selected' : '';
                                                         echo "<option value='$roomId' $isSelected>$roomId</option>";
                                                     }
                                                 } else {
