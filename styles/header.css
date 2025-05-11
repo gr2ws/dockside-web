@@ -4,6 +4,7 @@ nav.header-nav * {
 	padding: 0;
 	margin: 0;
 	box-sizing: border-box;
+	z-index: 10000;
 }
 
 /* Explicitly re-declaring container to fix above */
@@ -78,6 +79,14 @@ nav.header-nav div.container {
 	backdrop-filter: blur(7px);
 	border: solid 1px var(--accent) !important;
 	border-radius: 3px !important;
+}
+
+.user-dpd {
+	top: 45px !important;
+}
+
+.rooms-dpd {
+	top: 42.5px !important;
 }
 
 .rooms-dpd hr.dropdown-divider,
@@ -190,7 +199,7 @@ a.join div:hover {
 	padding: 0.5rem;
 	height: 100vh;
 	background-color: var(--background);
-	z-index: 1000;
+	z-index: 10002;
 	transition: left 0.5s ease, opacity 0.5s ease;
 }
 
@@ -267,7 +276,7 @@ li.nav-item-1 a {
 	-webkit-backdrop-filter: blur(2px);
 
 	/* Safari support */
-	z-index: 999;
+	z-index: 10001;
 	opacity: 0;
 	visibility: hidden;
 	transition: opacity 0.3s ease, visibility 0.3s ease;

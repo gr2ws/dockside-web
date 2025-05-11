@@ -1,21 +1,37 @@
 <div class="booking-header shadow-sm navbar navbar-expand-md sticky-top">
-  <div class="container">
-    <div class="container-group">
-      <span>Find your perfect stay! </span>
-      <input
-        type="text"
-        id="start-date"
-        class="flatpickr"
-        placeholder="From..."
-      />
-      <input type="text" id="end-date" class="flatpickr" placeholder="To..." />
-      <input class="booking-header-button" type="button" value="Book Now" />
-    </div>
-  </div>
+	<div class="container">
+		<div
+			class="container-group d-flex justify-content-center align-items-center w-100"
+		>
+			<span
+				class="booking-header-title me-4 me-lg-4 me-md-3 me-sm-1 d-none d-md-inline"
+				>Find your perfect stay!
+			</span>
+			<div class="date-input-group me-4 me-lg-4 me-md-3 me-sm-0">
+				<i class="bi bi-calendar3 date-icon"></i>
+				<input
+					type="text"
+					id="start-date"
+					class="flatpickr input-sm"
+					placeholder="From..."
+				/>
+			</div>
+			<div class="date-input-group me-4 me-lg-4 me-md-3 me-sm-0">
+				<i class="bi bi-calendar3 date-icon"></i>
+				<input
+					type="text"
+					id="end-date"
+					class="flatpickr input-sm"
+					placeholder="To..."
+				/>
+			</div>
+			<button class="booking-header-button">Book Now!</button>
+		</div>
+	</div>
 </div>
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    flatpickr("#start-date", {});
-    flatpickr("#end-date", {});
-  });
+	document.addEventListener("DOMContentLoaded", function () {
+		flatpickr("#start-date", {});
+		flatpickr("#end-date", {});
+	});
 </script>

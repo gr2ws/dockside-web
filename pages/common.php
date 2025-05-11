@@ -1,3 +1,6 @@
+<!-- Favicon -->
+<link rel="icon" href="../assets/favicon.ico">
+
 <!-- Bootstrap CSS -->
 <link
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css"
@@ -17,25 +20,12 @@
 
 <!-- Put all component styles here -->
 
-<?php
-# Determine if in  root directory or a subdirectory
-# to not make special link/scripts for index
-
-$baseDir = '';
-if (strpos($_SERVER['SCRIPT_NAME'], '/pages/') !== false) {
-    $baseDir = '../';
-}
-?>
 
 <!-- Component styles-->
 
-<link rel="stylesheet" href="<?php echo $baseDir; ?>styles/header.css">
-<link rel="stylesheet" href="<?php echo $baseDir; ?>styles/booking_header.css">
-<link rel="stylesheet" href="<?php echo $baseDir; ?>styles/footer.css">
-
-<!-- Scripts for components -->
-<script src="<?php echo $baseDir; ?>scripts/mobileNav.js"></script>
-
+<link rel="stylesheet" href="../styles/header.css">
+<link rel="stylesheet" href="../styles/booking_header.css">
+<link rel="stylesheet" href="../styles/footer.css">
 
 <?php
 
@@ -43,17 +33,17 @@ if (strpos($_SERVER['SCRIPT_NAME'], '/pages/') !== false) {
 
 function placeHeader()
 {
-    require __DIR__ . '/../components/header.html';
+    require '../components/header.html';
 }
 
 function placeFooter()
 {
-    require __DIR__ . '/../components/footer.html';
+    require '../components/footer.html';
 }
 
 function placeBookingHeader()
 {
-    require __DIR__ . '/../components/booking_header.html';
+    require '../components/booking_header.html';
 }
 
 # backend functions
