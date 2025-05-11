@@ -1,5 +1,5 @@
 {
-	"name": "dockside-web",
+	"name": "heroku/dockside-web",
 	"description": "Dockside Hotel Web Application",
 	"type": "project",
 	"require": {
