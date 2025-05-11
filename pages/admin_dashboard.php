@@ -9,43 +9,7 @@ require '../scripts/handle_edit.php';
 if (isset($_POST['roomnum'])) {
     $selectedRoom = $_POST['roomnum'];
 
-    $dbConfig = getDbConfig();
-    $servername = $dbConfig['servername'];
-    $username = $dbConfig['username'];
-    $password = $dbConfig['password'];
-    $dbname = $dbConfig['dbname'];
-
-    $conn = new mysqli($servername, $username, $password, $dbname);
-
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-        // Build and execute SQL query
-        $SQLcommand = "SELECT * FROM room WHERE room_id = $selectedRoom";
-        $result = $conn->query($SQLcommand);
-
-        // Check if the query returned a result
-        if ($result && $result->num_rows > 0) {
-            $row = $result->fetch_assoc(); // Fetch the row as an associative array
-
-            // fetch data to plug into session superglobal array.
-            $roomnum = $row['room_id'];
-            $type = $row['room_type'];
-            $capacity = $row['room_capacity'];
-            $availability = $row['room_avail'];
-            $price = $row['room_price'];
-
-            $_SESSION['room_num'] = $roomnum;
-            $_SESSION['room_type'] = $type;
-            $_SESSION['room_capacity'] = $capacity;
-            $_SESSION['room_availability'] = $availability;
-            $_SESSION['room_price'] = $price;
-        }
-        $conn->close();
-    }
+    initRoomEdit($selectedRoom);
 }
 
 $message = '';
@@ -132,32 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['type'])) {
                                             <select class="form-select w-50" id="roomnum" name="roomnum">
                                                 <option value="">Select a room:</option>
                                                 <?php
-
-                                                $dbConfig = getDbConfig();
-                                                $conn = new mysqli($dbConfig['servername'], $dbConfig['username'], $dbConfig['password'], $dbConfig['dbname']);
-
-                                                // Check connection
-                                                if ($conn->connect_error) {
-                                                    die("Connection failed: " . $conn->connect_error);
-                                                }
-
-                                                // Query to fetch available rooms
-                                                $sql = "SELECT room_id FROM room";
-                                                $result = $conn->query($sql);
-
-                                                // Populate the dropdown with available rooms
-                                                if ($result->num_rows > 0) {
-                                                    while ($row = $result->fetch_assoc()) {
-                                                        $roomId = $row['room_id'];
-                                                        $isSelected = (isset($selectedRoom) && $selectedRoom == $roomId) || (isset($_SESSION['room_num']) && $_SESSION['room_num'] == $roomId) ? 'selected' : '';
-                                                        echo "<option value='$roomId' $isSelected>$roomId</option>";
-                                                    }
-                                                } else {
-                                                    echo "<option value='' disabled >No rooms available</option>";
-                                                }
-
-                                                // Close the connection
-                                                $conn->close();
+                                                seeRooms()
                                                 ?>
                                             </select>
                                             <button type="submit" id="check-btn" class="btn btn-success" disabled>Check</button>
@@ -201,63 +140,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['type'])) {
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        const roomSelect = document.getElementById("roomnum");
-        const roomDets = document.getElementById("type");
-
-        const checkBtn = document.getElementById("check-btn");
-        const editBtn = document.getElementById("edit-btn");
-
-        // Enable Check button only if a valid room is selected
-        roomSelect.addEventListener("change", function() {
-            const selectedValue = roomSelect.value;
-            const selectedDetails = roomDets.value;
-
-            checkBtn.disabled = !selectedValue || selectedValue === "";
-        });
-
-        // Trigger once on page load to handle pre-selected values
-        document.addEventListener("DOMContentLoaded", function() {
-            const selectedValue = roomSelect.value;
-            const typeValue = document.getElementById("type").value;
-
-            checkBtn.disabled = !selectedValue || selectedValue === "";
-
-            // Enable only if the room is already populated from the server
-            if (typeValue) {
-                editBtn.disabled = false;
-            }
-
-        });
-
-        function makeEditable() {
-            ["type", "capacity", "availability", "price", "save-btn", "unlock-btn"].forEach(id => {
-                document.getElementById(id).disabled = false;
-            });
-
-            // Disable the room number dropdown
-            const roomSelect = document.getElementById("roomnum");
-            roomSelect.disabled = true;
-            roomSelect.style.pointerEvents = "none"; // Prevent interaction
-            document.getElementById("check-btn").disabled = true;
-            document.getElementById("edit-btn").disabled = true;
-
-        }
-
-        function lockEdits() {
-            ["type", "capacity", "availability", "price", "save-btn", "unlock-btn"].forEach(id => {
-                document.getElementById(id).disabled = true;
-            });
-
-            // Enable the room number dropdown
-            const roomSelect = document.getElementById("roomnum");
-            roomSelect.disabled = false;
-            roomSelect.style.pointerEvents = "auto"; // Allow interaction
-
-            document.getElementById("check-btn").disabled = false;
-            document.getElementById("edit-btn").disabled = false;
-        }
-    </script>
+    <script src="../scripts/admin_dbutil.js"></script>
 </body>
 
 </html>
