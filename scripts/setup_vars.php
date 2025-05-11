@@ -30,3 +30,13 @@ function isPersonSet()
     return (isset($_POST['fname'])) && (isset($_POST['lname'])) && (isset($_POST['address'])) && (isset($_POST['phone']))
         && (isset($_POST['birth'])) && (isset($_POST['email'])) && (isset($_POST['password']));
 }
+
+function getRoomData()
+{
+    return [
+        'id'          => $_POST['room_id'] ?? '',
+        'type'        => $_POST['room_type'] ?? '',
+        'capacity'    => $_POST['room_capacity'] ?? '',
+        'availability' => $_POST['room_availability'] ?? '',
+    ];
+}

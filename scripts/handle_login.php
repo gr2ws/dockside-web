@@ -33,8 +33,13 @@ function handleLogin()
             $_SESSION['birthday'] = $user['pers_birthdate'];
             $_SESSION['email']    = $user['pers_email'];
             $_SESSION['pass']     = $user['pers_pass'];
+            $_SESSION['role'] = $user['pers_role'];
 
-            header("Location: ../pages/user_dashboard.php");
+            if ($_SESSION['role'] == 'ADMN') {
+                header("Location: ../pages/admin_dashboard.php");
+            } else {
+                header("Location: ../pages/user_dashboard.php");
+            }
             exit;
         } else {
             // invalid credentials
