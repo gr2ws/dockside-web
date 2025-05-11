@@ -100,7 +100,7 @@ $pass = $_SESSION['pass'];
                 <div class="dropdown-menu">
                     <span class="dropdown-header">Welcome back, <?php echo $fname; ?>!</span>
                     <hr class="dropdown-divider">
-                    <a class="dropdown-item" href="#dashboard" data-tab="dashboard">Dashboard</a>
+                    <a class="dropdown-item" href="#bookings" data-tab="bookings">My Bookings</a>
                     <a class="dropdown-item" href="#profile" data-tab="profile">Profile</a>
                     <a class="dropdown-item" href="#settings" data-tab="settings">Settings</a>
                     <hr class="dropdown-divider">
@@ -120,13 +120,7 @@ $pass = $_SESSION['pass'];
                         <nav>
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <a href="#dashboard" class="nav-link active" data-tab="dashboard"
-                                        onclick="ridMessage()">
-                                        <i class="bi bi-speedometer2"></i> Dashboard
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#bookings" class="nav-link" data-tab="bookings"
+                                    <a href="#bookings" class="nav-link active" data-tab="bookings"
                                         onclick="ridMessage()">
                                         <i class="bi bi-calendar-check"></i> My Bookings
                                     </a>
@@ -147,62 +141,11 @@ $pass = $_SESSION['pass'];
                         </nav>
                     </div>
                 </div>
-            </div>
+            </div> <!-- Content Area -->
+            <div class="col-md-10">
 
-            <!-- Content Area -->
-            <div class="col-md-7">
-
-                <?php echo $message ?? ''; ?>
-
-                <!-- Dashboard Section -->
-                <div class="content-section" id="dashboard-content">
-                    <div class="card shadow-sm mb-4">
-                        <div class="card-body">
-                            <h2 class="card-title border-bottom pb-2">Welcome back, <?php echo $fname . "!"; ?></h2>
-                            <p class="lead">Here's an overview of your activity and available rooms.</p>
-                        </div>
-                    </div>
-
-                    <!-- Available Rooms Table -->
-                    <div class="card shadow-sm">
-                        <div class="card-body">
-                            <h3 class="card-title border-bottom pb-2">Available Rooms</h3>
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Room Type</th>
-                                            <th>Capacity</th>
-                                            <th>Rate/Night</th>
-                                            <th>Status</th>
-                                            <th class="text-end">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php foreach ($availableRooms as $room): ?>
-                                            <tr>
-                                                <td><?php echo htmlspecialchars($room['room_type']); ?></td>
-                                                <td><?php echo htmlspecialchars($room['capacity']); ?></td>
-                                                <td>₱<?php echo number_format($room['rate'], 2); ?></td>
-                                                <td>
-                                                    <span class="badge bg-<?php echo $room['status'] === 'Available' ? 'success' : 'warning'; ?>">
-                                                        <?php echo htmlspecialchars($room['status']); ?>
-                                                    </span>
-                                                </td>
-                                                <td class="text-end">
-                                                    <button class="btn btn-sm btn-primary" onclick="selectRoom(<?php echo $room['id']; ?>)">
-                                                        <i class="bi bi-calendar-plus"></i> Select
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        <?php endforeach; ?>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div> <!-- Bookings Section -->
-                <div class="content-section d-none" id="bookings-content">
+                <?php echo $message ?? ''; ?><!-- Bookings Section -->
+                <div class="content-section" id="bookings-content">
                     <div class="card shadow-sm">
                         <div class="card-body">
                             <h2 class="card-title border-bottom pb-2">My Bookings</h2>
@@ -466,56 +409,6 @@ $pass = $_SESSION['pass'];
                     </div>
                 </div>
             </div>
-
-            <!-- Right Sidebar -->
-            <div class="col-md-3">
-                <!-- Quick Booking Form -->
-                <div class="card shadow-sm mb-4">
-                    <div class="card-body">
-                        <h3 class="card-title h5 border-bottom pb-2">Quick Booking</h3>
-                        <form id="quickBookingForm">
-                            <div class="mb-3">
-                                <label class="form-label">Check-in Date</label>
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="bi bi-calendar"></i></span>
-                                    <input type="text" class="form-control datepicker" id="checkIn" placeholder="Check-in Date" required>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Check-out Date</label>
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="bi bi-calendar"></i></span>
-                                    <input type="text" class="form-control datepicker" id="checkOut" placeholder="Check-out Date" required>
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-primary w-100">
-                                <i class="bi bi-calendar-check"></i> Book Now
-                            </button>
-                        </form>
-                    </div>
-                </div>
-
-                <!-- Recent Activity -->
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <h3 class="card-title h5 border-bottom pb-2">Recent Activity</h3>
-                        <div class="recent-activity">
-                            <?php if (empty($recentActivities)): ?>
-                                <p class="text-muted">No recent activities</p>
-                            <?php else: ?>
-                                <?php foreach ($recentActivities as $activity): ?>
-                                    <div class="activity-item border-bottom pb-2 mb-2">
-                                        <small class="text-muted">
-                                            <?php echo date('M j, Y g:i A', strtotime($activity['created_at'])); ?>
-                                        </small>
-                                        <p class="mb-0"><?php echo htmlspecialchars($activity['description']); ?></p>
-                                    </div>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </main>
 
@@ -530,68 +423,9 @@ $pass = $_SESSION['pass'];
             </div>
         </div>
     </div>
-
     <script src="../scripts/user-dashboard.js"></script>
-    <script>
-        function ridMessage() {
-            document.querySelector(".alert").classList.remove('d-flex');
-            document.querySelector(".alert").classList.add('d-none');
-        }
-
-        function makeEditable() {
-            var readItems = document.querySelectorAll('input[disabled], textarea[disabled]');
-            readItems.forEach((readItem) => {
-                readItem.disabled = false;
-            })
-        }
-
-        function showPass(inputId, showBtnId, hideBtnId) {
-            const input = document.getElementById(inputId);
-            const showBtn = document.getElementById(showBtnId);
-            const hideBtn = document.getElementById(hideBtnId);
-
-            input.type = "text";
-            showBtn.classList.add("d-none");
-            showBtn.classList.remove("d-block");
-            hideBtn.classList.remove("d-none");
-            hideBtn.classList.add("d-block");
-        }
-
-        function hidePass(inputId, showBtnId, hideBtnId) {
-            const input = document.getElementById(inputId);
-            const showBtn = document.getElementById(showBtnId);
-            const hideBtn = document.getElementById(hideBtnId);
-
-            input.type = "password";
-            hideBtn.classList.add("d-none");
-            hideBtn.classList.remove("d-block");
-            showBtn.classList.remove("d-none");
-            showBtn.classList.add("d-block");
-        }
-    </script>
-
 
     <?php placeFooter() ?>
-
-    <!-- Flatpickr JavaScript -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize birthday date picker with max date of today
-            flatpickr("#birth", {
-                maxDate: "today",
-                altInput: true,
-                altFormat: "F j, Y",
-                dateFormat: "Y-m-d",
-                allowInput: true,
-                onOpen: function() {
-                    // Only allow opening if the field is not disabled
-                    if (this.input.disabled) {
-                        this.close();
-                    }
-                }
-            });
-        });
-    </script>
 
 </body>
 
