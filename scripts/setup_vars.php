@@ -16,7 +16,6 @@ function getPersonData()
 
 function getDbConfig()
 {
-=======
     # Define default database configuration
     $config = [
         //'servername' => 'localhost',
