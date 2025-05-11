@@ -50,7 +50,7 @@
             <main class="events-container">
                 <section class="special-events">
                     <h2><i class="bi bi-calendar-event"></i> Host Your Special Events</h2>
-                    <p>Host your special events in our versatile spaces, perfect for weddings, corporate meetings, and social gatherings.</p>
+                    <p>Welcome,  Host your special events in our versatile spaces, perfect for weddings, corporate meetings, and social gatherings.</p>
                 </section>
 
                 <section class="event-list-container">
@@ -62,55 +62,79 @@
                         <article class="event-card">
                             <img src="../images/event1.jpg" alt="Event 1" />
                             <div class="event-details">
-                                <h2><i class="bi bi-music-note-beamed"></i> Jazz Night</h2>
-                                <p>Join us for an enchanting evening of live jazz music.</p>
-                                <p><strong>Date:</strong> May 15th, 2025</p>
-                                <button class="book-now">Book Now</button>
+                                <div class="content">
+                                    <h2><i class="bi bi-music-note-beamed"></i> Jazz Night</h2>
+                                    <p>Join us for an enchanting evening of live jazz music.</p>
+                                    <p class="date"><strong>Date:</strong> May 15th, 2025</p>
+                                </div>
+                                <div class="actions">
+                                    <button class="book-now">Book Now</button>
+                                </div>
                             </div>
                         </article>
                         <article class="event-card">
                             <img src="../images/event2.jpg" alt="Event 2" />
                             <div class="event-details">
-                                <h2><i class="bi bi-cup"></i> Wine Tasting</h2>
-                                <p>Savor the finest wines from around the world.</p>
-                                <p><strong>Date:</strong> May 22nd, 2025</p>
-                                <button class="book-now">Book Now</button>
+                                <div class="content">
+                                    <h2><i class="bi bi-cup"></i> Wine Tasting</h2>
+                                    <p>Savor the finest wines from around the world.</p>
+                                    <p class="date"><strong>Date:</strong> May 22nd, 2025</p>
+                                </div>
+                                <div class="actions">
+                                    <button class="book-now">Book Now</button>
+                                </div>
                             </div>
                         </article>
                         <article class="event-card">
                             <img src="../images/event3.jpg" alt="Event 3" />
                             <div class="event-details">
-                                <h2><i class="bi bi-stars"></i> Summer Gala</h2>
-                                <p>Celebrate summer with an elegant evening of fine dining and entertainment.</p>
-                                <p><strong>Date:</strong> June 5th, 2025</p>
-                                <button class="book-now">Book Now</button>
+                                <div class="content">
+                                    <h2><i class="bi bi-stars"></i> Summer Gala</h2>
+                                    <p>Celebrate summer with an elegant evening of fine dining and entertainment.</p>
+                                    <p class="date"><strong>Date:</strong> June 5th, 2025</p>
+                                </div>
+                                <div class="actions">
+                                    <button class="book-now">Book Now</button>
+                                </div>
                             </div>
                         </article>
                         <article class="event-card">
                             <img src="../images/event4.jpg" alt="Event 4" />
                             <div class="event-details">
-                                <h2><i class="bi bi-moon-stars"></i> Moonlight Dinner</h2>
-                                <p>An exclusive dining experience under the stars.</p>
-                                <p><strong>Date:</strong> June 12th, 2025</p>
-                                <button class="book-now">Book Now</button>
+                                <div class="content">
+                                    <h2><i class="bi bi-moon-stars"></i> Moonlight Dinner</h2>
+                                    <p>An exclusive dining experience under the stars.</p>
+                                    <p class="date"><strong>Date:</strong> June 12th, 2025</p>
+                                </div>
+                                <div class="actions">
+                                    <button class="book-now">Book Now</button>
+                                </div>
                             </div>
                         </article>
                         <article class="event-card">
                             <img src="../images/event5.jpg" alt="Event 5" />
                             <div class="event-details">
-                                <h2><i class="bi bi-music-note"></i> Classical Concert</h2>
-                                <p>Experience an evening of classical masterpieces.</p>
-                                <p><strong>Date:</strong> June 19th, 2025</p>
-                                <button class="book-now">Book Now</button>
+                                <div class="content">
+                                    <h2><i class="bi bi-music-note"></i> Classical Concert</h2>
+                                    <p>Experience an evening of classical masterpieces.</p>
+                                    <p class="date"><strong>Date:</strong> June 19th, 2025</p>
+                                </div>
+                                <div class="actions">
+                                    <button class="book-now">Book Now</button>
+                                </div>
                             </div>
                         </article>
                         <article class="event-card">
                             <img src="../images/event6.jpg" alt="Event 6" />
                             <div class="event-details">
-                                <h2><i class="bi bi-palette"></i> Art Exhibition</h2>
-                                <p>Featuring local and international artists.</p>
-                                <p><strong>Date:</strong> June 25th, 2025</p>
-                                <button class="book-now">Book Now</button>
+                                <div class="content">
+                                    <h2><i class="bi bi-palette"></i> Art Exhibition</h2>
+                                    <p>Featuring local and international artists.</p>
+                                    <p class="date"><strong>Date:</strong> June 25th, 2025</p>
+                                </div>
+                                <div class="actions">
+                                    <button class="book-now">Book Now</button>
+                                </div>
                             </div>
                         </article>
                     </div>
@@ -151,12 +175,99 @@
                         </div>
                     </div>
                 </section>
-            </main>
-        </div>
 
-        <?php placeFooter() ?>
+                <section class="upcoming-events-section">
+                    <h2>Upcoming Events</h2>
+                    <div class="upcoming-events-grid">
+                        <div class="upcoming-event-card large" style="background-image: url('../images/upcoming-event1.jpg');">
+                            <div class="overlay">
+                                <h3>Jazz Night</h3>
+                                <p>May 15th, 2025</p>
+                            </div>
+                        </div>
+                        <div class="upcoming-event-card" style="background-image: url('../images/upcoming-event2.jpg');">
+                            <div class="overlay">
+                                <h3>Wine Tasting</h3>
+                                <p>May 22nd, 2025</p>
+                            </div>
+                        </div>
+                        <div class="upcoming-event-card" style="background-image: url('../images/upcoming-event3.jpg');">
+                            <div class="overlay">
+                                <h3>Summer Gala</h3>
+                                <p>June 5th, 2025</p>
+                            </div>
+                        </div>
+                        <div class="upcoming-event-card large" style="background-image: url('../images/upcoming-event4.jpg');">
+                            <div class="overlay">
+                                <h3>Moonlight Dinner</h3>
+                                <p>June 12th, 2025</p>
+                            </div>
+                        </div>
+                        <div class="upcoming-event-card" style="background-image: url('../images/upcoming-event5.jpg');">
+                            <div class="overlay">
+                                <h3>Classical Concert</h3>
+                                <p>June 19th, 2025</p>
+                            </div>
+                        </div>
+                        <div class="upcoming-event-card" style="background-image: url('../images/upcoming-event6.jpg');">
+                            <div class="overlay">
+                                <h3>Art Exhibition</h3>
+                                <p>June 25th, 2025</p>
+                            </div>
+                        </div>
+                        <div class="upcoming-event-card large" style="background-image: url('../images/upcoming-event7.jpg');">
+                            <div class="overlay">
+                                <h3>Food Carnival</h3>
+                                <p>July 5th, 2025</p>
+                            </div>
+                        </div>
+                        <div class="upcoming-event-card" style="background-image: url('../images/upcoming-event8.jpg');">
+                            <div class="overlay">
+                                <h3>Book Fair</h3>
+                                <p>July 10th, 2025</p>
+                            </div>
+                        </div>
+                        <div class="upcoming-event-card" style="background-image: url('../images/upcoming-event9.jpg');">
+                            <div class="overlay">
+                                <h3>Stand-Up Comedy Night</h3>
+                                <p>July 15th, 2025</p>
+                            </div>
+                        </div>
+                        <div class="upcoming-event-card large" style="background-image: url('../images/upcoming-event10.jpg');">
+                            <div class="overlay">
+                                <h3>Summer Fashion Show</h3>
+                                <p>July 20th, 2025</p>
+                            </div>
+                        </div>
+                        <div class="upcoming-event-card" style="background-image: url('../images/upcoming-event11.jpg');">
+                            <div class="overlay">
+                                <h3>Tech Conference</h3>
+                                <p>July 25th, 2025</p>
+                            </div>
+                        </div>
+                        <div class="upcoming-event-card" style="background-image: url('../images/upcoming-event12.jpg');">
+                            <div class="overlay">
+                                <h3>Dance Workshop</h3>
+                                <p>August 1st, 2025</p>
+                            </div>
+                        </div>
+                        <div class="upcoming-event-card large" style="background-image: url('../images/upcoming-event13.jpg');">
+                            <div class="overlay">
+                                <h3>Film Festival</h3>
+                                <p>August 5th, 2025</p>
+                            </div>
+                        </div>
+                        <div class="upcoming-event-card" style="background-image: url('../images/upcoming-event14.jpg');">
+                            <div class="overlay">
+                                <h3>Poetry Reading</h3>
+                                <p>August 10th, 2025</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
     </div>
     <script src="../scripts/events.js"></script>
 </body>
-
+<?php placeFooter() ?>
 </html>

@@ -8,38 +8,38 @@
 }
 
 .background-pattern {
-	position: relative;
-	min-height: 100vh;
-	width: 100%;
-	overflow: hidden;
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    overflow: hidden;
 }
 
 .background-pattern::before {
-	content: "";
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	background-image: url(../assets/svg-patterns/cube1-bg-wh.svg);
-	background-size: 80px;
-	background-repeat: repeat;
-	background-position: center;
-	pointer-events: none;
-	z-index: -999999;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url(../assets/svg-patterns/cube1-bg-wh.svg);
+    background-size: 80px;
+    background-repeat: repeat;
+    background-position: center;
+    pointer-events: none;
+    z-index: -999999;
 
-	mask-image: linear-gradient(
-		to bottom,
-		transparent 0%,
-		rgba(0, 0, 0, 1) 50%,
-		transparent 100%
-	);
-	-webkit-mask-image: linear-gradient(
-		to bottom,
-		transparent 0%,
-		rgba(0, 0, 0, 1) 50%,
-		transparent 100%
-	);
+    mask-image: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(0, 0, 0, 1) 50%,
+        transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(0, 0, 0, 1) 50%,
+        transparent 100%
+    );
 }
 
 /* Hero Section */
@@ -145,6 +145,37 @@
     padding: 20px 0;
 }
 
+.nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    color: var(--base);
+    cursor: pointer;
+    display: flex;
+    background-color: #ffffff00;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s;
+    z-index: 2;
+}
+
+.nav-arrow:hover {
+    background: var(--accent);
+}
+
+.prev-arrow {
+    left: 10px;
+}
+
+.next-arrow {
+    right: 10px;
+}
+
+/* Event Card */
 .event-card {
     min-width: calc(33.333% - 20px);
     flex: 0 0 calc(33.333% - 20px);
@@ -153,6 +184,8 @@
     overflow: hidden;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
 }
 
 .event-card:hover {
@@ -168,6 +201,13 @@
 
 .event-details {
     padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.event-details .content {
+    flex-grow: 1;
 }
 
 .event-details h2 {
@@ -182,6 +222,20 @@
     font: var(--body-font);
     margin-bottom: 15px;
     color: var(--text);
+}
+
+.actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    padding-top: 15px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.date {
+    color: var(--text);
+    font: var(--body-font);
 }
 
 .book-now {
@@ -199,39 +253,83 @@
     background-color: var(--accent);
 }
 
-/* Navigation Arrows */
-.nav-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: transparent;
-    color: var(--heading-font);
-    border: none;
+/* Upcoming Events Section */
+.upcoming-events-section {
+    margin-top: 40px;
+    padding: 40px 20px;
+    background-color: var(--background);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.upcoming-events-section h2 {
+    font: var(--heading-font);
+    color: var(--text);
+    margin-bottom: 30px;
+}
+
+.upcoming-events-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.upcoming-event-card {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 250px;
     cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.upcoming-event-card.large {
+    grid-column: span 2;
+    height: 350px;
+}
+
+.upcoming-event-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+.upcoming-event-card .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    color: #ffffff;
     display: flex;
-    align-items: center;
+    flex-direction: column;
     justify-content: center;
-    z-index: 2;
-    transition: color 0.3s;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 0.3s;
 }
 
-.nav-arrow:hover {
-    color: var(--base);
+.upcoming-event-card:hover .overlay {
+    opacity: 1;
 }
 
-.prev-arrow {
-    left: -60px;
+.upcoming-event-card .overlay h3 {
+    font: var(--subheading-font);
+    margin: 0;
+    font-size: 1.5em;
 }
 
-.next-arrow {
-    right: -60px;
-}
-
-.nav-arrow i {
-    font-size: 2rem;
+.upcoming-event-card .overlay p {
+    font: var(--body-font);
+    margin: 10px 0 0 0;
+    font-size: 1.1em;
 }
 
 /* Events & Convention Center */
@@ -240,6 +338,7 @@
     padding: 40px;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 40px 0;
 }
 
 .events-convention h2 {
@@ -316,22 +415,28 @@
 
 /* Responsive Design */
 @media (max-width: 1200px) {
-    .nav-arrow {
-        width: 30px;
-        height: 30px;
-    }
-    
-    .prev-arrow {
-        left: -40px;
-    }
-    
-    .next-arrow {
-        right: -40px;
-    }
-    
     .event-card {
         min-width: calc(50% - 15px);
         flex: 0 0 calc(50% - 15px);
+    }
+
+    .upcoming-event-card.large {
+        grid-column: span 1;
+        height: 300px;
+    }
+    
+    .upcoming-events-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .datetime-display,
+    .user-login {
+        position: relative;
+        top: 0;
+        left: 0;
+        right: 0;
+        margin: 10px auto;
+        width: fit-content;
     }
 }
 
@@ -339,34 +444,47 @@
     .hero-section {
         height: 60vh;
     }
-    
+
     .event-list-container {
         padding: 0 30px;
     }
-    
-    .prev-arrow {
-        left: -10px;
-    }
-    
-    .next-arrow {
-        right: -10px;
-    }
-    
+
     .event-card {
         min-width: calc(100% - 10px);
         flex: 0 0 calc(100% - 10px);
     }
-    
+
+    .event-details {
+        height: auto;
+    }
+
+    .actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .date {
+        text-align: center;
+    }
+
+    .book-now {
+        width: 100%;
+    }
+
     .features-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .features-grid .feature:last-child {
         grid-column: auto;
     }
-    
+
     .events-convention {
         padding: 20px;
+    }
+
+    .upcoming-events-grid {
+        grid-template-columns: 1fr;
     }
 }
 
@@ -374,17 +492,24 @@
     .hero-section {
         height: 50vh;
     }
-    
+
     .slide h1 {
         font-size: 1.5em;
     }
-    
+
     .event-list-container {
         padding: 0 20px;
     }
-    
+
     .special-events,
-    .events-convention {
+    .events-convention,
+    .upcoming-events-section {
         padding: 20px 15px;
+    }
+
+    .datetime-display,
+    .user-login {
+        font-size: 0.9em;
+        padding: 8px 12px;
     }
 }
