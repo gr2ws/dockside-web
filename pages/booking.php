@@ -3,9 +3,6 @@ session_start();
 require_once '../scripts/setup_vars.php';
 require_once '../scripts/handle_bookings.php';
 
-// Check if user is logged in - more robust check to ensure valid session
-$isLoggedIn = isset($_SESSION['id']) && !empty($_SESSION['id']) && is_numeric($_SESSION['id']);
-
 // Get query parameters
 $checkinDate = isset($_GET['checkin']) ? $_GET['checkin'] : '';
 $checkoutDate = isset($_GET['checkout']) ? $_GET['checkout'] : '';
@@ -24,12 +21,9 @@ if (!empty($checkinDate) || !empty($checkoutDate) || !empty($roomType)) {
     $currentUrl .= implode('&', $params);
 }
 
-// Redirect to login if user is not authenticated
-if (!$isLoggedIn) {
-    $_SESSION['booking_error'] = "Please log in to access the booking page.";
-    header("Location: login.php?redirect=" . urlencode($currentUrl));
-    exit;
-}
+// Check authentication and redirect if not logged in
+checkBookingAuthentication($currentUrl);
+
 // For any links in the page that need to redirect to login
 $loginRedirect = "login.php?redirect=" . urlencode($currentUrl);
 
@@ -43,86 +37,12 @@ if (isset($_SESSION['booking_error'])) {
 // Initialize booking variables
 $selectedRoom = null;
 $availableRooms = [];
-$totalNights = 0;
-$totalPrice = 0;
-
-// Calculate nights if dates provided
-if (!empty($checkinDate) && !empty($checkoutDate)) {
-    $checkin = new DateTime($checkinDate);
-    $checkout = new DateTime($checkoutDate);
-    $totalNights = $checkout->diff($checkin)->days;
-}
-
-// Function to check room availability
-function getAvailableRooms($checkin, $checkout, $roomType = '')
-{
-    $dbConfig = getDbConfig();
-    $conn = new mysqli($dbConfig['servername'], $dbConfig['username'], $dbConfig['password'], $dbConfig['dbname']);
-
-    if ($conn->connect_error) {
-        return ['error' => "Connection failed: " . $conn->connect_error];
-    }
-
-    // Base query - check for rooms that are vacant and not booked during the requested dates
-    $availableRooms = [];
-
-    if (!empty($checkin) && !empty($checkout)) {
-        $checkin = $conn->real_escape_string($checkin);
-        $checkout = $conn->real_escape_string($checkout);
-
-        // Get rooms that are vacant and not already booked during this period
-        $sql = "SELECT r.* FROM room r 
-                WHERE r.room_avail = 'vacant'
-                AND NOT EXISTS (
-                    SELECT 1 FROM booking b 
-                    WHERE b.room_id = r.room_id 
-                    AND (
-                        (b.bkg_datein <= ? AND b.bkg_dateout > ?) OR
-                        (b.bkg_datein < ? AND b.bkg_dateout >= ?) OR
-                        (b.bkg_datein >= ? AND b.bkg_dateout <= ?)
-                    )
-                )";        // Add room type filter if provided
-        if (!empty($roomType)) {
-            $sql .= " AND r.room_type = ?";
-
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("sssssss", $checkout, $checkin, $checkout, $checkin, $checkin, $checkout, $roomType);
-        } else {
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("ssssss", $checkout, $checkin, $checkout, $checkin, $checkin, $checkout);
-        }
-
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        if ($result && $result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $availableRooms[] = $row;
-            }
-        }
-    } else {
-        // Simple room type query if no dates are provided
-        $sql = "SELECT * FROM room WHERE room_avail = 'vacant'";
-
-        // Add room type filter if provided
-        if (!empty($roomType)) {
-            $roomType = $conn->real_escape_string($roomType);
-            $sql .= " AND room_type = '$roomType'";
-        }
-
-        // Execute query
-        $result = $conn->query($sql);
-
-        if ($result && $result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $availableRooms[] = $row;
-            }
-        }
-    }
-
-    $conn->close();
-    return $availableRooms;
-}
+$bookingDetails = [
+    'totalNights' => 0,
+    'totalPrice' => 0,
+    'checkinFormatted' => '',
+    'checkoutFormatted' => ''
+];
 
 // Get available rooms if search parameters exist
 if (!empty($checkinDate) && !empty($checkoutDate)) {
@@ -137,7 +57,7 @@ if (isset($_GET['selected_room'])) {
     foreach ($availableRooms as $room) {
         if ($room['room_id'] == $selectedRoomId) {
             $selectedRoom = $room;
-            $totalPrice = $selectedRoom['room_price'] * $totalNights;
+            $bookingDetails = calculateBookingDetails($checkinDate, $checkoutDate, $selectedRoom);
             break;
         }
     }
@@ -145,7 +65,6 @@ if (isset($_GET['selected_room'])) {
 
 // Handle booking submission
 $bookingSuccess = false;
-$bookingError = '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_booking'])) {
     // Process the booking submission
@@ -155,65 +74,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_booking'])) {
     $userId = (int)$_SESSION['id']; // Ensure we have an integer
     $totalPrice = $_POST['total_price'];
 
-    // Validate user ID
-    if (!$userId || $userId <= 0) {
-        $bookingError = "Invalid user account. Please log out and log in again.";
-        $_SESSION['booking_error'] = $bookingError;
-        header("Location: login.php");
-        exit;
-    }
-
-    $dbConfig = getDbConfig();
-    $conn = new mysqli($dbConfig['servername'], $dbConfig['username'], $dbConfig['password'], $dbConfig['dbname']);
-
-    if ($conn->connect_error) {
-        $bookingError = "Connection failed: " . $conn->connect_error;
-    } else {
-        // Begin transaction
-        $conn->begin_transaction();
-
-        try {                // Check if user ID exists in person table
-            $checkUserStmt = $conn->prepare("SELECT pers_id FROM person WHERE pers_id = ?");
-            $checkUserStmt->bind_param("i", $userId);
-            $checkUserStmt->execute();
-            $userResult = $checkUserStmt->get_result();
-
-            if ($userResult->num_rows === 0) {
-                throw new Exception("Invalid user account. Please log out and log in again.");
-            }
-
-            // Insert new booking
-            $stmt = $conn->prepare("INSERT INTO booking (bkg_datein, bkg_dateout, bkg_totalpr, room_id, pers_id) VALUES (?, ?, ?, ?, ?)");
-            $stmt->bind_param("ssdii", $checkinDate, $checkoutDate, $totalPrice, $roomId, $userId);
-
-            if ($stmt->execute()) {
-                $bookingId = $conn->insert_id;
-
-                // Update room availability
-                $updateStmt = $conn->prepare("UPDATE room SET room_avail = 'occupied', booking_id = ? WHERE room_id = ?");
-                $updateStmt->bind_param("ii", $bookingId, $roomId);
-
-                if ($updateStmt->execute()) {
-                    $conn->commit();
-                    $bookingSuccess = true;
-                } else {
-                    throw new Exception("Failed to update room status");
-                }
-            } else {
-                throw new Exception("Failed to create booking");
-            }
-        } catch (Exception $e) {
-            $conn->rollback();
-            // Get mysqli error for more details if it's a database error
-            if ($conn->error) {
-                $bookingError = $e->getMessage() . " - Database error: " . $conn->error;
-            } else {
-                $bookingError = $e->getMessage();
-            }
-        }
-
-        $conn->close();
-    }
+    $result = processBooking($roomId, $checkinDate, $checkoutDate, $userId, $totalPrice);
+    $bookingSuccess = $result['success'];
+    $bookingError = $result['error'];
 }
 
 ?>
@@ -225,8 +88,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_booking'])) {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dockside Hotel© - Book Your Stay</title>
-    <?php require 'common.php'; ?>
     <link rel="stylesheet" href="../styles/booking.css" />
+    <?php require 'common.php'; ?>
 </head>
 
 <body>
@@ -330,33 +193,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_booking'])) {
                                     <p><strong>Room #:</strong> <?php echo $selectedRoom['room_id']; ?></p>
                                     <p><strong>Capacity:</strong> <?php echo $selectedRoom['room_capacity']; ?> guests</p>
                                     <p><strong>Price per Night:</strong> ₱<?php echo number_format($selectedRoom['room_price'], 2); ?></p>
-
                                     <h5 class="mt-4">Stay Details</h5>
-                                    <p><strong>Check-in Date:</strong> <?php echo date('F j, Y', strtotime($checkinDate)); ?></p>
-                                    <p><strong>Check-out Date:</strong> <?php echo date('F j, Y', strtotime($checkoutDate)); ?></p>
-                                    <p><strong>Duration:</strong> <?php echo $totalNights; ?> night(s)</p>
+                                    <p><strong>Check-in Date:</strong> <?php echo $bookingDetails['checkinFormatted']; ?></p>
+                                    <p><strong>Check-out Date:</strong> <?php echo $bookingDetails['checkoutFormatted']; ?></p>
+                                    <p><strong>Duration:</strong> <?php echo $bookingDetails['totalNights']; ?> night(s)</p>
                                 </div>
                                 <div class="col-md-5">
                                     <div class="card card-body bg-light">
                                         <h5>Price Summary</h5>
                                         <div class="d-flex justify-content-between mt-3">
-                                            <span>Room Rate (<?php echo $totalNights; ?> nights):</span>
-                                            <span>₱<?php echo number_format($selectedRoom['room_price'] * $totalNights, 2); ?></span>
+                                            <span>Room Rate (<?php echo $bookingDetails['totalNights']; ?> nights):</span>
+                                            <span>₱<?php echo number_format($bookingDetails['totalPrice'], 2); ?></span>
                                         </div>
                                         <div class="d-flex justify-content-between mt-2">
                                             <span>Taxes & Fees (12%):</span>
-                                            <span>₱<?php echo number_format(($selectedRoom['room_price'] * $totalNights) * 0.12, 2); ?></span>
+                                            <span>₱<?php echo number_format($bookingDetails['totalPrice'] * 0.12, 2); ?></span>
                                         </div>
                                         <hr>
                                         <div class="d-flex justify-content-between fw-bold">
                                             <span>Total Amount:</span>
-                                            <span>₱<?php echo number_format(($selectedRoom['room_price'] * $totalNights) * 1.12, 2); ?></span>
+                                            <span>₱<?php echo number_format($bookingDetails['totalPrice'] * 1.12, 2); ?></span>
                                         </div>
                                         <form action="booking.php" method="POST" class="mt-4">
                                             <input type="hidden" name="room_id" value="<?php echo $selectedRoom['room_id']; ?>">
                                             <input type="hidden" name="checkin" value="<?php echo $checkinDate; ?>">
                                             <input type="hidden" name="checkout" value="<?php echo $checkoutDate; ?>">
-                                            <input type="hidden" name="total_price" value="<?php echo ($selectedRoom['room_price'] * $totalNights) * 1.12; ?>">
+                                            <input type="hidden" name="total_price" value="<?php echo $bookingDetails['totalPrice'] * 1.12; ?>">
                                             <button type="submit" name="confirm_booking" class="btn btn-success w-100">Confirm Booking</button>
                                             <a href="booking.php" class="btn btn-outline-secondary w-100 mt-2">Cancel</a>
                                         </form>
@@ -374,67 +236,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_booking'])) {
                 </div>
             <?php endif; ?>
         <?php endif; ?>
-    </main>
-
-    <?php placeFooter() ?> <!-- Flatpickr JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize checkin date picker
-            const checkinPicker = flatpickr("#search-checkin", {
-                minDate: "today",
-                altInput: true,
-                altFormat: "F j, Y",
-                dateFormat: "Y-m-d",
-                onChange: function(selectedDates, dateStr, instance) {
-                    // Update checkout min date when checkin changes
-                    if (selectedDates.length > 0) {
-                        // Set checkout min date to the day after checkin
-                        const nextDay = new Date(selectedDates[0]);
-                        nextDay.setDate(nextDay.getDate() + 1);
-                        checkoutPicker.set('minDate', nextDay);
-
-                        // If checkout date is before new min, reset it
-                        if (checkoutPicker.selectedDates.length > 0 &&
-                            checkoutPicker.selectedDates[0] <= selectedDates[0]) {
-                            checkoutPicker.setDate(nextDay);
-                        }
-                    }
-                }
-            });
-
-            // Initialize checkout date picker
-            const checkoutPicker = flatpickr("#search-checkout", {
-                minDate: new Date().fp_incr(1), // tomorrow
-                altInput: true,
-                altFormat: "F j, Y",
-                dateFormat: "Y-m-d"
-            });
-
-            // Validate form submission
-            document.getElementById("search-form").addEventListener("submit", function(e) {
-                const checkin = document.getElementById("search-checkin").value;
-                const checkout = document.getElementById("search-checkout").value;
-
-                if (!checkin || !checkout) {
-                    e.preventDefault();
-                    alert("Please select both check-in and check-out dates");
-                    return false;
-                }
-
-                const checkinDate = new Date(checkin);
-                const checkoutDate = new Date(checkout);
-
-                if (checkinDate >= checkoutDate) {
-                    e.preventDefault();
-                    alert("Check-out date must be after check-in date");
-                    return false;
-                }
-
-                return true;
-            });
-        });
-    </script>
+        <script src="../scripts/booking.js"></script>
+    </main> <?php placeFooter() ?>
 </body>
 
 </html>

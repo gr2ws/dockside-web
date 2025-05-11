@@ -43,6 +43,27 @@ function getUserBookings($userId)
 }
 
 /**
+ * Check if user is logged in and redirect if not
+ * 
+ * @param string $redirectUrl URL to redirect to after login
+ * @return bool True if user is logged in
+ */
+function checkBookingAuthentication($redirectUrl = '')
+{
+    // Check if user is logged in - more robust check to ensure valid session
+    $isLoggedIn = isset($_SESSION['id']) && !empty($_SESSION['id']) && is_numeric($_SESSION['id']);
+
+    // Redirect to login if user is not authenticated
+    if (!$isLoggedIn) {
+        $_SESSION['booking_error'] = "Please log in to access the booking page.";
+        header("Location: login.php?redirect=" . urlencode($redirectUrl));
+        exit;
+    }
+
+    return true;
+}
+
+/**
  * Check if a booking can be cancelled
  * 
  * @param string $checkinDate Check-in date
@@ -109,6 +130,265 @@ function cancelBooking($bookingId)
     } finally {
         $conn->close();
     }
+}
+
+/**
+ * Get available rooms based on search criteria
+ * 
+ * @param string $checkin Check-in date (YYYY-MM-DD)
+ * @param string $checkout Check-out date (YYYY-MM-DD)
+ * @param string $roomType Optional room type filter
+ * @return array Available rooms
+ */
+function getAvailableRooms($checkin, $checkout, $roomType = '')
+{
+    $dbConfig = getDbConfig();
+    $conn = new mysqli($dbConfig['servername'], $dbConfig['username'], $dbConfig['password'], $dbConfig['dbname']);
+
+    if ($conn->connect_error) {
+        return ['error' => "Connection failed: " . $conn->connect_error];
+    }
+
+    // Base query - check for rooms that are vacant and not booked during the requested dates
+    $availableRooms = [];
+
+    if (!empty($checkin) && !empty($checkout)) {
+        $checkin = $conn->real_escape_string($checkin);
+        $checkout = $conn->real_escape_string($checkout);
+
+        // Get rooms that are vacant and not already booked during this period
+        $sql = "SELECT r.* FROM room r 
+                WHERE r.room_avail = 'vacant'
+                AND NOT EXISTS (
+                    SELECT 1 FROM booking b 
+                    WHERE b.room_id = r.room_id 
+                    AND (
+                        (b.bkg_datein <= ? AND b.bkg_dateout > ?) OR
+                        (b.bkg_datein < ? AND b.bkg_dateout >= ?) OR
+                        (b.bkg_datein >= ? AND b.bkg_dateout <= ?)
+                    )
+                )";
+        // Add room type filter if provided
+        if (!empty($roomType)) {
+            $sql .= " AND r.room_type = ?";
+
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("sssssss", $checkout, $checkin, $checkout, $checkin, $checkin, $checkout, $roomType);
+        } else {
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("ssssss", $checkout, $checkin, $checkout, $checkin, $checkin, $checkout);
+        }
+
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result && $result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $availableRooms[] = $row;
+            }
+        }
+    } else {
+        // Simple room type query if no dates are provided
+        $sql = "SELECT * FROM room WHERE room_avail = 'vacant'";
+
+        // Add room type filter if provided
+        if (!empty($roomType)) {
+            $roomType = $conn->real_escape_string($roomType);
+            $sql .= " AND room_type = '$roomType'";
+        }
+
+        // Execute query
+        $result = $conn->query($sql);
+
+        if ($result && $result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $availableRooms[] = $row;
+            }
+        }
+    }
+
+    $conn->close();
+    return $availableRooms;
+}
+
+/**
+ * Calculate booking details (nights, total price)
+ * 
+ * @param string $checkinDate Check-in date (YYYY-MM-DD)
+ * @param string $checkoutDate Check-out date (YYYY-MM-DD)
+ * @param array $room Room details array
+ * @return array Booking details
+ */
+function calculateBookingDetails($checkinDate, $checkoutDate, $room = null)
+{
+    $details = [
+        'totalNights' => 0,
+        'totalPrice' => 0,
+        'checkinFormatted' => '',
+        'checkoutFormatted' => ''
+    ];
+
+    if (!empty($checkinDate) && !empty($checkoutDate)) {
+        $checkin = new DateTime($checkinDate);
+        $checkout = new DateTime($checkoutDate);
+        $details['totalNights'] = $checkout->diff($checkin)->days;
+        $details['checkinFormatted'] = $checkin->format('F j, Y');
+        $details['checkoutFormatted'] = $checkout->format('F j, Y');
+
+        if ($room && isset($room['room_price'])) {
+            $details['totalPrice'] = $room['room_price'] * $details['totalNights'];
+        }
+    }
+
+    return $details;
+}
+
+/**
+ * Process a new booking
+ * 
+ * @param int $roomId Room ID
+ * @param string $checkinDate Check-in date (YYYY-MM-DD)
+ * @param string $checkoutDate Check-out date (YYYY-MM-DD)
+ * @param int $userId User ID
+ * @param float $totalPrice Total booking price
+ * @return array Result of booking operation
+ */
+function processBooking($roomId, $checkinDate, $checkoutDate, $userId, $totalPrice)
+{
+    $result = [
+        'success' => false,
+        'error' => ''
+    ];
+
+    // Validate user ID
+    if (!$userId || $userId <= 0) {
+        $result['error'] = "Invalid user account. Please log out and log in again.";
+        return $result;
+    }
+
+    $dbConfig = getDbConfig();
+    $conn = new mysqli($dbConfig['servername'], $dbConfig['username'], $dbConfig['password'], $dbConfig['dbname']);
+
+    if ($conn->connect_error) {
+        $result['error'] = "Connection failed: " . $conn->connect_error;
+        return $result;
+    }
+
+    // Begin transaction
+    $conn->begin_transaction();
+
+    try {
+        // Check if user ID exists in person table
+        $checkUserStmt = $conn->prepare("SELECT pers_id FROM person WHERE pers_id = ?");
+        $checkUserStmt->bind_param("i", $userId);
+        $checkUserStmt->execute();
+        $userResult = $checkUserStmt->get_result();
+
+        if ($userResult->num_rows === 0) {
+            throw new Exception("Invalid user account. Please log out and log in again.");
+        }
+
+        // Insert new booking
+        $stmt = $conn->prepare("INSERT INTO booking (bkg_datein, bkg_dateout, bkg_totalpr, room_id, pers_id) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssdii", $checkinDate, $checkoutDate, $totalPrice, $roomId, $userId);
+
+        if ($stmt->execute()) {
+            $bookingId = $conn->insert_id;
+
+            // Update room availability
+            $updateStmt = $conn->prepare("UPDATE room SET room_avail = 'occupied', booking_id = ? WHERE room_id = ?");
+            $updateStmt->bind_param("ii", $bookingId, $roomId);
+
+            if ($updateStmt->execute()) {
+                $conn->commit();
+                $result['success'] = true;
+            } else {
+                throw new Exception("Failed to update room status");
+            }
+        } else {
+            throw new Exception("Failed to create booking");
+        }
+    } catch (Exception $e) {
+        $conn->rollback();
+        // Get mysqli error for more details if it's a database error
+        if ($conn->error) {
+            $result['error'] = $e->getMessage() . " - Database error: " . $conn->error;
+        } else {
+            $result['error'] = $e->getMessage();
+        }
+    }
+
+    $conn->close();
+    return $result;
+}
+
+/**
+ * Validate booking dates
+ * 
+ * @param string $checkinDate Check-in date
+ * @param string $checkoutDate Check-out date
+ * @return array Validation result with success flag and error message
+ */
+function validateBookingDates($checkinDate, $checkoutDate)
+{
+    $result = [
+        'valid' => true,
+        'error' => ''
+    ];
+
+    // Check if dates are empty
+    if (empty($checkinDate) || empty($checkoutDate)) {
+        $result['valid'] = false;
+        $result['error'] = 'Both check-in and check-out dates are required.';
+        return $result;
+    }
+
+    try {
+        $today = new DateTime();
+        $today->setTime(0, 0, 0); // Set to beginning of day for comparison
+
+        $checkin = new DateTime($checkinDate);
+        $checkout = new DateTime($checkoutDate);
+
+        // Check if check-in date is in the past
+        if ($checkin < $today) {
+            $result['valid'] = false;
+            $result['error'] = 'Check-in date cannot be in the past.';
+            return $result;
+        }
+
+        // Check if check-out date is before check-in date
+        if ($checkout <= $checkin) {
+            $result['valid'] = false;
+            $result['error'] = 'Check-out date must be after check-in date.';
+            return $result;
+        }
+
+        // Check if stay is longer than maximum allowed (e.g., 30 days)
+        $daysDiff = $checkout->diff($checkin)->days;
+        if ($daysDiff > 30) {
+            $result['valid'] = false;
+            $result['error'] = 'Bookings cannot exceed 30 days.';
+            return $result;
+        }
+    } catch (Exception $e) {
+        $result['valid'] = false;
+        $result['error'] = 'Invalid date format.';
+        return $result;
+    }
+
+    return $result;
+}
+
+/**
+ * Format currency amount
+ * 
+ * @param float $amount Amount to format
+ * @return string Formatted currency string
+ */
+function formatCurrency($amount)
+{
+    return '₱' . number_format($amount, 2);
 }
 
 // Handle booking cancellation
