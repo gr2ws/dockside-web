@@ -46,9 +46,4 @@ function placeBookingHeader()
     require '../components/booking_header.html';
 }
 
-# backend functions
-require '../scripts/handle_newacc.php';
-require '../scripts/handle_login.php';
-require '../scripts/handle_bookings.php';
-
 ?>

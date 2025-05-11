@@ -1,8 +1,8 @@
 <?php
-
-require 'common.php';
-
 session_start();
+
+require '../scripts/handle_login.php';
+require 'common.php';
 
 // Prepare a message variable
 $loginMessage = null;

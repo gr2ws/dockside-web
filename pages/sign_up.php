@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+require '../scripts/handle_newacc.php';
+
 // Check for redirect parameter
 $redirect = isset($_GET['redirect']) ? $_GET['redirect'] : '';
 ?>
@@ -88,10 +90,11 @@ $redirect = isset($_GET['redirect']) ? $_GET['redirect'] : '';
 					<div class="form-group flex-col-center container">
 						<label for="birth">Birthday:</label>
 						<input
-							type="date"
-							class="form-control"
+							type="text"
+							class="form-control flatpickr-date"
 							id="birth"
 							name="birth"
+							placeholder="Select your date of birth"
 							required />
 					</div>
 					<div class="form-group flex-col-center container">
@@ -137,8 +140,21 @@ $redirect = isset($_GET['redirect']) ? $_GET['redirect'] : '';
 				</form>
 			</section>
 		</div>
-	</div>
-	<?php placeFooter() ?>
+	</div> <?php placeFooter() ?>
+
+	<!-- Flatpickr JavaScript -->
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			// Initialize birthday date picker with max date of today
+			flatpickr("#birth", {
+				maxDate: "today",
+				altInput: true,
+				altFormat: "F j, Y",
+				dateFormat: "Y-m-d"
+			});
+		});
+	</script>
 </body>
 
 </html>

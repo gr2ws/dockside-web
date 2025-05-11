@@ -317,10 +317,11 @@ $pass = $_SESSION['pass'];
                                 <div class="mb-3">
                                     <label for="birth">Birthday</label>
                                     <input
-                                        type="date"
-                                        class="form-control"
+                                        type="text"
+                                        class="form-control flatpickr-date"
                                         id="birth"
                                         name="birth"
+                                        placeholder="Date of birth"
                                         disabled
                                         value="<?php echo $birth; ?>"
                                         required>
@@ -567,6 +568,26 @@ $pass = $_SESSION['pass'];
         }
     </script>
 
+    <!-- Flatpickr JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize birthday date picker with max date of today
+            flatpickr("#birth", {
+                maxDate: "today",
+                altInput: true,
+                altFormat: "F j, Y",
+                dateFormat: "Y-m-d",
+                allowInput: true,
+                onOpen: function() {
+                    // Only allow opening if the field is not disabled
+                    if (this.input.disabled) {
+                        this.close();
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

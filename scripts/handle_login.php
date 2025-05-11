@@ -1,4 +1,5 @@
 <?php
+// Note: session_start() should be called by the including file before including this file
 
 require_once __DIR__ . '/setup_vars.php';
 
