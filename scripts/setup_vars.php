@@ -35,8 +35,9 @@ function getRoomData()
 {
     return [
         'id'          => $_POST['room_id'] ?? '',
-        'type'        => $_POST['room_type'] ?? '',
-        'capacity'    => $_POST['room_capacity'] ?? '',
-        'availability' => $_POST['room_availability'] ?? '',
+        'type'        => $_POST['type'] ?? '',
+        'capacity'    => $_POST['capacity'] ?? '',
+        'availability' => $_POST['availability'] ?? '',
+        'price'       => $_POST['price'] ?? '',
     ];
 }

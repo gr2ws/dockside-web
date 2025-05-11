@@ -30,27 +30,41 @@ if (isset($_POST['roomnum'])) {
         // Check if the query returned a result
         if ($result && $result->num_rows > 0) {
             $row = $result->fetch_assoc(); // Fetch the row as an associative array
-            $roomid = $row['room_id'];
+
+            // fetch data to plug into session superglobal array.
+            $roomnum = $row['room_id'];
             $type = $row['room_type'];
             $capacity = $row['room_capacity'];
             $availability = $row['room_avail'];
             $price = $row['room_price'];
+
+            $_SESSION['room_num'] = $roomnum;
+            $_SESSION['room_type'] = $type;
+            $_SESSION['room_capacity'] = $capacity;
+            $_SESSION['room_availability'] = $availability;
+            $_SESSION['room_price'] = $price;
         }
         $conn->close();
     }
 }
 
-
-$roomnum = isset($_SESSION['id']) ? $_SESSION['id'] : '';
-$roomtype = isset($_SESSION['room_type']) ? $_SESSION['room_type'] : '';
-$roomcapacity = isset($_SESSION['room_capacity']) ? $_SESSION['room_capacity'] : '';
-$roomavailability = isset($_SESSION['room_availability']) ? $_SESSION['room_availability'] : '';
-$roomprice = isset($_SESSION['room_price']) ? $_SESSION['room_price'] : '';
+$message = '';
+$roomnum = isset($_SESSION['room_num']) ? $_SESSION['room_num'] : '';
+$type = isset($_SESSION['room_type']) ? $_SESSION['room_type'] : '';
+$capacity = isset($_SESSION['room_capacity']) ? $_SESSION['room_capacity'] : '';
+$availability = isset($_SESSION['room_availability']) ? $_SESSION['room_availability'] : '';
+$price = isset($_SESSION['room_price']) ? $_SESSION['room_price'] : '';
 //$bookingid = $_SESSION['booking_id'];
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['roomedit_submit'])) {
-    $message = handleRoomEdit($_POST['roomnum']);
-} else $message = '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['type'])) {
+    $message = handleRoomEdit($roomnum); // generally means successful form submission once this is triggered
+    $roomnum = $roomtype = $roomdesc = $roomprice = "";
+    unset($_POST['roomnum']);
+    unset($_POST['type']);
+    unset($_POST['capacity']);
+    unset($_POST['availability']);
+    unset($_POST['price']);
+};
 ?>
 
 <!DOCTYPE html>
@@ -127,7 +141,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['roomedit_submit'])) {
                                                 }
 
                                                 // Query to fetch available rooms
-                                                $sql = "SELECT room_id FROM room WHERE room_avail = 'vacant'";
+                                                $sql = "SELECT room_id FROM room";
                                                 $result = $conn->query($sql);
 
                                                 // Populate the dropdown with available rooms
@@ -135,7 +149,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['roomedit_submit'])) {
                                                     while ($row = $result->fetch_assoc()) {
                                                         $roomId = $row['room_id'];
                                                         $isSelected = isset($selectedRoom) && $selectedRoom == $roomId ? 'selected' : '';
-                                                        echo "<option value='$roomId' $isSelected>Room $roomId</option>";
+                                                        echo "<option value='$roomId' $isSelected>$roomId</option>";
                                                     }
                                                 } else {
                                                     echo "<option value='' disabled >No rooms available</option>";
@@ -159,13 +173,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['roomedit_submit'])) {
                                     </div>
                                     <div class="mb-3">
                                         <label for="availability" class="form-label">Availability</label>
-                                        <select class="form-select" id="availability" name="availability" placeholder="-" value="<?php echo isset($availability) ? $availability : '' ?>" disabled>
-                                            <option value="available">Available</option>
-                                            <option value="unavailable">Unavailable</option>
+                                        <select class="form-select" id="availability" name="availability" value="<?php echo isset($availability) ? $availability : '' ?>" disabled>
+                                            <option value="" <?php echo empty($availability) ? 'selected' : ''; ?> disabled>Select availability status:</option>
+                                            <option value="vacant" <?php echo (isset($availability) && $availability === 'vacant') ? 'selected' : ''; ?>>Vacant</option>
+                                            <option value="occupied" <?php echo (isset($availability) && $availability === 'occupied') ? 'selected' : ''; ?>>Occupied</option>
+                                            <option value="maintenance" <?php echo (isset($availability) && $availability === 'maintenance') ? 'selected' : ''; ?>>Undergoing Maintenance</option>
                                         </select>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="price" class="form-label">Room Price</label>
+                                        <label for="price" class="form-label">Room Price (per night)</label>
                                         <input type="text" class="form-control" id="price" name="price" placeholder="Enter room price (in Php)" value="<?php echo isset($price) ? $price : '' ?>" disabled>
                                     </div>
 
@@ -210,6 +226,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['roomedit_submit'])) {
             if (typeValue) {
                 editBtn.disabled = false;
             }
+
         });
 
         function makeEditable() {
