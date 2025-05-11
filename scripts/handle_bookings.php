@@ -433,3 +433,50 @@ if (isset($_POST['cancel_booking']) && isset($_POST['booking_id'])) {
     header("Location: ../pages/user_dashboard.php?tab=bookings");
     exit;
 }
+
+// Handle rebooking request
+if (isset($_POST['rebook_booking']) && isset($_POST['booking_id'])) {
+    $bookingId = $_POST['booking_id'];
+    $userId = $_SESSION['id'] ?? 0;
+
+    // Verify this booking belongs to the current user
+    $dbConfig = getDbConfig();
+    $conn = new mysqli($dbConfig['servername'], $dbConfig['username'], $dbConfig['password'], $dbConfig['dbname']);
+
+    if (!$conn->connect_error) {
+        $stmt = $conn->prepare("SELECT b.*, r.room_type FROM booking b 
+                              JOIN room r ON b.room_id = r.room_id 
+                              WHERE b.bkg_id = ? AND b.pers_id = ?");
+        $stmt->bind_param("ii", $bookingId, $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result && $result->num_rows > 0) {
+            $booking = $result->fetch_assoc();
+            $checkinDate = $booking['bkg_datein'];
+
+            if (canCancelBooking($checkinDate)) {
+                // Store booking data in session for rebooking
+                $_SESSION['rebooking'] = true;
+                $_SESSION['rebook_id'] = $bookingId;
+                $_SESSION['rebook_room_type'] = $booking['room_type'];
+
+                // Redirect to booking page with room type selected
+                header("Location: ../pages/booking.php?room_type=" . urlencode($booking['room_type']));
+                exit;
+            } else {
+                $_SESSION['booking_message'] = "Bookings can only be changed at least 3 days before check-in.";
+                $_SESSION['booking_status'] = "warning";
+                header("Location: ../pages/user_dashboard.php?tab=bookings");
+                exit;
+            }
+        } else {
+            $_SESSION['booking_message'] = "Invalid booking or permission denied.";
+            $_SESSION['booking_status'] = "danger";
+            header("Location: ../pages/user_dashboard.php?tab=bookings");
+            exit;
+        }
+
+        $conn->close();
+    }
+}

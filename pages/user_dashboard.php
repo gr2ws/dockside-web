@@ -250,14 +250,19 @@ $pass = $_SESSION['pass'];
                                                     <td><?php echo $checkinDate->format('M j, Y'); ?></td>
                                                     <td><?php echo $checkoutDate->format('M j, Y'); ?></td>
                                                     <td>₱<?php echo number_format($booking['bkg_totalpr'], 2); ?></td>
-                                                    <td class="text-end">
-                                                        <?php if ($canCancel): ?>
-                                                            <form method="POST" onsubmit="return confirm('Are you sure you want to cancel this booking?');" class="d-inline">
-                                                                <input type="hidden" name="booking_id" value="<?php echo $booking['bkg_id']; ?>">
-                                                                <button type="submit" name="cancel_booking" class="btn btn-sm btn-outline-danger">
-                                                                    <i class="bi bi-x-circle"></i> Cancel
+                                                    <td class="text-end"> <?php if ($canCancel): ?> <div class="dropdown">
+                                                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                    <i class="bi bi-gear"></i> Manage
                                                                 </button>
-                                                            </form>
+                                                                <ul class="dropdown-menu">
+                                                                    <li><a class="dropdown-item" href="booking_action.php?id=<?php echo $booking['bkg_id']; ?>&action=cancel">
+                                                                            <i class="bi bi-x-circle text-danger"></i> Cancel Booking
+                                                                        </a></li>
+                                                                    <li><a class="dropdown-item" href="booking_action.php?id=<?php echo $booking['bkg_id']; ?>&action=rebook">
+                                                                            <i class="bi bi-calendar-plus text-primary"></i> Rebook Stay
+                                                                        </a></li>
+                                                                </ul>
+                                                            </div>
                                                         <?php else: ?>
                                                             <small class="text-muted">Can't cancel (within 3 days)</small>
                                                         <?php endif; ?>
@@ -526,9 +531,6 @@ $pass = $_SESSION['pass'];
         </div>
     </div>
 
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="../scripts/user-dashboard.js"></script>
     <script>
         function ridMessage() {
@@ -568,8 +570,10 @@ $pass = $_SESSION['pass'];
         }
     </script>
 
+
+    <?php placeFooter() ?>
+
     <!-- Flatpickr JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize birthday date picker with max date of today
@@ -588,6 +592,7 @@ $pass = $_SESSION['pass'];
             });
         });
     </script>
+
 </body>
 
 </html>

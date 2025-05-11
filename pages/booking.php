@@ -63,8 +63,16 @@ if (isset($_GET['selected_room'])) {
     }
 }
 
+// Handle rebooking form directly from user dashboard
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['rebook_booking']) && isset($_POST['booking_id'])) {
+    // This is handled in handle_bookings.php, just make sure we have proper handling here
+    // in case the script has already run and we're displaying the page with session variables set
+}
+
 // Handle booking submission
 $bookingSuccess = false;
+$isRebooking = isset($_SESSION['rebooking']) && $_SESSION['rebooking'] === true;
+$rebookingMessage = '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_booking'])) {
     // Process the booking submission
@@ -74,9 +82,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_booking'])) {
     $userId = (int)$_SESSION['id']; // Ensure we have an integer
     $totalPrice = $_POST['total_price'];
 
-    $result = processBooking($roomId, $checkinDate, $checkoutDate, $userId, $totalPrice);
-    $bookingSuccess = $result['success'];
-    $bookingError = $result['error'];
+    // If this is a rebooking, cancel the old booking first
+    if ($isRebooking && isset($_SESSION['rebook_id'])) {
+        $oldBookingId = $_SESSION['rebook_id'];
+        $cancelResult = cancelBooking($oldBookingId);
+
+        if ($cancelResult !== true) {
+            $bookingError = "Failed to cancel the previous booking. Error: " . $cancelResult;
+        } else {
+            $rebookingMessage = "Your previous booking has been cancelled. ";
+
+            // Proceed with new booking
+            $result = processBooking($roomId, $checkinDate, $checkoutDate, $userId, $totalPrice);
+            $bookingSuccess = $result['success'];
+
+            if ($bookingSuccess) {
+                $rebookingMessage .= "Your stay has been successfully rebooked.";
+            } else {
+                $bookingError = $result['error'];
+            }
+
+            // Clear rebooking session variables
+            unset($_SESSION['rebooking']);
+            unset($_SESSION['rebook_id']);
+            unset($_SESSION['rebook_room_type']);
+        }
+    } else {
+        // Regular booking process
+        $result = processBooking($roomId, $checkinDate, $checkoutDate, $userId, $totalPrice);
+        $bookingSuccess = $result['success'];
+        $bookingError = $result['error'];
+    }
 }
 
 ?>
@@ -94,13 +130,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_booking'])) {
 
 <body>
     <?php placeHeader() ?> <main class="container py-5">
-        <h1 class="text-center mb-4">Book Your Stay</h1>
-
-        <?php if ($bookingSuccess): ?>
+        <h1 class="text-center mb-4">Book Your Stay</h1> <?php if ($bookingSuccess): ?>
             <div class="booking-success text-center">
                 <div class="alert alert-success p-4" role="alert">
-                    <h4 class="alert-heading"><i class="bi bi-check-circle"></i> Booking Confirmed!</h4>
-                    <p>Your booking has been successfully confirmed. Thank you for choosing Dockside Hotel.</p>
+                    <h4 class="alert-heading"><i class="bi bi-check-circle"></i> <?php echo $isRebooking ? 'Rebooking Confirmed!' : 'Booking Confirmed!'; ?></h4>
+                    <?php if (!empty($rebookingMessage)): ?>
+                        <p><?php echo $rebookingMessage; ?></p>
+                    <?php else: ?>
+                        <p>Your booking has been successfully confirmed. Thank you for choosing Dockside Hotel.</p>
+                    <?php endif; ?>
                     <hr>
                     <p class="mb-0">Check your email for your booking confirmation details.</p>
                     <div class="mt-4"> <a href="home.php" class="btn btn-primary">Return to Home</a>
@@ -108,12 +146,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_booking'])) {
                     </div>
                 </div>
             </div>
-        <?php else: ?>
-            <!-- Search Form -->
+        <?php else: ?> <!-- Search Form -->
             <div class="search-section mb-5">
+                <?php if ($isRebooking): ?>
+                    <div class="alert alert-info mb-4" role="alert">
+                        <i class="bi bi-info-circle me-2"></i> <strong>Rebooking in Progress:</strong> You are rebooking your stay for room type: <strong><?php echo htmlspecialchars($_SESSION['rebook_room_type']); ?></strong>. Please select new dates and a room below.
+                    </div>
+                <?php endif; ?>
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title mb-4">Search for Availability</h4>
+                        <h4 class="card-title mb-4"><?php echo $isRebooking ? 'Select New Dates' : 'Search for Availability'; ?></h4>
                         <form action="booking.php" method="GET" id="search-form">
                             <div class="row g-3">
                                 <div class="col-md-4">

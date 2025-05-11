@@ -100,3 +100,29 @@ main {
 		margin-top: 2rem;
 	}
 }
+
+/* Booking Action Modal Styles */
+.action-option {
+	transition: transform 0.2s, box-shadow 0.2s;
+	cursor: pointer;
+}
+
+.action-option:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+#bookingActionModal .modal-body {
+	padding: 1.5rem;
+}
+
+#bookingActionModal .action-options {
+	width: 100%;
+}
+
+#bookingActionModal .booking-info {
+	background-color: #f9f9f9;
+	padding: 1rem;
+	border-radius: 6px;
+	border-left: 4px solid var(--base);
+}

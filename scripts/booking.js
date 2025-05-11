@@ -64,6 +64,7 @@ function initFormValidation() {
 				return false;
 			}
 
+			// Convert to Date objects for comparison
 			const checkinDate = new Date(checkin);
 			const checkoutDate = new Date(checkout);
 
@@ -74,6 +75,22 @@ function initFormValidation() {
 			}
 
 			return true;
+		});
+	}
+
+	// Initialize the confirmation form for rebooking action
+	const rebookForm = document.getElementById("rebookForm");
+	if (rebookForm) {
+		rebookForm.addEventListener("submit", function (e) {
+			// We don't need to prevent default here as we want the form to submit
+			// Just a confirmation before proceeding
+			if (
+				!confirm(
+					"Are you sure you want to rebook this reservation? You'll be redirected to select new dates."
+				)
+			) {
+				e.preventDefault();
+			}
 		});
 	}
 }
