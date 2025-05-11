@@ -7,6 +7,10 @@ require_once __DIR__ . '/setup_vars.php';
 function handleLogin($redirect = '')
 {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Get redirect from POST if it exists (from hidden form field)
+        if (empty($redirect) && isset($_POST['redirect'])) {
+            $redirect = $_POST['redirect'];
+        }
 
         $email = $_POST['email'] ?? '';
         $pass  = $_POST['password'] ?? '';
@@ -34,11 +38,14 @@ function handleLogin($redirect = '')
             $_SESSION['birthday'] = $user['pers_birthdate'];
             $_SESSION['email']    = $user['pers_email'];
             $_SESSION['pass']     = $user['pers_pass'];
-            $_SESSION['role'] = $user['pers_role'];
-
-            // Handle redirects if specified
+            $_SESSION['role'] = $user['pers_role'];            // Handle redirects if specified
             if (!empty($redirect)) {
-                header("Location: ../" . ltrim($redirect, '/'));
+                // Check if the redirect is an absolute path (starts with /)
+                if (strpos($redirect, '/') === 0) {
+                    header("Location: " . $redirect);
+                } else {
+                    header("Location: ../" . $redirect);
+                }
                 exit;
             }
 

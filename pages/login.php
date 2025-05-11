@@ -7,8 +7,16 @@ require 'common.php';
 // Prepare a message variable
 $loginMessage = null;
 
+// Check for booking error in session (added from booking redirect)
+$bookingMessage = '';
+if (isset($_SESSION['booking_error'])) {
+    $bookingMessage = $_SESSION['booking_error'];
+    unset($_SESSION['booking_error']);
+}
+
 // Check for redirect parameter
 $redirect = isset($_GET['redirect']) ? $_GET['redirect'] : '';
+$isBookingRedirect = (strpos($redirect, 'booking.php') !== false || strpos($redirect, '/dockside-web/pages/booking.php') !== false);
 
 // Handle login before output
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -27,11 +35,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body>
-    <?php placeHeader() ?>
-
-    <div class="login-body container-fluid my-auto d-flex flex-column justify-center align-items-center">
+    <?php placeHeader() ?> <div class="login-body container-fluid my-auto d-flex flex-column justify-center align-items-center">
 
         <?php
+        // Show booking message if redirected from booking page
+        if ($isBookingRedirect || !empty($bookingMessage)):
+        ?>
+            <div class="alert alert-info d-flex align-items-center mb-3 mt-3 w-100 max-w-md" role="alert">
+                <i class="bi bi-info-circle me-2"></i>
+                <div>
+                    <strong>Please Note:</strong> You must be logged in to book a room online. Please log in below to continue with your booking.
+                </div>
+            </div>
+        <?php
+        endif;
+
+        // Show regular login error message
         if ($loginMessage) {
             echo $loginMessage;
         }

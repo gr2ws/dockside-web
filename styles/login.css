@@ -15,6 +15,25 @@
 	align-items: center;
 }
 
+/* Alert styling for booking message */
+.max-w-md {
+	max-width: 500px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.alert {
+	padding: 1rem;
+	border-radius: 0.25rem;
+	margin-bottom: 1rem;
+}
+
+.alert-info {
+	background-color: rgba(209, 236, 241, 0.95);
+	border: 1px solid #bee5eb;
+	color: #0c5460;
+}
+
 h1 {
 	font-family: var(--heading-font);
 	text-align: center;
