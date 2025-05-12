@@ -362,15 +362,6 @@ button.toghide-pword {
 	font-weight: 600;
 }
 
-#history-content .card {
-	transition: transform 0.2s;
-}
-
-#history-content .card:hover {
-	transform: translateY(-5px);
-	box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
-}
-
 /* Modern Stats Cards for Bookings */
 .stat-card {
 	display: flex;
@@ -380,12 +371,6 @@ button.toghide-pword {
 	overflow: hidden;
 	position: relative;
 	box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-	transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.stat-card:hover {
-	transform: translateY(-5px);
-	box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 }
 
 .stat-icon {
