@@ -4,14 +4,12 @@
 require_once __DIR__ . '/setup_vars.php';
 
 /**
- * Get user's booking history with pagination
+ * Get user's booking history with fixed limit of 10 records
  * 
  * @param int $userId The user ID
- * @param int $limit Number of records to return (default 10)
- * @param int $offset Starting position (default 0)
  * @return array Array of booking history
  */
-function getUserBookingHistory($userId, $limit = 10, $offset = 0)
+function getUserBookingHistory($userId)
 {
     $dbConfig = getDbConfig();
     $conn = new mysqli($dbConfig['servername'], $dbConfig['username'], $dbConfig['password'], $dbConfig['dbname']);
@@ -20,16 +18,16 @@ function getUserBookingHistory($userId, $limit = 10, $offset = 0)
         die("Connection failed: " . $conn->connect_error);
     }
 
-    // Get user's booking history with room details
+    // Get user's booking history with room details (fixed limit of 10)
     $sql = "SELECT b.*, r.room_type, r.room_capacity 
             FROM booking b 
             JOIN room r ON b.room_id = r.room_id 
             WHERE b.pers_id = ? 
             ORDER BY b.bkg_datein DESC
-            LIMIT ? OFFSET ?";
+            LIMIT 10";
 
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("iii", $userId, $limit, $offset);
+    $stmt->bind_param("i", $userId);
     $stmt->execute();
     $result = $stmt->get_result();
 
@@ -43,7 +41,7 @@ function getUserBookingHistory($userId, $limit = 10, $offset = 0)
         }
     }
 
-    // Get total booking count for pagination
+    // Get total booking count
     $countSql = "SELECT COUNT(*) as total FROM booking WHERE pers_id = ?";
     $countStmt = $conn->prepare($countSql);
     $countStmt->bind_param("i", $userId);

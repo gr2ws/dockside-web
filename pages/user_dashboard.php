@@ -22,11 +22,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['password_submit'])) {
 // Get user bookings
 $userBookings = getUserBookings($_SESSION['id']);
 
-// Get user booking history with pagination
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$perPage = 5;
-$offset = ($page - 1) * $perPage;
-$bookingHistory = getUserBookingHistory($_SESSION['id'], $perPage, $offset);
+// Get user booking history with fixed limit of 10 records
+$bookingHistory = getUserBookingHistory($_SESSION['id']);
 
 // Get user booking stats
 $bookingStats = getUserBookingStats($_SESSION['id']);
@@ -370,78 +367,6 @@ $pass = $_SESSION['pass'];
                                                 </tbody>
                                             </table>
                                         </div>
-
-                                        <!-- Pagination -->
-                                        <?php if ($bookingHistory['total'] > $perPage): ?>
-                                            <div class="d-flex justify-content-between align-items-center mt-4">
-                                                <div class="text-muted">
-                                                    Showing <?php echo min(($page - 1) * $perPage + 1, $bookingHistory['total']); ?>
-                                                    to <?php echo min($page * $perPage, $bookingHistory['total']); ?>
-                                                    of <?php echo $bookingHistory['total']; ?> bookings
-                                                </div>
-
-                                                <nav aria-label="Booking history pagination">
-                                                    <ul class="pagination justify-content-center mb-0">
-                                                        <?php
-                                                        $totalPages = ceil($bookingHistory['total'] / $perPage);
-                                                        $startPage = max(1, $page - 2);
-                                                        $endPage = min($totalPages, $page + 2);
-
-                                                        // First page button
-                                                        if ($page > 3): ?>
-                                                            <li class="page-item">
-                                                                <a class="page-link" href="?page=1#history" aria-label="First">
-                                                                    <span aria-hidden="true">1</span>
-                                                                </a>
-                                                            </li>
-                                                            <?php if ($startPage > 2): ?>
-                                                                <li class="page-item disabled">
-                                                                    <span class="page-link">...</span>
-                                                                </li>
-                                                            <?php endif; ?>
-                                                        <?php endif; ?>
-
-                                                        <!-- Previous button -->
-                                                        <?php if ($page > 1): ?>
-                                                            <li class="page-item">
-                                                                <a class="page-link" href="?page=<?php echo ($page - 1); ?>#history" aria-label="Previous">
-                                                                    <span aria-hidden="true">&laquo;</span>
-                                                                </a>
-                                                            </li>
-                                                        <?php endif; ?>
-
-                                                        <?php for ($i = $startPage; $i <= $endPage; $i++): ?>
-                                                            <li class="page-item <?php echo ($i == $page) ? 'active' : ''; ?>">
-                                                                <a class="page-link" href="?page=<?php echo $i; ?>#history"><?php echo $i; ?></a>
-                                                            </li>
-                                                        <?php endfor; ?>
-
-                                                        <!-- Next button -->
-                                                        <?php if ($page < $totalPages): ?>
-                                                            <li class="page-item">
-                                                                <a class="page-link" href="?page=<?php echo ($page + 1); ?>#history" aria-label="Next">
-                                                                    <span aria-hidden="true">&raquo;</span>
-                                                                </a>
-                                                            </li>
-                                                        <?php endif; ?>
-
-                                                        <!-- Last page button -->
-                                                        <?php if ($endPage < $totalPages - 1): ?>
-                                                            <li class="page-item disabled">
-                                                                <span class="page-link">...</span>
-                                                            </li>
-                                                        <?php endif; ?>
-                                                        <?php if ($endPage < $totalPages): ?>
-                                                            <li class="page-item">
-                                                                <a class="page-link" href="?page=<?php echo $totalPages; ?>#history" aria-label="Last">
-                                                                    <span aria-hidden="true"><?php echo $totalPages; ?></span>
-                                                                </a>
-                                                            </li>
-                                                        <?php endif; ?>
-                                                    </ul>
-                                                </nav>
-                                            </div>
-                                        <?php endif; ?>
                                     <?php endif; ?>
                                 </div>
 

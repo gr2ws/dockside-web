@@ -375,10 +375,6 @@ button.toghide-pword {
 	font-weight: 600;
 }
 
-#history-content .pagination {
-	margin-bottom: 0;
-}
-
 #history-content .card {
 	transition: transform 0.2s;
 }
