@@ -2,7 +2,6 @@
 session_start();
 
 require '../scripts/handle_login.php';
-require 'common.php';
 
 // Prepare a message variable
 $loginMessage = null;
@@ -20,8 +19,9 @@ $isBookingRedirect = (strpos($redirect, 'booking.php') !== false || strpos($redi
 
 // Handle login before output
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $loginMessage = handleLogin($redirect); // update handleLogin to return message or null
+    $loginMessage = handleLogin($redirect);
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -32,10 +32,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dockside Hotel© | Log In</title>
     <link rel="stylesheet" href="../styles/login.css">
+    <?php require 'common.php'; ?>
 </head>
 
 <body>
-    <?php placeHeader() ?> <div class="login-body container-fluid my-auto d-flex flex-column justify-center align-items-center">
+    <?php placeHeader() ?>
+
+    <div class="login-body container-fluid my-auto d-flex flex-column justify-center align-items-center">
 
         <?php
         // Show booking message if redirected from booking page

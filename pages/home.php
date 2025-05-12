@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dockside Hotel© </title>
     <link rel="stylesheet" href="../styles/home.css" />
-
     <?php require 'common.php'; ?>
 </head>
 

@@ -1,12 +1,9 @@
 <?php
 
-# Load environment variables from .env file
-function loadEnv($path)
-{
-    if (!file_exists($path)) {
-        return false;
-    }
+# Load environment variables from .env file if present in root directory
+# Makes getDbConfig() work for dev and deployment on heroku
 
+if (file_exists(__DIR__ . '/.env')) {
     $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
     foreach ($lines as $line) {
         # Skip comments
@@ -23,13 +20,8 @@ function loadEnv($path)
             putenv("$name=$value");
         }
     }
-
-    return true;
 }
 
-# Execute the function to load environment variables
-loadEnv(__DIR__ . '/.env');
-
-# redirect to home page to avoid file referencing issues
+# Redirect to home page to avoid file referencing issues
 
 header("Location: pages/home.php");

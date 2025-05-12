@@ -20,9 +20,6 @@
 
 <!-- Put all component styles here -->
 
-
-<!-- Component styles-->
-
 <link rel="stylesheet" href="../styles/header.css">
 <link rel="stylesheet" href="../styles/booking_header.css">
 <link rel="stylesheet" href="../styles/footer.css">
