@@ -4,7 +4,7 @@
 require_once __DIR__ . '/setup_vars.php';
 
 /**
- * Get all bookings for a user
+ * Get current and upcoming bookings for a user
  * 
  * @param int $userId The user ID
  * @return array Array of bookings
@@ -18,15 +18,17 @@ function getUserBookings($userId)
         die("Connection failed: " . $conn->connect_error);
     }
 
-    // Get user bookings with room details
+    // Get only current and upcoming bookings (exclude past bookings)
+    $currentDate = date('Y-m-d');
     $sql = "SELECT b.*, r.room_type, r.room_capacity 
             FROM booking b 
             JOIN room r ON b.room_id = r.room_id 
             WHERE b.pers_id = ? 
-            ORDER BY b.bkg_datein DESC";
+            AND b.bkg_dateout >= ?
+            ORDER BY b.bkg_datein ASC";
 
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $userId);
+    $stmt->bind_param("is", $userId, $currentDate);
     $stmt->execute();
     $result = $stmt->get_result();
 

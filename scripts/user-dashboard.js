@@ -137,3 +137,41 @@ function hidePass(inputId, showBtnId, hideBtnId) {
 	showBtn.classList.remove("d-none");
 	showBtn.classList.add("d-block");
 }
+
+// Booking history filter functionality (executes after DOM is fully loaded)
+document.addEventListener("DOMContentLoaded", function () {
+	const bookingFilters = document.querySelectorAll(".booking-filter");
+
+	if (bookingFilters.length > 0) {
+		bookingFilters.forEach((filter) => {
+			filter.addEventListener("click", function (e) {
+				e.preventDefault();
+
+				// Update active filter
+				bookingFilters.forEach((f) => f.classList.remove("active"));
+				this.classList.add("active");
+
+				const filterType = this.getAttribute("data-filter");
+				const bookingRows = document.querySelectorAll(
+					"#history-content table tbody tr"
+				);
+
+				// Filter table rows
+				bookingRows.forEach((row) => {
+					const statusBadge = row.querySelector(".badge");
+					const statusText = statusBadge
+						? statusBadge.textContent.trim().toLowerCase()
+						: "";
+
+					if (filterType === "all") {
+						row.style.display = "";
+					} else if (filterType === statusText.toLowerCase()) {
+						row.style.display = "";
+					} else {
+						row.style.display = "none";
+					}
+				});
+			});
+		});
+	}
+});

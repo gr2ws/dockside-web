@@ -9,6 +9,7 @@ if (!isset($_SESSION['id'])) {
 require '../scripts/handle_edit.php';
 require '../scripts/handle_pass.php';
 require '../scripts/handle_bookings.php';
+require '../scripts/handle_userinfo.php'; // Add new user info handler
 
 // Show update result message only if form was submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['profile_submit'])) {
@@ -21,6 +22,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['password_submit'])) {
 // Get user bookings
 $userBookings = getUserBookings($_SESSION['id']);
 
+// Get user booking history with pagination
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$perPage = 5;
+$offset = ($page - 1) * $perPage;
+$bookingHistory = getUserBookingHistory($_SESSION['id'], $perPage, $offset);
+
+// Get user booking stats
+$bookingStats = getUserBookingStats($_SESSION['id']);
 
 // setting data for ui
 $id = $_SESSION['id'];
@@ -97,10 +106,10 @@ $pass = $_SESSION['pass'];
                     <span class="d-none d-lg-inline"><?php echo $fname; ?></span>
                     <i class="bi-chevron-down"></i>
                 </button>
-                <div class="dropdown-menu">
-                    <span class="dropdown-header">Welcome back, <?php echo $fname; ?>!</span>
+                <div class="dropdown-menu"> <span class="dropdown-header">Welcome back, <?php echo $fname; ?>!</span>
                     <hr class="dropdown-divider">
                     <a class="dropdown-item" href="#bookings" data-tab="bookings">My Bookings</a>
+                    <a class="dropdown-item" href="#history" data-tab="history">Booking History</a>
                     <a class="dropdown-item" href="#profile" data-tab="profile">Profile</a>
                     <a class="dropdown-item" href="#settings" data-tab="settings">Settings</a>
                     <hr class="dropdown-divider">
@@ -126,6 +135,12 @@ $pass = $_SESSION['pass'];
                                     </a>
                                 </li>
                                 <li class="nav-item">
+                                    <a href="#history" class="nav-link" data-tab="history"
+                                        onclick="ridMessage()">
+                                        <i class="bi bi-clock-history"></i> Booking History
+                                    </a>
+                                </li>
+                                <li class="nav-item">
                                     <a href="#profile" class="nav-link" data-tab="profile"
                                         onclick="ridMessage()">
                                         <i class="bi bi-person"></i> Profile
@@ -148,7 +163,14 @@ $pass = $_SESSION['pass'];
                 <div class="content-section" id="bookings-content">
                     <div class="card shadow-sm">
                         <div class="card-body">
-                            <h2 class="card-title border-bottom pb-2">My Bookings</h2>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h2 class="card-title border-bottom pb-2">
+                                    <i class="bi bi-calendar-check me-2"></i>My Bookings
+                                </h2>
+                                <a href="../pages/accomodations.php" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-plus-circle me-1"></i> New Booking
+                                </a>
+                            </div>
 
                             <?php if (isset($_SESSION['booking_message'])): ?>
                                 <div class="alert alert-<?php echo $_SESSION['booking_status'] ?? 'info'; ?> alert-dismissible fade show" role="alert">
@@ -169,42 +191,56 @@ $pass = $_SESSION['pass'];
                                 <?php
                                 unset($_SESSION['account_message']);
                                 unset($_SESSION['account_status']);
-                                ?>
-                            <?php endif; ?>
-
-                            <?php if (empty($userBookings)): ?>
-                                <div class="text-center my-5">
+                                ?> <?php endif; ?> <?php if (empty($userBookings)): ?> <div class="text-center my-5">
                                     <i class="bi bi-calendar-x fs-1 text-muted"></i>
-                                    <p class="mt-3 text-muted">You don't have any bookings yet.</p>
-                                    <a href="../pages/accomodations.php" class="btn btn-primary mt-2">Browse Accommodations</a>
-                                </div>
-                            <?php else: ?>
+                                    <p class="mt-3 text-muted">You don't have any current or upcoming bookings.</p>
+                                </div><?php else: ?>
                                 <div class="table-responsive">
-                                    <table class="table">
-                                        <thead>
+                                    <table class="table table-hover">
+                                        <thead class="table-light">
                                             <tr>
                                                 <th>Booking ID</th>
                                                 <th>Room Type</th>
                                                 <th>Check-in</th>
                                                 <th>Check-out</th>
+                                                <th>Duration</th>
                                                 <th>Total Price</th>
-                                                <th class="text-end">Action</th>
+                                                <th class="text-center">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php foreach ($userBookings as $booking): ?>
                                                 <?php
-                                                $checkinDate = new DateTime($booking['bkg_datein']);
-                                                $checkoutDate = new DateTime($booking['bkg_dateout']);
-                                                $canCancel = canCancelBooking($booking['bkg_datein']);
+                                                            $checkinDate = new DateTime($booking['bkg_datein']);
+                                                            $checkoutDate = new DateTime($booking['bkg_dateout']);
+                                                            $today = new DateTime();
+                                                            $canCancel = canCancelBooking($booking['bkg_datein']);
+
+                                                            // Calculate stay duration
+                                                            $interval = $checkinDate->diff($checkoutDate);
+                                                            $nights = $interval->days;
+
+                                                            // Determine status
+                                                            if ($checkinDate > $today) {
+                                                                $status = "Upcoming";
+                                                                $statusClass = "bg-primary";
+                                                                $statusIcon = "bi-calendar-check";
+                                                            } else {
+                                                                $status = "Active";
+                                                                $statusClass = "bg-warning";
+                                                                $statusIcon = "bi-clock";
+                                                            }
                                                 ?>
                                                 <tr>
-                                                    <td>#<?php echo htmlspecialchars($booking['bkg_id']); ?></td>
+                                                    <td class="fw-bold">#<?php echo htmlspecialchars($booking['bkg_id']); ?></td>
                                                     <td><?php echo htmlspecialchars($booking['room_type']); ?></td>
                                                     <td><?php echo $checkinDate->format('M j, Y'); ?></td>
                                                     <td><?php echo $checkoutDate->format('M j, Y'); ?></td>
-                                                    <td>₱<?php echo number_format($booking['bkg_totalpr'], 2); ?></td>
-                                                    <td class="text-end"> <?php if ($canCancel): ?> <div class="dropdown">
+                                                    <td><?php echo $nights; ?> night<?php echo $nights > 1 ? 's' : ''; ?></td>
+                                                    <td class="fw-semibold">₱<?php echo number_format($booking['bkg_totalpr'], 2); ?></td>
+                                                    <td class="text-center">
+                                                        <?php if ($canCancel): ?>
+                                                            <div class="dropdown">
                                                                 <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                                     <i class="bi bi-gear"></i> Manage
                                                                 </button>
@@ -218,7 +254,10 @@ $pass = $_SESSION['pass'];
                                                                 </ul>
                                                             </div>
                                                         <?php else: ?>
-                                                            <small class="text-muted">Can't cancel (within 3 days)</small>
+                                                            <span class="badge bg-secondary">
+                                                                <i class="bi bi-lock me-1"></i>
+                                                                Can't cancel (within 3 days)
+                                                            </span>
                                                         <?php endif; ?>
                                                     </td>
                                                 </tr>
@@ -226,7 +265,303 @@ $pass = $_SESSION['pass'];
                                         </tbody>
                                     </table>
                                 </div>
+                                <!-- No stats widgets for My Bookings tab, as requested -->
                             <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Booking History Section -->
+                <div class="content-section d-none" id="history-content">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h2 class="card-title border-bottom pb-2">
+                                    <i class="bi bi-clock-history me-2"></i>Booking History
+                                </h2>
+                                <div class="d-flex align-items-center">
+                                    <div class="text-muted me-3">
+                                        <small>From <?php echo date('M j, Y', strtotime($bookingStats['first_booking'] ?? date('Y-m-d'))); ?></small>
+                                    </div>
+                                    <div class="dropdown me-2">
+                                        <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                            <i class="bi bi-filter me-1"></i> Filter
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-end">
+                                            <li><a class="dropdown-item booking-filter active" href="#" data-filter="all">All Bookings</a></li>
+                                            <li><a class="dropdown-item booking-filter" href="#" data-filter="upcoming">Upcoming</a></li>
+                                            <li><a class="dropdown-item booking-filter" href="#" data-filter="active">Active</a></li>
+                                            <li><a class="dropdown-item booking-filter" href="#" data-filter="completed">Completed</a></li>
+                                        </ul>
+                                    </div>
+                                    <a href="../pages/accomodations.php" class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-plus-circle me-1"></i> New Booking
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <!-- Booking History List -->
+                                <div class="col-md-8">
+                                    <?php if (empty($bookingHistory['bookings'])): ?>
+                                        <div class="text-center py-5">
+                                            <i class="bi bi-calendar-x fs-1 text-muted"></i>
+                                            <p class="mt-3 text-muted">No booking history found.</p>
+                                            <a href="../pages/accomodations.php" class="btn btn-primary mt-2">Browse Accommodations</a>
+                                        </div>
+                                    <?php else: ?>
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th>Booking ID</th>
+                                                        <th>Room Type</th>
+                                                        <th>Check-in</th>
+                                                        <th>Check-out</th>
+                                                        <th>Duration</th>
+                                                        <th>Total Price</th>
+                                                        <th>Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php foreach ($bookingHistory['bookings'] as $booking): ?>
+                                                        <?php
+                                                        $checkinDate = new DateTime($booking['bkg_datein']);
+                                                        $checkoutDate = new DateTime($booking['bkg_dateout']);
+                                                        $today = new DateTime();
+
+                                                        // Calculate stay duration
+                                                        $interval = $checkinDate->diff($checkoutDate);
+                                                        $nights = $interval->days;
+
+                                                        // Determine status
+                                                        $status = "Upcoming";
+                                                        $statusClass = "bg-primary";
+                                                        $statusIcon = "bi-calendar-check";
+
+                                                        if ($checkinDate > $today) {
+                                                            $status = "Upcoming";
+                                                            $statusClass = "bg-primary";
+                                                            $statusIcon = "bi-calendar-check";
+                                                        } elseif ($checkoutDate < $today) {
+                                                            $status = "Completed";
+                                                            $statusClass = "bg-success";
+                                                            $statusIcon = "bi-check-circle";
+                                                        } else {
+                                                            $status = "Active";
+                                                            $statusClass = "bg-warning";
+                                                            $statusIcon = "bi-clock";
+                                                        }
+                                                        ?>
+                                                        <tr>
+                                                            <td class="fw-bold">#<?php echo htmlspecialchars($booking['bkg_id']); ?></td>
+                                                            <td><?php echo htmlspecialchars($booking['room_type']); ?></td>
+                                                            <td><?php echo $checkinDate->format('M j, Y'); ?></td>
+                                                            <td><?php echo $checkoutDate->format('M j, Y'); ?></td>
+                                                            <td><?php echo $nights; ?> night<?php echo $nights > 1 ? 's' : ''; ?></td>
+                                                            <td class="fw-semibold">₱<?php echo number_format($booking['bkg_totalpr'], 2); ?></td>
+                                                            <td>
+                                                                <span class="badge <?php echo $statusClass; ?>">
+                                                                    <i class="bi <?php echo $statusIcon; ?> me-1"></i>
+                                                                    <?php echo $status; ?>
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                    <?php endforeach; ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <!-- Pagination -->
+                                        <?php if ($bookingHistory['total'] > $perPage): ?>
+                                            <div class="d-flex justify-content-between align-items-center mt-4">
+                                                <div class="text-muted">
+                                                    Showing <?php echo min(($page - 1) * $perPage + 1, $bookingHistory['total']); ?>
+                                                    to <?php echo min($page * $perPage, $bookingHistory['total']); ?>
+                                                    of <?php echo $bookingHistory['total']; ?> bookings
+                                                </div>
+
+                                                <nav aria-label="Booking history pagination">
+                                                    <ul class="pagination justify-content-center mb-0">
+                                                        <?php
+                                                        $totalPages = ceil($bookingHistory['total'] / $perPage);
+                                                        $startPage = max(1, $page - 2);
+                                                        $endPage = min($totalPages, $page + 2);
+
+                                                        // First page button
+                                                        if ($page > 3): ?>
+                                                            <li class="page-item">
+                                                                <a class="page-link" href="?page=1#history" aria-label="First">
+                                                                    <span aria-hidden="true">1</span>
+                                                                </a>
+                                                            </li>
+                                                            <?php if ($startPage > 2): ?>
+                                                                <li class="page-item disabled">
+                                                                    <span class="page-link">...</span>
+                                                                </li>
+                                                            <?php endif; ?>
+                                                        <?php endif; ?>
+
+                                                        <!-- Previous button -->
+                                                        <?php if ($page > 1): ?>
+                                                            <li class="page-item">
+                                                                <a class="page-link" href="?page=<?php echo ($page - 1); ?>#history" aria-label="Previous">
+                                                                    <span aria-hidden="true">&laquo;</span>
+                                                                </a>
+                                                            </li>
+                                                        <?php endif; ?>
+
+                                                        <?php for ($i = $startPage; $i <= $endPage; $i++): ?>
+                                                            <li class="page-item <?php echo ($i == $page) ? 'active' : ''; ?>">
+                                                                <a class="page-link" href="?page=<?php echo $i; ?>#history"><?php echo $i; ?></a>
+                                                            </li>
+                                                        <?php endfor; ?>
+
+                                                        <!-- Next button -->
+                                                        <?php if ($page < $totalPages): ?>
+                                                            <li class="page-item">
+                                                                <a class="page-link" href="?page=<?php echo ($page + 1); ?>#history" aria-label="Next">
+                                                                    <span aria-hidden="true">&raquo;</span>
+                                                                </a>
+                                                            </li>
+                                                        <?php endif; ?>
+
+                                                        <!-- Last page button -->
+                                                        <?php if ($endPage < $totalPages - 1): ?>
+                                                            <li class="page-item disabled">
+                                                                <span class="page-link">...</span>
+                                                            </li>
+                                                        <?php endif; ?>
+                                                        <?php if ($endPage < $totalPages): ?>
+                                                            <li class="page-item">
+                                                                <a class="page-link" href="?page=<?php echo $totalPages; ?>#history" aria-label="Last">
+                                                                    <span aria-hidden="true"><?php echo $totalPages; ?></span>
+                                                                </a>
+                                                            </li>
+                                                        <?php endif; ?>
+                                                    </ul>
+                                                </nav>
+                                            </div>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+                                </div>
+
+                                <!-- Booking Statistics -->
+                                <div class="col-md-4">
+                                    <div class="card mb-4">
+                                        <div class="card-header bg-primary text-white">
+                                            <h4 class="m-0"><i class="bi bi-bar-chart-line me-2"></i>Booking Summary</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <span>
+                                                        <span class="booking-stat-icon bg-primary bg-opacity-10">
+                                                            <i class="bi bi-calendar3 text-primary"></i>
+                                                        </span>
+                                                        Total Bookings
+                                                    </span>
+                                                    <span class="badge bg-primary rounded-pill booking-stat-value"><?php echo $bookingStats['total_bookings']; ?></span>
+                                                </li>
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <span>
+                                                        <span class="booking-stat-icon bg-success bg-opacity-10">
+                                                            <i class="bi bi-calendar-check text-success"></i>
+                                                        </span>
+                                                        Upcoming
+                                                    </span>
+                                                    <span class="badge bg-success rounded-pill booking-stat-value"><?php echo $bookingStats['upcoming_bookings']; ?></span>
+                                                </li>
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <span>
+                                                        <span class="booking-stat-icon bg-info bg-opacity-10">
+                                                            <i class="bi bi-calendar-x text-info"></i>
+                                                        </span>
+                                                        Completed
+                                                    </span>
+                                                    <span class="badge bg-info rounded-pill booking-stat-value"><?php echo $bookingStats['completed_bookings']; ?></span>
+                                                </li>
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <span>
+                                                        <span class="booking-stat-icon bg-warning bg-opacity-10">
+                                                            <i class="bi bi-house-heart text-warning"></i>
+                                                        </span>
+                                                        Favorite Room
+                                                    </span>
+                                                    <span class="booking-stat-value"><?php echo $bookingStats['favorite_room_type']; ?></span>
+                                                </li>
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <span>
+                                                        <span class="booking-stat-icon bg-success bg-opacity-10">
+                                                            <i class="bi bi-wallet2 text-success"></i>
+                                                        </span>
+                                                        Total Spent
+                                                    </span>
+                                                    <span class="booking-stat-value">₱<?php echo number_format($bookingStats['total_spent'], 2); ?></span>
+                                                </li>
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <span>
+                                                        <span class="booking-stat-icon bg-primary bg-opacity-10">
+                                                            <i class="bi bi-moon-stars text-primary"></i>
+                                                        </span>
+                                                        Avg. Stay
+                                                    </span>
+                                                    <span class="booking-stat-value"><?php echo $bookingStats['avg_stay_duration']; ?> nights</span>
+                                                </li>
+                                                <?php if ($bookingStats['longest_stay'] > 0): ?>
+                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                        <span>
+                                                            <span class="booking-stat-icon bg-danger bg-opacity-10">
+                                                                <i class="bi bi-calendar-range text-danger"></i>
+                                                            </span>
+                                                            Longest Stay
+                                                        </span>
+                                                        <span class="booking-stat-value"><?php echo $bookingStats['longest_stay']; ?> nights</span>
+                                                    </li>
+                                                <?php endif; ?>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <?php if (!empty($bookingStats['room_type_distribution'])): ?>
+                                        <div class="card">
+                                            <div class="card-header bg-info text-white">
+                                                <h4 class="m-0"><i class="bi bi-pie-chart me-2"></i>Room Preferences</h4>
+                                            </div>
+                                            <div class="card-body">
+                                                <ul class="list-group list-group-flush">
+                                                    <?php
+                                                    // Calculate total for percentage
+                                                    $totalRooms = 0;
+                                                    foreach ($bookingStats['room_type_distribution'] as $roomType) {
+                                                        $totalRooms += $roomType['count'];
+                                                    }
+
+                                                    foreach ($bookingStats['room_type_distribution'] as $roomType):
+                                                        $percentage = $totalRooms > 0 ? round(($roomType['count'] / $totalRooms) * 100) : 0;
+                                                    ?>
+                                                        <li class="list-group-item">
+                                                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                                                <span><?php echo $roomType['room_type']; ?></span>
+                                                                <span class="badge bg-info rounded-pill"><?php echo $roomType['count']; ?></span>
+                                                            </div>
+                                                            <div class="progress" style="height: 6px;">
+                                                                <div class="progress-bar bg-info" role="progressbar"
+                                                                    style="width: <?php echo $percentage; ?>%;"
+                                                                    aria-valuenow="<?php echo $percentage; ?>"
+                                                                    aria-valuemin="0"
+                                                                    aria-valuemax="100">
+                                                                </div>
+                                                            </div>
+                                                            <div class="text-end">
+                                                                <small class="text-muted"><?php echo $percentage; ?>%</small>
+                                                            </div>
+                                                        </li>
+                                                    <?php endforeach; ?>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -492,6 +827,47 @@ $pass = $_SESSION['pass'];
                 if (tabLink) {
                     tabLink.click();
                 }
+            }
+
+            // Add loading indicator for history tab
+            const historyTabLink = document.querySelector('a[data-tab="history"]');
+            if (historyTabLink) {
+                historyTabLink.addEventListener('click', function() {
+                    // Show loading indicator in the history content section
+                    const historyContent = document.getElementById('history-content');
+
+                    // Only show loading if we have data to load
+                    if (historyContent && historyContent.querySelector('.table-responsive') !== null) {
+                        const tableSection = historyContent.querySelector('.table-responsive');
+                        tableSection.classList.add('position-relative');
+
+                        // Create loading overlay if it doesn't exist
+                        if (!tableSection.querySelector('.loading-overlay')) {
+                            const loadingOverlay = document.createElement('div');
+                            loadingOverlay.className = 'loading-overlay position-absolute w-100 h-100 d-flex justify-content-center align-items-center bg-white bg-opacity-75';
+                            loadingOverlay.style.top = '0';
+                            loadingOverlay.style.left = '0';
+                            loadingOverlay.style.zIndex = '10';
+
+                            const spinner = document.createElement('div');
+                            spinner.className = 'spinner-border text-primary';
+                            spinner.setAttribute('role', 'status');
+
+                            const srText = document.createElement('span');
+                            srText.className = 'visually-hidden';
+                            srText.textContent = 'Loading...';
+
+                            spinner.appendChild(srText);
+                            loadingOverlay.appendChild(spinner);
+                            tableSection.appendChild(loadingOverlay);
+
+                            // Remove the loading overlay after a short delay
+                            setTimeout(() => {
+                                loadingOverlay.remove();
+                            }, 500);
+                        }
+                    }
+                });
             }
 
             // Check if we should show the delete modal (after password error)
