@@ -57,6 +57,10 @@
     height: 100%;
 }
 
+#headingevents {
+    font-size: 25px;
+}
+
 .slider {
     position: relative;
     width: 100%;
@@ -257,7 +261,7 @@
 .upcoming-events-section {
     margin-top: 40px;
     padding: 40px 20px;
-    background-color: var(--background);
+    background-color: white;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: center;

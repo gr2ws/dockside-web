@@ -10,11 +10,11 @@
 </head>
 
 <body>
-    <div class="main-wrapper">
+    <class="main-wrapper">
         <?php placeHeader() ?>
         <?php placeBookingHeader() ?>
 
-        <div class="background-pattern">
+        <section class="background-pattern">
             <section class="hero-section">
                 <div class="hero-slider">
                     <div class="slider">
@@ -23,24 +23,19 @@
                                 <h1>Upcoming Events at Dockside Hotel</h1>
                             </div>
                         </div>
-                        <div class="slide" style="background-image: url('../images/slider2.jpg');">
+                        <div class="slide" style="background-image: url('../assets/events/slider2.jpg');">
                             <div class="slide-content">
                                 <h1>Experience Luxury and Entertainment</h1>
                             </div>
                         </div>
-                        <div class="slide" style="background-image: url('../images/slider3.jpg');">
+                        <div class="slide" style="background-image: url('../assets/events/slider3.jpg');">
                             <div class="slide-content">
                                 <h1>Celebrate Memorable Moments</h1>
                             </div>
                         </div>
-                        <div class="slide" style="background-image: url('../images/slider4.jpg');">
+                        <div class="slide" style="background-image: url('../assets/events/slider4.jpg');">
                             <div class="slide-content">
                                 <h1>Unforgettable Gatherings</h1>
-                            </div>
-                        </div>
-                        <div class="slide" style="background-image: url('../images/slider5.jpg');">
-                            <div class="slide-content">
-                                <h1>Reserve Your Spot Today!</h1>
                             </div>
                         </div>
                     </div>
@@ -49,8 +44,8 @@
 
             <main class="events-container">
                 <section class="special-events">
-                    <h2><i class="bi bi-calendar-event"></i> Host Your Special Events</h2>
-                    <p>Welcome,  Host your special events in our versatile spaces, perfect for weddings, corporate meetings, and social gatherings.</p>
+                    <h2 id="headingevents"><i class="bi bi-calendar-event"></i> Host Your Special Events</h2>
+                    <p>Host your special events in our versatile spaces, perfect for weddings, corporate meetings, and social gatherings.</p>
                 </section>
 
                 <section class="event-list-container">
@@ -60,7 +55,7 @@
                     
                     <div class="event-list">
                         <article class="event-card">
-                            <img src="../images/event1.jpg" alt="Event 1" />
+                            <img src="../assets/events/jazz-night.jpg" alt="Event 1" />
                             <div class="event-details">
                                 <div class="content">
                                     <h2><i class="bi bi-music-note-beamed"></i> Jazz Night</h2>
@@ -73,7 +68,7 @@
                             </div>
                         </article>
                         <article class="event-card">
-                            <img src="../images/event2.jpg" alt="Event 2" />
+                            <img src="../assets/events/wine-tasting.jpg" alt="Event 2" />
                             <div class="event-details">
                                 <div class="content">
                                     <h2><i class="bi bi-cup"></i> Wine Tasting</h2>
@@ -86,7 +81,7 @@
                             </div>
                         </article>
                         <article class="event-card">
-                            <img src="../images/event3.jpg" alt="Event 3" />
+                            <img src="../assets/events/summer-gala.jpg" alt="Event 3" />
                             <div class="event-details">
                                 <div class="content">
                                     <h2><i class="bi bi-stars"></i> Summer Gala</h2>
@@ -99,7 +94,7 @@
                             </div>
                         </article>
                         <article class="event-card">
-                            <img src="../images/event4.jpg" alt="Event 4" />
+                            <img src="../assets/events/moonlit-dinner.jpg" alt="Event 4" />
                             <div class="event-details">
                                 <div class="content">
                                     <h2><i class="bi bi-moon-stars"></i> Moonlight Dinner</h2>
@@ -112,7 +107,7 @@
                             </div>
                         </article>
                         <article class="event-card">
-                            <img src="../images/event5.jpg" alt="Event 5" />
+                            <img src="../assets/events/classical-concert.jpg" alt="Event 5" />
                             <div class="event-details">
                                 <div class="content">
                                     <h2><i class="bi bi-music-note"></i> Classical Concert</h2>
@@ -125,7 +120,7 @@
                             </div>
                         </article>
                         <article class="event-card">
-                            <img src="../images/event6.jpg" alt="Event 6" />
+                            <img src="../assets/events/art-exhibit.jpg" alt="Event 6" />
                             <div class="event-details">
                                 <div class="content">
                                     <h2><i class="bi bi-palette"></i> Art Exhibition</h2>
@@ -175,98 +170,38 @@
                         </div>
                     </div>
                 </section>
+            </main>
 
                 <section class="upcoming-events-section">
-                    <h2>Upcoming Events</h2>
+                    <h2>More Upcoming Events</h2>
                     <div class="upcoming-events-grid">
-                        <div class="upcoming-event-card large" style="background-image: url('../images/upcoming-event1.jpg');">
+                        <div class="upcoming-event-card large" style="background-image: url('../assets/events/car-show.jpg');">
                             <div class="overlay">
-                                <h3>Jazz Night</h3>
-                                <p>May 15th, 2025</p>
+                                <h3>Car Show</h3>
+                                <p>July 4, 2025</p>
                             </div>
                         </div>
-                        <div class="upcoming-event-card" style="background-image: url('../images/upcoming-event2.jpg');">
+                        <div class="upcoming-event-card" style="background-image: url('../assets/events/firework-show.jpg');">
                             <div class="overlay">
-                                <h3>Wine Tasting</h3>
-                                <p>May 22nd, 2025</p>
+                                <h3>Firework Show</h3>
+                                <p>July 12, 2025</p>
                             </div>
                         </div>
-                        <div class="upcoming-event-card" style="background-image: url('../images/upcoming-event3.jpg');">
+                        <div class="upcoming-event-card" style="background-image: url('../assets/events/evening-gala.jpg');">
                             <div class="overlay">
-                                <h3>Summer Gala</h3>
-                                <p>June 5th, 2025</p>
+                                <h3>Evening Gala</h3>
+                                <p>July 25, 2025</p>
                             </div>
                         </div>
-                        <div class="upcoming-event-card large" style="background-image: url('../images/upcoming-event4.jpg');">
+                        <div class="upcoming-event-card large" style="background-image: url('../assets/events/pool-party.jpg');">
                             <div class="overlay">
-                                <h3>Moonlight Dinner</h3>
-                                <p>June 12th, 2025</p>
-                            </div>
-                        </div>
-                        <div class="upcoming-event-card" style="background-image: url('../images/upcoming-event5.jpg');">
-                            <div class="overlay">
-                                <h3>Classical Concert</h3>
-                                <p>June 19th, 2025</p>
-                            </div>
-                        </div>
-                        <div class="upcoming-event-card" style="background-image: url('../images/upcoming-event6.jpg');">
-                            <div class="overlay">
-                                <h3>Art Exhibition</h3>
-                                <p>June 25th, 2025</p>
-                            </div>
-                        </div>
-                        <div class="upcoming-event-card large" style="background-image: url('../images/upcoming-event7.jpg');">
-                            <div class="overlay">
-                                <h3>Food Carnival</h3>
-                                <p>July 5th, 2025</p>
-                            </div>
-                        </div>
-                        <div class="upcoming-event-card" style="background-image: url('../images/upcoming-event8.jpg');">
-                            <div class="overlay">
-                                <h3>Book Fair</h3>
-                                <p>July 10th, 2025</p>
-                            </div>
-                        </div>
-                        <div class="upcoming-event-card" style="background-image: url('../images/upcoming-event9.jpg');">
-                            <div class="overlay">
-                                <h3>Stand-Up Comedy Night</h3>
-                                <p>July 15th, 2025</p>
-                            </div>
-                        </div>
-                        <div class="upcoming-event-card large" style="background-image: url('../images/upcoming-event10.jpg');">
-                            <div class="overlay">
-                                <h3>Summer Fashion Show</h3>
-                                <p>July 20th, 2025</p>
-                            </div>
-                        </div>
-                        <div class="upcoming-event-card" style="background-image: url('../images/upcoming-event11.jpg');">
-                            <div class="overlay">
-                                <h3>Tech Conference</h3>
-                                <p>July 25th, 2025</p>
-                            </div>
-                        </div>
-                        <div class="upcoming-event-card" style="background-image: url('../images/upcoming-event12.jpg');">
-                            <div class="overlay">
-                                <h3>Dance Workshop</h3>
-                                <p>August 1st, 2025</p>
-                            </div>
-                        </div>
-                        <div class="upcoming-event-card large" style="background-image: url('../images/upcoming-event13.jpg');">
-                            <div class="overlay">
-                                <h3>Film Festival</h3>
-                                <p>August 5th, 2025</p>
-                            </div>
-                        </div>
-                        <div class="upcoming-event-card" style="background-image: url('../images/upcoming-event14.jpg');">
-                            <div class="overlay">
-                                <h3>Poetry Reading</h3>
-                                <p>August 10th, 2025</p>
+                                <h3>Pool Party</h3>
+                                <p>August 1, 2025</p>
                             </div>
                         </div>
                     </div>
                 </section>
-
-    </div>
+         </div>
     <script src="../scripts/events.js"></script>
 </body>
 <?php placeFooter() ?>
