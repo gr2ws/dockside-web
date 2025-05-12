@@ -100,12 +100,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_booking'])) {
                 $rebookingMessage .= "Your stay has been successfully rebooked.";
             } else {
                 $bookingError = $result['error'];
-            }
-
-            // Clear rebooking session variables
+            }            // Clear rebooking session variables
             unset($_SESSION['rebooking']);
             unset($_SESSION['rebook_id']);
-            unset($_SESSION['rebook_room_type']);
+            unset($_SESSION['rebook_original_type']);
         }
     } else {
         // Regular booking process
@@ -147,15 +145,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_booking'])) {
                 </div>
             </div>
         <?php else: ?> <!-- Search Form -->
-            <div class="search-section mb-5">
-                <?php if ($isRebooking): ?>
+            <div class="search-section mb-5"> <?php if ($isRebooking): ?>
                     <div class="alert alert-info mb-4" role="alert">
-                        <i class="bi bi-info-circle me-2"></i> <strong>Rebooking in Progress:</strong> You are rebooking your stay for room type: <strong><?php echo htmlspecialchars($_SESSION['rebook_room_type']); ?></strong>. Please select new dates and a room below.
+                        <i class="bi bi-info-circle me-2"></i> <strong>Rebooking in Progress:</strong> You are rebooking your stay. Original room type was: <strong><?php echo htmlspecialchars($_SESSION['rebook_original_type']); ?></strong>. Feel free to select any room type, dates, and room below.
                     </div>
                 <?php endif; ?>
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title mb-4"><?php echo $isRebooking ? 'Select New Dates' : 'Search for Availability'; ?></h4>
+                        <h4 class="card-title mb-4"><?php echo $isRebooking ? 'Select New Room & Dates' : 'Search for Availability'; ?></h4>
                         <form action="booking.php" method="GET" id="search-form">
                             <div class="row g-3">
                                 <div class="col-md-4">

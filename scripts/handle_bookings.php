@@ -455,14 +455,14 @@ if (isset($_POST['rebook_booking']) && isset($_POST['booking_id'])) {
             $booking = $result->fetch_assoc();
             $checkinDate = $booking['bkg_datein'];
 
-            if (canCancelBooking($checkinDate)) {
-                // Store booking data in session for rebooking
+            if (canCancelBooking($checkinDate)) {                // Store booking data in session for rebooking
                 $_SESSION['rebooking'] = true;
                 $_SESSION['rebook_id'] = $bookingId;
-                $_SESSION['rebook_room_type'] = $booking['room_type'];
+                // Don't force the same room type to allow switching rooms
+                $_SESSION['rebook_original_type'] = $booking['room_type'];
 
-                // Redirect to booking page with room type selected
-                header("Location: ../pages/booking.php?room_type=" . urlencode($booking['room_type']));
+                // Redirect to booking page without room type to allow selection of any room type
+                header("Location: ../pages/booking.php");
                 exit;
             } else {
                 $_SESSION['booking_message'] = "Bookings can only be changed at least 3 days before check-in.";
