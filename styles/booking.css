@@ -10,6 +10,26 @@ main {
 	max-width: 800px;
 }
 
+/* Booking price card styles */
+.booking-price-card {
+	border-radius: 10px;
+	box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+	transition: all 0.3s ease;
+}
+
+/* Container for the booking price card styling */
+.booking-summary-section .col-lg-4 {
+	align-self: flex-start;
+}
+
+/* Media queries for responsive behavior */
+@media (max-width: 991px) {
+	.booking-price-card {
+		margin-top: 2rem;
+		margin-bottom: 1rem;
+	}
+}
+
 /* Search section styles */
 .search-section .card {
 	border-radius: 8px;
@@ -38,10 +58,63 @@ main {
 	font-weight: 600;
 }
 
-/* Booking summary styles */
+/* Enhanced booking summary styles */
 .booking-summary-section .card {
 	border-radius: 8px;
-	box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+	overflow: hidden;
+}
+
+.booking-summary-section .row {
+	display: flex;
+	align-items: flex-start;
+}
+
+.booking-details {
+	padding: 1rem;
+}
+
+.booking-details h4,
+.booking-details h5 {
+	color: var(--bs-primary);
+	margin-bottom: 1rem;
+}
+
+.room-image img {
+	width: 100%;
+	height: auto;
+	object-fit: cover;
+	border-radius: 8px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.room-description {
+	padding: 0.5rem 0;
+	border-left: 3px solid var(--bs-primary);
+	padding-left: 1rem;
+	background-color: rgba(0, 0, 0, 0.02);
+	border-radius: 0 8px 8px 0;
+}
+
+.room-features {
+	background-color: rgba(0, 0, 0, 0.02);
+	padding: 1rem;
+	border-radius: 8px;
+}
+
+.booking-policy {
+	background-color: rgba(0, 123, 255, 0.05);
+	padding: 1rem;
+	border-radius: 8px;
+	border-left: 3px solid #0d6efd;
+}
+
+.price-details h5 {
+	color: var(--bs-primary);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+	padding-bottom: 0.5rem;
+	margin-bottom: 0.5rem;
+	font-size: 1.1rem;
 }
 
 /* Price summary card */
@@ -98,6 +171,13 @@ main {
 @media (max-width: 768px) {
 	.booking-summary-section .col-md-5 {
 		margin-top: 2rem;
+	}
+}
+
+@media (max-width: 992px) {
+	.booking-summary-section .col-lg-8,
+	.booking-summary-section .col-lg-4 {
+		margin-bottom: 1.5rem;
 	}
 }
 

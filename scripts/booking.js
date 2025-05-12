@@ -1,6 +1,6 @@
 /**
  * Booking page JavaScript functionality
- * Handles date picking, form validation, and UI interactions
+ * Handles date picking, form validation, UI interactions, and auto-search
  */
 document.addEventListener("DOMContentLoaded", function () {
 	// Initialize date pickers
@@ -8,7 +8,80 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	// Set up form validation
 	initFormValidation();
+
+	// Set up room type selection to auto-update
+	initRoomTypeAutoUpdate();
+
+	// Auto-submit search when page loads with parameters
+	autoSubmitSearchOnLoad();
+
+	// Handle page section visibility based on URL params
+	handlePageVisibility();
+	// Add event listener for back button to recalculate visibility
+	window.addEventListener("popstate", function () {
+		handlePageVisibility();
+	});
+
+	// Set up back-to-search button handler
+	initBackToSearchButton();
 });
+
+/**
+ * Auto-submits the search form if URL parameters exist
+ */
+function autoSubmitSearchOnLoad() {
+	const urlParams = new URLSearchParams(window.location.search);
+	const checkin = urlParams.get("checkin");
+	const checkout = urlParams.get("checkout");
+
+	// If both check-in and check-out parameters exist, the form will auto-load results
+	// No action needed as PHP already handles this server-side
+}
+
+/**
+ * Sets up the room type dropdown to trigger search when changed
+ */
+function initRoomTypeAutoUpdate() {
+	const roomTypeSelect = document.getElementById("room-type");
+	if (roomTypeSelect) {
+		roomTypeSelect.addEventListener("change", function () {
+			const checkin = document.getElementById("search-checkin").value;
+			const checkout = document.getElementById("search-checkout").value;
+
+			// Only auto-submit if we have both dates, otherwise just save the selection
+			if (checkin && checkout) {
+				triggerSearch();
+			}
+		});
+	}
+}
+
+/**
+ * Triggers the search based on current form values
+ */
+function triggerSearch() {
+	const checkin = document.getElementById("search-checkin").value;
+	const checkout = document.getElementById("search-checkout").value;
+	const roomType = document.getElementById("room-type").value;
+
+	// Only proceed if both dates are set
+	if (checkin && checkout) {
+		const searchUrl = constructSearchUrl(checkin, checkout, roomType);
+		window.location.href = searchUrl;
+	}
+}
+
+/**
+ * Constructs the search URL with parameters
+ */
+function constructSearchUrl(checkin, checkout, roomType) {
+	let url = "booking.php?";
+	const params = [];
+	if (checkin) params.push(`checkin=${encodeURIComponent(checkin)}`);
+	if (checkout) params.push(`checkout=${encodeURIComponent(checkout)}`);
+	if (roomType) params.push(`room_type=${encodeURIComponent(roomType)}`);
+	return url + params.join("&");
+}
 
 /**
  * Initializes and configures the date picker inputs
@@ -35,31 +108,110 @@ function initDatePickers() {
 				) {
 					checkoutPicker.setDate(nextDay);
 				}
+
+				// Try to auto-submit if we have both dates
+				tryAutoSubmit();
 			}
 		}
 	});
-
 	// Initialize checkout date picker
 	const checkoutPicker = flatpickr("#search-checkout", {
 		minDate: new Date().fp_incr(1), // tomorrow
 		altInput: true,
 		altFormat: "F j, Y",
-		dateFormat: "Y-m-d"
+		dateFormat: "Y-m-d",
+		onChange: function (selectedDates, dateStr, instance) {
+			// Try to auto-submit if we have both dates
+			tryAutoSubmit();
+		}
 	});
 }
 
 /**
+ * Try to auto-submit the search form if both dates are set
+ */
+function tryAutoSubmit() {
+	const checkin = document.getElementById("search-checkin").value;
+	const checkout = document.getElementById("search-checkout").value;
+	const roomType = document.getElementById("room-type").value;
+	const urlParams = new URLSearchParams(window.location.search);
+	const hasSelectedRoom = urlParams.has("selected_room");
+
+	// Don't auto-submit if a room is already selected
+	if (hasSelectedRoom) {
+		return;
+	}
+
+	// If both dates are set, auto-submit
+	if (checkin && checkout) {
+		// Validate dates first
+		const checkinDate = new Date(checkin);
+		const checkoutDate = new Date(checkout);
+
+		if (checkinDate < checkoutDate) {
+			triggerSearch();
+		}
+	}
+}
+
+/**
+ * Handles UI visibility based on page state
+ */
+function handlePageVisibility() {
+	const urlParams = new URLSearchParams(window.location.search);
+	const hasSelectedRoom = urlParams.has("selected_room");
+	const searchSection = document.getElementById("search-section");
+	const roomSelectionSection = document.querySelector(
+		".room-selection-section"
+	);
+	const bookingSummarySection = document.querySelector(
+		".booking-summary-section"
+	);
+	const bookingErrorAlert = document.querySelector(".alert-danger");
+
+	if (hasSelectedRoom && searchSection && bookingSummarySection) {
+		// Hide search and room selection when a room is selected
+		searchSection.style.display = "none";
+		if (roomSelectionSection) {
+			roomSelectionSection.style.display = "none";
+		}
+		bookingSummarySection.style.display = "block";
+	} else if (bookingSummarySection) {
+		// Show search and hide booking summary if no room selected
+		if (searchSection) {
+			searchSection.style.display = "block";
+		}
+		if (roomSelectionSection) {
+			roomSelectionSection.style.display = "block";
+		}
+		bookingSummarySection.style.display = "none";
+	}
+
+	// If there's a booking error and a selected room, keep the booking summary visible
+	if (bookingErrorAlert && hasSelectedRoom && bookingSummarySection) {
+		searchSection.style.display = "none";
+		if (roomSelectionSection) {
+			roomSelectionSection.style.display = "none";
+		}
+		bookingSummarySection.style.display = "block";
+	}
+}
+
+/**
  * Sets up form validation for the booking search form
+ * Note: With auto-submit enabled, this serves as a fallback
  */
 function initFormValidation() {
 	const searchForm = document.getElementById("search-form");
 	if (searchForm) {
 		searchForm.addEventListener("submit", function (e) {
+			// Always prevent default since we're using auto-submit
+			e.preventDefault();
+
 			const checkin = document.getElementById("search-checkin").value;
 			const checkout = document.getElementById("search-checkout").value;
 
 			if (!checkin || !checkout) {
-				e.preventDefault();
 				alert("Please select both check-in and check-out dates");
 				return false;
 			}
@@ -69,12 +221,12 @@ function initFormValidation() {
 			const checkoutDate = new Date(checkout);
 
 			if (checkinDate >= checkoutDate) {
-				e.preventDefault();
 				alert("Check-out date must be after check-in date");
 				return false;
 			}
 
-			return true;
+			// Trigger the search programmatically instead of form submit
+			triggerSearch();
 		});
 	}
 
@@ -94,3 +246,30 @@ function initFormValidation() {
 		});
 	}
 }
+
+/**
+ * Set up the back-to-search button to clear selected room
+ */
+function initBackToSearchButton() {
+	const backToSearchBtn = document.getElementById("back-to-search-btn");
+	if (backToSearchBtn) {
+		backToSearchBtn.addEventListener("click", function (e) {
+			// Instead of using the default link behavior, we'll navigate manually
+			e.preventDefault();
+
+			// Get current parameters but remove the selected_room
+			const urlParams = new URLSearchParams(window.location.search);
+			urlParams.delete("selected_room");
+
+			// Navigate back to the search view
+			const newUrl =
+				"booking.php" +
+				(urlParams.toString() ? "?" + urlParams.toString() : "");
+			window.location.href = newUrl;
+		});
+	}
+}
+
+/**
+ * Enhance the sticky behavior of the booking price card
+ */

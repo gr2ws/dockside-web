@@ -126,8 +126,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_booking'])) {
     <?php require 'common.php'; ?>
 </head>
 
-<body>
-    <?php placeHeader() ?> <main class="container py-5">
+<body> <?php placeHeader() ?> <main class="container py-5">
         <h1 class="text-center mb-4">Book Your Stay</h1> <?php if ($bookingSuccess): ?>
             <div class="booking-success text-center">
                 <div class="alert alert-success p-4" role="alert">
@@ -145,7 +144,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_booking'])) {
                 </div>
             </div>
         <?php else: ?> <!-- Search Form -->
-            <div class="search-section mb-5"> <?php if ($isRebooking): ?>
+            <div class="search-section mb-5" id="search-section"> <?php if ($isRebooking): ?>
                     <div class="alert alert-info mb-4" role="alert">
                         <i class="bi bi-info-circle me-2"></i> <strong>Rebooking in Progress:</strong> You are rebooking your stay. Original room type was: <strong><?php echo htmlspecialchars($_SESSION['rebook_original_type']); ?></strong>. Feel free to select any room type, dates, and room below.
                     </div>
@@ -179,9 +178,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_booking'])) {
                                         <option value="Standard Room" <?php echo $roomType == 'Standard Room' ? 'selected' : ''; ?>>Standard Room</option>
                                     </select>
                                 </div>
-                                <div class="col-12">
-                                    <button type="submit" class="btn btn-primary">Search Availability</button>
-                                </div>
+                                <!-- Search button removed - auto-searching with JavaScript -->
                             </div>
                         </form>
                     </div>
@@ -217,49 +214,183 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_booking'])) {
                 <div class="alert alert-info" role="alert">
                     <i class="bi bi-info-circle"></i> No available rooms found matching your criteria. Please try different dates or room types.
                 </div>
-            <?php endif; ?>
-
-            <?php if ($selectedRoom): ?>
+            <?php endif; ?> <?php if ($selectedRoom): ?>
                 <!-- Booking Summary Section -->
                 <div class="booking-summary-section mb-5">
-                    <h3 class="mb-4">Booking Summary</h3>
+                    <h3 class="mb-4">Booking Confirmation</h3>
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-7">
-                                    <h5>Room Details</h5>
-                                    <p><strong>Room Type:</strong> <?php echo $selectedRoom['room_type']; ?></p>
-                                    <p><strong>Room #:</strong> <?php echo $selectedRoom['room_id']; ?></p>
-                                    <p><strong>Capacity:</strong> <?php echo $selectedRoom['room_capacity']; ?> guests</p>
-                                    <p><strong>Price per Night:</strong> ₱<?php echo number_format($selectedRoom['room_price'], 2); ?></p>
-                                    <h5 class="mt-4">Stay Details</h5>
-                                    <p><strong>Check-in Date:</strong> <?php echo $bookingDetails['checkinFormatted']; ?></p>
-                                    <p><strong>Check-out Date:</strong> <?php echo $bookingDetails['checkoutFormatted']; ?></p>
-                                    <p><strong>Duration:</strong> <?php echo $bookingDetails['totalNights']; ?> night(s)</p>
-                                </div>
-                                <div class="col-md-5">
-                                    <div class="card card-body bg-light">
-                                        <h5>Price Summary</h5>
-                                        <div class="d-flex justify-content-between mt-3">
-                                            <span>Room Rate (<?php echo $bookingDetails['totalNights']; ?> nights):</span>
-                                            <span>₱<?php echo number_format($bookingDetails['totalPrice'], 2); ?></span>
+                                <!-- Left side: Room details and features (70%) -->
+                                <div class="col-lg-8">
+                                    <div class="booking-details p-3">
+                                        <h4><?php echo $selectedRoom['room_type']; ?> Details</h4>
+                                        <div class="room-image my-3">
+                                            <?php
+                                                                    // Map room types to the correct image filenames in assets folder
+                                                                    switch ($selectedRoom['room_type']) {
+                                                                        case 'Presidential Suite':
+                                                                            $roomImageFile = 'presidential.jpg';
+                                                                            break;
+                                                                        case 'Executive Suite':
+                                                                            $roomImageFile = 'executive.jpg';
+                                                                            break;
+                                                                        case 'Deluxe Room':
+                                                                            $roomImageFile = 'deluxe.jpg';
+                                                                            break;
+                                                                        case 'Standard Room':
+                                                                        default:
+                                                                            $roomImageFile = 'standard.jpg';
+                                                                            break;
+                                                                    }
+                                                                    $roomImagePath = "../assets/" . $roomImageFile;
+                                            ?>
+                                            <img src="<?php echo $roomImagePath; ?>" class="img-fluid rounded" alt="<?php echo $selectedRoom['room_type']; ?>">
                                         </div>
-                                        <div class="d-flex justify-content-between mt-2">
-                                            <span>Taxes & Fees (12%):</span>
-                                            <span>₱<?php echo number_format($bookingDetails['totalPrice'] * 0.12, 2); ?></span>
+
+                                        <div class="room-info">
+                                            <?php
+                                                                    // Room details based on room type from LORE.md
+                                                                    switch ($selectedRoom['room_type']) {
+                                                                        case 'Presidential Suite':
+                                                                            $roomSize = "200m²";
+                                                                            $roomDesc = "Step into a realm of unparalleled opulence within our Presidential Suite, where every detail whispers of exquisite design and indulgent comfort. Floor-to-ceiling windows frame a breathtaking panorama of the endless ocean. The suite includes an expansive living area, gourmet kitchen, elegant dining area, and lavishly appointed bedrooms.";
+                                                                            $roomFeatures = ["Infinity Pool", "Ocean View", "Jacuzzi", "65\" Smart TV", "Executive Lounge Access", "High-Speed WiFi", "King Bed", "Sound System", "Digital Safe", "Premium Bar", "Private Terrace", "Business Center", "Climate Control", "IDD Phone"];
+                                                                            break;
+                                                                        case 'Executive Suite':
+                                                                            $roomSize = "100m²";
+                                                                            $roomDesc = "Step into a comfortable and stylish retreat where the gentle allure of the coast enhances your stay. Generous windows offer pleasant views of the nearby shoreline. Relax in the tastefully furnished living area, with a convenient fridge, mini-bar and coffee maker for added convenience.";
+                                                                            $roomFeatures = ["Ocean View", "55\" Smart TV", "Executive Lounge Access", "High-Speed WiFi", "King Bed", "Work Desk", "Digital Safe", "Mini Bar", "Climate Control", "IDD Phone", "Balcony"];
+                                                                            break;
+                                                                        case 'Deluxe Room':
+                                                                            $roomSize = "45m²";
+                                                                            $roomDesc = "Imagine entering a haven of refined comfort, where stylish design meets the soothing rhythm of the sea. Expansive windows unveil captivating vistas of the ocean, inviting the vibrant hues of sunrise and the tranquil glow of twilight into your personal sanctuary.";
+                                                                            $roomFeatures = ["Partial Ocean View", "43\" Smart TV", "High-Speed WiFi", "Queen Bed", "Digital Safe", "Coffee Maker", "Climate Control", "IDD Phone", "Mini Bar", "Balcony"];
+                                                                            break;
+                                                                        case 'Standard Room':
+                                                                        default:
+                                                                            $roomSize = "30m²";
+                                                                            $roomDesc = "Discover a comfortable and well-appointed space designed for a restful stay. Large windows allow natural light to fill the room, creating a bright and welcoming ambiance. Enjoy comfortable bedding, a functional workspace, and a private ensuite bathroom.";
+                                                                            $roomFeatures = ["40\" HD TV", "WiFi", "Air Conditioning", "Phone", "Tea Set", "In-Room Safe", "Double Bed", "City View"];
+                                                                            break;
+                                                                    }
+                                            ?>
+                                            <div class="room-size my-3">
+                                                <h5>Room Specifications</h5>
+                                                <p><strong>Room #:</strong> <?php echo $selectedRoom['room_id']; ?></p>
+                                                <p><strong>Size:</strong> <?php echo $roomSize; ?></p>
+                                                <p><strong>Capacity:</strong> <?php echo $selectedRoom['room_capacity']; ?> guests</p>
+                                                <p><strong>Base Rate:</strong> ₱<?php echo number_format($selectedRoom['room_price'], 2); ?> per night</p>
+                                            </div>
+
+                                            <div class="room-description my-3">
+                                                <h5>Description</h5>
+                                                <p><?php echo $roomDesc; ?></p>
+                                            </div>
+
+                                            <div class="room-features my-3">
+                                                <h5>Room Features</h5>
+                                                <div class="row">
+                                                    <?php foreach ($roomFeatures as $feature): ?>
+                                                        <div class="col-md-6 col-lg-4 mb-2">
+                                                            <i class="bi bi-check-circle-fill text-success me-2"></i><?php echo $feature; ?>
+                                                        </div>
+                                                    <?php endforeach; ?>
+                                                </div>
+                                            </div>
+
+                                            <div class="booking-policy my-3">
+                                                <h5>Booking Policies</h5>
+                                                <p><i class="bi bi-clock me-2"></i><strong>Check-in:</strong> 3:00 PM</p>
+                                                <p><i class="bi bi-clock me-2"></i><strong>Check-out:</strong> 12:00 NN (Philippine Time)</p>
+                                                <p><i class="bi bi-exclamation-circle me-2"></i>Cancellations made at least 48 hours before check-in are free of charge.</p>
+                                            </div>
+
+                                            <div class="stay-details mt-4">
+                                                <h5>Your Stay</h5>
+                                                <p><i class="bi bi-calendar-check me-2"></i><strong>Check-in Date:</strong> <?php echo $bookingDetails['checkinFormatted']; ?></p>
+                                                <p><i class="bi bi-calendar-x me-2"></i><strong>Check-out Date:</strong> <?php echo $bookingDetails['checkoutFormatted']; ?></p>
+                                                <p><i class="bi bi-moon me-2"></i><strong>Duration:</strong> <?php echo $bookingDetails['totalNights']; ?> night(s)</p>
+                                            </div>
                                         </div>
-                                        <hr>
-                                        <div class="d-flex justify-content-between fw-bold">
-                                            <span>Total Amount:</span>
-                                            <span>₱<?php echo number_format($bookingDetails['totalPrice'] * 1.12, 2); ?></span>
+                                    </div>
+                                </div> <!-- Right side: Price details (30%) -->
+                                <div class="col-lg-4">
+                                    <div class="card card-body bg-light booking-price-card">
+                                        <h4 class="text-center mb-4">Booking Summary</h4>
+
+                                        <!-- Base charges -->
+                                        <div class="price-details">
+                                            <h5>Room Charges</h5>
+                                            <div class="d-flex justify-content-between mt-3">
+                                                <span>Base Rate:</span>
+                                                <span>₱<?php echo number_format($selectedRoom['room_price'], 2); ?>/night</span>
+                                            </div>
+                                            <div class="d-flex justify-content-between mt-2">
+                                                <span><?php echo $bookingDetails['totalNights']; ?> Night(s):</span>
+                                                <span>₱<?php echo number_format($bookingDetails['totalPrice'], 2); ?></span>
+                                            </div>
                                         </div>
-                                        <form action="booking.php" method="POST" class="mt-4">
+
+                                        <hr class="my-3">
+
+                                        <!-- Additional fees -->
+                                        <div class="price-details">
+                                            <h5>Additional Charges</h5>
+                                            <?php
+                                                                    // Calculate additional fees
+                                                                    $baseAmount = $bookingDetails['totalPrice'];
+                                                                    $serviceCharge = $baseAmount * 0.10;
+                                                                    $tourismFee = $bookingDetails['totalNights'] * 150;
+                                                                    $roomTax = $baseAmount * 0.12;
+                                                                    $environmentalFee = $bookingDetails['totalNights'] * 100;
+
+                                                                    // Calculate total with all fees
+                                                                    $totalWithFees = $baseAmount + $serviceCharge + $tourismFee + $roomTax + $environmentalFee;
+                                            ?>
+
+                                            <div class="d-flex justify-content-between mt-2">
+                                                <span>Service Charge (10%):</span>
+                                                <span>₱<?php echo number_format($serviceCharge, 2); ?></span>
+                                            </div>
+                                            <div class="d-flex justify-content-between mt-2">
+                                                <span>Tourism Fee:</span>
+                                                <span>₱<?php echo number_format($tourismFee, 2); ?></span>
+                                            </div>
+                                            <div class="d-flex justify-content-between mt-2">
+                                                <span>Room Tax (12%):</span>
+                                                <span>₱<?php echo number_format($roomTax, 2); ?></span>
+                                            </div>
+                                            <div class="d-flex justify-content-between mt-2">
+                                                <span>Environmental Fee:</span>
+                                                <span>₱<?php echo number_format($environmentalFee, 2); ?></span>
+                                            </div>
+                                        </div>
+
+                                        <hr class="my-3">
+
+                                        <!-- Total amount -->
+                                        <div class="price-details mb-3">
+                                            <div class="d-flex justify-content-between fw-bold">
+                                                <span>Total Amount:</span>
+                                                <span>₱<?php echo number_format($totalWithFees, 2); ?></span>
+                                            </div>
+                                        </div>
+                                        <div class="payment-note mb-4">
+                                            <small class="text-muted">
+                                                <i class="bi bi-info-circle me-1"></i> Payment will be collected upon check-in. We accept cash (PHP), major credit/debit cards, GCash/PayMaya, or bank transfers.
+                                            </small>
+                                        </div>
+
+                                        <!-- Form for booking confirmation -->
+                                        <form action="booking.php" method="POST" class="mt-auto">
                                             <input type="hidden" name="room_id" value="<?php echo $selectedRoom['room_id']; ?>">
                                             <input type="hidden" name="checkin" value="<?php echo $checkinDate; ?>">
                                             <input type="hidden" name="checkout" value="<?php echo $checkoutDate; ?>">
-                                            <input type="hidden" name="total_price" value="<?php echo $bookingDetails['totalPrice'] * 1.12; ?>">
-                                            <button type="submit" name="confirm_booking" class="btn btn-success w-100">Confirm Booking</button>
-                                            <a href="booking.php" class="btn btn-outline-secondary w-100 mt-2">Cancel</a>
+                                            <input type="hidden" name="total_price" value="<?php echo $totalWithFees; ?>"> <button type="submit" name="confirm_booking" class="btn btn-success w-100">Confirm Booking</button>
+                                            <a href="booking.php" class="btn btn-outline-secondary w-100 mt-2" id="back-to-search-btn">
+                                                <i class="bi bi-arrow-left me-2"></i>Back to Search
+                                            </a>
                                         </form>
                                     </div>
                                 </div>
@@ -267,15 +398,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_booking'])) {
                         </div>
                     </div>
                 </div>
-            <?php endif; ?>
-
-            <?php if (!empty($bookingError)): ?>
-                <div class="alert alert-danger" role="alert">
+            <?php endif; ?> <?php if (!empty($bookingError)): ?>
+                <div class="alert alert-danger mb-4" role="alert">
                     <i class="bi bi-exclamation-circle"></i> <?php echo $bookingError; ?>
+                    <?php if ($selectedRoom): ?>
+                        <div class="mt-3">
+                            <a href="booking.php" class="btn btn-sm btn-outline-danger">
+                                <i class="bi bi-arrow-left me-2"></i>Back to Search
+                            </a>
+                        </div>
+                    <?php endif; ?>
                 </div>
-            <?php endif; ?>
-        <?php endif; ?>
-        <script src="../scripts/booking.js"></script>
+            <?php endif; ?> <?php endif; ?> <script src="../scripts/booking.js"></script>
     </main> <?php placeFooter() ?>
 </body>
 
