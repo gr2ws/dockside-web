@@ -161,28 +161,6 @@ function getUserBookingStats($userId)
         $stats['last_booking'] = $row['last_booking'];
     }
 
-    // Room type distribution
-    $sql = "SELECT r.room_type, COUNT(*) as count 
-            FROM booking b 
-            JOIN room r ON b.room_id = r.room_id 
-            WHERE b.pers_id = ? 
-            GROUP BY r.room_type 
-            ORDER BY count DESC";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $userId);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    $roomTypeDistribution = [];
-    while ($row = $result->fetch_assoc()) {
-        $roomTypeDistribution[] = [
-            'room_type' => $row['room_type'],
-            'count' => (int)$row['count']
-        ];
-    }
-
-    $stats['room_type_distribution'] = $roomTypeDistribution;
-
     $conn->close();
     return $stats;
 }

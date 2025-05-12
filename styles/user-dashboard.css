@@ -323,19 +323,6 @@ button.toghide-pword {
 	background-color: rgba(0, 123, 255, 0.04);
 }
 
-/* Room Type Distribution List */
-.room-preference-item {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 8px 0;
-	border-bottom: 1px solid #eee;
-}
-
-.room-preference-item:last-child {
-	border-bottom: none;
-}
-
 /* Booking Summary Icons */
 .booking-stat-icon {
 	width: 28px;

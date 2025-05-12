@@ -441,50 +441,10 @@ $pass = $_SESSION['pass'];
                                                             Longest Stay
                                                         </span>
                                                         <span class="booking-stat-value"><?php echo $bookingStats['longest_stay']; ?> nights</span>
-                                                    </li>
-                                                <?php endif; ?>
+                                                    </li> <?php endif; ?>
                                             </ul>
                                         </div>
                                     </div>
-                                    <?php if (!empty($bookingStats['room_type_distribution'])): ?>
-                                        <div class="card">
-                                            <div class="card-header bg-info text-white">
-                                                <h4 class="m-0"><i class="bi bi-pie-chart me-2"></i>Room Preferences</h4>
-                                            </div>
-                                            <div class="card-body">
-                                                <ul class="list-group list-group-flush">
-                                                    <?php
-                                                    // Calculate total for percentage
-                                                    $totalRooms = 0;
-                                                    foreach ($bookingStats['room_type_distribution'] as $roomType) {
-                                                        $totalRooms += $roomType['count'];
-                                                    }
-
-                                                    foreach ($bookingStats['room_type_distribution'] as $roomType):
-                                                        $percentage = $totalRooms > 0 ? round(($roomType['count'] / $totalRooms) * 100) : 0;
-                                                    ?>
-                                                        <li class="list-group-item">
-                                                            <div class="d-flex justify-content-between align-items-center mb-1">
-                                                                <span><?php echo $roomType['room_type']; ?></span>
-                                                                <span class="badge bg-info rounded-pill"><?php echo $roomType['count']; ?></span>
-                                                            </div>
-                                                            <div class="progress" style="height: 6px;">
-                                                                <div class="progress-bar bg-info" role="progressbar"
-                                                                    style="width: <?php echo $percentage; ?>%;"
-                                                                    aria-valuenow="<?php echo $percentage; ?>"
-                                                                    aria-valuemin="0"
-                                                                    aria-valuemax="100">
-                                                                </div>
-                                                            </div>
-                                                            <div class="text-end">
-                                                                <small class="text-muted"><?php echo $percentage; ?>%</small>
-                                                            </div>
-                                                        </li>
-                                                    <?php endforeach; ?>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
