@@ -65,7 +65,8 @@ INSERT INTO `person` (`pers_id`, `pers_fname`, `pers_lname`, `pers_address`, `pe
 (4, 'Cheri', 'Mon', 'Secret St. Brgy. Secret', '0000-000-0000', '1900-01-01', 'abc@gmail.com', '123', 'CUST'),
 (5, 'Admin', 'Account', 'Dockside Hotel, Dumaguete, City', '0000-000-0000', '2025-05-07', 'cdpo@dockstel.biz', 'adminlogin', 'ADMN'),
 (6, 'Juan', 'Dela Cruz', '1000 M. Reyes St., Dumaguete City', '0000-000-0000', '2001-01-01', 'jdc8775_noypi@gmail.com', 'HelloWorld_!', 'CUST'),
-(7, 'Ningning', 'Yuzhuo', 'Kwangya, Korea', '0000-000-0000', '2001-10-30', 'ningyuz320@gmail.com', 'butterfly_myae', 'CUST');
+(7, 'Ningning', 'Yuzhuo', 'Kwangya, Korea', '0000-000-0000', '2001-10-30', 'ningyuz320@gmail.com', 'butterfly_myae', 'CUST'),
+(8, 'Test', 'History', '123 Booking History St., Dumaguete City', '9999-999-9999', '1990-05-15', 'admin@test.com', 'password123', 'CUST');
 
 -- --------------------------------------------------------
 
@@ -78,35 +79,34 @@ CREATE TABLE `room` (
   `room_type` varchar(100) NOT NULL,
   `room_capacity` int(11) NOT NULL,
   `room_avail` enum('vacant','occupied','maintenance') NOT NULL DEFAULT 'vacant',
-  `room_price` decimal(10,2) NOT NULL,
-  `booking_id` int(11) DEFAULT NULL
+  `room_price` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `room`
 --
 
-INSERT INTO `room` (`room_id`, `room_type`, `room_capacity`, `room_avail`, `room_price`, `booking_id`) VALUES
-(1, 'Presidential Suite', 4, 'occupied', 25000.00, 1),
-(2, 'Presidential Suite', 4, 'vacant', 25000.00, NULL),
-(3, 'Executive Suite', 3, 'occupied', 18500.00, 2),
-(4, 'Executive Suite', 3, 'vacant', 18500.00, NULL),
-(5, 'Executive Suite', 3, 'occupied', 18500.00, 3),
-(6, 'Deluxe Room', 2, 'vacant', 15000.00, NULL),
-(7, 'Deluxe Room', 2, 'occupied', 15000.00, 4),
-(8, 'Deluxe Room', 2, 'vacant', 15000.00, NULL),
-(9, 'Standard Room', 2, 'vacant', 11000.00, NULL),
-(10, 'Standard Room', 2, 'occupied', 11000.00, 5),
-(11, 'Presidential Suite', 4, 'vacant', 25000.00, NULL),
-(12, 'Executive Suite', 3, 'vacant', 18500.00, NULL),
-(13, 'Executive Suite', 3, 'vacant', 18500.00, NULL),
-(14, 'Executive Suite', 3, 'occupied', 18500.00, 6),
-(15, 'Deluxe Room', 2, 'vacant', 15000.00, NULL),
-(16, 'Deluxe Room', 2, 'vacant', 15000.00, NULL),
-(17, 'Deluxe Room', 2, 'occupied', 15000.00, 7),
-(18, 'Deluxe Room', 2, 'vacant', 15000.00, NULL),
-(19, 'Standard Room', 2, 'occupied', 11000.00, 8),
-(20, 'Standard Room', 2, 'vacant', 11000.00, NULL);
+INSERT INTO `room` (`room_id`, `room_type`, `room_capacity`, `room_avail`, `room_price`) VALUES
+(1, 'Presidential Suite', 4, 'occupied', 25000.00),
+(2, 'Presidential Suite', 4, 'vacant', 25000.00),
+(3, 'Executive Suite', 3, 'occupied', 18500.00),
+(4, 'Executive Suite', 3, 'vacant', 18500.00),
+(5, 'Executive Suite', 3, 'occupied', 18500.00),
+(6, 'Deluxe Room', 2, 'vacant', 15000.00),
+(7, 'Deluxe Room', 2, 'occupied', 15000.00),
+(8, 'Deluxe Room', 2, 'vacant', 15000.00),
+(9, 'Standard Room', 2, 'vacant', 11000.00),
+(10, 'Standard Room', 2, 'occupied', 11000.00),
+(11, 'Presidential Suite', 4, 'vacant', 25000.00),
+(12, 'Executive Suite', 3, 'vacant', 18500.00),
+(13, 'Executive Suite', 3, 'vacant', 18500.00),
+(14, 'Executive Suite', 3, 'occupied', 18500.00),
+(15, 'Deluxe Room', 2, 'vacant', 15000.00),
+(16, 'Deluxe Room', 2, 'vacant', 15000.00),
+(17, 'Deluxe Room', 2, 'occupied', 15000.00),
+(18, 'Deluxe Room', 2, 'vacant', 15000.00),
+(19, 'Standard Room', 2, 'occupied', 11000.00),
+(20, 'Standard Room', 2, 'vacant', 11000.00);
 
 --
 -- Dumping data for table `booking`
@@ -122,7 +122,12 @@ INSERT INTO `booking` (`bkg_id`, `bkg_datein`, `bkg_dateout`, `bkg_totalpr`, `ro
 (7, '2025-06-01', '2025-06-05', 60000.00, 17, 1),
 (8, '2025-06-15', '2025-06-20', 55000.00, 19, 6),
 (9, '2025-03-15', '2025-03-20', 75000.00, 11, 2),
-(10, '2025-07-01', '2025-07-10', 185000.00, 13, 3);
+(10, '2025-07-01', '2025-07-10', 185000.00, 13, 3),
+(11, '2024-12-20', '2024-12-25', 125000.00, 2, 8), 
+(12, '2025-01-05', '2025-01-10', 92500.00, 4, 8),  
+(13, '2025-02-14', '2025-02-16', 30000.00, 16, 8), 
+(14, '2025-03-01', '2025-03-05', 44000.00, 9, 8),  
+(15, '2025-04-10', '2025-04-15', 75000.00, 11, 8); 
 
 --
 -- Indexes for dumped tables
@@ -149,8 +154,7 @@ ALTER TABLE `person`
 --
 ALTER TABLE `room`
   ADD PRIMARY KEY (`room_id`),
-  ADD UNIQUE KEY `room_id` (`room_id`),
-  ADD KEY `fk_booking` (`booking_id`);
+  ADD UNIQUE KEY `room_id` (`room_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -160,13 +164,13 @@ ALTER TABLE `room`
 -- AUTO_INCREMENT for table `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `bkg_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `bkg_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `person`
 --
 ALTER TABLE `person`
-  MODIFY `pers_id` int(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `pers_id` int(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `room`
@@ -188,8 +192,6 @@ ALTER TABLE `booking`
 --
 -- Constraints for table `room`
 --
-ALTER TABLE `room`
-  ADD CONSTRAINT `fk_booking` FOREIGN KEY (`booking_id`) REFERENCES `booking` (`bkg_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

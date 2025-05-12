@@ -107,7 +107,7 @@ function cancelBooking($bookingId)
             $roomId = $row['room_id'];
 
             // Update room status to vacant
-            $updateRoomStmt = $conn->prepare("UPDATE room SET room_avail = 'vacant', booking_id = NULL WHERE room_id = ?");
+            $updateRoomStmt = $conn->prepare("UPDATE room SET room_avail = 'vacant' WHERE room_id = ?");
             $updateRoomStmt->bind_param("i", $roomId);
             $updateRoomStmt->execute();
 
@@ -291,11 +291,9 @@ function processBooking($roomId, $checkinDate, $checkoutDate, $userId, $totalPri
         $stmt->bind_param("ssdii", $checkinDate, $checkoutDate, $totalPrice, $roomId, $userId);
 
         if ($stmt->execute()) {
-            $bookingId = $conn->insert_id;
-
-            // Update room availability
-            $updateStmt = $conn->prepare("UPDATE room SET room_avail = 'occupied', booking_id = ? WHERE room_id = ?");
-            $updateStmt->bind_param("ii", $bookingId, $roomId);
+            $bookingId = $conn->insert_id;            // Update room availability
+            $updateStmt = $conn->prepare("UPDATE room SET room_avail = 'occupied' WHERE room_id = ?");
+            $updateStmt->bind_param("i", $roomId);
 
             if ($updateStmt->execute()) {
                 $conn->commit();
