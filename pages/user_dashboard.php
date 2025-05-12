@@ -161,6 +161,17 @@ $pass = $_SESSION['pass'];
                                 ?>
                             <?php endif; ?>
 
+                            <?php if (isset($_SESSION['account_message'])): ?>
+                                <div class="alert alert-<?php echo $_SESSION['account_status'] ?? 'info'; ?> alert-dismissible fade show" role="alert">
+                                    <?php echo $_SESSION['account_message']; ?>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                                <?php
+                                unset($_SESSION['account_message']);
+                                unset($_SESSION['account_status']);
+                                ?>
+                            <?php endif; ?>
+
                             <?php if (empty($userBookings)): ?>
                                 <div class="text-center my-5">
                                     <i class="bi bi-calendar-x fs-1 text-muted"></i>
@@ -405,12 +416,58 @@ $pass = $_SESSION['pass'];
                                     </button>
                                 </div> -->
                             </form>
+
+                            <hr>
+                            <div class="mb-4">
+                                <h4 class="text-danger">Delete Account</h4>
+                                <p class="text-muted">
+                                    Warning: This action cannot be undone. All your data including booking history will be permanently removed.
+                                </p>
+                                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteAccountModal">
+                                    <i class="bi bi-trash"></i> Delete Account
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </main>
+
+    <!-- Delete Account Confirmation Modal -->
+    <div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteAccountModalLabel">Confirm Account Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete your account? This action cannot be undone.</p>
+                    <p>All your personal data and booking history will be permanently removed.</p>
+
+                    <form id="deleteAccountForm" method="POST" action="../scripts/handle_account.php">
+                        <input type="hidden" name="action" value="delete_account">
+                        <div class="mb-3">
+                            <label for="password_confirm" class="form-label">Enter your password to confirm deletion:</label>
+                            <input type="password" class="form-control" id="password_confirm" name="password_confirm" required>
+                            <div class="form-text text-danger">
+                                <?php if (isset($_SESSION['wrong_password_message'])): ?>
+                                    <?php echo $_SESSION['wrong_password_message']; ?>
+                                    <?php unset($_SESSION['wrong_password_message']); ?>
+                                <?php endif; ?>
+                            </div>
+                            <div class="form-text mt-2"><i class="bi bi-info-circle"></i> For security reasons, we need to verify your identity.</div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" onclick="document.getElementById('deleteAccountForm').submit()">Delete Account Permanently</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Toast Container -->
     <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1100">
@@ -424,6 +481,30 @@ $pass = $_SESSION['pass'];
         </div>
     </div>
     <script src="../scripts/user-dashboard.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if URL has a hash
+            if (window.location.hash) {
+                const tabId = window.location.hash.substring(1);
+                // Click the tab link
+                const tabLink = document.querySelector(`a[data-tab="${tabId}"]`);
+                if (tabLink) {
+                    tabLink.click();
+                }
+            }
+
+            // Check if we should show the delete modal (after password error)
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('show_delete_modal') && urlParams.get('show_delete_modal') === '1') {
+                // Wait a bit to ensure the page is loaded and error message is visible
+                setTimeout(function() {
+                    const deleteModal = new bootstrap.Modal(document.getElementById('deleteAccountModal'));
+                    deleteModal.show();
+                }, 500);
+            }
+        });
+    </script>
 
     <?php placeFooter() ?>
 
