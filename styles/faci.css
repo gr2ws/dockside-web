@@ -331,7 +331,7 @@ hr + * {
 
 .experience img {
     width: 100%;
-    height: 750px;
+    height: 500px;
     object-fit: cover;
 }
 
