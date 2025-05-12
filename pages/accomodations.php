@@ -67,7 +67,7 @@
                     <div class="col-lg-6">
                         <div class="room-info">
                             <h2>Presidential Suite</h2>
-                            <p class="room-description">Step into a realm of unparalleled opulence within our Presidential Suite, where every detail whispers of exquisite design and indulgent comfort. Floor-to-ceiling windows frame a breathtaking panorama of the endless ocean, painting a living masterpiece that shifts with the sun's embrace. Sink into the embrace of plush, custom-designed furnishings in the expansive living area, a haven for relaxation and sophisticated gatherings. A gourmet kitchen, equipped with state-of-the-art appliances, stands ready for culinary creations, while an elegant dining area invites intimate meals against the backdrop of the shimmering sea. Retreat to the lavishly appointed bedrooms, each a sanctuary of tranquility with premium bedding and spa-inspired ensuite bathrooms, promising rejuvenation and serenity. Private balconies and terraces extend your living space, offering idyllic settings to savor the sea breeze, witness spectacular sunsets, and create memories that will last a lifetime in this haven of refined luxury.</p>
+                            <p class="room-description">Step into a realm of unparalleled opulence within our Presidential Suite, where every detail whispers of exquisite design and indulgent comfort. Floor-to-ceiling windows frame a breathtaking panorama of the endless ocean, painting a living masterpiece that shifts with the sun's embrace. Sink into the embrace of plush, custom-designed furnishings in the expansive living area, a haven for relaxation and sophisticated gatherings. A gourmet kitchen, equipped with state-of-the-art appliances, stands ready for culinary creations, while an elegant dining area invites intimate meals against the backdrop of the shimmering sea. Retreat to the lavishly appointed bedrooms, each a sanctuary of tranquility with premium bedding and spa-inspired ensuite bathrooms, promising rejuvenation and serenity.</p>
                                 <div class="amenities-grid">
                                 <div class="amenity-item"><i class="bi bi-house-heart"></i> 200m²</div>
                                 <div class="amenity-item"><i class="bi bi-water"></i> Infinity Pool</div>
@@ -210,10 +210,7 @@
 
     </main>
 
-    <?php placeFooter() ?>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="../scripts/accoms.js" defer></script>
 </body>
+<?php placeFooter() ?>
 </html>
