@@ -36,7 +36,7 @@
                                 </div>
                             </div>
                             <div class="facility-content">
-                                <h2>Infinity Pool</h2>
+                                <h2><i class="bi bi-water me-2"></i>Infinity Pool</h2>
                                 <p>Experience serenity in our award-winning infinity pool overlooking the ocean.</p>
                             </div>
                         </article>
@@ -49,7 +49,7 @@
                                 </div>
                             </div>
                             <div class="facility-content">
-                                <h2>Luxury Spa</h2>
+<h2><i class="bi bi-stars me-2"></i>Luxury Spa</h2>
                                 <p>Indulge in our signature treatments and holistic wellness experiences.</p>
                             </div>
                         </article>
@@ -62,7 +62,7 @@
                                 </div>
                             </div>
                             <div class="facility-content">
-                                <h2>Elite Fitness</h2>
+                                <h2><i class="bi bi-heart-pulse me-2"></i>Elite Fitness</h2>
                                 <p>State-of-the-art equipment and personal training in our panoramic gym.</p>
                             </div>
                         </article>
@@ -73,14 +73,14 @@
 
                 <!-- Amenities Showcase -->
                 <section class="amenities-showcase">
-                    <h2 class="section-title">Exclusive Amenities</h2>
+                    <h2 class="section-title"><i class="bi bi-stars me-2"></i>Exclusive Amenities</h2>
                     <div class="amenities-grid">
                         <div class="amenity-item">
                             <div class="amenity-image">
                                 <img src="../assets/resto.jpg" alt="Fine Dining" loading="lazy" />
                             </div>
                             <div class="amenity-content">
-                                <h3>Fine Dining</h3>
+                                <h3><i class="bi bi-egg-fried me-2"></i>Fine Dining</h3>
                                 <p>Elevate your stay with access to the finest tables. Explore a curated selection of Michelin-starred restaurants and bespoke dining opportunities, crafting moments of pure culinary delight. Special Dishes are also served depending on the Season!</p>
                             </div>
                         </div>
@@ -89,7 +89,7 @@
                                 <img src="../assets/priv-beach.jpg" alt="Private Beach" loading="lazy" />
                             </div>
                             <div class="amenity-content">
-                                <h3>Private Beach</h3>
+<h3><i class="bi bi-umbrella me-2"></i>Private Beach</h3>
                                 <p>Escape to our secluded private beach and unwind in luxurious premium cabanas. Enjoy dedicated butler service as you soak in the tranquility of the shoreline. Experience unparalleled seaside indulgence.</p>
                             </div>
                         </div>
@@ -98,7 +98,7 @@
                                 <img src="../assets/event-space.jpg" alt="Event Spaces" loading="lazy" />
                             </div>
                             <div class="amenity-content">
-                                <h3>Event Spaces</h3>
+                                <h3><i class="bi bi-calendar-event me-2"></i>Event Spaces</h3>
                                 <p>Host unforgettable celebrations and successful corporate gatherings in our elegant venues, designed to inspire and impress.</p>
                             </div>
                         </div>
@@ -107,7 +107,7 @@
                                 <img src="../assets/yacht.jpg" alt="Yacht Services" loading="lazy" />
                             </div>
                             <div class="amenity-content">
-                                <h3>Yacht Services</h3>
+<h3><i class="bi bi-water me-2"></i>Yacht Services</h3>
                                 <p>Embark on unforgettable voyages from our exclusive private marina. Discover unparalleled freedom with our luxury yacht charters, tailored to your desires for the ultimate maritime experience.</p>
                             </div>
                         </div>

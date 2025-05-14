@@ -682,6 +682,11 @@ hr + * {
     padding: 2rem;
 }
 
+.booking-header .container {
+    padding: 0.5rem 2rem;
+}
+
+
 /* Animations */
 @keyframes fadeInSection {
     from {
