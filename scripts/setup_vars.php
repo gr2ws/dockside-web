@@ -26,10 +26,10 @@ function getDbConfig()
     ];
 
     # Use environment variables if they exist (uncomment for prod)
-    // if (getenv('DB_HOST')) $config['servername'] = getenv('DB_HOST');
-    // if (getenv('DB_USERNAME')) $config['username'] = getenv('DB_USERNAME');
-    // if (getenv('DB_PASSWORD')) $config['password'] = getenv('DB_PASSWORD');
-    // if (getenv('DB_DATABASE')) $config['dbname'] = getenv('DB_DATABASE');
+    if (getenv('DB_HOST')) $config['servername'] = getenv('DB_HOST');
+    if (getenv('DB_USERNAME')) $config['username'] = getenv('DB_USERNAME');
+    if (getenv('DB_PASSWORD')) $config['password'] = getenv('DB_PASSWORD');
+    if (getenv('DB_DATABASE')) $config['dbname'] = getenv('DB_DATABASE');
 
     return $config;
 }
