@@ -18,8 +18,8 @@ function getDbConfig()
 {
     # Define default database configuration
     $config = [
-        'servername' => 'localhost',
-        // 'servername' => '127.0.0.1:3307',
+        //'servername' => 'localhost',
+        'servername' => '127.0.0.1:3307',
         'username'   => 'root',
         'password'   => '',
         'dbname'     => 'docksidedb',

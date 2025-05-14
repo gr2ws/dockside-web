@@ -199,8 +199,8 @@ $pass = $_SESSION['pass'];
                     </div>
                 </div>
 
-                <!-- Reservations Section -->
-                <div class="content-section d-none" id="reservations-content">
+                <!-- Bookings Today Section -->
+                <div class="content-section d-none" id="today-content">
                     <div class="card shadow-sm">
                         <div class="card-body">
                             <h2 class="card-title border-bottom pb-2">My Reservations</h2>
