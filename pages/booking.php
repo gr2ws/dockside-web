@@ -303,7 +303,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_booking'])) {
                                                 <h5>Booking Policies</h5>
                                                 <p><i class="bi bi-clock me-2"></i><strong>Check-in:</strong> 3:00 PM</p>
                                                 <p><i class="bi bi-clock me-2"></i><strong>Check-out:</strong> 12:00 NN (Philippine Time)</p>
-                                                <p><i class="bi bi-exclamation-circle me-2"></i>Cancellations made at least 48 hours before check-in are free of charge.</p>
+                                                <p><i class="bi bi-exclamation-circle me-2"></i>All cancellations and rebookings are allowed free of charge.</p>
                                             </div>
 
                                             <div class="stay-details mt-4">

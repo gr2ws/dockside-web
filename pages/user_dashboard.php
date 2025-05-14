@@ -148,7 +148,6 @@ $pass = $_SESSION['pass'];
                                                             $checkinDate = new DateTime($booking['bkg_datein']);
                                                             $checkoutDate = new DateTime($booking['bkg_dateout']);
                                                             $today = new DateTime();
-                                                            $canCancel = canCancelBooking($booking['bkg_datein']);
 
                                                             // Calculate stay duration
                                                             $interval = $checkinDate->diff($checkoutDate);
@@ -173,26 +172,19 @@ $pass = $_SESSION['pass'];
                                                     <td><?php echo $nights; ?> night<?php echo $nights > 1 ? 's' : ''; ?></td>
                                                     <td class="fw-semibold">₱<?php echo number_format($booking['bkg_totalpr'], 2); ?></td>
                                                     <td class="text-center">
-                                                        <?php if ($canCancel): ?>
-                                                            <div class="dropdown">
-                                                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                    <i class="bi bi-gear"></i> Manage
-                                                                </button>
-                                                                <ul class="dropdown-menu">
-                                                                    <li><a class="dropdown-item" href="booking_action.php?id=<?php echo $booking['bkg_id']; ?>&action=cancel">
-                                                                            <i class="bi bi-x-circle text-danger"></i> Cancel Booking
-                                                                        </a></li>
-                                                                    <li><a class="dropdown-item" href="booking_action.php?id=<?php echo $booking['bkg_id']; ?>&action=rebook">
-                                                                            <i class="bi bi-calendar-plus text-primary"></i> Rebook Stay
-                                                                        </a></li>
-                                                                </ul>
-                                                            </div>
-                                                        <?php else: ?>
-                                                            <span class="badge bg-secondary">
-                                                                <i class="bi bi-lock me-1"></i>
-                                                                Can't cancel (within 3 days)
-                                                            </span>
-                                                        <?php endif; ?>
+                                                        <div class="dropdown">
+                                                            <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                <i class="bi bi-gear"></i> Manage
+                                                            </button>
+                                                            <ul class="dropdown-menu">
+                                                                <li><a class="dropdown-item" href="booking_action.php?id=<?php echo $booking['bkg_id']; ?>&action=cancel">
+                                                                        <i class="bi bi-x-circle text-danger"></i> Cancel Booking
+                                                                    </a></li>
+                                                                <li><a class="dropdown-item" href="booking_action.php?id=<?php echo $booking['bkg_id']; ?>&action=rebook">
+                                                                        <i class="bi bi-calendar-plus text-primary"></i> Rebook Stay
+                                                                    </a></li>
+                                                            </ul>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                             <?php endforeach; ?>

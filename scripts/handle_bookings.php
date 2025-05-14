@@ -63,21 +63,7 @@ function checkBookingAuthentication($redirectUrl = '')
     return true;
 }
 
-/**
- * Check if a booking can be cancelled
- * 
- * @param string $checkinDate Check-in date
- * @return bool True if booking can be cancelled
- */
-function canCancelBooking($checkinDate)
-{
-    $today = new DateTime();
-    $checkin = new DateTime($checkinDate);
 
-    // Allow cancellation if check-in is at least 3 days away
-    $diff = $today->diff($checkin);
-    return $diff->days >= 3;
-}
 
 /**
  * Cancel a booking
@@ -406,20 +392,13 @@ if (isset($_POST['cancel_booking']) && isset($_POST['booking_id'])) {
 
         if ($result && $result->num_rows > 0) {
             $row = $result->fetch_assoc();
-            $checkinDate = $row['bkg_datein'];
-
-            if (canCancelBooking($checkinDate)) {
-                $cancelResult = cancelBooking($bookingId);
-                if ($cancelResult === true) {
-                    $_SESSION['booking_message'] = "Your booking has been successfully cancelled.";
-                    $_SESSION['booking_status'] = "success";
-                } else {
-                    $_SESSION['booking_message'] = "Error cancelling booking: " . $cancelResult;
-                    $_SESSION['booking_status'] = "danger";
-                }
+            $cancelResult = cancelBooking($bookingId);
+            if ($cancelResult === true) {
+                $_SESSION['booking_message'] = "Your booking has been successfully cancelled.";
+                $_SESSION['booking_status'] = "success";
             } else {
-                $_SESSION['booking_message'] = "Bookings can only be cancelled at least 3 days before check-in.";
-                $_SESSION['booking_status'] = "warning";
+                $_SESSION['booking_message'] = "Error cancelling booking: " . $cancelResult;
+                $_SESSION['booking_status'] = "danger";
             }
         } else {
             $_SESSION['booking_message'] = "Invalid booking or permission denied.";
@@ -453,23 +432,16 @@ if (isset($_POST['rebook_booking']) && isset($_POST['booking_id'])) {
 
         if ($result && $result->num_rows > 0) {
             $booking = $result->fetch_assoc();
-            $checkinDate = $booking['bkg_datein'];
 
-            if (canCancelBooking($checkinDate)) {                // Store booking data in session for rebooking
-                $_SESSION['rebooking'] = true;
-                $_SESSION['rebook_id'] = $bookingId;
-                // Don't force the same room type to allow switching rooms
-                $_SESSION['rebook_original_type'] = $booking['room_type'];
+            // Store booking data in session for rebooking
+            $_SESSION['rebooking'] = true;
+            $_SESSION['rebook_id'] = $bookingId;
+            // Don't force the same room type to allow switching rooms
+            $_SESSION['rebook_original_type'] = $booking['room_type'];
 
-                // Redirect to booking page without room type to allow selection of any room type
-                header("Location: ../pages/booking.php");
-                exit;
-            } else {
-                $_SESSION['booking_message'] = "Bookings can only be changed at least 3 days before check-in.";
-                $_SESSION['booking_status'] = "warning";
-                header("Location: ../pages/user_dashboard.php?tab=bookings");
-                exit;
-            }
+            // Redirect to booking page without room type to allow selection of any room type
+            header("Location: ../pages/booking.php");
+            exit;
         } else {
             $_SESSION['booking_message'] = "Invalid booking or permission denied.";
             $_SESSION['booking_status'] = "danger";
