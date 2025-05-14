@@ -52,71 +52,8 @@ $pass = $_SESSION['pass'];
 </head>
 
 <body>
-
-    <!-- Header Navigation -->
-    <nav class="header-nav navbar navbar-expand-md shadow-sm">
-        <div class="container">
-            <button type="button" class="mobile-menu-btn d-xs-block d-sm-block d-md-none" id="mobileMenuToggle">
-                <i class="bi-list"></i>
-            </button>
-
-            <a class="nav-hotel-name" href="index.html">
-                Dockside Hotel
-                <sup class="header-c bi-c-circle"></sup>
-            </a>
-
-            <!-- Main Navigation -->
-            <div class="collapse navbar-collapse">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html">Home</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" href="#" data-bs-toggle="dropdown">
-                            Accommodations <i class="bi-chevron-down"></i>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <span class="dropdown-header">Find your perfect stay...</span>
-                            <hr class="dropdown-divider">
-                            <li><a class="dropdown-item" href="#">Standard Room</a></li>
-                            <li><a class="dropdown-item" href="#">Deluxe Room</a></li>
-                            <li><a class="dropdown-item" href="#">Suite Room</a></li>
-                            <li><a class="dropdown-item" href="#">Family Room</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Facilities</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Events</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="about.html">About Us</a>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- User Menu -->
-            <div class="dropdown">
-                <button class="btn" type="button" data-bs-toggle="dropdown">
-                    <i class="bi-person-circle"></i>
-                    <span class="d-none d-lg-inline"><?php echo $fname; ?></span>
-                    <i class="bi-chevron-down"></i>
-                </button>
-                <div class="dropdown-menu"> <span class="dropdown-header">Welcome back, <?php echo $fname; ?>!</span>
-                    <hr class="dropdown-divider">
-                    <a class="dropdown-item" href="#bookings" data-tab="bookings">My Bookings</a>
-                    <a class="dropdown-item" href="#history" data-tab="history">Booking History</a>
-                    <a class="dropdown-item" href="#profile" data-tab="profile">Profile</a>
-                    <a class="dropdown-item" href="#settings" data-tab="settings">Settings</a>
-                    <hr class="dropdown-divider">
-                    <a class="dropdown-item text-danger" href="../scripts/handle_logout.php">Logout</a>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Main Content -->
+    <!-- Include Header -->
+    <?php placeHeader(); ?><!-- Main Content -->
     <main class="container mt-4">
         <div class="row">
             <!-- Sidebar Navigation -->

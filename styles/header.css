@@ -116,6 +116,11 @@ a.nav-hotel-name {
 	height: 436.8px;
 }
 
+/* dropdown for logged in users */
+.user-dpd.logged-in {
+	height: 338px !important;
+}
+
 .user-dpd-toggle {
 	color: var(--text) !important;
 	font: var(--body-font) !important;
@@ -136,10 +141,25 @@ a.nav-hotel-name {
 	border-radius: 2px 2px 0px 0px;
 }
 
+/* Header for logged in users */
+.user-dpd .dropdown-header.logged-in {
+	height: 70px !important;
+	text-align: center;
+}
+
+.user-dpd .dropdown-header.logged-in .user-dpd-header-cont {
+	padding: 20px;
+}
+
 .user-dpd .dropdown-header .user-dpd-header-cont {
 	padding: 2rem 1.2rem;
 	height: 230px;
 	background-image: url(../assets/svg-patterns/cube1-bg-wh.svg);
+}
+
+.welcome-logged-in {
+	margin-bottom: 0 !important;
+	font-size: 1.1rem !important;
 }
 
 .user-dpd .dropdown-header span {
