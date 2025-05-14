@@ -16,6 +16,18 @@ function getPersonData()
 
 function getDbConfig()
 {
+    # Check first for Heroku JAWSDB_MARIA_URL
+    $jawsdb_url = getenv('JAWSDB_MARIA_URL');
+    if ($jawsdb_url) {
+        $dbparts = parse_url($jawsdb_url);
+        return [
+            'servername' => $dbparts['host'] . (isset($dbparts['port']) ? ':' . $dbparts['port'] : ''),
+            'username'   => $dbparts['user'],
+            'password'   => $dbparts['pass'],
+            'dbname'     => ltrim($dbparts['path'], '/'),
+        ];
+    }
+    
     # Define default database configuration
     $config = [
         'servername' => 'localhost',
@@ -25,7 +37,7 @@ function getDbConfig()
         'dbname'     => 'docksidedb',
     ];
 
-    # Use environment variables if they exist (uncomment for prod)
+    # Use environment variables if they exist (uncomment for dev testing to remote)
     if (getenv('DB_HOST')) $config['servername'] = getenv('DB_HOST');
     if (getenv('DB_USERNAME')) $config['username'] = getenv('DB_USERNAME');
     if (getenv('DB_PASSWORD')) $config['password'] = getenv('DB_PASSWORD');
@@ -34,13 +46,11 @@ function getDbConfig()
     return $config;
 }
 
-
 function isPersonSet()
 {
     return (isset($_POST['fname'])) && (isset($_POST['lname'])) && (isset($_POST['address'])) && (isset($_POST['phone']))
         && (isset($_POST['birth'])) && (isset($_POST['email'])) && (isset($_POST['password']));
 }
-
 
 function initRoomEdit($selectedRoom)
 {

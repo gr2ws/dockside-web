@@ -1,7 +1,7 @@
 <?php
 
 # Load environment variables from .env file if present in root directory
-# Makes getDbConfig() work for dev and deployment on heroku
+# Makes getDbConfig() work for dev to connect to remote db
 if (file_exists(__DIR__ . '/.env')) {
     $lines = file(__DIR__ . '/.env', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
     foreach ($lines as $line) {

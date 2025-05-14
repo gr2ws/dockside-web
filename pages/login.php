@@ -102,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <a href="/forgot-password" class="forgot-password">Forgot Password?</a>
             </form>
             <div class="or-divider">OR</div>
-            <button class="secondary-btn" onclick="window.location.href='./sign_up.php'">Create an Account</button>
+            <button class="secondary-btn" onclick="window.location.href='../sign_up.php'">Create an Account</button>
         </div>
     </div>
 
