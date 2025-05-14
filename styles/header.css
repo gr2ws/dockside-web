@@ -18,7 +18,7 @@ nav.header-nav div.container {
 	margin-left: auto;
 }
 
-.nav-hotel-name {
+a.nav-hotel-name {
 	font: var(--heading-font);
 	text-decoration: none;
 	white-space: nowrap;
@@ -207,6 +207,7 @@ a.join div:hover {
 	border-bottom: solid 1px var(--accent);
 	width: 310px;
 	margin-left: -8px;
+	padding-bottom: 8px;
 }
 
 li.nav-item-1 {
@@ -261,7 +262,7 @@ li.nav-item-1 a {
 }
 
 .mobile-nav a {
-	color: var(--text);
+	color: var(--base);
 	text-decoration: none;
 }
 

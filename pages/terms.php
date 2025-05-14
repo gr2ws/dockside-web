@@ -8,7 +8,7 @@ session_start();
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Dockside Hotel © | Terms and Conditions</title>
+	<title>Dockside Hotel© | Terms and Conditions</title>
 	<link rel="stylesheet" href="../styles/terms.css" />
 	<?php require 'common.php'; ?>
 </head>
@@ -34,8 +34,7 @@ session_start();
 			<ul id="articles">
 				<li class="lead">ARTICLE 1: General Guidelines</li>
 				<hr />
-				<p class="body-text">
-					By booking and staying at Luxury Hotel, guests agree to the
+				<p class="body-text"> By booking and staying at Dockside Hotel, guests agree to the
 					following terms and conditions, which are governed by the laws of
 					the Republic of the Philippines. These are designed to ensure a
 					safe, pleasant, and legally compliant experience for all guests and
@@ -155,9 +154,8 @@ session_start();
 						accommodation fee of
 						<strong>8% the highest-charged guest</strong>, per pet.
 					</li>
-					<li>
-						Owners are expected to be responsible for their pets at all times.
-						Luxury Hotel cannot be held responsible for any untoward accidents
+					<li> Owners are expected to be responsible for their pets at all times.
+						Dockside Hotel cannot be held responsible for any untoward accidents
 						involving a guest's pet/s.
 					</li>
 				</ul>
