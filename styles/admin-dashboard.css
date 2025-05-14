@@ -4,7 +4,6 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background-color: #f8f9fa;
 }
 
 /* Header Styles */
@@ -293,4 +292,8 @@ button.togshow-pword, button.toghide-pword {
 
 .togshow-pword:hover svg, .toghide-pword:hover svg {
     stroke: rgb(42, 98, 194); 
+}
+
+#navbarNav span {
+    font-size: clamp(0.7rem, 0.95rem, 2.5rem);
 }

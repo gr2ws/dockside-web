@@ -31,7 +31,10 @@ function getUserBookingHistory($userId)
     }
 
     $conn->close();
-    return $bookings;
+    return [
+        "count" => count($bookings),
+        "data" => $bookings
+    ];
 }
 
 function getRoomBookingHistory($roomId)
@@ -66,5 +69,8 @@ function getRoomBookingHistory($roomId)
     }
 
     $conn->close();
-    return $bookings;
+    return [
+        'count' => count($bookings),
+        'data' => $bookings
+    ];
 }

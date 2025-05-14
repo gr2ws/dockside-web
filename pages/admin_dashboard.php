@@ -19,7 +19,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['password_submit'])) {
     $message = handleChangePass($_SESSION['id'], $_POST['new_password'], $_POST['confirm_password']);
 }
 
-
 // setting data for ui
 $id = $_SESSION['id'];
 $fname = $_SESSION['fname'];
@@ -32,7 +31,6 @@ $pass = $_SESSION['pass'];
 
 if (isset($_POST['roomnum'])) {
     $selectedRoom = $_POST['roomnum'];
-
     initRoomEdit($selectedRoom);
 }
 
@@ -41,6 +39,7 @@ if (isset($_SESSION['message'])) {
     $message = $_SESSION['message']; // Retrieve the message
     unset($_SESSION['message']); // Clear the message from the session
 }
+
 $roomnum = isset($_SESSION['room_num']) ? $_SESSION['room_num'] : '';
 $type = isset($_SESSION['room_type']) ? $_SESSION['room_type'] : '';
 $capacity = isset($_SESSION['room_capacity']) ? $_SESSION['room_capacity'] : '';
@@ -61,15 +60,24 @@ $userSearchError = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_user_submit'])) {
     $searchUserId = $_POST['search_user_id'];
     if (!empty($searchUserId)) {
-        $userBookings = getUserBookingHistory($searchUserId);
-        if (isset($userBookings['error'])) {
-            $userSearchError = $userBookings['error'];
+        $result = getUserBookingHistory($searchUserId);
+
+        if (isset($result['error'])) {
+            $userSearchError = $result['error'];
             $userBookings = [];
-        } elseif (empty($userBookings)) {
-            $userSearchError = "No booking history found for User ID: $searchUserId";
+            $userCount = 0;
+        } else {
+            $userBookings = $result['data'];
+            $userCount = $result['count'];
+
+            if ($userCount === 0) {
+                $userSearchError = "No booking history found for User ID: $searchUserId";
+            }
         }
     } else {
-        $userSearchError = "Please enter a User ID to search";
+        $userSearchError = "Please enter a User ID to search.";
+        $userBookings = [];
+        $userCount = 0;
     }
 }
 
@@ -79,15 +87,24 @@ $roomSearchError = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])) {
     $searchRoomId = $_POST['search_room_id'];
     if (!empty($searchRoomId)) {
-        $roomBookings = getRoomBookingHistory($searchRoomId);
-        if (isset($roomBookings['error'])) {
-            $roomSearchError = $roomBookings['error'];
+        $result = getRoomBookingHistory($searchRoomId);
+
+        if (isset($result['error'])) {
+            $roomSearchError = $result['error'];
             $roomBookings = [];
-        } elseif (empty($roomBookings)) {
-            $roomSearchError = "No booking history found for Room ID: $searchRoomId";
+            $roomCount = 0;
+        } else {
+            $roomBookings = $result['data'];
+            $roomCount = $result['count'];
+
+            if ($roomCount === 0) {
+                $roomSearchError = "No booking history found for Room ID: $searchRoomId";
+            }
         }
     } else {
         $roomSearchError = "Please enter a Room ID to search";
+        $roomBookings = [];
+        $roomCount = 0;
     }
 }
 ?>
@@ -120,33 +137,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])
             </a>
 
             <!-- Main Navigation -->
-            <div class="collapse navbar-collapse">
+            <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html">Home</a>
+                        <a href="#dashboard" class="nav-link active" data-tab="dashboard"
+                            onclick="ridMessage()">
+                            <span class="fs-md-4"> Dashboard </span>
+                        </a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link" href="#" data-bs-toggle="dropdown">
-                            Accommodations <i class="bi-chevron-down"></i>
+                        <a href="#reservations" class="nav-link" data-tab="reservations"
+                            onclick="ridMessage()">
+                            <span class="fs-md-4"> Manage Rooms </span>
                         </a>
-                        <ul class="dropdown-menu">
-                            <span class="dropdown-header">Find your perfect stay...</span>
-                            <hr class="dropdown-divider">
-                            <li><a class="dropdown-item" href="#">Standard Room</a></li>
-                            <li><a class="dropdown-item" href="#">Deluxe Room</a></li>
-                            <li><a class="dropdown-item" href="#">Suite Room</a></li>
-                            <li><a class="dropdown-item" href="#">Family Room</a></li>
-                        </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Facilities</a>
+                        <a href="#userbkgs" class="nav-link" data-tab="userbkgs"
+                            onclick="ridMessage()">
+                            <span class="fs-md-4"> User Bookings </span>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Events</a>
+                        <a href="#roombkgs" class="nav-link" data-tab="roombkgs"
+                            onclick="ridMessage()">
+                            <span class="fs-md-4"> Room Bookings </span>
+                        </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="about.html">About Us</a>
-                    </li>
+
                 </ul>
             </div>
 
@@ -171,46 +188,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])
     </nav>
 
     <!-- Main Content -->
-    <main class="container mt-4">
+    <main class="container-fluid mt-4">
         <div class="row">
-            <!-- Sidebar Navigation -->
-            <div class="col-md-2 pb-4 pb-lg-0">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <nav>
-                            <ul class="nav flex-column">
-                                <li class="nav-item">
-                                    <a href="#dashboard" class="nav-link active" data-tab="dashboard"
-                                        onclick="ridMessage()">
-                                        <i class="bi bi-speedometer2"></i> Dashboard
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#reservations" class="nav-link" data-tab="reservations"
-                                        onclick="ridMessage()">
-                                        <i class="bi bi-door-open-fill"></i> Manage Room Details
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#userbkgs" class="nav-link" data-tab="userbkgs"
-                                        onclick="ridMessage()">
-                                        <i class="bi bi-person"></i> User Booking History
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#roombkgs" class="nav-link" data-tab="roombkgs"
-                                        onclick="ridMessage()">
-                                        <i class="bi bi-gear"></i> Room Booking History
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-
             <!-- Content Area -->
-            <div class="col-md-9">
+            <div class="col-9 mx-auto">
 
                 <?php echo $message ?? ''; ?>
 
@@ -364,7 +345,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php foreach ($userBookings as $booking): ?>
+                                            <?php
+
+
+
+                                            foreach ($userBookings as $booking): ?>
                                                 <tr>
                                                     <td><?php echo htmlspecialchars($booking['bkg_id']); ?></td>
                                                     <td><?php echo htmlspecialchars($booking['pers_id']); ?></td>
@@ -382,10 +367,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])
                             <?php endif; ?>
                         </div>
                     </div>
+
+                    <div>
+                        <p> Total: <?php echo isset($userCount) ? $userCount : "-"; ?> bookings found. </p>
+                    </div>
                 </div>
 
                 <!-- Room Booking History Section -->
-                <div class="content-section d-none" id="roombkgs-content">
+                <div class="content-section d-none container-fluid" id="roombkgs-content">
                     <div class="card shadow-sm mb-4">
                         <div class="card-body">
                             <h2 class="card-title border-bottom pb-2">Room Booking History</h2>
@@ -443,6 +432,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])
                                 </div>
                             <?php endif; ?>
                         </div>
+                    </div>
+                    <div>
+                        <p> Total: <?php echo isset($roomCount) ? $roomCount : "-"; ?> bookings found. </p>
                     </div>
                 </div>
             </div>
