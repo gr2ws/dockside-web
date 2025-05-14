@@ -9,7 +9,6 @@
     <?php require 'common.php'; ?>
 </head>
     <?php placeHeader() ?>
-    <?php placeBookingHeader() ?>
 
 <body>
     <div class="main-wrapper">
