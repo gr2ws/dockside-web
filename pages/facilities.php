@@ -13,7 +13,6 @@
 <body>
     <?php placeHeader() ?>
     <?php placeBookingHeader() ?>
-    
     <main id="main-content">
         <div class="body-image">
             <!-- Hero Section -->
