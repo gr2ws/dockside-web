@@ -4,13 +4,12 @@ session_start();
 
 require '../scripts/setup_vars.php';
 require '../scripts/handle_edit.php';
-require '../scripts/handle_pass.php';
+require '../scripts/see_history.php';
 
 if (!isset($_SESSION['id'])) {
     header("Location: login.php");
     exit;
 }
-
 
 // Show update result message only if form was submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['profile_submit'])) {
@@ -55,6 +54,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['type'])) {
     header("Location: ./admin_dashboard.php");
     exit(); // Redirect to the same page to avoid resubmission;
 }
+
+// Process user booking history search
+$userBookings = [];
+$userSearchError = '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_user_submit'])) {
+    $searchUserId = $_POST['search_user_id'];
+    if (!empty($searchUserId)) {
+        $userBookings = getUserBookingHistory($searchUserId);
+        if (isset($userBookings['error'])) {
+            $userSearchError = $userBookings['error'];
+            $userBookings = [];
+        } elseif (empty($userBookings)) {
+            $userSearchError = "No booking history found for User ID: $searchUserId";
+        }
+    } else {
+        $userSearchError = "Please enter a User ID to search";
+    }
+}
+
+// Process room booking history search
+$roomBookings = [];
+$roomSearchError = '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])) {
+    $searchRoomId = $_POST['search_room_id'];
+    if (!empty($searchRoomId)) {
+        $roomBookings = getRoomBookingHistory($searchRoomId);
+        if (isset($roomBookings['error'])) {
+            $roomSearchError = $roomBookings['error'];
+            $roomBookings = [];
+        } elseif (empty($roomBookings)) {
+            $roomSearchError = "No booking history found for Room ID: $searchRoomId";
+        }
+    } else {
+        $roomSearchError = "Please enter a Room ID to search";
+    }
+}
 ?>
 
 
@@ -65,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['type'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Dashboard - Dockside Hotel©</title>
-    <link rel="stylesheet" href="../styles/user-dashboard.css">
+    <link rel="stylesheet" href="../styles/admin-dashboard.css">
     <link rel="stylesheet" href="../styles/index.css">
     <?php require_once 'common.php'; ?>
 </head>
@@ -175,7 +210,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['type'])) {
             </div>
 
             <!-- Content Area -->
-            <div class="col-md-7">
+            <div class="col-md-9">
 
                 <?php echo $message ?? ''; ?>
 
@@ -287,158 +322,126 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['type'])) {
                     </div>
                 </div>
 
-                <!-- Profile Section -->
-                <div class="content-section d-none" id="userbkgs-content">
-                    <div class="card shadow-sm">
+                <!-- User Booking History Section -->
+                <div class="content-section d-none container-fluid" id="userbkgs-content">
+                    <div class="card shadow-sm mb-4">
                         <div class="card-body">
-                            <div class="w-100 d-flex justify-content-between align-items-center">
-                                <h2 class="card-title mt-2">My Profile</h2>
-                                <button
-                                    type="button"
-                                    class="btn btn-primary"
-                                    onclick="makeEditable()">Edit Profile</button>
-                            </div>
+                            <h2 class="card-title border-bottom pb-2">User Booking History</h2>
+                            <p>Search for a user's booking history by entering their ID below.</p>
 
-                            <hr>
-
-                            <form id="userBookings" method="POST" action="./admin_dashboard.php#userbkgs" class="mt-4">
-
-                                <!-- flag for conditional data handling based on what form was submitted -->
-                                <input type="hidden" name="profile_submit" value="1">
-
-
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="fname" class="form-label">First Name</label>
-                                        <input type="text" class="form-control" id="fname" name="fname"
-                                            value="<?php echo $fname; ?>" disabled required>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="lname" class="form-label">Last Name</label>
-                                        <input type="text" class="form-control" id="lname" name="lname"
-                                            value="<?php echo $lname; ?>" disabled required>
-                                    </div>
+                            <form method="POST" action="./admin_dashboard.php#userbkgs" class="row g-3 align-items-end mb-4">
+                                <div class="col-md-8">
+                                    <label for="search_user_id" class="form-label">User ID</label>
+                                    <input type="numeric" class="form-control" id="search_user_id" name="search_user_id"
+                                        placeholder="Enter user ID number" required>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="birth">Birthday</label>
-                                    <input
-                                        type="date"
-                                        class="form-control"
-                                        id="birth"
-                                        name="birth"
-                                        disabled
-                                        value="<?php echo $birth; ?>"
-                                        required>
-                                    <small><i class="text-muted">Format: dd/mm/yyyy</i></small>
+                                <div class="col-md-4">
+                                    <button type="submit" name="search_user_submit" value="1" class="btn btn-primary w-100">
+                                        <i class="bi bi-search"></i> Search
+                                    </button>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="phone" class="form-label">Phone</label>
-                                    <input
-                                        type="tel"
-                                        class="form-control"
-                                        id="phone"
-                                        name="phone"
-                                        pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}"
-                                        value="<?php echo $phone; ?>"
-                                        maxlength="13"
-                                        disabled
-                                        required />
-                                    <small><i class="text-muted">Format: 0912-345-6789</i></small>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Address</label>
-                                    <textarea class="form-control" name="address" rows="3" disabled><?php echo $address; ?></textarea>
-                                </div>
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="bi bi-check-lg"></i> Save Changes
-                                </button>
                             </form>
+
+                            <?php if (!empty($userSearchError)): ?>
+                                <div class="alert alert-warning">
+                                    <?php echo $userSearchError; ?>
+                                </div>
+                            <?php endif; ?>
+
+                            <?php if (!empty($userBookings)): ?>
+                                <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                                    <table class="table table-striped table-hover">
+                                        <thead class="sticky-top bg-light">
+                                            <tr>
+                                                <th>Booking ID</th>
+                                                <th>User ID</th>
+                                                <th>User Name</th>
+                                                <th>Room ID</th>
+                                                <th>Room Type</th>
+                                                <th>Check-in Date</th>
+                                                <th>Check-out Date</th>
+                                                <th>Total Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php foreach ($userBookings as $booking): ?>
+                                                <tr>
+                                                    <td><?php echo htmlspecialchars($booking['bkg_id']); ?></td>
+                                                    <td><?php echo htmlspecialchars($booking['pers_id']); ?></td>
+                                                    <td><?php echo htmlspecialchars($booking['full_name']); ?></td>
+                                                    <td><?php echo htmlspecialchars($booking['room_id']); ?></td>
+                                                    <td><?php echo htmlspecialchars($booking['room_type']); ?></td>
+                                                    <td><?php echo htmlspecialchars($booking['bkg_datein']); ?></td>
+                                                    <td><?php echo htmlspecialchars($booking['bkg_dateout']); ?></td>
+                                                    <td>₱<?php echo number_format($booking['bkg_totalpr'], 2); ?></td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
 
-                <!-- Settings Section -->
+                <!-- Room Booking History Section -->
                 <div class="content-section d-none" id="roombkgs-content">
-                    <div class="card shadow-sm">
+                    <div class="card shadow-sm mb-4">
                         <div class="card-body">
-                            <h2 class="card-title border-bottom pb-2">Account Settings</h2>
-                            <form id="roomBookings" method="POST" action="./admin_dashboard.php#roombkgs" class="mt-4">
+                            <h2 class="card-title border-bottom pb-2">Room Booking History</h2>
+                            <p>Search for a room's booking history by entering the room ID below.</p>
 
-                                <!-- flag for conditional data handling based on what form was submitted -->
-                                <input type="hidden" name="password_submit" value="1">
-
-                                <div class="mb-4">
-                                    <h4>Change Password</h4>
-                                    <br>
-                                    <div class="mb-3">
-                                        <div class="d-flex justify-center align-center gap-2 mb-2">
-                                            <label class="form-label mb-0">Current Password</label>
-                                            <button type="button" id="one" class="togshow-pword show-pword d-block" onclick="showPass('current_password', 'one', 'two')">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye-icon lucide-eye">
-                                                    <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
-                                                    <circle cx="12" cy="12" r="3" />
-                                                </svg>
-                                            </button>
-                                            <button type="button" id="two" class="toghide-pword hide-pword d-none" onclick="hidePass('current_password', 'one', 'two')">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye-off-icon lucide-eye-off">
-                                                    <path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49" />
-                                                    <path d="M14.084 14.158a3 3 0 0 1-4.242-4.242" />
-                                                    <path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143" />
-                                                    <path d="m2 2 20 20" />
-                                                </svg>
-                                            </button>
-                                        </div>
-                                        <input type="password" class="form-control" id="current_password" name="current_password" value="<?php echo $pass; ?>" disabled>
-                                        <br>
-                                        <small><i class="text-muted">Please ensure that you input the same new password in the two fields below.</i></small>
-                                    </div>
-                                    <div class="mb-3">
-                                        <div class="d-flex justify-center align-center gap-2 mb-2">
-                                            <label class="form-label" for="new_password">New Password</label>
-                                            <button type="button" id="three" class="togshow-pword show-pword d-block" onclick="showPass('new_password', 'three', 'four')">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye-icon lucide-eye">
-                                                    <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
-                                                    <circle cx="12" cy="12" r="3" />
-                                                </svg>
-                                            </button>
-                                            <button type="button" id="four" class="toghide-pword hide-pword d-none" onclick="hidePass('new_password', 'three', 'four')">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye-off-icon lucide-eye-off">
-                                                    <path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49" />
-                                                    <path d="M14.084 14.158a3 3 0 0 1-4.242-4.242" />
-                                                    <path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143" />
-                                                    <path d="m2 2 20 20" />
-                                                </svg>
-                                            </button>
-                                        </div>
-                                        <input type="password" class="form-control" id="new_password" name="new_password" minlength="8" maxlength="30" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <div class="d-flex justify-center align-center gap-2 mb-2">
-
-                                            <label class="form-label" for="confirm_password">Confirm New Password</label>
-                                            <button type="button" id="five" class="togshow-pword show-pword d-block" onclick="showPass('confirm_password', 'five', 'six')">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye-icon lucide-eye">
-                                                    <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
-                                                    <circle cx="12" cy="12" r="3" />
-                                                </svg>
-                                            </button>
-                                            <button type="button" id="six" class="toghide-pword hide-pword d-none" onclick="hidePass('confirm_password', 'five', 'six')">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye-off-icon lucide-eye-off">
-                                                    <path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49" />
-                                                    <path d="M14.084 14.158a3 3 0 0 1-4.242-4.242" />
-                                                    <path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143" />
-                                                    <path d="m2 2 20 20" />
-                                                </svg>
-                                            </button>
-                                        </div>
-                                        <input type="password" class="form-control" id="confirm_password" name="confirm_password" minlength="8" maxlength="30" required>
-                                    </div>
-
-                                    <button type="submit" class="btn btn-primary">
-                                        <i class="bi bi-key"></i> Update Password
+                            <form method="POST" action="./admin_dashboard.php#roombkgs" class="row g-3 align-items-end mb-4">
+                                <div class="col-md-8">
+                                    <label for="search_room_id" class="form-label">Room ID</label>
+                                    <input type="numeric" class="form-control" id="search_room_id" name="search_room_id"
+                                        placeholder="Enter room ID number" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <button type="submit" name="search_room_submit" value="1" class="btn btn-primary w-100">
+                                        <i class="bi bi-search"></i> Search
                                     </button>
                                 </div>
                             </form>
+
+                            <?php if (!empty($roomSearchError)): ?>
+                                <div class="alert alert-warning">
+                                    <?php echo $roomSearchError; ?>
+                                </div>
+                            <?php endif; ?>
+
+                            <?php if (!empty($roomBookings)): ?>
+                                <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                                    <table class="table table-striped table-hover">
+                                        <thead class="sticky-top bg-light">
+                                            <tr>
+                                                <th>Booking ID</th>
+                                                <th>Room ID</th>
+                                                <th>Room Type</th>
+                                                <th>User ID</th>
+                                                <th>User Name</th>
+                                                <th>Check-in Date</th>
+                                                <th>Check-out Date</th>
+                                                <th>Total Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php foreach ($roomBookings as $booking): ?>
+                                                <tr>
+                                                    <td><?php echo htmlspecialchars($booking['bkg_id']); ?></td>
+                                                    <td><?php echo htmlspecialchars($booking['room_id']); ?></td>
+                                                    <td><?php echo htmlspecialchars($booking['room_type']); ?></td>
+                                                    <td><?php echo htmlspecialchars($booking['pers_id']); ?></td>
+                                                    <td><?php echo htmlspecialchars($booking['full_name']); ?></td>
+                                                    <td><?php echo htmlspecialchars($booking['bkg_datein']); ?></td>
+                                                    <td><?php echo htmlspecialchars($booking['bkg_dateout']); ?></td>
+                                                    <td>₱<?php echo number_format($booking['bkg_totalpr'], 2); ?></td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
