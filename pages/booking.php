@@ -124,10 +124,31 @@ $bookingDetails = [
     'checkoutFormatted' => ''
 ];
 
+// Initialize default dates if only room type is provided
+if (!empty($roomType) && (empty($checkinDate) || empty($checkoutDate))) {
+    // Set default check-in to today
+    $today = date('Y-m-d');
+    $tomorrow = date('Y-m-d', strtotime('+1 day'));
+
+    // Use these as default dates and update URL parameters to match
+    $checkinDate = $today;
+    $checkoutDate = $tomorrow;
+
+    // If we're not already redirecting, update the URL to include these default dates
+    if (!headers_sent()) {
+        $redirectUrl = "booking.php?room_type=" . urlencode($roomType) .
+            "&checkin=" . urlencode($checkinDate) .
+            "&checkout=" . urlencode($checkoutDate);
+        header("Location: " . $redirectUrl);
+        exit();
+    }
+}
+
 // Get available rooms if search parameters exist
 if (!empty($checkinDate) && !empty($checkoutDate)) {
     $availableRooms = getAvailableRooms($checkinDate, $checkoutDate, $roomType);
 } elseif (!empty($roomType)) {
+    // This case should rarely happen now due to the auto-setting of dates above
     $availableRooms = getAvailableRooms(null, null, $roomType);
 }
 

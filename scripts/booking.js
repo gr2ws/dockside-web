@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	// Handle page section visibility based on URL params
 	handlePageVisibility();
+
 	// Add event listener for back button to recalculate visibility
 	window.addEventListener("popstate", function () {
 		handlePageVisibility();
@@ -31,14 +32,63 @@ document.addEventListener("DOMContentLoaded", function () {
 
 /**
  * Auto-submits the search form if URL parameters exist
+ * If only room_type is present, pre-selects it in the dropdown
+ * and sets default dates to help users complete their search
  */
 function autoSubmitSearchOnLoad() {
 	const urlParams = new URLSearchParams(window.location.search);
 	const checkin = urlParams.get("checkin");
 	const checkout = urlParams.get("checkout");
+	const roomType = urlParams.get("room_type");
 
-	// If both check-in and check-out parameters exist, the form will auto-load results
-	// No action needed as PHP already handles this server-side
+	// If we have a room_type parameter but no dates, set default dates
+	// This happens when coming from the accommodations page
+	if (roomType && (!checkin || !checkout)) {
+		console.log("Room type parameter detected:", roomType);
+
+		// Set default check-in to today
+		const today = new Date();
+		const tomorrow = new Date();
+		tomorrow.setDate(today.getDate() + 1);
+
+		// Format dates as YYYY-MM-DD
+		const formatDate = (date) => {
+			const year = date.getFullYear();
+			const month = String(date.getMonth() + 1).padStart(2, "0");
+			const day = String(date.getDate()).padStart(2, "0");
+			return `${year}-${month}-${day}`;
+		};
+
+		const todayFormatted = formatDate(today);
+		const tomorrowFormatted = formatDate(tomorrow);
+		console.log("Setting dates:", todayFormatted, tomorrowFormatted);
+
+		// Set the date inputs
+		const checkinInput = document.getElementById("search-checkin");
+		const checkoutInput = document.getElementById("search-checkout");
+
+		if (checkinInput && checkoutInput) {
+			// Get the flatpickr instances
+			const checkinPicker = checkinInput._flatpickr;
+			const checkoutPicker = checkoutInput._flatpickr;
+
+			if (checkinPicker && checkoutPicker) {
+				// Set the formatted dates
+				checkinPicker.setDate(todayFormatted);
+				checkoutPicker.setDate(tomorrowFormatted);
+
+				// Trigger search with the new dates and room type
+				console.log("Triggering search...");
+				setTimeout(() => {
+					triggerSearch();
+				}, 500); // Increased timeout to ensure date pickers are initialized
+			} else {
+				console.log("Flatpickr instances not found");
+			}
+		} else {
+			console.log("Date inputs not found");
+		}
+	}
 }
 
 /**
@@ -50,9 +100,10 @@ function initRoomTypeAutoUpdate() {
 		roomTypeSelect.addEventListener("change", function () {
 			const checkin = document.getElementById("search-checkin").value;
 			const checkout = document.getElementById("search-checkout").value;
+			const roomType = roomTypeSelect.value;
 
-			// Only auto-submit if we have both dates, otherwise just save the selection
-			if (checkin && checkout) {
+			// Auto-submit if both dates are set or if only room type is selected
+			if ((checkin && checkout) || (roomType && !checkin && !checkout)) {
 				triggerSearch();
 			}
 		});
@@ -67,8 +118,8 @@ function triggerSearch() {
 	const checkout = document.getElementById("search-checkout").value;
 	const roomType = document.getElementById("room-type").value;
 
-	// Only proceed if both dates are set
-	if (checkin && checkout) {
+	// Proceed if either both dates are set OR only room type is selected
+	if ((checkin && checkout) || (roomType && !checkin && !checkout)) {
 		const searchUrl = constructSearchUrl(checkin, checkout, roomType);
 		window.location.href = searchUrl;
 	}
@@ -139,7 +190,6 @@ function tryAutoSubmit() {
 	const roomType = document.getElementById("room-type").value;
 	const urlParams = new URLSearchParams(window.location.search);
 	const hasSelectedRoom = urlParams.has("selected_room");
-
 	// Don't auto-submit if a room is already selected
 	if (hasSelectedRoom) {
 		return;
@@ -154,6 +204,10 @@ function tryAutoSubmit() {
 		if (checkinDate < checkoutDate) {
 			triggerSearch();
 		}
+	}
+	// If only room type is selected (and no dates), also trigger search
+	else if (roomType && !checkin && !checkout) {
+		triggerSearch();
 	}
 }
 
@@ -213,7 +267,16 @@ function initFormValidation() {
 
 			const checkin = document.getElementById("search-checkin").value;
 			const checkout = document.getElementById("search-checkout").value;
+			const roomType = document.getElementById("room-type").value;
 
+			// If room type is selected but no dates, we can set default dates and proceed
+			if (roomType && (!checkin || !checkout)) {
+				// Let triggerSearch handle setting default dates
+				triggerSearch();
+				return;
+			}
+
+			// When dates are provided, validate them
 			if (!checkin || !checkout) {
 				alert("Please select both check-in and check-out dates");
 				return false;
