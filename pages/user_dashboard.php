@@ -8,6 +8,8 @@ if (!isset($_SESSION['id'])) {
 
 require '../scripts/handle_edit.php';
 require '../scripts/handle_pass.php';
+require '../scripts/handle_bookings.php';
+require '../scripts/handle_userinfo.php'; // Add new user info handler
 
 // Show update result message only if form was submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['profile_submit'])) {
@@ -17,6 +19,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['password_submit'])) {
     $message = handleChangePass($_SESSION['id'], $_POST['new_password'], $_POST['confirm_password']);
 }
 
+// Get user bookings
+$userBookings = getUserBookings($_SESSION['id']);
+
+// Get user booking history with fixed limit of 10 records
+$bookingHistory = getUserBookingHistory($_SESSION['id']);
+
+// Get user booking stats
+$bookingStats = getUserBookingStats($_SESSION['id']);
 
 // setting data for ui
 $id = $_SESSION['id'];
@@ -42,71 +52,8 @@ $pass = $_SESSION['pass'];
 </head>
 
 <body>
-
-    <!-- Header Navigation -->
-    <nav class="header-nav navbar navbar-expand-md shadow-sm">
-        <div class="container">
-            <button type="button" class="mobile-menu-btn d-xs-block d-sm-block d-md-none" id="mobileMenuToggle">
-                <i class="bi-list"></i>
-            </button>
-
-            <a class="nav-hotel-name" href="index.html">
-                Dockside Hotel
-                <sup class="header-c bi-c-circle"></sup>
-            </a>
-
-            <!-- Main Navigation -->
-            <div class="collapse navbar-collapse">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html">Home</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" href="#" data-bs-toggle="dropdown">
-                            Accommodations <i class="bi-chevron-down"></i>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <span class="dropdown-header">Find your perfect stay...</span>
-                            <hr class="dropdown-divider">
-                            <li><a class="dropdown-item" href="#">Standard Room</a></li>
-                            <li><a class="dropdown-item" href="#">Deluxe Room</a></li>
-                            <li><a class="dropdown-item" href="#">Suite Room</a></li>
-                            <li><a class="dropdown-item" href="#">Family Room</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Facilities</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Events</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="about.html">About Us</a>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- User Menu -->
-            <div class="dropdown">
-                <button class="btn" type="button" data-bs-toggle="dropdown">
-                    <i class="bi-person-circle"></i>
-                    <span class="d-none d-lg-inline"><?php echo $fname; ?></span>
-                    <i class="bi-chevron-down"></i>
-                </button>
-                <div class="dropdown-menu">
-                    <span class="dropdown-header">Welcome back, <?php echo $fname; ?>!</span>
-                    <hr class="dropdown-divider">
-                    <a class="dropdown-item" href="#dashboard" data-tab="dashboard">Dashboard</a>
-                    <a class="dropdown-item" href="#profile" data-tab="profile">Profile</a>
-                    <a class="dropdown-item" href="#settings" data-tab="settings">Settings</a>
-                    <hr class="dropdown-divider">
-                    <a class="dropdown-item text-danger" href="../scripts/handle_logout.php">Logout</a>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Main Content -->
+    <!-- Include Header -->
+    <?php placeHeader(); ?><!-- Main Content -->
     <main class="container mt-4">
         <div class="row">
             <!-- Sidebar Navigation -->
@@ -116,15 +63,15 @@ $pass = $_SESSION['pass'];
                         <nav>
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <a href="#dashboard" class="nav-link active" data-tab="dashboard"
+                                    <a href="#bookings" class="nav-link active" data-tab="bookings"
                                         onclick="ridMessage()">
-                                        <i class="bi bi-speedometer2"></i> Dashboard
+                                        <i class="bi bi-calendar-check"></i> My Bookings
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#reservations" class="nav-link" data-tab="reservations"
+                                    <a href="#history" class="nav-link" data-tab="history"
                                         onclick="ridMessage()">
-                                        <i class="bi bi-calendar-check"></i> My Reservations
+                                        <i class="bi bi-clock-history"></i> Booking History
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -143,103 +90,291 @@ $pass = $_SESSION['pass'];
                         </nav>
                     </div>
                 </div>
-            </div>
+            </div> <!-- Content Area -->
+            <div class="col-md-10">
 
-            <!-- Content Area -->
-            <div class="col-md-7">
-
-                <?php echo $message ?? ''; ?>
-
-                <!-- Dashboard Section -->
-                <div class="content-section" id="dashboard-content">
-                    <div class="card shadow-sm mb-4">
-                        <div class="card-body">
-                            <h2 class="card-title border-bottom pb-2">Welcome back, <?php echo $fname . "!"; ?></h2>
-                            <p class="lead">Here's an overview of your activity and available rooms.</p>
-                        </div>
-                    </div>
-
-                    <!-- Available Rooms Table -->
+                <?php echo $message ?? ''; ?><!-- Bookings Section -->
+                <div class="content-section" id="bookings-content">
                     <div class="card shadow-sm">
                         <div class="card-body">
-                            <h3 class="card-title border-bottom pb-2">Available Rooms</h3>
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Room Type</th>
-                                            <th>Capacity</th>
-                                            <th>Rate/Night</th>
-                                            <th>Status</th>
-                                            <th class="text-end">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php foreach ($availableRooms as $room): ?>
-                                            <tr>
-                                                <td><?php echo htmlspecialchars($room['room_type']); ?></td>
-                                                <td><?php echo htmlspecialchars($room['capacity']); ?></td>
-                                                <td>₱<?php echo number_format($room['rate'], 2); ?></td>
-                                                <td>
-                                                    <span class="badge bg-<?php echo $room['status'] === 'Available' ? 'success' : 'warning'; ?>">
-                                                        <?php echo htmlspecialchars($room['status']); ?>
-                                                    </span>
-                                                </td>
-                                                <td class="text-end">
-                                                    <button class="btn btn-sm btn-primary" onclick="selectRoom(<?php echo $room['id']; ?>)">
-                                                        <i class="bi bi-calendar-plus"></i> Select
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        <?php endforeach; ?>
-                                    </tbody>
-                                </table>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h2 class="card-title border-bottom pb-2">
+                                    <i class="bi bi-calendar-check me-2"></i>My Bookings
+                                </h2>
+                                <a href="../pages/accomodations.php" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-plus-circle me-1"></i> New Booking
+                                </a>
                             </div>
+
+                            <?php if (isset($_SESSION['booking_message'])): ?>
+                                <div class="alert alert-<?php echo $_SESSION['booking_status'] ?? 'info'; ?> alert-dismissible fade show" role="alert">
+                                    <?php echo $_SESSION['booking_message']; ?>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                                <?php
+                                unset($_SESSION['booking_message']);
+                                unset($_SESSION['booking_status']);
+                                ?>
+                            <?php endif; ?>
+
+                            <?php if (isset($_SESSION['account_message'])): ?>
+                                <div class="alert alert-<?php echo $_SESSION['account_status'] ?? 'info'; ?> alert-dismissible fade show" role="alert">
+                                    <?php echo $_SESSION['account_message']; ?>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                                <?php
+                                unset($_SESSION['account_message']);
+                                unset($_SESSION['account_status']);
+                                ?> <?php endif; ?> <?php if (empty($userBookings)): ?> <div class="text-center my-5">
+                                    <i class="bi bi-calendar-x fs-1 text-muted"></i>
+                                    <p class="mt-3 text-muted">You don't have any current or upcoming bookings.</p>
+                                </div><?php else: ?>
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Booking ID</th>
+                                                <th>Room Type</th>
+                                                <th>Check-in</th>
+                                                <th>Check-out</th>
+                                                <th>Duration</th>
+                                                <th>Total Price</th>
+                                                <th class="text-center">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php foreach ($userBookings as $booking): ?>
+                                                <?php
+                                                            $checkinDate = new DateTime($booking['bkg_datein']);
+                                                            $checkoutDate = new DateTime($booking['bkg_dateout']);
+                                                            $today = new DateTime();
+
+                                                            // Calculate stay duration
+                                                            $interval = $checkinDate->diff($checkoutDate);
+                                                            $nights = $interval->days;
+
+                                                            // Determine status
+                                                            if ($checkinDate > $today) {
+                                                                $status = "Upcoming";
+                                                                $statusClass = "bg-primary";
+                                                                $statusIcon = "bi-calendar-check";
+                                                            } else {
+                                                                $status = "Active";
+                                                                $statusClass = "bg-warning";
+                                                                $statusIcon = "bi-clock";
+                                                            }
+                                                ?>
+                                                <tr>
+                                                    <td class="fw-bold">#<?php echo htmlspecialchars($booking['bkg_id']); ?></td>
+                                                    <td><?php echo htmlspecialchars($booking['room_type']); ?></td>
+                                                    <td><?php echo $checkinDate->format('M j, Y'); ?></td>
+                                                    <td><?php echo $checkoutDate->format('M j, Y'); ?></td>
+                                                    <td><?php echo $nights; ?> night<?php echo $nights > 1 ? 's' : ''; ?></td>
+                                                    <td class="fw-semibold">₱<?php echo number_format($booking['bkg_totalpr'], 2); ?></td>
+                                                    <td class="text-center">
+                                                        <div class="dropdown">
+                                                            <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                <i class="bi bi-gear"></i> Manage
+                                                            </button>
+                                                            <ul class="dropdown-menu">
+                                                                <li><a class="dropdown-item" href="booking_action.php?id=<?php echo $booking['bkg_id']; ?>&action=cancel">
+                                                                        <i class="bi bi-x-circle text-danger"></i> Cancel Booking
+                                                                    </a></li>
+                                                                <li><a class="dropdown-item" href="booking_action.php?id=<?php echo $booking['bkg_id']; ?>&action=rebook">
+                                                                        <i class="bi bi-calendar-plus text-primary"></i> Rebook Stay
+                                                                    </a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- No stats widgets for My Bookings tab, as requested -->
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
 
-                <!-- Reservations Section -->
-                <div class="content-section d-none" id="reservations-content">
+                <!-- Booking History Section -->
+                <div class="content-section d-none" id="history-content">
                     <div class="card shadow-sm">
                         <div class="card-body">
-                            <h2 class="card-title border-bottom pb-2">My Reservations</h2>
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Booking ID</th>
-                                            <th>Room Type</th>
-                                            <th>Check-in</th>
-                                            <th>Check-out</th>
-                                            <th>Status</th>
-                                            <th class="text-end">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php foreach ($userBookings as $booking): ?>
-                                            <tr>
-                                                <td><?php echo htmlspecialchars($booking['id']); ?></td>
-                                                <td><?php echo htmlspecialchars($booking['room_type']); ?></td>
-                                                <td><?php echo date('M j, Y', strtotime($booking['check_in'])); ?></td>
-                                                <td><?php echo date('M j, Y', strtotime($booking['check_out'])); ?></td>
-                                                <td>
-                                                    <span class="badge">
-                                                        <!-- <span class="badge bg-< ?php echo getStatusColor($booking['status']); ?>"> -->
-                                                        <?php echo htmlspecialchars($booking['status']); ?>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h2 class="card-title border-bottom pb-2">
+                                    <i class="bi bi-clock-history me-2"></i>Booking History
+                                </h2>
+                                <div class="d-flex align-items-center">
+                                    <div class="text-muted me-3">
+                                        <small>From <?php echo date('M j, Y', strtotime($bookingStats['first_booking'] ?? date('Y-m-d'))); ?></small>
+                                    </div>
+                                    <div class="dropdown me-2">
+                                        <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                            <i class="bi bi-filter me-1"></i> Filter
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-end">
+                                            <li><a class="dropdown-item booking-filter active" href="#" data-filter="all">All Bookings</a></li>
+                                            <li><a class="dropdown-item booking-filter" href="#" data-filter="upcoming">Upcoming</a></li>
+                                            <li><a class="dropdown-item booking-filter" href="#" data-filter="active">Active</a></li>
+                                            <li><a class="dropdown-item booking-filter" href="#" data-filter="completed">Completed</a></li>
+                                        </ul>
+                                    </div>
+                                    <a href="../pages/accomodations.php" class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-plus-circle me-1"></i> New Booking
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <!-- Booking History List -->
+                                <div class="col-md-8">
+                                    <?php if (empty($bookingHistory['bookings'])): ?>
+                                        <div class="text-center py-5">
+                                            <i class="bi bi-calendar-x fs-1 text-muted"></i>
+                                            <p class="mt-3 text-muted">No booking history found.</p>
+                                            <a href="../pages/accomodations.php" class="btn btn-primary mt-2">Browse Accommodations</a>
+                                        </div>
+                                    <?php else: ?>
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th>Booking ID</th>
+                                                        <th>Room Type</th>
+                                                        <th>Check-in</th>
+                                                        <th>Check-out</th>
+                                                        <th>Duration</th>
+                                                        <th>Total Price</th>
+                                                        <th>Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php foreach ($bookingHistory['bookings'] as $booking): ?>
+                                                        <?php
+                                                        $checkinDate = new DateTime($booking['bkg_datein']);
+                                                        $checkoutDate = new DateTime($booking['bkg_dateout']);
+                                                        $today = new DateTime();
+
+                                                        // Calculate stay duration
+                                                        $interval = $checkinDate->diff($checkoutDate);
+                                                        $nights = $interval->days;
+
+                                                        // Determine status
+                                                        $status = "Upcoming";
+                                                        $statusClass = "bg-primary";
+                                                        $statusIcon = "bi-calendar-check";
+
+                                                        if ($checkinDate > $today) {
+                                                            $status = "Upcoming";
+                                                            $statusClass = "bg-primary";
+                                                            $statusIcon = "bi-calendar-check";
+                                                        } elseif ($checkoutDate < $today) {
+                                                            $status = "Completed";
+                                                            $statusClass = "bg-success";
+                                                            $statusIcon = "bi-check-circle";
+                                                        } else {
+                                                            $status = "Active";
+                                                            $statusClass = "bg-warning";
+                                                            $statusIcon = "bi-clock";
+                                                        }
+                                                        ?>
+                                                        <tr>
+                                                            <td class="fw-bold">#<?php echo htmlspecialchars($booking['bkg_id']); ?></td>
+                                                            <td><?php echo htmlspecialchars($booking['room_type']); ?></td>
+                                                            <td><?php echo $checkinDate->format('M j, Y'); ?></td>
+                                                            <td><?php echo $checkoutDate->format('M j, Y'); ?></td>
+                                                            <td><?php echo $nights; ?> night<?php echo $nights > 1 ? 's' : ''; ?></td>
+                                                            <td class="fw-semibold">₱<?php echo number_format($booking['bkg_totalpr'], 2); ?></td>
+                                                            <td>
+                                                                <span class="badge <?php echo $statusClass; ?>">
+                                                                    <i class="bi <?php echo $statusIcon; ?> me-1"></i>
+                                                                    <?php echo $status; ?>
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                    <?php endforeach; ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+
+                                <!-- Booking Statistics -->
+                                <div class="col-md-4">
+                                    <div class="card mb-4">
+                                        <div class="card-header bg-primary text-white">
+                                            <h4 class="m-0"><i class="bi bi-bar-chart-line me-2"></i>Booking Summary</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <span>
+                                                        <span class="booking-stat-icon bg-primary bg-opacity-10">
+                                                            <i class="bi bi-calendar3 text-primary"></i>
+                                                        </span>
+                                                        Total Bookings
                                                     </span>
-                                                </td>
-                                                <td class="text-end">
-                                                    <?php if ($booking['status'] !== 'cancelled'): ?>
-                                                        <button class="btn btn-sm btn-outline-danger" onclick="cancelBooking(<?php echo $booking['id']; ?>)">
-                                                            <i class="bi bi-x-circle"></i> Cancel
-                                                        </button>
-                                                    <?php endif; ?>
-                                                </td>
-                                            </tr>
-                                        <?php endforeach; ?>
-                                    </tbody>
-                                </table>
+                                                    <span class="badge bg-primary rounded-pill booking-stat-value"><?php echo $bookingStats['total_bookings']; ?></span>
+                                                </li>
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <span>
+                                                        <span class="booking-stat-icon bg-success bg-opacity-10">
+                                                            <i class="bi bi-calendar-check text-success"></i>
+                                                        </span>
+                                                        Upcoming
+                                                    </span>
+                                                    <span class="badge bg-success rounded-pill booking-stat-value"><?php echo $bookingStats['upcoming_bookings']; ?></span>
+                                                </li>
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <span>
+                                                        <span class="booking-stat-icon bg-info bg-opacity-10">
+                                                            <i class="bi bi-calendar-x text-info"></i>
+                                                        </span>
+                                                        Completed
+                                                    </span>
+                                                    <span class="badge bg-info rounded-pill booking-stat-value"><?php echo $bookingStats['completed_bookings']; ?></span>
+                                                </li>
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <span>
+                                                        <span class="booking-stat-icon bg-warning bg-opacity-10">
+                                                            <i class="bi bi-house-heart text-warning"></i>
+                                                        </span>
+                                                        Favorite Room
+                                                    </span>
+                                                    <span class="booking-stat-value"><?php echo $bookingStats['favorite_room_type']; ?></span>
+                                                </li>
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <span>
+                                                        <span class="booking-stat-icon bg-success bg-opacity-10">
+                                                            <i class="bi bi-wallet2 text-success"></i>
+                                                        </span>
+                                                        Total Spent
+                                                    </span>
+                                                    <span class="booking-stat-value">₱<?php echo number_format($bookingStats['total_spent'], 2); ?></span>
+                                                </li>
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <span>
+                                                        <span class="booking-stat-icon bg-primary bg-opacity-10">
+                                                            <i class="bi bi-moon-stars text-primary"></i>
+                                                        </span>
+                                                        Avg. Stay
+                                                    </span>
+                                                    <span class="booking-stat-value"><?php echo $bookingStats['avg_stay_duration']; ?> nights</span>
+                                                </li>
+                                                <?php if ($bookingStats['longest_stay'] > 0): ?>
+                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                        <span>
+                                                            <span class="booking-stat-icon bg-danger bg-opacity-10">
+                                                                <i class="bi bi-calendar-range text-danger"></i>
+                                                            </span>
+                                                            Longest Stay
+                                                        </span>
+                                                        <span class="booking-stat-value"><?php echo $bookingStats['longest_stay']; ?> nights</span>
+                                                    </li> <?php endif; ?>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -290,10 +425,11 @@ $pass = $_SESSION['pass'];
                                 <div class="mb-3">
                                     <label for="birth">Birthday</label>
                                     <input
-                                        type="date"
-                                        class="form-control"
+                                        type="text"
+                                        class="form-control flatpickr-date"
                                         id="birth"
                                         name="birth"
+                                        placeholder="Date of birth"
                                         disabled
                                         value="<?php echo $birth; ?>"
                                         required>
@@ -429,62 +565,58 @@ $pass = $_SESSION['pass'];
                                     </button>
                                 </div> -->
                             </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Right Sidebar -->
-            <div class="col-md-3">
-                <!-- Quick Booking Form -->
-                <div class="card shadow-sm mb-4">
-                    <div class="card-body">
-                        <h3 class="card-title h5 border-bottom pb-2">Quick Booking</h3>
-                        <form id="quickBookingForm">
-                            <div class="mb-3">
-                                <label class="form-label">Check-in Date</label>
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="bi bi-calendar"></i></span>
-                                    <input type="text" class="form-control datepicker" id="checkIn" placeholder="Check-in Date" required>
-                                </div>
+                            <hr>
+                            <div class="mb-4">
+                                <h4 class="text-danger">Delete Account</h4>
+                                <p class="text-muted">
+                                    Warning: This action cannot be undone. All your data including booking history will be permanently removed.
+                                </p>
+                                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteAccountModal">
+                                    <i class="bi bi-trash"></i> Delete Account
+                                </button>
                             </div>
-                            <div class="mb-3">
-                                <label class="form-label">Check-out Date</label>
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="bi bi-calendar"></i></span>
-                                    <input type="text" class="form-control datepicker" id="checkOut" placeholder="Check-out Date" required>
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-primary w-100">
-                                <i class="bi bi-calendar-check"></i> Book Now
-                            </button>
-                        </form>
-                    </div>
-                </div>
-
-                <!-- Recent Activity -->
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <h3 class="card-title h5 border-bottom pb-2">Recent Activity</h3>
-                        <div class="recent-activity">
-                            <?php if (empty($recentActivities)): ?>
-                                <p class="text-muted">No recent activities</p>
-                            <?php else: ?>
-                                <?php foreach ($recentActivities as $activity): ?>
-                                    <div class="activity-item border-bottom pb-2 mb-2">
-                                        <small class="text-muted">
-                                            <?php echo date('M j, Y g:i A', strtotime($activity['created_at'])); ?>
-                                        </small>
-                                        <p class="mb-0"><?php echo htmlspecialchars($activity['description']); ?></p>
-                                    </div>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </main>
+
+    <!-- Delete Account Confirmation Modal -->
+    <div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteAccountModalLabel">Confirm Account Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete your account? This action cannot be undone.</p>
+                    <p>All your personal data and booking history will be permanently removed.</p>
+
+                    <form id="deleteAccountForm" method="POST" action="../scripts/handle_account.php">
+                        <input type="hidden" name="action" value="delete_account">
+                        <div class="mb-3">
+                            <label for="password_confirm" class="form-label">Enter your password to confirm deletion:</label>
+                            <input type="password" class="form-control" id="password_confirm" name="password_confirm" required>
+                            <div class="form-text text-danger">
+                                <?php if (isset($_SESSION['wrong_password_message'])): ?>
+                                    <?php echo $_SESSION['wrong_password_message']; ?>
+                                    <?php unset($_SESSION['wrong_password_message']); ?>
+                                <?php endif; ?>
+                            </div>
+                            <div class="form-text mt-2"><i class="bi bi-info-circle"></i> For security reasons, we need to verify your identity.</div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" onclick="document.getElementById('deleteAccountForm').submit()">Delete Account Permanently</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Toast Container -->
     <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1100">
@@ -497,48 +629,74 @@ $pass = $_SESSION['pass'];
             </div>
         </div>
     </div>
-
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="../scripts/user-dashboard.js"></script>
+
     <script>
-        function ridMessage() {
-            document.querySelector(".alert").classList.remove('d-flex');
-            document.querySelector(".alert").classList.add('d-none');
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if URL has a hash
+            if (window.location.hash) {
+                const tabId = window.location.hash.substring(1);
+                // Click the tab link
+                const tabLink = document.querySelector(`a[data-tab="${tabId}"]`);
+                if (tabLink) {
+                    tabLink.click();
+                }
+            }
 
-        function makeEditable() {
-            var readItems = document.querySelectorAll('input[disabled], textarea[disabled]');
-            readItems.forEach((readItem) => {
-                readItem.disabled = false;
-            })
-        }
+            // Add loading indicator for history tab
+            const historyTabLink = document.querySelector('a[data-tab="history"]');
+            if (historyTabLink) {
+                historyTabLink.addEventListener('click', function() {
+                    // Show loading indicator in the history content section
+                    const historyContent = document.getElementById('history-content');
 
-        function showPass(inputId, showBtnId, hideBtnId) {
-            const input = document.getElementById(inputId);
-            const showBtn = document.getElementById(showBtnId);
-            const hideBtn = document.getElementById(hideBtnId);
+                    // Only show loading if we have data to load
+                    if (historyContent && historyContent.querySelector('.table-responsive') !== null) {
+                        const tableSection = historyContent.querySelector('.table-responsive');
+                        tableSection.classList.add('position-relative');
 
-            input.type = "text";
-            showBtn.classList.add("d-none");
-            showBtn.classList.remove("d-block");
-            hideBtn.classList.remove("d-none");
-            hideBtn.classList.add("d-block");
-        }
+                        // Create loading overlay if it doesn't exist
+                        if (!tableSection.querySelector('.loading-overlay')) {
+                            const loadingOverlay = document.createElement('div');
+                            loadingOverlay.className = 'loading-overlay position-absolute w-100 h-100 d-flex justify-content-center align-items-center bg-white bg-opacity-75';
+                            loadingOverlay.style.top = '0';
+                            loadingOverlay.style.left = '0';
+                            loadingOverlay.style.zIndex = '10';
 
-        function hidePass(inputId, showBtnId, hideBtnId) {
-            const input = document.getElementById(inputId);
-            const showBtn = document.getElementById(showBtnId);
-            const hideBtn = document.getElementById(hideBtnId);
+                            const spinner = document.createElement('div');
+                            spinner.className = 'spinner-border text-primary';
+                            spinner.setAttribute('role', 'status');
 
-            input.type = "password";
-            hideBtn.classList.add("d-none");
-            hideBtn.classList.remove("d-block");
-            showBtn.classList.remove("d-none");
-            showBtn.classList.add("d-block");
-        }
+                            const srText = document.createElement('span');
+                            srText.className = 'visually-hidden';
+                            srText.textContent = 'Loading...';
+
+                            spinner.appendChild(srText);
+                            loadingOverlay.appendChild(spinner);
+                            tableSection.appendChild(loadingOverlay);
+
+                            // Remove the loading overlay after a short delay
+                            setTimeout(() => {
+                                loadingOverlay.remove();
+                            }, 500);
+                        }
+                    }
+                });
+            }
+
+            // Check if we should show the delete modal (after password error)
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('show_delete_modal') && urlParams.get('show_delete_modal') === '1') {
+                // Wait a bit to ensure the page is loaded and error message is visible
+                setTimeout(function() {
+                    const deleteModal = new bootstrap.Modal(document.getElementById('deleteAccountModal'));
+                    deleteModal.show();
+                }, 500);
+            }
+        });
     </script>
+
+    <?php placeFooter() ?>
 
 </body>
 

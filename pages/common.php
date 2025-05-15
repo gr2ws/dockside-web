@@ -20,12 +20,18 @@
 
 <!-- Put all component styles here -->
 
-
-<!-- Component styles-->
-
 <link rel="stylesheet" href="../styles/header.css">
 <link rel="stylesheet" href="../styles/booking_header.css">
 <link rel="stylesheet" href="../styles/footer.css">
+
+<!-- Bootstrap JS Bundle with Popper -->
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-LGj5HxVdlSvCJboEBl6Z1zWn1g9CsHLyt/TAjCOHDi9YdBIh3G2CI1VZHD0iJ3Q7"
+    crossorigin="anonymous"></script>
+
+<!-- Flatpickr JS -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 <?php
 
@@ -33,7 +39,7 @@
 
 function placeHeader()
 {
-    require '../components/header.html';
+    require '../components/header.php';
 }
 
 function placeFooter()
@@ -45,9 +51,5 @@ function placeBookingHeader()
 {
     require '../components/booking_header.html';
 }
-
-# backend functions
-require '../scripts/handle_newacc.php';
-require '../scripts/handle_login.php';
 
 ?>
