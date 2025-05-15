@@ -461,14 +461,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_booking'])) {
                             </a>
                         </div> <?php endif; ?>
                 </div>
-            <?php endif; ?> <?php endif; ?>
-        <script src="../scripts/booking.js"></script> <?php if ($needAuth): ?>
+            <?php endif; ?> <?php endif; ?> <script src="../scripts/booking.js"></script> <?php if ($needAuth): ?>
             <script>
                 // Show the account required dialog when the page loads
                 document.addEventListener('DOMContentLoaded', function() {
-                    // Use only the pathname and search parts of the URL to avoid domain duplication issues
-                    const currentPath = window.location.pathname.split('/').pop() + window.location.search;
-                    const currentUrl = encodeURIComponent(currentPath);
+                    // Include the /pages/ directory in the path for proper redirection
+                    const currentUrl = encodeURIComponent('/pages/booking.php' + window.location.search);
                     showAccountRequiredDialog(currentUrl);
                 });
             </script>

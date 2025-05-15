@@ -83,11 +83,19 @@ function handleNewAcc($redirect = '')
                         $_SESSION['birthday'] = $user['pers_birthdate'];
                         $_SESSION['email']    = $user['pers_email'];
                         $_SESSION['pass']     = $user['pers_pass'];
-                        $_SESSION['role']     = $user['pers_role'];                        // Redirect if specified
+                        $_SESSION['role']     = $user['pers_role'];
+
+                        // Redirect if specified
                         if (!empty($redirect)) {
                             // Clean the redirect URL to prevent duplication
                             // Remove any domain names or protocol from the URL if present
                             $redirect = preg_replace('/^(https?:\/\/[^\/]+)?\//', '/', $redirect);
+
+                            // Special handling for simple "booking.php" without path
+                            if ($redirect == 'booking.php' || $redirect == '/booking.php') {
+                                header("Location: ../pages/booking.php");
+                                exit;
+                            }
 
                             // Handle both absolute and relative paths
                             if (strpos($redirect, '/') === 0) {

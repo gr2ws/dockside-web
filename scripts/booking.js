@@ -303,9 +303,7 @@ function showAccountRequiredDialog(redirectUrl) {
 	// Create modal backdrop
 	const backdrop = document.createElement("div");
 	backdrop.className = "modal-backdrop fade show";
-	document.body.appendChild(backdrop);
-
-	// Create the modal dialog
+	document.body.appendChild(backdrop); // Create the modal dialog
 	const modalHtml = `
 		<div class="modal fade show" id="accountRequiredModal" tabindex="-1" aria-labelledby="accountRequiredModalLabel" style="display: block;">
 			<div class="modal-dialog modal-dialog-centered">
@@ -319,8 +317,8 @@ function showAccountRequiredDialog(redirectUrl) {
 						<p>Your booking details will be saved so you can complete your reservation after logging in or signing up.</p>
 					</div>
 					<div class="modal-footer">
-						<a href="login.php?redirect=${redirectUrl}" class="btn btn-primary">Log In</a>
-						<a href="sign_up.php?redirect=${redirectUrl}" class="btn btn-success">Create an Account</a>
+						<a href="/pages/login.php?redirect=${redirectUrl}" class="btn btn-primary">Log In</a>
+						<a href="/pages/sign_up.php?redirect=${redirectUrl}" class="btn btn-success">Create an Account</a>
 						<button type="button" class="btn btn-secondary" id="cancelAccountModal">Cancel</button>
 					</div>
 				</div>
