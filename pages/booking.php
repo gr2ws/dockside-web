@@ -63,12 +63,6 @@ if (isset($_GET['selected_room'])) {
     }
 }
 
-// Handle rebooking form directly from user dashboard
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['rebook_booking']) && isset($_POST['booking_id'])) {
-    // This is handled in handle_bookings.php, just make sure we have proper handling here
-    // in case the script has already run and we're displaying the page with session variables set
-}
-
 // Handle booking submission
 $bookingSuccess = false;
 $isRebooking = isset($_SESSION['rebooking']) && $_SESSION['rebooking'] === true;
