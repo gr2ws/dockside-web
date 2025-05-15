@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['roomcheck_submit'])) 
     $capacity = $_SESSION['room_capacity'];
     $availability = $_SESSION['room_availability'];
     $price =  $_SESSION['room_price'];
-    header("Location: ./admin_dashboard.php#reservations");
+    header("Location: ./admin_dashboard.php#rooms");
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['roomedit_submit'])) {
@@ -130,6 +130,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])
     <link rel="stylesheet" href="../styles/admin-dashboard.css">
     <link rel="stylesheet" href="../styles/index.css">
     <?php require_once 'common.php'; ?>
+    <style>
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    </style>
 </head>
 
 <body>
@@ -170,7 +177,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])
                     </a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a href="#reservations" class="nav-link" data-tab="reservations"
+                    <a href="#rooms" class="nav-link" data-tab="rooms"
                         onclick="ridMessage()">
                         <span class="fs-md-4"> Manage Rooms </span>
                     </a>
@@ -185,6 +192,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])
                     <a href="#roombkgs" class="nav-link" data-tab="roombkgs"
                         onclick="ridMessage()">
                         <span class="fs-md-4"> Room Bookings </span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-tab="roombkgs"
+                        onclick="ridMessage()">
+                        <span class="fs-md-4"> Manage Reservation </span>
                     </a>
                 </li>
 
@@ -256,7 +269,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])
                 </div>
 
                 <!-- Manage Room Section -->
-                <div class=" content-section d-none" id="reservations-content">
+                <div class=" content-section d-none" id="rooms-content">
                     <div class=" container-fluid">
 
                         <section id="manage-rooms" class="w-100 card shadow-sm p-4 mb-4">
@@ -267,7 +280,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])
 
                             <div class="border-0">
                                 <!-- manage rooms form -->
-                                <form id="editrmForm" method="POST" action="./admin_dashboard.php#reservations">
+                                <form id="editrmForm" method="POST" action="./admin_dashboard.php#rooms">
                                     <div class="mb-3">
                                         <label for="roomnum" class="form-label">Room Number</label>
                                         <div class="d-flex justify-center align-center gap-3">
@@ -326,7 +339,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])
                             <form method="POST" action="./admin_dashboard.php#userbkgs" class="row g-3 align-items-end mb-4">
                                 <div class="col-md-8">
                                     <label for="search_user_id" class="form-label">User ID</label>
-                                    <input type="numeric" class="form-control" id="search_user_id" name="search_user_id"
+                                    <input type="number" class="form-control" id="search_user_id" name="search_user_id"
                                         placeholder="Enter user ID number" required>
                                 </div>
                                 <div class="col-md-2">
@@ -398,7 +411,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])
                             <form method="POST" action="./admin_dashboard.php#roombkgs" class="row g-3 align-items-end mb-4">
                                 <div class="col-md-8">
                                     <label for="search_room_id" class="form-label">Room ID</label>
-                                    <input type="numeric" class="form-control" id="search_room_id" name="search_room_id"
+                                    <input type="number" class="form-control" id="search_room_id" name="search_room_id"
                                         placeholder="Enter room ID number" required>
                                 </div>
                                 <div class="col-lg-2">
