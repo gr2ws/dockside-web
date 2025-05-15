@@ -154,7 +154,7 @@
     color: var(--base);
     cursor: pointer;
     display: flex;
-    background-color: #ffffff00;
+    background-color: #ffffff;
     align-items: center;
     justify-content: center;
     transition: background-color 0.3s;
@@ -162,7 +162,7 @@
 }
 
 .nav-arrow:hover {
-    background: var(--accent);
+    color: var(--accent);
 }
 
 .prev-arrow {
@@ -180,7 +180,7 @@
     background-color: #ffffff;
     border-radius: 2px;
     overflow: hidden;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--accent);
     transition: transform 0.3s, box-shadow 0.3s;
     display: flex;
     flex-direction: column;
@@ -377,6 +377,7 @@
 .feature {
     background-color: var(--background);
     padding: 30px;
+    border: 1px solid var(--accent);
     border-radius: 2px;
     text-align: center;
     transition: transform 0.3s, box-shadow 0.3s;

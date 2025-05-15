@@ -1,9 +1,15 @@
-@import url("../global.css");
+@import url('../styles/global.css');
 
 * {
 	padding: 0;
 	margin: 0;
 	box-sizing: border-box;
+}
+
+main.h1 {
+	font: var(--heading-font);
+	text-align: center;
+	color: var(--base);
 }
 
 /* Header */
@@ -120,7 +126,7 @@ span.dropdown-header {
 /* Card Styles */
 .card {
     transition: transform 0.3s ease-in-out;
-    border-radius: 10px;
+    border-radius: 2px;
 }
 
 .card:hover {
@@ -132,7 +138,7 @@ span.dropdown-header {
     width: 150px;
     height: 150px;
     object-fit: cover;
-    border-radius: 50%;
+    border-radius: 2px;
     margin-bottom: 1rem;
 }
 
@@ -200,4 +206,19 @@ section h2::after {
     .order-md-1 {
         order: unset;
     }
+}
+
+/* Apply fonts from global.css to main content excluding header and footer */
+main {
+    font-family: var(--body-font);
+}
+
+main h1,
+main h2 {
+    font-family: var(--heading-font);
+}
+
+main h3,
+main h4 {
+    font-family: var(--subheading-font);
 }

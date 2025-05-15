@@ -164,5 +164,5 @@
 
         <?php placeFooter() ?>
 </body>
-
+<script src="../scripts/mobileNav.js"></script>
 </html>

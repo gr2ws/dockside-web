@@ -146,12 +146,12 @@
                         <p>Perfect for hosting unforgettable experiences for up to 300 guests.</p>
                         <div class="features-grid">
                             <div class="feature">
-                                <i class="bi bi-people-fill"></i>
+                                <i class="bi bi-people"></i>
                                 <h3>Capacity</h3>
                                 <p>Up to 300 guests</p>
                             </div>
                             <div class="feature">
-                                <i class="bi bi-camera-video-fill"></i>
+                                <i class="bi bi-camera-video"></i>
                                 <h3>State-of-the-Art Audiovisual Equipment</h3>
                                 <p>Advanced technology to ensure your event runs smoothly.</p>
                             </div>
@@ -161,7 +161,7 @@
                                 <p>Delicious and tailored menus to suit every occasion.</p>
                             </div>
                             <div class="feature">
-                                <i class="bi bi-person-badge-fill"></i>
+                                <i class="bi bi-person-badge"></i>
                                 <h3>Dedicated Event Coordinator</h3>
                                 <p>Professional support to make your event seamless.</p>
                             </div>
