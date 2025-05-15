@@ -145,38 +145,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])
                 Dockside Hotel
                 <sup class="header-c bi-c-circle"></sup>
             </a>
-
-            <!-- Main Navigation -->
-            <!-- <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a href="#dashboard" class="nav-link" data-tab="dashboard"
-                            onclick="ridMessage()">
-                            <span class="fs-md-4 active"> Dashboard </span>
-                        </a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a href="#reservations" class="nav-link" data-tab="reservations"
-                            onclick="ridMessage()">
-                            <span class="fs-md-4"> Manage Rooms </span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#userbkgs" class="nav-link" data-tab="userbkgs"
-                            onclick="ridMessage()">
-                            <span class="fs-md-4"> User Bookings </span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#roombkgs" class="nav-link" data-tab="roombkgs"
-                            onclick="ridMessage()">
-                            <span class="fs-md-4"> Room Bookings </span>
-                        </a>
-                    </li>
-
-                </ul>
-            </div> -->
-
             <!-- User Menu -->
             <div class="dropdown">
                 <button class="btn" type="button" data-bs-toggle="dropdown">
@@ -185,17 +153,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])
                     <i class="bi-chevron-down"></i>
                 </button>
                 <div class="dropdown-menu">
-                    <span class="dropdown-header p-3">Welcome back, <?php echo $fname; ?>!</span>
-                    <hr class="dropdown-divider">
-                    <a class="dropdown-item p-2 bi bi-speedometer2" href="#dashboard" data-tab="dashboard" onclick="ridMessage()"> Dashboard</a>
-                    <a class="dropdown-item p-2 bi bi-door-open-fill" href="#reservations" data-tab="reservations" onclick="ridMessage()"> Manage Rooms</a>
-                    <a class="dropdown-item p-2 bi bi-person-vcard" href="#userbkgs" data-tab="userbkgs" onclick="ridMessage()"> User Bookings</a>
-                    <a class="dropdown-item p-2 bi bi-journal-bookmark-fill" href="#roombkgs" data-tab="roombkgs" onclick="ridMessage()"> Room Bookings</a>
-
-                    <hr class="dropdown-divider">
-                    <a class="dropdown-item text-danger p-3" href="../scripts/handle_logout.php"> Logout</a>
+                    <a class="dropdown-item text-danger p-3 bi bi-power" href="../scripts/handle_logout.php"> Logout</a>
                 </div>
             </div>
+        </div>
+    </nav>
+
+    <nav>
+        <!-- Main Navigation -->
+        <div class="navbar" id="navbarNav" style="background-color: #f8f8f8;">
+            <ul class="navbar-nav d-flex flex-row justify-center align-items-center mx-auto">
+                <li class="nav-item">
+                    <a href="#dashboard" class="nav-link" data-tab="dashboard"
+                        onclick="ridMessage()">
+                        <span class="fs-md-4 active"> Dashboard </span>
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="#reservations" class="nav-link" data-tab="reservations"
+                        onclick="ridMessage()">
+                        <span class="fs-md-4"> Manage Rooms </span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#userbkgs" class="nav-link" data-tab="userbkgs"
+                        onclick="ridMessage()">
+                        <span class="fs-md-4"> User Bookings </span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#roombkgs" class="nav-link" data-tab="roombkgs"
+                        onclick="ridMessage()">
+                        <span class="fs-md-4"> Room Bookings </span>
+                    </a>
+                </li>
+
+            </ul>
         </div>
     </nav>
 
