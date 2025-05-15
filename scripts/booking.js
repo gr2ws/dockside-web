@@ -24,6 +24,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	// Set up back-to-search button handler
 	initBackToSearchButton();
+
+	// Set up booking confirmation button handler
+	initConfirmationHandler();
 });
 
 /**
@@ -271,5 +274,90 @@ function initBackToSearchButton() {
 }
 
 /**
- * Enhance the sticky behavior of the booking price card
+ * Set up the confirm booking button to check for login and show account dialog if needed
  */
+function initConfirmationHandler() {
+	const confirmBookingBtn = document.querySelector(
+		'button[name="confirm_booking"]'
+	);
+	if (confirmBookingBtn) {
+		confirmBookingBtn.addEventListener("click", function (e) {
+			// Get form and add authentication check param
+			const form = confirmBookingBtn.form;
+
+			// Add a hidden input to indicate we should check auth
+			const checkAuthInput = document.createElement("input");
+			checkAuthInput.type = "hidden";
+			checkAuthInput.name = "check_auth";
+			checkAuthInput.value = "1";
+			form.appendChild(checkAuthInput);
+		});
+	}
+}
+
+/**
+ * Show a dialog informing the user they need an account to book
+ * @param {string} redirectUrl URL to redirect back to after login/signup
+ */
+function showAccountRequiredDialog(redirectUrl) {
+	// Create modal backdrop
+	const backdrop = document.createElement("div");
+	backdrop.className = "modal-backdrop fade show";
+	document.body.appendChild(backdrop);
+
+	// Create the modal dialog
+	const modalHtml = `
+		<div class="modal fade show" id="accountRequiredModal" tabindex="-1" aria-labelledby="accountRequiredModalLabel" style="display: block;">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="accountRequiredModalLabel">Account Required</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeAccountModal"></button>
+					</div>
+					<div class="modal-body">
+						<p>You need an account to make online bookings at Dockside Hotel.</p>
+						<p>Your booking details will be saved so you can complete your reservation after logging in or signing up.</p>
+					</div>
+					<div class="modal-footer">
+						<a href="login.php?redirect=${redirectUrl}" class="btn btn-primary">Log In</a>
+						<a href="sign_up.php?redirect=${redirectUrl}" class="btn btn-success">Create an Account</a>
+						<button type="button" class="btn btn-secondary" id="cancelAccountModal">Cancel</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	`;
+
+	// Add the modal to the page
+	const modalContainer = document.createElement("div");
+	modalContainer.innerHTML = modalHtml;
+	document.body.appendChild(modalContainer);
+
+	// Add event listeners to close buttons
+	document
+		.getElementById("closeAccountModal")
+		.addEventListener("click", removeAccountModal);
+	document
+		.getElementById("cancelAccountModal")
+		.addEventListener("click", removeAccountModal);
+}
+
+/**
+ * Remove the account required modal
+ */
+function removeAccountModal() {
+	// Remove the modal and backdrop
+	const modal = document.getElementById("accountRequiredModal");
+	if (modal) {
+		const modalParent = modal.parentElement;
+		if (modalParent) {
+			document.body.removeChild(modalParent);
+		}
+	}
+
+	// Remove the backdrop
+	const backdrop = document.querySelector(".modal-backdrop");
+	if (backdrop) {
+		document.body.removeChild(backdrop);
+	}
+}

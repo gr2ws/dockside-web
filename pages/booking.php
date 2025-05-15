@@ -21,11 +21,19 @@ if (!empty($checkinDate) || !empty($checkoutDate) || !empty($roomType)) {
     $currentUrl .= implode('&', $params);
 }
 
-// Check authentication and redirect if not logged in
-checkBookingAuthentication($currentUrl);
-
 // For any links in the page that need to redirect to login
 $loginRedirect = "login.php?redirect=" . urlencode($currentUrl);
+
+// Only check authentication when submitting the form or selecting a room
+// Don't check during search as we want users to be able to search first
+$needAuth = false;
+if (isset($_POST['check_auth'])) {
+    $isLoggedIn = isset($_SESSION['id']) && !empty($_SESSION['id']) && is_numeric($_SESSION['id']);
+    if (!$isLoggedIn) {
+        $needAuth = true;
+        $_SESSION['booking_error'] = "You must be logged in to book a room online.";
+    }
+}
 
 // Display any login error messages
 $bookingError = '';
@@ -69,41 +77,92 @@ $isRebooking = isset($_SESSION['rebooking']) && $_SESSION['rebooking'] === true;
 $rebookingMessage = '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_booking'])) {
-    // Process the booking submission
-    $roomId = $_POST['room_id'];
-    $checkinDate = $_POST['checkin'];
-    $checkoutDate = $_POST['checkout'];
-    $userId = (int)$_SESSION['id']; // Ensure we have an integer
-    $totalPrice = $_POST['total_price'];
+    // First check if user is logged in (if checking auth)
+    if (isset($_POST['check_auth'])) {
+        $isLoggedIn = isset($_SESSION['id']) && !empty($_SESSION['id']) && is_numeric($_SESSION['id']);
+        if (!$isLoggedIn) {
+            // Just set a flag so we'll render the modal
+            $needAuth = true;
+            $_SESSION['booking_error'] = "You must be logged in to book a room online.";
 
-    // If this is a rebooking, cancel the old booking first
-    if ($isRebooking && isset($_SESSION['rebook_id'])) {
-        $oldBookingId = $_SESSION['rebook_id'];
-        $cancelResult = cancelBooking($oldBookingId);
-
-        if ($cancelResult !== true) {
-            $bookingError = "Failed to cancel the previous booking. Error: " . $cancelResult;
+            // Don't process the rest of the booking submission
         } else {
-            $rebookingMessage = "Your previous booking has been cancelled. ";
+            // User is logged in, proceed with booking
+            $roomId = $_POST['room_id'];
+            $checkinDate = $_POST['checkin'];
+            $checkoutDate = $_POST['checkout'];
+            $userId = (int)$_SESSION['id']; // Ensure we have an integer
+            $totalPrice = $_POST['total_price'];
 
-            // Proceed with new booking
-            $result = processBooking($roomId, $checkinDate, $checkoutDate, $userId, $totalPrice);
-            $bookingSuccess = $result['success'];
+            // If this is a rebooking, cancel the old booking first
+            if ($isRebooking && isset($_SESSION['rebook_id'])) {
+                $oldBookingId = $_SESSION['rebook_id'];
+                $cancelResult = cancelBooking($oldBookingId);
 
-            if ($bookingSuccess) {
-                $rebookingMessage .= "Your stay has been successfully rebooked.";
+                if ($cancelResult !== true) {
+                    $bookingError = "Failed to cancel the previous booking. Error: " . $cancelResult;
+                } else {
+                    $rebookingMessage = "Your previous booking has been cancelled. ";
+
+                    // Proceed with new booking
+                    $result = processBooking($roomId, $checkinDate, $checkoutDate, $userId, $totalPrice);
+                    $bookingSuccess = $result['success'];
+
+                    if ($bookingSuccess) {
+                        $rebookingMessage .= "Your stay has been successfully rebooked.";
+                    } else {
+                        $bookingError = $result['error'];
+                    }
+                    // Clear rebooking session variables
+                    unset($_SESSION['rebooking']);
+                    unset($_SESSION['rebook_id']);
+                    unset($_SESSION['rebook_original_type']);
+                }
             } else {
+                // Regular booking process
+                $result = processBooking($roomId, $checkinDate, $checkoutDate, $userId, $totalPrice);
+                $bookingSuccess = $result['success'];
                 $bookingError = $result['error'];
-            }            // Clear rebooking session variables
-            unset($_SESSION['rebooking']);
-            unset($_SESSION['rebook_id']);
-            unset($_SESSION['rebook_original_type']);
+            }
         }
     } else {
-        // Regular booking process
-        $result = processBooking($roomId, $checkinDate, $checkoutDate, $userId, $totalPrice);
-        $bookingSuccess = $result['success'];
-        $bookingError = $result['error'];
+        // No auth check requested, assume the user is already logged in
+        $roomId = $_POST['room_id'];
+        $checkinDate = $_POST['checkin'];
+        $checkoutDate = $_POST['checkout'];
+        $userId = (int)$_SESSION['id']; // Ensure we have an integer
+        $totalPrice = $_POST['total_price'];
+
+        // Process the booking normally
+        if ($isRebooking && isset($_SESSION['rebook_id'])) {
+            $oldBookingId = $_SESSION['rebook_id'];
+            $cancelResult = cancelBooking($oldBookingId);
+
+            if ($cancelResult !== true) {
+                $bookingError = "Failed to cancel the previous booking. Error: " . $cancelResult;
+            } else {
+                $rebookingMessage = "Your previous booking has been cancelled. ";
+
+                // Proceed with new booking
+                $result = processBooking($roomId, $checkinDate, $checkoutDate, $userId, $totalPrice);
+                $bookingSuccess = $result['success'];
+
+                if ($bookingSuccess) {
+                    $rebookingMessage .= "Your stay has been successfully rebooked.";
+                } else {
+                    $bookingError = $result['error'];
+                }
+                // Clear rebooking session variables
+                unset($_SESSION['rebooking']);
+                unset($_SESSION['rebook_id']);
+                unset($_SESSION['rebook_original_type']);
+            }
+        } else {
+            // Regular booking process
+            $result = processBooking($roomId, $checkinDate, $checkoutDate, $userId, $totalPrice);
+            $bookingSuccess = $result['success'];
+            $bookingError = $result['error'];
+        }
     }
 }
 
@@ -400,10 +459,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_booking'])) {
                             <a href="booking.php" class="btn btn-sm btn-outline-danger">
                                 <i class="bi bi-arrow-left me-2"></i>Back to Search
                             </a>
-                        </div>
-                    <?php endif; ?>
+                        </div> <?php endif; ?>
                 </div>
-            <?php endif; ?> <?php endif; ?> <script src="../scripts/booking.js"></script>
+            <?php endif; ?> <?php endif; ?>
+        <script src="../scripts/booking.js"></script>
+        <?php if ($needAuth): ?>
+            <script>
+                // Show the account required dialog when the page loads
+                document.addEventListener('DOMContentLoaded', function() {
+                    const currentUrl = encodeURIComponent(window.location.href);
+                    showAccountRequiredDialog(currentUrl);
+                });
+            </script>
+        <?php endif; ?>
     </main> <?php placeFooter() ?>
 </body>
 

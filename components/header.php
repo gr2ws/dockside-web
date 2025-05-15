@@ -22,7 +22,7 @@ $fname = $isLoggedIn ? $_SESSION['fname'] : '';
         <!-- TODO: adding active js class depending on page -->
         <div class="collapse navbar-collapse header-menu">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-link active">Home</li>
+                <li><a href="../pages/home.php" class="nav-link">Home</a></li>
                 <li class="nav-item dropdown">
                     <a
                         class="nav-link"
@@ -44,8 +44,8 @@ $fname = $isLoggedIn ? $_SESSION['fname'] : '';
                         <li><a class="dropdown-item" href="../pages/accomodations.php?room=standard">Standard Room</a></li>
                     </ul>
                 </li>
-                <li class="nav-link">Facilities</li>
-                <li class="nav-link">Events</li>
+                <li><a href="../pages/facilities.php" class="nav-link">Facilities</a></li>
+                <li><a href="../pages/events.php" class="nav-link">Events</a></li>
             </ul>
         </div>
 
