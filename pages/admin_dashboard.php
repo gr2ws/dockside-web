@@ -195,7 +195,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link" data-tab="roombkgs"
+                    <a href="#reservation" class="nav-link" data-tab="reservation"
                         onclick="ridMessage()">
                         <span class="fs-md-4"> Manage Reservation </span>
                     </a>
@@ -465,6 +465,57 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])
                         <p> Total: <?php echo isset($roomCount) ? $roomCount : "-"; ?> booking/s found. </p>
                     </div>
                 </div>
+
+                <!-- Manage Reservation Section -->
+                <!-- Manage Room Section -->
+                <div class=" content-section d-none" id="reservation-content">
+                    <div class=" container-fluid">
+
+                        <section id="manage-rooms" class="w-100 card shadow-sm p-4 mb-4">
+                            <h2 class="card-title">Manage Reservations</h2>
+                            <p>Edit Client Reservations here.</p>
+
+                            <hr>
+
+                            <div class="border-0">
+                                <!-- manage reservations form (to edit) -->
+                                <form id="editrmForm" method="POST" action="./admin_dashboard.php#reservation">
+                                    <div class="mb-3">
+                                        <label for="roomnum" class="form-label">Booking ID</label>
+                                        <div class="d-flex justify-center align-center gap-3">
+                                            <select class="form-select w-50" id="roomnum" name="roomnum" placeholder="Select a room:" required>
+                                                <option value="">Select booking ID:</option>
+                                                <!-- < ?php
+                                                seeBookings() // TODO
+                                                ?> -->
+                                            </select>
+                                            <button type="submit" id="check-btn" class="btn btn-success" name="roomcheck_submit">Check</button>
+                                            <button type="button" id="unlock-btn" class="btn btn-danger" disabled onclick="lockEdits()">Unlock</button>
+                                        </div>
+                                    </div>
+                                    <section id="form_details">
+                                        <div class="mb-3">
+                                            <label for="type" class="form-label">Check-In Date</label>
+                                            <input type="date" class="form-control bi bi-calendar d-flex justify-content-start align-items-center gap-3" id="type" name="type" placeholder="Enter Check-In Date" value="<?php echo isset($type) ? $type : '' ?>" disabled>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="capacity" class="form-label">Check-Out Date</label>
+                                            <input type="date" class="form-control bi bi-calendar d-flex justify-content-start align-items-center gap-3" id="capacity" name="capacity" placeholder="Enter Check-Out Date" value="<?php echo isset($capacity) ? $capacity : '' ?>" disabled>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="price" class="form-label">Total Amount</label>
+                                            <input type="number" class="form-control" id="price" name="price" placeholder="Enter total booking price (in Php)" value="<?php echo isset($price) ? $price : '' ?>" disabled>
+                                        </div>
+                                    </section>
+
+                                    <button id="edit-btn" type="button" class="btn btn-primary" disabled onclick="makeEditable()">Edit Reservation</button>
+                                    <button id="save-btn" type="submit" class="btn btn-primary" name="roomedit_submit" disabled>Save Reservation</button>
+                                </form>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+
             </div>
         </div>
     </main>
