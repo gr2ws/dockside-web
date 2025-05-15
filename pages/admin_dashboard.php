@@ -18,11 +18,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['password_submit'])) {
 $id = $_SESSION['id'];
 $fname = $_SESSION['fname'];
 $lname = $_SESSION['lname'];
-$address = $_SESSION['address'];
-$phone = $_SESSION['phone'];
-$birth = $_SESSION['birthday'];
-$email = $_SESSION['email'];
-$pass = $_SESSION['pass'];
 
 $message = '';
 if (isset($_SESSION['message'])) {
@@ -51,6 +46,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['roomcheck_submit'])) 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['roomedit_submit'])) {
     $message = handleRoomEdit($roomnum); // generally means successful form submission once this is triggered
     $_SESSION['message'] = $message; // Store the message in a session variable
+
+    unset($_SESSION['room_num']);
+    unset($_SESSION['room_type']);
+    unset($_SESSION['room_capacity']);
+    unset($_SESSION['room_availability']);
+    unset($_SESSION['room_price']);
+
     header("Location: ./admin_dashboard.php");
     exit(); // Redirect to the same page to avoid resubmission;
 }
@@ -256,7 +258,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])
                     </div>
 
                     <div class="py-3">
-                        <p> Total: <?php echo isset($todayCount) ? $todayCount : "-"; ?> bookings found. </p>
+                        <p> Total: <?php echo isset($todayCount) ? $todayCount : "-"; ?> booking/s found. </p>
                     </div>
                 </div>
 
@@ -296,11 +298,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])
                                             <input type="number" class="form-control" id="capacity" name="capacity" placeholder="Enter room capacity" value="<?php echo isset($capacity) ? $capacity : '' ?>" disabled>
                                         </div>
                                         <div class="mb-3">
-                                            <!-- bug here -->
                                             <label for="availability" class="form-label">Availability</label>
                                             <select class="form-select" id="availability" name="availability">
                                                 <option value="" <?php echo empty($availability) ? 'selected' : ''; ?> disabled>Select availability status:</option>
-                                                <option value=" vacant" <?php echo (isset($availability) && $availability === 'vacant') ? 'selected' : ''; ?>>Vacant</option>
+                                                <option value="vacant" <?php echo (isset($availability) && $availability === 'vacant') ? 'selected' : ''; ?>>Vacant</option>
                                                 <option value="occupied" <?php echo (isset($availability) && $availability === 'occupied') ? 'selected' : ''; ?>>Occupied</option>
                                                 <option value="maintenance" <?php echo (isset($availability) && $availability === 'maintenance') ? 'selected' : ''; ?>>Undergoing Maintenance</option>
                                             </select>
@@ -388,7 +389,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])
                     </div>
 
                     <div>
-                        <p> Total: <?php echo isset($userCount) ? $userCount : "-"; ?> bookings found. </p>
+                        <p> Total: <?php echo isset($userCount) ? $userCount : "-"; ?> booking/s found. </p>
                     </div>
                 </div>
 
@@ -455,7 +456,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])
                         </div>
                     </div>
                     <div>
-                        <p> Total: <?php echo isset($roomCount) ? $roomCount : "-"; ?> bookings found. </p>
+                        <p> Total: <?php echo isset($roomCount) ? $roomCount : "-"; ?> booking/s found. </p>
                     </div>
                 </div>
             </div>
@@ -473,6 +474,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])
                 makeEditable();
             }
         });
+
+
 
         function ridMessage() {
             document.querySelector(".alert").classList.remove('d-flex');

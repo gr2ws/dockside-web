@@ -1,4 +1,8 @@
 <?php
+
+date_default_timezone_set('Asia/Manila');
+
+
 function getUserBookingHistory($userId)
 {
     $dbConfig = getDbConfig();
@@ -90,8 +94,7 @@ function getTodaysBookings()
     // Get today's date in Y-m-d format
     $today = date('Y-m-d');
 
-    $SQLcommand = "
-        SELECT 
+    $SQLcommand = " SELECT 
             b.bkg_id, 
             b.bkg_datein, 
             b.bkg_dateout, 
@@ -105,21 +108,20 @@ function getTodaysBookings()
         FROM booking b
         JOIN room r ON b.room_id = r.room_id
         JOIN person p ON b.pers_id = p.pers_id
-        WHERE (b.bkg_datein = ? OR 
-              (b.bkg_datein <= ? AND b.bkg_dateout >= ?))
+        WHERE (b.bkg_datein <= '$today' AND b.bkg_dateout >= '$today')
         ORDER BY b.bkg_id ASC
     ";
 
-    $stmt = $conn->prepare($SQLcommand);
-    $stmt->bind_param("sss", $today, $today, $today);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    $result = $conn->query($SQLcommand);
+
+    if (!$result) {
+        $conn->close();
+        return ["error" => "Query failed: " . $conn->error];
+    }
 
     $todayBookings = [];
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $todayBookings[] = $row;
-        }
+    while ($row = $result->fetch_assoc()) {
+        $todayBookings[] = $row;
     }
 
     $conn->close();

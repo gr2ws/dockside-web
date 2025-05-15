@@ -29,6 +29,8 @@ function makeEditable() {
     //adjust availability style
     availSelect.style.pointerEvents = "auto";
     availSelect.style.backgroundColor = "white";
+    availSelect.style.color = "black";
+
 
     checkBtn.disabled = true;
     editBtn.disabled = false;
