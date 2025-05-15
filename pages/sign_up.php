@@ -6,6 +6,12 @@ require '../scripts/handle_newacc.php';
 // Check if there's a pending booking that needs authentication
 $hasBookingDetails = isset($_SESSION['pending_booking_details']) &&
 	$_SESSION['pending_booking_details']['requires_auth'] === true;
+
+// Process the form submission before any HTML output to avoid "headers already sent" errors
+$signupMessage = '';
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+	$signupMessage = handleNewAcc();
+}
 ?>
 
 <!DOCTYPE html>
@@ -20,10 +26,9 @@ $hasBookingDetails = isset($_SESSION['pending_booking_details']) &&
 </head>
 
 <body>
-	<?php placeHeader() ?>
-	<div id="signup-page" class="px-0 px-md-3 flex-col-center">
+	<?php placeHeader() ?> <div id="signup-page" class="px-0 px-md-3 flex-col-center">
 
-		<?php handleNewAcc(); ?>
+		<?php if (!empty($signupMessage)) echo $signupMessage; ?>
 		<div id="content" class="row w-75 py-4">
 			<section id="side-thumbnail" class="d-none d-md-block col-md-5"></section>
 

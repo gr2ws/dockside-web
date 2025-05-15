@@ -4,6 +4,9 @@ require_once __DIR__ . '/setup_vars.php';
 
 function handleNewAcc()
 {
+    // Return message instead of directly outputting it to avoid header issues
+    $message = '';
+
     // Handle form submission
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -36,19 +39,18 @@ function handleNewAcc()
             $email = $_POST['email'];
             $exec_SQLCommand = $conn->query("SELECT COUNT(*) AS instanceCount FROM $dbname.`person` WHERE pers_email = '$email'");
             $doesExist = $exec_SQLCommand->fetch_assoc();
-
             if ($doesExist['instanceCount'] != 0) {
                 // Email already exists, clear email and password fields only
                 unset($_POST['email']);
                 unset($_POST['password']);
-                echo '<div class="alert alert-danger d-flex align-items-center mt-4 mb-n2 w-50" role="alert">
+                $message = '<div class="alert alert-danger d-flex align-items-center mt-4 mb-n2 w-50" role="alert">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x-icon lucide-circle-x">
                             <circle cx="12" cy="12" r="10" />
                             <path d="m15 9-6 6" />
                             <path d="m9 9 6 6" />
                         </svg>
                         <div class="ms-3">
-                            Email already in use. Please try another.
+                            Email already exists. Please try another.
                         </div>
                     </div>'; //error message
             } else {
@@ -94,9 +96,7 @@ function handleNewAcc()
                         }                        // Default redirect to user dashboard
                         header("Location: ../pages/user_dashboard.php");
                         exit;
-                    }
-
-                    // These fields are cleared if no redirection happens (should not be reached now)
+                    }                    // These fields are cleared if no redirection happens (should not be reached now)
                     unset($_POST['fname']);
                     unset($_POST['lname']);
                     unset($_POST['email']);
@@ -104,7 +104,7 @@ function handleNewAcc()
                     unset($_POST['address']);
                     unset($_POST['phone']);
                     unset($_POST['birth']);
-                    echo '<div class="alert alert-success d-flex align-items-center mt-4 mb-n2 w-50" role="alert">
+                    $message = '<div class="alert alert-success d-flex align-items-center mt-4 mb-n2 w-50" role="alert">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-round-check-icon lucide-user-round-check">
                                 <path d="M2 21a8 8 0 0 1 13.292-6" />
                                 <circle cx="10" cy="8" r="5" />
@@ -115,18 +115,21 @@ function handleNewAcc()
                             </div>
                         </div>';
                 } else {
-                    echo '<div class="alert alert-danger d-flex align-items-center mt-4 mb-n2 w-50" role="alert">
+                    $message = '<div class="alert alert-danger d-flex align-items-center mt-4 mb-n2 w-50" role="alert">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x-icon lucide-circle-x">
                                 <circle cx="12" cy="12" r="10" />
                                 <path d="m15 9-6 6" />
                                 <path d="m9 9 6 6" />
-                            </svg>
-                            <div class="ms-3">'
+                            </svg>                            <div class="ms-3">'
                         . $conn->error .
                         '</div>
 </div>';
+                    $message = $message;
                 }
             }
         }
     }
+
+    // Return the message (empty string if no error)
+    return $message;
 }
