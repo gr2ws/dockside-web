@@ -83,16 +83,18 @@ function handleNewAcc($redirect = '')
                         $_SESSION['birthday'] = $user['pers_birthdate'];
                         $_SESSION['email']    = $user['pers_email'];
                         $_SESSION['pass']     = $user['pers_pass'];
-                        $_SESSION['role']     = $user['pers_role'];
-
-                        // Redirect if specified
+                        $_SESSION['role']     = $user['pers_role'];                        // Redirect if specified
                         if (!empty($redirect)) {
                             header("Location: ../" . ltrim($redirect, '/'));
+                            exit;
+                        } else {
+                            // Default redirect to user dashboard if no redirect parameter
+                            header("Location: ../pages/user_dashboard.php");
                             exit;
                         }
                     }
 
-                    // Clear all fields
+                    // These fields are cleared if no redirection happens (should not be reached now)
                     unset($_POST['fname']);
                     unset($_POST['lname']);
                     unset($_POST['email']);

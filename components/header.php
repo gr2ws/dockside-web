@@ -79,17 +79,15 @@ $fname = $isLoggedIn ? $_SESSION['fname'] : '';
                     </div>
                 </div>
                 <hr class="dropdown-divider" /> <?php if ($isLoggedIn): ?>
-                    <a href="../pages/user_dashboard.php#bookings" class="dropdown-item">My Bookings</a>
-                    <a href="../pages/user_dashboard.php#history" class="dropdown-item">Booking History</a>
-                    <a href="../pages/user_dashboard.php#profile" class="dropdown-item">Profile</a>
-                    <a href="../pages/user_dashboard.php#settings" class="dropdown-item">Settings</a>
-                    <hr class="dropdown-divider" />
-                    <a href="../scripts/handle_logout.php" class="dropdown-item text-danger">Logout</a>
-                <?php else: ?>
-                    <a href="" class="dropdown-item disabled">My Bookings</a>
-                    <a href="" class="dropdown-item disabled">Booking History</a>
-                    <a href="" class="dropdown-item disabled">Profile</a>
-                    <a href="" class="dropdown-item disabled">Settings</a>
+                    <a href="../pages/user_dashboard.php#bookings" class="dropdown-item"><i class="bi bi-calendar-check me-2"></i>My Bookings</a>
+                    <a href="../pages/user_dashboard.php#history" class="dropdown-item"><i class="bi bi-clock-history me-2"></i>Booking History</a>
+                    <a href="../pages/user_dashboard.php#profile" class="dropdown-item"><i class="bi bi-person me-2"></i>Profile</a>
+                    <a href="../pages/user_dashboard.php#settings" class="dropdown-item"><i class="bi bi-gear me-2"></i>Settings</a>                    <hr class="dropdown-divider" />
+                    <a href="../scripts/handle_logout.php" class="dropdown-item text-danger"><i class="bi bi-box-arrow-right me-2"></i>Logout</a>                <?php else: ?>
+                    <a href="" class="dropdown-item disabled"><i class="bi bi-calendar-check me-2"></i>My Bookings</a>
+                    <a href="" class="dropdown-item disabled"><i class="bi bi-clock-history me-2"></i>Booking History</a>
+                    <a href="" class="dropdown-item disabled"><i class="bi bi-person me-2"></i>Profile</a>
+                    <a href="" class="dropdown-item disabled"><i class="bi bi-gear me-2"></i>Settings</a>
                 <?php endif; ?>
             </div>
         </div>
