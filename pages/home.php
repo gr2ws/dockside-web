@@ -58,7 +58,7 @@
                                     <div class="feature-item"><i class="bi bi-moon-stars"></i> Double Bed</div>
                                     <div class="feature-item"><i class="bi bi-door-closed"></i> City View</div>
                                 </div>
-                                <a href="#standard" class="room-link">View details <i class="bi-arrow-right"></i></a>
+                                <a href="accomodations.php#standard" class="room-link">View details <i class="bi-arrow-right"></i></a>
                             </div>
                         </div>
                     </div>
@@ -81,7 +81,7 @@
                                     <div class="feature-item"><i class="bi bi-cup-hot"></i> Coffee Maker</div>
                                     <div class="feature-item"><i class="bi bi-cup"></i> Mini Bar</div>
                                 </div>
-                                <a href="#deluxe" class="room-link">View details <i class="bi-arrow-right"></i></a>
+                                <a href="accomodations.php#deluxe" class="room-link">View details <i class="bi-arrow-right"></i></a>
                             </div>
                         </div>
                     </div>
@@ -104,7 +104,7 @@
                                     <div class="feature-item"><i class="bi bi-laptop"></i> Work Desk</div>
                                     <div class="feature-item"><i class="bi bi-cup"></i> Mini Bar</div>
                                 </div>
-                                <a href="#executive" class="room-link">View details <i class="bi-arrow-right"></i></a>
+                                <a href="accomodations.php#executive" class="room-link">View details <i class="bi-arrow-right"></i></a>
                             </div>
                         </div>
                     </div>
@@ -127,7 +127,7 @@
                                     <div class="feature-item"><i class="bi bi-wifi"></i> Fast WiFi</div>
                                     <div class="feature-item"><i class="bi bi-moon-stars"></i> King Bed</div>
                                 </div>
-                                <a href="#presidential" class="room-link">View details <i class="bi-arrow-right"></i></a>
+                                <a href="accomodations.php#presidential" class="room-link">View details <i class="bi-arrow-right"></i></a>
                             </div>
                         </div>
                     </div>
@@ -179,10 +179,20 @@
                             <p class="benefit-description">Enjoy extended checkout time at no additional cost</p>
                         </div>
                     </div>
+
+                    <div class="col-lg-3 col-md-6">
+                        <div class="text-center">
+                            <div class="benefit-icon">
+                                <i class="bi bi-calendar-check-fill"></i>
+                            </div>
+                            <h3 class="benefit-title">Online Reservation</h3>
+                            <p class="benefit-description">Book your stay conveniently online anytime</p>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="text-center mt-5">
-                    <a href="#" class="primary-btn">Become a Member</a>
+                    <a href="sign_up.php" class="primary-btn">Become a Member</a>
                 </div>
             </section>
 
@@ -279,7 +289,7 @@
                                 </div>
 
                                 <div class="mt-4">
-                                    <a href="#" class="primary-btn">Inquire Now</a>
+                                    <a href="events.php" class="primary-btn">Inquire Now</a>
                                 </div>
                             </div>
                         </div>
