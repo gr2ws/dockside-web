@@ -37,38 +37,40 @@ function calculateTotalPrice($checkinDate, $checkoutDate, $roomId)
     return $totalWithFees;
 }
 
-// Get query parameters
+// Get query parameters  [TO REMOVE] - will be replaced with session-based approach
 $checkinDate = isset($_GET['checkin']) ? $_GET['checkin'] : '';
 $checkoutDate = isset($_GET['checkout']) ? $_GET['checkout'] : '';
 $roomType = isset($_GET['room_type']) ? $_GET['room_type'] : '';
 $selectedRoomParam = isset($_GET['selected_room']) ? $_GET['selected_room'] : '';
 $confirmIntent = isset($_GET['confirm_intent']) ? $_GET['confirm_intent'] : '';
 
-// If we have a user just logged in with confirm_intent flag, the redirect was from a booking attempt
-// Store these booking parameters in session for use after login
+// Check if user has logged in or signed up with pending booking details in session
+if (isset($_SESSION['id']) && isset($_SESSION['pending_booking_details']) && !isset($_POST['confirm_booking'])) {
+    // User has logged in/signed up and has pending booking details
+    // Auto-submit the form with the pending booking details
+    $_SERVER["REQUEST_METHOD"] = "POST";
+    $_POST['confirm_booking'] = true;
+    $_POST['room_id'] = $_SESSION['pending_booking_details']['room_id'];
+    $_POST['checkin'] = $_SESSION['pending_booking_details']['checkin_date'];
+    $_POST['checkout'] = $_SESSION['pending_booking_details']['checkout_date'];
+    $_POST['total_price'] = $_SESSION['pending_booking_details']['total_price'];
+
+    // Set flag to not show auth modal since user is authenticated
+    $_SESSION['from_booking_flow'] = true;
+
+    // Don't clear the session variables yet - wait until booking is successfully processed
+}
+
+// [TO REMOVE] - Old URL parameter logic
 if ($confirmIntent == '1' && $selectedRoomParam && isset($_SESSION['id'])) {
     // We'll auto-process the booking in the processing section below
     // This flag helps us know this request came directly after login
     $_SESSION['just_logged_in_for_booking'] = true;
 }
 
-// Prepare redirect URL to preserve search parameters
-$currentUrl = "booking.php";  // Use relative path to avoid URL duplication
-if (!empty($checkinDate) || !empty($checkoutDate) || !empty($roomType) || !empty($selectedRoomParam)) {
-    $currentUrl .= '?';
-    $params = [];
+// [REMOVED] - Old URL parameter handling
 
-    if (!empty($checkinDate)) $params[] = 'checkin=' . urlencode($checkinDate);
-    if (!empty($checkoutDate)) $params[] = 'checkout=' . urlencode($checkoutDate);
-    if (!empty($roomType)) $params[] = 'room_type=' . urlencode($roomType);
-    if (!empty($selectedRoomParam)) $params[] = 'selected_room=' . urlencode($selectedRoomParam);
-    if (!empty($confirmIntent)) $params[] = 'confirm_intent=' . urlencode($confirmIntent);
-
-    $currentUrl .= implode('&', $params);
-}
-
-// For any links in the page that need to redirect to login
-$loginRedirect = "login.php?redirect=" . urlencode($currentUrl);
+// [REMOVED] - Login redirect with URL parameters
 
 // Only check authentication when submitting the form or selecting a room
 // Don't check during search as we want users to be able to search first
@@ -78,10 +80,20 @@ if (isset($_POST['check_auth'])) {
     if (!$isLoggedIn) {
         $needAuth = true;
         $_SESSION['booking_error'] = "You must be logged in to book a room online.";
+
+        // Store comprehensive booking details in session for later processing
+        $_SESSION['pending_booking_details'] = [
+            'room_id' => isset($_POST['room_id']) ? $_POST['room_id'] : null,
+            'checkin_date' => isset($_POST['checkin']) ? $_POST['checkin'] : null,
+            'checkout_date' => isset($_POST['checkout']) ? $_POST['checkout'] : null,
+            'total_price' => isset($_POST['total_price']) ? $_POST['total_price'] : null,
+            'timestamp' => time(), // Add timestamp for potential expiration handling
+            'requires_auth' => true // Flag indicating this booking needs authentication
+        ];
     }
 }
 
-// Check if user just logged in and had a pending booking
+// Legacy code - to be removed after full migration to new system
 if (isset($_SESSION['id']) && isset($_SESSION['pending_booking']) && !isset($_POST['confirm_booking'])) {
     // Auto-submit the form with the pending booking details
     $_SERVER["REQUEST_METHOD"] = "POST";
@@ -136,16 +148,18 @@ $bookingSuccess = false;
 $isRebooking = isset($_SESSION['rebooking']) && $_SESSION['rebooking'] === true;
 $rebookingMessage = '';
 
-// Handle auto booking submission if user just logged in with confirm_intent
-if (isset($_SESSION['id']) && !empty($_SESSION['id']) && $confirmIntent == '1' && $selectedRoomParam && !isset($_POST['confirm_booking'])) {
-    // Auto-submit the form if user has logged in and arrived back with confirm_intent
+// Process booking if user has just logged in or signed up with pending booking details
+if (isset($_SESSION['id']) && isset($_SESSION['from_booking_flow']) && isset($_SESSION['pending_booking_details']) && !isset($_POST['confirm_booking'])) {
+    // User has authenticated from booking flow, automatically process the booking
     $_SERVER["REQUEST_METHOD"] = "POST";
     $_POST['confirm_booking'] = true;
-    $_POST['room_id'] = $selectedRoomParam;
-    $_POST['checkin'] = $checkinDate;
-    $_POST['checkout'] = $checkoutDate;
-    $_POST['total_price'] = calculateTotalPrice($checkinDate, $checkoutDate, $selectedRoomParam);
-    // No need for check_auth as we've already confirmed the user is logged in
+    $_POST['room_id'] = $_SESSION['pending_booking_details']['room_id'];
+    $_POST['checkin'] = $_SESSION['pending_booking_details']['checkin_date'];
+    $_POST['checkout'] = $_SESSION['pending_booking_details']['checkout_date'];
+    $_POST['total_price'] = $_SESSION['pending_booking_details']['total_price'];
+
+    // No need to check authentication again
+    unset($_SESSION['from_booking_flow']);
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_booking'])) {
@@ -157,7 +171,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_booking'])) {
             $needAuth = true;
             $_SESSION['booking_error'] = "You must be logged in to book a room online.";
 
-            // Store booking details in session to resume after login
+            // Store comprehensive booking details in session for later processing
+            $_SESSION['pending_booking_details'] = [
+                'room_id' => isset($_POST['room_id']) ? $_POST['room_id'] : null,
+                'checkin_date' => isset($_POST['checkin']) ? $_POST['checkin'] : null,
+                'checkout_date' => isset($_POST['checkout']) ? $_POST['checkout'] : null,
+                'total_price' => isset($_POST['total_price']) ? $_POST['total_price'] : null,
+                'timestamp' => time(), // Add timestamp for potential expiration handling
+                'requires_auth' => true // Flag indicating this booking needs authentication
+            ];
+
+            // Legacy - to be removed
             $_SESSION['pending_booking'] = [
                 'room_id' => isset($_POST['room_id']) ? $_POST['room_id'] : null,
                 'checkin' => isset($_POST['checkin']) ? $_POST['checkin'] : null,
@@ -190,6 +214,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_booking'])) {
 
                     if ($bookingSuccess) {
                         $rebookingMessage .= "Your stay has been successfully rebooked.";
+
+                        // Clear any pending booking details if exists
+                        if (isset($_SESSION['pending_booking_details'])) {
+                            unset($_SESSION['pending_booking_details']);
+                        }
                     } else {
                         $bookingError = $result['error'];
                     }
@@ -203,6 +232,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_booking'])) {
                 $result = processBooking($roomId, $checkinDate, $checkoutDate, $userId, $totalPrice);
                 $bookingSuccess = $result['success'];
                 $bookingError = $result['error'];
+
+                // Clear pending booking details if successful
+                if ($bookingSuccess && isset($_SESSION['pending_booking_details'])) {
+                    unset($_SESSION['pending_booking_details']);
+                }
             }
         }
     } else {
@@ -521,6 +555,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_booking'])) {
                                             <input type="hidden" name="checkin" value="<?php echo $checkinDate; ?>">
                                             <input type="hidden" name="checkout" value="<?php echo $checkoutDate; ?>">
                                             <input type="hidden" name="total_price" value="<?php echo $totalWithFees; ?>">
+                                            <input type="hidden" name="check_auth" value="1">
 
                                             <!-- Add the selected_room as a hidden parameter to preserve on form submission -->
                                             <input type="hidden" name="selected_room_param" value="<?php echo $selectedRoom['room_id']; ?>">
@@ -546,27 +581,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_booking'])) {
                             </a>
                         </div> <?php endif; ?>
                 </div>
-            <?php endif; ?> <?php endif; ?> <script src="../scripts/booking.js"></script> <?php if ($needAuth): ?>
-            <script>
+            <?php endif; ?> <?php endif; ?> <script src="../scripts/booking.js"></script> <?php if ($needAuth): ?> <script>
                 // Show the account required dialog when the page loads
                 document.addEventListener('DOMContentLoaded', function() {
-                    // Make sure to capture all URL parameters including the selected room and search params
-                    let fullPath = '/pages/booking.php';
-
-                    // If we're on the confirmation screen, make sure to include the selected_room parameter
-                    const urlParams = new URLSearchParams(window.location.search);
-
-                    // Add the confirm_intent parameter to signal this was a booking attempt
-                    if (urlParams.has('selected_room') && !urlParams.has('confirm_intent')) {
-                        urlParams.set('confirm_intent', '1');
-                    }
-
-                    if (urlParams.toString()) {
-                        fullPath += '?' + urlParams.toString();
-                    }
-
-                    const currentUrl = encodeURIComponent(fullPath);
-                    showAccountRequiredDialog(currentUrl);
+                    // Simply show the modal - all booking details are already stored in session
+                    showAccountRequiredDialog();
                 });
             </script>
         <?php endif; ?>

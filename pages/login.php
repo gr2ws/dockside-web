@@ -24,13 +24,26 @@ if (isset($_SESSION['booking_error'])) {
     unset($_SESSION['booking_error']);
 }
 
-// Check for redirect parameter
-$redirect = isset($_GET['redirect']) ? $_GET['redirect'] : '';
-$isBookingRedirect = (strpos($redirect, 'booking.php') !== false || strpos($redirect, '/dockside-web/pages/booking.php') !== false);
+// Check if there's a pending booking that needs authentication
+$hasBookingDetails = isset($_SESSION['pending_booking_details']) &&
+    $_SESSION['pending_booking_details']['requires_auth'] === true;
+
+// For backward compatibility - check if booking was initiated from URL
+$isBookingRedirect = false;
 
 // Handle login before output
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $loginMessage = handleLogin($redirect);
+    $loginMessage = handleLogin();
+
+    // If login was successful and we have pending booking details, redirect directly to booking.php
+    if (isset($_SESSION['id']) && $hasBookingDetails) {
+        // Set a flag to indicate we're coming from booking flow
+        $_SESSION['from_booking_flow'] = true;
+
+        // Redirect to booking.php to process the pending booking
+        header("Location: booking.php");
+        exit;
+    }
 }
 
 ?>
@@ -68,14 +81,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($loginMessage) {
             echo $loginMessage;
         }
-        ?>
-
-        <div class="login-container py-4">
+        ?> <div class="login-container py-4">
             <h1>Sign In</h1>
             <form id="loginForm" method="POST">
-                <?php if (!empty($redirect)): ?>
-                    <input type="hidden" name="redirect" value="<?php echo htmlspecialchars($redirect); ?>">
-                <?php endif; ?>
                 <div class="form-group">
                     <label for="email">Email Address</label>
                     <input
@@ -97,12 +105,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         minlength="8"
                         maxlength="30"
                         required>
-                </div>
-                <button type="submit" class="login-btn">Sign In</button>
+                </div> <button type="submit" class="login-btn">Sign In</button>
                 <a href="/forgot-password" class="forgot-password">Forgot Password?</a>
             </form>
             <div class="or-divider">OR</div>
-            <button class="secondary-btn" onclick="window.location.href='sign_up.php<?php echo !empty($redirect) ? "?redirect=" . urlencode($redirect) : ""; ?>'">Create an Account</button>
+            <button class="secondary-btn" onclick="window.location.href='sign_up.php'">Create an Account</button>
         </div>
     </div>
 

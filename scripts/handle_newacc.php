@@ -2,15 +2,10 @@
 
 require_once __DIR__ . '/setup_vars.php';
 
-function handleNewAcc($redirect = '')
+function handleNewAcc()
 {
     // Handle form submission
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-        // Check for redirect parameter from form
-        if (empty($redirect) && isset($_POST['redirect'])) {
-            $redirect = $_POST['redirect'];
-        }
 
         //get data from person table
         $personData = getPersonData();
@@ -85,30 +80,20 @@ function handleNewAcc($redirect = '')
                         $_SESSION['pass']     = $user['pers_pass'];
                         $_SESSION['role']     = $user['pers_role'];
 
-                        // Redirect if specified
-                        if (!empty($redirect)) {
-                            // Clean the redirect URL to prevent duplication
-                            // Remove any domain names or protocol from the URL if present
-                            $redirect = preg_replace('/^(https?:\/\/[^\/]+)?\//', '/', $redirect);
+                        // Check if there's a pending booking that needs processing
+                        $hasBookingDetails = isset($_SESSION['pending_booking_details']) &&
+                            $_SESSION['pending_booking_details']['requires_auth'] === true;
 
-                            // Special handling for simple "booking.php" without path
-                            if ($redirect == 'booking.php' || $redirect == '/booking.php') {
-                                header("Location: ../pages/booking.php");
-                                exit;
-                            }
+                        if ($hasBookingDetails) {
+                            // Set flag to indicate we're coming from the booking flow
+                            $_SESSION['from_booking_flow'] = true;
 
-                            // Handle both absolute and relative paths
-                            if (strpos($redirect, '/') === 0) {
-                                header("Location: " . $redirect);
-                            } else {
-                                header("Location: ../" . ltrim($redirect, '/'));
-                            }
+                            // Redirect to booking.php to process the pending booking
+                            header("Location: ../pages/booking.php");
                             exit;
-                        } else {
-                            // Default redirect to user dashboard if no redirect parameter
-                            header("Location: ../pages/user_dashboard.php");
-                            exit;
-                        }
+                        }                        // Default redirect to user dashboard
+                        header("Location: ../pages/user_dashboard.php");
+                        exit;
                     }
 
                     // These fields are cleared if no redirection happens (should not be reached now)

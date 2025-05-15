@@ -300,27 +300,15 @@ function initConfirmationHandler() {
 
 /**
  * Show a dialog informing the user they need an account to book
- * @param {string} redirectUrl URL to redirect back to after login/signup
  */
-function showAccountRequiredDialog(redirectUrl) {
+function showAccountRequiredDialog() {
 	// Create modal backdrop
 	const backdrop = document.createElement("div");
 	backdrop.className = "modal-backdrop fade show";
-	document.body.appendChild(backdrop); // Create the modal dialog
+	document.body.appendChild(backdrop);
 
-	// Add a special parameter to indicate this is a booking confirmation redirect
-	// This will help the server know to show the confirmation page, not just search
-	let enhancedRedirectUrl = redirectUrl;
-	if (
-		redirectUrl.includes("selected_room=") &&
-		!redirectUrl.includes("confirm_intent=1")
-	) {
-		enhancedRedirectUrl =
-			redirectUrl +
-			(redirectUrl.includes("?") ? "&" : "?") +
-			"confirm_intent=1";
-	}
-
+	// Create the modal dialog
+	// Session variables will handle the state
 	const modalHtml = `
 		<div class="modal fade show" id="accountRequiredModal" tabindex="-1" aria-labelledby="accountRequiredModalLabel" style="display: block;">
 			<div class="modal-dialog modal-dialog-centered">
@@ -331,11 +319,11 @@ function showAccountRequiredDialog(redirectUrl) {
 					</div>
 					<div class="modal-body">
 						<p>You need an account to make online bookings at Dockside Hotel.</p>
-						<p>Your booking details will be saved so you can complete your reservation after logging in or signing up.</p>
+						<p>Your booking details have been saved and will be processed automatically after you log in or create an account.</p>
 					</div>
 					<div class="modal-footer">
-						<a href="/pages/login.php?redirect=${enhancedRedirectUrl}" class="btn btn-primary">Log In</a>
-						<a href="/pages/sign_up.php?redirect=${enhancedRedirectUrl}" class="btn btn-success">Create an Account</a>
+						<a href="../pages/login.php" class="btn btn-primary">Log In</a>
+						<a href="../pages/sign_up.php" class="btn btn-success">Create an Account</a>
 						<button type="button" class="btn btn-secondary" id="cancelAccountModal">Cancel</button>
 					</div>
 				</div>
