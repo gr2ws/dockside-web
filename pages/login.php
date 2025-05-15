@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ?>
 
         <div class="login-container py-4">
-            <h1>Sign In</h1>
+            <h1>Log In</h1>
             <form id="loginForm" method="POST">
                 <?php if (!empty($redirect)): ?>
                     <input type="hidden" name="redirect" value="<?php echo htmlspecialchars($redirect); ?>">
@@ -98,8 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         maxlength="30"
                         required>
                 </div>
-                <button type="submit" class="login-btn">Sign In</button>
-                <a href="/forgot-password" class="forgot-password">Forgot Password?</a>
+                <button type="submit" class="login-btn">Log In</button>
             </form>
             <div class="or-divider">OR</div>
             <button class="secondary-btn" onclick="window.location.href='sign_up.php'">Create an Account</button>

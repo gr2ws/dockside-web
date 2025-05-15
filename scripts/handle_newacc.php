@@ -89,7 +89,7 @@ function handleNewAcc($redirect = '')
                             exit;
                         } else {
                             // Default redirect to user dashboard if no redirect parameter
-                            header("Location: ../pages/user_dashboard.php");
+                            header("Location: ../pages/login.php");
                             exit;
                         }
                     }

@@ -99,21 +99,22 @@ body, #side-thumbnail {
 
 #side-thumbnail {
     background-image: url('../assets/sign-up-thumbnail.jpg');
-    border-top-left-radius: 12px;
-    border-bottom-left-radius: 12px;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
 }
 
 #create-acc-form {
     position: relative;
     background-color: #ffffff;
-    border-top-right-radius: 12px;
-    border-bottom-right-radius: 12px;
+    border: 1px solid var(--accent);
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
 }
 
 @media (max-width:767px) {
     #create-acc-form {
-        border-top-left-radius: 12px;
-        border-bottom-left-radius: 12px;
+        border-top-left-radius: 2px;
+        border-bottom-left-radius: 2px;
     }   
 }
 
@@ -182,6 +183,7 @@ svg#x-terms:hover {
 
 button#signup-btn {
     background-color: var(--base) !important;
+    border-radius: 2px;
     color: #f5f5f5;
     transition: background-color 0.2s ease;
 }
