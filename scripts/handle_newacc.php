@@ -2,10 +2,15 @@
 
 require_once __DIR__ . '/setup_vars.php';
 
-function handleNewAcc()
+function handleNewAcc($redirect = '')
 {
     // Handle form submission
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+        // Check for redirect parameter from form
+        if (empty($redirect) && isset($_POST['redirect'])) {
+            $redirect = $_POST['redirect'];
+        }
 
         //get data from person table
         $personData = getPersonData();
@@ -61,10 +66,52 @@ function handleNewAcc()
                 $SQLcommand = "INSERT INTO $dbname.`person`
                                 (pers_fname, pers_lname, pers_address, pers_number, pers_birthdate, pers_email, pers_pass) VALUES
                                 ('$fname', '$lname', '$address', '$phone', '$birthday', '$email', '$pass')";
-
-
                 if ($conn->query($SQLcommand) === TRUE) {
-                    // Account created successfully, clear all fields
+                    // Account created successfully
+
+                    // Get the user data for login
+                    $result = $conn->query("SELECT * FROM person WHERE pers_email = '$email'");
+                    if ($result && $result->num_rows > 0) {
+                        $user = $result->fetch_assoc();
+
+                        // Store user info in session
+                        $_SESSION['id']       = $user['pers_id'];
+                        $_SESSION['fname']    = $user['pers_fname'];
+                        $_SESSION['lname']    = $user['pers_lname'];
+                        $_SESSION['address']  = $user['pers_address'];
+                        $_SESSION['phone']    = $user['pers_number'];
+                        $_SESSION['birthday'] = $user['pers_birthdate'];
+                        $_SESSION['email']    = $user['pers_email'];
+                        $_SESSION['pass']     = $user['pers_pass'];
+                        $_SESSION['role']     = $user['pers_role'];
+
+                        // Redirect if specified
+                        if (!empty($redirect)) {
+                            // Clean the redirect URL to prevent duplication
+                            // Remove any domain names or protocol from the URL if present
+                            $redirect = preg_replace('/^(https?:\/\/[^\/]+)?\//', '/', $redirect);
+
+                            // Special handling for simple "booking.php" without path
+                            if ($redirect == 'booking.php' || $redirect == '/booking.php') {
+                                header("Location: ../pages/booking.php");
+                                exit;
+                            }
+
+                            // Handle both absolute and relative paths
+                            if (strpos($redirect, '/') === 0) {
+                                header("Location: " . $redirect);
+                            } else {
+                                header("Location: ../" . ltrim($redirect, '/'));
+                            }
+                            exit;
+                        } else {
+                            // Default redirect to user dashboard if no redirect parameter
+                            header("Location: ../pages/user_dashboard.php");
+                            exit;
+                        }
+                    }
+
+                    // These fields are cleared if no redirection happens (should not be reached now)
                     unset($_POST['fname']);
                     unset($_POST['lname']);
                     unset($_POST['email']);

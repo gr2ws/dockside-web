@@ -13,7 +13,7 @@
     <?php placeHeader() ?>
     <?php placeBookingHeader() ?>
 
-    <main>
+    <main class="background-pattern">
         <!-- Carousel Section -->
         <section id="accom-carousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-indicators">
@@ -89,7 +89,7 @@
                             </div>
                             <div class="room-pricing">
                                 <span class="price">From ₱25,000 per night</span>
-                                <a class="book-btn" href="booking.php">Book Now</a>
+                                <a class="book-btn" href="/pages/booking.php?room_type=Presidential+Suite">Book Now</a>
                             </div>
                         </div>
                     </div>
@@ -131,7 +131,7 @@
                             </div>
                             <div class="room-pricing">
                                 <span class="price">From ₱18,500 per night</span>
-                                <a class="book-btn" href="booking.php">Book Now</a>
+                                <a class="book-btn" href="/pages/booking.php?room_type=Executive+Suite">Book Now</a>
                             </div>
                         </div>
                     </div>
@@ -160,10 +160,9 @@
                                 <div class="amenity-item"><i class="bi bi-cup"></i> Mini Bar</div>
                                 <div class="amenity-item"><i class="bi bi-door-closed"></i> Balcony</div>
                             </div>
-
                             <div class="room-pricing">
                                 <span class="price">From ₱15,000 per night</span>
-                                <a class="book-btn" href="booking.php">Book Now</a>
+                                <a class="book-btn" href="/pages/booking.php?room_type=Deluxe+Room">Book Now</a>
                             </div>
                         </div>
                     </div>
@@ -202,7 +201,7 @@
                             </div>
                             <div class="room-pricing">
                                 <span class="price">From ₱11,000 per night</span>
-                                <a class="book-btn" href="booking.php">Book Now</a>
+                                <a class="book-btn" href="/pages/booking.php?room_type=Standard+Room">Book Now</a>
                             </div>
                         </div>
                     </div>
@@ -214,7 +213,6 @@
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="../scripts/accoms.js" defer></script>
-
     <?php placeFooter() ?>
 </body>
 

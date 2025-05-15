@@ -65,8 +65,7 @@ session_start();
 				<hr />
 				<ul class="enum">
 					<li>
-						Cancellations made at least <strong>48 hours</strong> before
-						check-in are free of charge.
+						All cancellations and rebookings are allowed and are free of charge.
 					</li>
 					<li>
 						Late cancellations or no-shows will be charged

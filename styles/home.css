@@ -339,7 +339,7 @@
 
 /* Membership Benefits Section Styles */
 .membership-section {
-	background-image: url(../assets/pool.jpg);
+	background-image: url(../assets/benefits.jpg);
 	background-size: cover;
 	background-position: center;
 	padding: 60px 5%;
@@ -632,5 +632,19 @@
 
 	.benefit-icon {
 		font-size: 2rem;
+	}
+}
+
+/* Custom styles to display 5 benefits in one row in Membership Benefits Section */
+@media screen and (min-width: 992px) {
+	.membership-section .row {
+		display: flex;
+		flex-wrap: nowrap;
+		justify-content: center;
+	}
+
+	.membership-section .row > div {
+		flex: 0 0 20%;
+		max-width: 20%;
 	}
 }

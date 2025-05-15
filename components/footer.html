@@ -1,114 +1,137 @@
 <footer class="footer-container">
-  <div class="container py-2">
-    <!-- Footer Navigation -->
-    <div class="row mb-4">
-      <div class="col-md-4">
-        <span class="footer-titles">Quick Links</span>
-        <ul class="nav flex-column quick-links">
-          <li class="nav-item">
-            <a href="" class="nav-link active">Home</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a
-              class="nav-link footer-dpd-toggle"
-              href="#"
-              id="accommodationsDropdown"
-              role="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              <span
-                >Accommodations
-                <i class="bi-chevron-down d-lg-none"></i>
+	<div class="container py-2">
+		<!-- Footer Navigation -->
+		<div class="row mb-4">
+			<div class="col-md-4">
+				<span class="footer-titles">Quick Links</span>
+				<ul class="nav flex-column quick-links">
+					<li class="nav-item">
+						<a href="../pages/home.php" class="nav-link">Home</a>
+					</li>
+					<li class="nav-item dropdown">
+						<a
+							class="nav-link footer-dpd-toggle"
+							href="../pages/accomodations.php"
+							id="accommodationsDropdown"
+							role="button"
+							data-bs-toggle="dropdown"
+							aria-expanded="false"
+						>
+							<span
+								>Accommodations
+								<i class="bi-chevron-down d-lg-none"></i>
 
-                <i class="bi-chevron-right d-none d-lg-inline"></i>
-              </span>
-            </a>
-            <ul
-              class="dropdown-menu rooms-dpd footer-dpd shadow-sm"
-              aria-labelledby="accommodationsDropdown"
-            >
-              <li><a class="dropdown-item" href="#">Room 1</a></li>
+								<i class="bi-chevron-right d-none d-lg-inline"></i>
+							</span>
+						</a>
+						<ul
+							class="dropdown-menu rooms-dpd footer-dpd shadow-sm"
+							aria-labelledby="accommodationsDropdown"
+						>
+							<li>
+								<a
+									class="dropdown-item"
+									href="../pages/accomodations.php?room=presidential"
+									>Presidential Suite</a
+								>
+							</li>
 
-              <li><a class="dropdown-item" href="#">Room 2</a></li>
+							<li>
+								<a
+									class="dropdown-item"
+									href="../pages/accomodations.php?room=executive"
+									>Executive Suite</a
+								>
+							</li>
 
-              <li><a class="dropdown-item" href="#">Room 3</a></li>
+							<li>
+								<a
+									class="dropdown-item"
+									href="../pages/accomodations.php?room=deluxe"
+									>Deluxe Room</a
+								>
+							</li>
 
-              <li><a class="dropdown-item" href="#">Room 4</a></li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="" class="nav-link">Facilities</a>
-          </li>
-          <li class="nav-item">
-            <a href="" class="nav-link">Events</a>
-          </li>
-        </ul>
-      </div>
+							<li>
+								<a
+									class="dropdown-item"
+									href="../pages/accomodations.php?room=standard"
+									>Standard Room</a
+								>
+							</li>
+						</ul>
+					</li>
+					<li class="nav-item">
+						<a href="../pages/facilities.php" class="nav-link">Facilities</a>
+					</li>
+					<li class="nav-item">
+						<a href="../pages/events.php" class="nav-link">Events</a>
+					</li>
+				</ul>
+			</div>
 
-      <div class="col-md-4">
-        <span class="footer-titles">Contact Us</span>
-        <address class="footer-list-cont">
-          <p>123 Opal St.</p>
-          <p>Dumaguete City, Negros Oriental</p>
-          <p class="fst-italic">(+63) 0917 662 8471</p>
-          <p class="fst-italic">info@dockside.com</p>
-        </address>
-      </div>
+			<div class="col-md-4">
+				<span class="footer-titles">Contact Us</span>
+				<address class="footer-list-cont">
+					<p>123 Opal St.</p>
+					<p>Dumaguete City, Negros Oriental</p>
+					<p class="fst-italic">(+63) 0917 662 8471</p>
+					<p class="fst-italic">info@dockside.com</p>
+				</address>
+			</div>
 
-      <div class="col-md-4">
-        <span class="footer-titles"
-          >Connect With
-          <span class="d-md-inline d-lg-none">Us</span>
-          <span class="d-none d-md-none d-lg-inline">Dockside</span>
-        </span>
-        <div class="footer-list-cont soc-med">
-          <a href="#"><i class="bi bi-facebook"></i></a>
-          <a href="#"><i class="bi bi-instagram"></i></a>
-          <a href="#"><i class="bi bi-twitter"></i></a>
-          <a href="#"><i class="bi bi-linkedin"></i></a>
-        </div>
-        <span class="newsletter-sub">Subscribe to our newsletter!</span>
+			<div class="col-md-4">
+				<span class="footer-titles"
+					>Connect With
+					<span class="d-md-inline d-lg-none">Us</span>
+					<span class="d-none d-md-none d-lg-inline">Dockside</span>
+				</span>
+				<div class="footer-list-cont soc-med">
+					<a href="#"><i class="bi bi-facebook"></i></a>
+					<a href="#"><i class="bi bi-instagram"></i></a>
+					<a href="#"><i class="bi bi-twitter"></i></a>
+					<a href="#"><i class="bi bi-linkedin"></i></a>
+				</div>
+				<span class="newsletter-sub">Subscribe to our newsletter!</span>
 
-        <div class="subscribe-group">
-          <input type="email" placeholder="Enter your email..." />
-          <button type="button">Subscribe</button>
-        </div>
-      </div>
-    </div>
+				<div class="subscribe-group">
+					<input type="email" placeholder="Enter your email..." />
+					<button type="button">Subscribe</button>
+				</div>
+			</div>
+		</div>
 
-    <!-- Copyright -->
-    <div class="copyright-section pt-4 mt-2">
-      <div class="row align-items-center">
-        <div class="col-md-6">
-          <p>Copyright © 2025 Dockside Hotel</p>
-        </div>
-        <div class="col-md-6 text-md-end">
-          <ul class="copyright-links list-inline">
-            <li class="list-inline-item">
-              <a href="#" class="cpr-link">FAQs</a>
-            </li>
-            <li class="list-inline-item">
-              <a href="#" class="cpr-link">About Us</a>
-            </li>
-            <li class="list-inline-item">
-              <a href="#" class="cpr-link">Privacy Policy</a>
-            </li>
-            <li class="list-inline-item">
-              <a href="#" class="cpr-link">Terms and Conditions</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
+		<!-- Copyright -->
+		<div class="copyright-section pt-4 mt-2">
+			<div class="row align-items-center">
+				<div class="col-md-6">
+					<p>Copyright © 2025 Dockside Hotel</p>
+				</div>
+				<div class="col-md-6 text-md-end">
+					<ul class="copyright-links list-inline">
+						<li class="list-inline-item">
+							<a href="../pages/about_us.php" class="cpr-link">About Us</a>
+						</li>
+						<li class="list-inline-item">
+							<a href="../pages/privacy.php" class="cpr-link">Privacy Policy</a>
+						</li>
+						<li class="list-inline-item">
+							<a href="../pages/terms.php" class="cpr-link"
+								>Terms and Conditions</a
+							>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
 </footer>
 
 <!-- Bootstrap w/ Popper -->
 <script
-  src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
-  integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
-  crossorigin="anonymous"
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+	crossorigin="anonymous"
 ></script>
 
 <!-- Flatpickr Date Picker -->

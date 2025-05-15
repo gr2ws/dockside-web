@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dockside Hotel© </title>
     <link rel="stylesheet" href="../styles/home.css" />
-
     <?php require 'common.php'; ?>
 </head>
 
@@ -42,7 +41,7 @@
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <div class="room-card shadow-sm">
                             <div class="room-image">
-                                <img src="../assets/standard.jpg" alt="Standard Room" class="img-fluid">
+                                <img src="../assets/standard-room.jpg" alt="Standard Room" class="img-fluid">
                                 <div class="room-badge">From ₱11,000/night</div>
                             </div>
                             <div class="room-details">
@@ -58,14 +57,14 @@
                                     <div class="feature-item"><i class="bi bi-moon-stars"></i> Double Bed</div>
                                     <div class="feature-item"><i class="bi bi-door-closed"></i> City View</div>
                                 </div>
-                                <a href="#standard" class="room-link">View details <i class="bi-arrow-right"></i></a>
+                                <a href="accomodations.php#standard" class="room-link">View details <i class="bi-arrow-right"></i></a>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <div class="room-card shadow-sm">
                             <div class="room-image">
-                                <img src="../assets/deluxe.jpg" alt="Deluxe Room" class="img-fluid">
+                                <img src="../assets/deluxe-room.jpg" alt="Deluxe Room" class="img-fluid">
                                 <div class="room-badge">From ₱15,000/night</div>
                             </div>
                             <div class="room-details">
@@ -81,14 +80,14 @@
                                     <div class="feature-item"><i class="bi bi-cup-hot"></i> Coffee Maker</div>
                                     <div class="feature-item"><i class="bi bi-cup"></i> Mini Bar</div>
                                 </div>
-                                <a href="#deluxe" class="room-link">View details <i class="bi-arrow-right"></i></a>
+                                <a href="accomodations.php#deluxe" class="room-link">View details <i class="bi-arrow-right"></i></a>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <div class="room-card shadow-sm">
                             <div class="room-image">
-                                <img src="../assets/executive.jpg" alt="Executive Suite" class="img-fluid">
+                                <img src="../assets/executive-room.jpg" alt="Executive Suite" class="img-fluid">
                                 <div class="room-badge">From ₱18,500/night</div>
                             </div>
                             <div class="room-details">
@@ -104,14 +103,14 @@
                                     <div class="feature-item"><i class="bi bi-laptop"></i> Work Desk</div>
                                     <div class="feature-item"><i class="bi bi-cup"></i> Mini Bar</div>
                                 </div>
-                                <a href="#executive" class="room-link">View details <i class="bi-arrow-right"></i></a>
+                                <a href="accomodations.php#executive" class="room-link">View details <i class="bi-arrow-right"></i></a>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <div class="room-card shadow-sm">
                             <div class="room-image">
-                                <img src="../assets/presidential.jpg" alt="Presidential Suite" class="img-fluid">
+                                <img src="../assets/presidential-room.jpg" alt="Presidential Suite" class="img-fluid">
                                 <div class="room-badge">From ₱25,000/night</div>
                             </div>
                             <div class="room-details">
@@ -127,7 +126,7 @@
                                     <div class="feature-item"><i class="bi bi-wifi"></i> Fast WiFi</div>
                                     <div class="feature-item"><i class="bi bi-moon-stars"></i> King Bed</div>
                                 </div>
-                                <a href="#presidential" class="room-link">View details <i class="bi-arrow-right"></i></a>
+                                <a href="accomodations.php#presidential" class="room-link">View details <i class="bi-arrow-right"></i></a>
                             </div>
                         </div>
                     </div>
@@ -139,24 +138,14 @@
                     <p class="section-subtitle">Join our exclusive membership program and enjoy premium perks</p>
                 </div>
 
-                <div class="row g-4 justify-content-center">
-                    <div class="col-lg-3 col-md-6">
-                        <div class="text-center">
-                            <div class="benefit-icon">
-                                <i class="bi bi-star-fill"></i>
-                            </div>
-                            <h3 class="benefit-title">Priority Booking</h3>
-                            <p class="benefit-description">Get early access to room bookings and special events</p>
-                        </div>
-                    </div>
-
+                <div class="row">
                     <div class="col-lg-3 col-md-6">
                         <div class="text-center">
                             <div class="benefit-icon">
                                 <i class="bi bi-tags-fill"></i>
                             </div>
                             <h3 class="benefit-title">Exclusive Discounts</h3>
-                            <p class="benefit-description">Enjoy up to 20% off on room rates and restaurant bills</p>
+                            <p class="benefit-description">Enjoy up to 20% off on restaurant bills and other experiences</p>
                         </div>
                     </div>
 
@@ -179,10 +168,20 @@
                             <p class="benefit-description">Enjoy extended checkout time at no additional cost</p>
                         </div>
                     </div>
+
+                    <div class="col-lg-3 col-md-6">
+                        <div class="text-center">
+                            <div class="benefit-icon">
+                                <i class="bi bi-calendar-check-fill"></i>
+                            </div>
+                            <h3 class="benefit-title">Online Reservation</h3>
+                            <p class="benefit-description">Book your stay conveniently online anytime</p>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="text-center mt-5">
-                    <a href="#" class="primary-btn">Become a Member</a>
+                    <a href="sign_up.php" class="primary-btn">Become a Member</a>
                 </div>
             </section>
 
@@ -247,7 +246,7 @@
                     <div class="row align-items-center">
                         <div class="col-lg-6 mb-4 mb-lg-0">
                             <div class="events-image shadow-lg">
-                                <img src="../assets/hotel-beginning.jpg" alt="Events and Convention Center" class="img-fluid">
+                                <img src="../assets/events-convention.jpg" alt="Events and Convention Center" class="img-fluid">
                             </div>
                         </div>
 
@@ -279,7 +278,7 @@
                                 </div>
 
                                 <div class="mt-4">
-                                    <a href="#" class="primary-btn">Inquire Now</a>
+                                    <a href="events.php" class="primary-btn">Inquire Now</a>
                                 </div>
                             </div>
                         </div>

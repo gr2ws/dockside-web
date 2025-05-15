@@ -1,5 +1,10 @@
 <?php
 session_start();
+
+require '../scripts/handle_newacc.php';
+
+// Check for redirect parameter
+$redirect = isset($_GET['redirect']) ? $_GET['redirect'] : '';
 ?>
 
 <!DOCTYPE html>
@@ -18,17 +23,19 @@ session_start();
 
 	<div id="signup-page" class="px-0 px-md-3 flex-col-center">
 
-		<?php handleNewAcc(); ?>
+		<?php handleNewAcc($redirect); ?>
 
 		<div id="content" class="row w-75 py-4">
 			<section id="side-thumbnail" class="d-none d-md-block col-md-5"></section>
 
-			<section class="col-12 w-sm-100 col-md-7">
-				<!-- sign up form -->
+			<section class="col-12 w-sm-100 col-md-7"> <!-- sign up form -->
 				<form
 					method="POST"
 					id="create-acc-form"
 					class="d-flex flex-column justify-content-center align-items-start border border-secondary gap-2 w-sm-50 w-md-25 p-1 p-lg-3">
+					<?php if (!empty($redirect)): ?>
+						<input type="hidden" name="redirect" value="<?php echo htmlspecialchars($redirect); ?>">
+					<?php endif; ?>
 					<h1 class="fw-bolder align-self-center pt-3 global-heading">Sign Up</h1>
 					<div class="form-group flex-col-center container">
 						<label for="fname">First Name:</label>
@@ -83,10 +90,11 @@ session_start();
 					<div class="form-group flex-col-center container">
 						<label for="birth">Birthday:</label>
 						<input
-							type="date"
-							class="form-control"
+							type="text"
+							class="form-control flatpickr-date"
 							id="birth"
 							name="birth"
+							placeholder="Select your date of birth"
 							required />
 					</div>
 					<div class="form-group flex-col-center container">
@@ -114,17 +122,15 @@ session_start();
 					</div>
 					<button id="signup-btn" type="submit" class="btn align-self-center my-2">
 						Sign Up
-					</button>
-
-					<i class=" align-self-center text-center px-5 my-1">
+					</button> <i class=" align-self-center text-center px-5 my-1">
 						<small id="emailHelp" class="form-text text-muted">Have an account?</small>
-						<a href="./login.php" class="text-muted">Log in here!</a></i>
+						<a href="login.php<?php echo !empty($redirect) ? "?redirect=" . urlencode($redirect) : ""; ?>" class="text-muted">Log in here!</a></i>
 					<i class="align-self-center text-center px-5 mt-1 mb-3">
 						<small id="emailHelp" class="form-text text-muted">To proceed, you must read the
 							<a
 								type="button"
 								id="show-terms"
-								href="./terms.php"
+								href="../terms.php"
 								class="text-muted">
 								<i><u>Terms and Conditions</u></i>
 							</a>
@@ -132,8 +138,21 @@ session_start();
 				</form>
 			</section>
 		</div>
-	</div>
-	<?php placeFooter() ?>
+	</div> <?php placeFooter() ?>
+
+	<!-- Flatpickr JavaScript -->
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			// Initialize birthday date picker with max date of today
+			flatpickr("#birth", {
+				maxDate: "today",
+				altInput: true,
+				altFormat: "F j, Y",
+				dateFormat: "Y-m-d"
+			});
+		});
+	</script>
 </body>
 
 </html>

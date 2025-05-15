@@ -3,35 +3,97 @@
 		<div
 			class="container-group d-flex justify-content-center align-items-center w-100"
 		>
-			<span
-				class="booking-header-title me-4 me-lg-4 me-md-3 me-sm-1 d-none d-md-inline"
-				>Find your perfect stay!
-			</span>
-			<div class="date-input-group me-4 me-lg-4 me-md-3 me-sm-0">
-				<i class="bi bi-calendar3 date-icon"></i>
-				<input
-					type="text"
-					id="start-date"
-					class="flatpickr input-sm"
-					placeholder="From..."
-				/>
-			</div>
-			<div class="date-input-group me-4 me-lg-4 me-md-3 me-sm-0">
-				<i class="bi bi-calendar3 date-icon"></i>
-				<input
-					type="text"
-					id="end-date"
-					class="flatpickr input-sm"
-					placeholder="To..."
-				/>
-			</div>
-			<button class="booking-header-button">Book Now!</button>
+			<form
+				id="booking-form"
+				action="../pages/booking.php"
+				method="GET"
+				class="d-flex align-items-center justify-content-center"
+			>
+				<span
+					class="booking-header-title me-4 d-none d-md-flex align-items-center"
+					>Find your perfect stay!
+				</span>
+				<div class="date-input-group me-4 me-lg-4 me-md-3 me-sm-0">
+					<i class="bi bi-calendar3 date-icon"></i>
+					<input
+						type="text"
+						id="start-date"
+						name="checkin"
+						class="flatpickr input-sm"
+						placeholder="Check-in..."
+						required
+					/>
+				</div>
+				<div class="date-input-group me-4 me-lg-4 me-md-3 me-sm-0">
+					<i class="bi bi-calendar3 date-icon"></i>
+					<input
+						type="text"
+						id="end-date"
+						name="checkout"
+						class="flatpickr input-sm"
+						placeholder="Check-out..."
+						required
+					/>
+				</div>
+				<button type="submit" class="booking-header-button">Book Now!</button>
+			</form>
 		</div>
 	</div>
 </div>
 <script>
 	document.addEventListener("DOMContentLoaded", function () {
-		flatpickr("#start-date", {});
-		flatpickr("#end-date", {});
+		// Set minimum date to today
+		const today = new Date();
+
+		// Configure flatpickr for check-in date
+		const checkinPicker = flatpickr("#start-date", {
+			minDate: today,
+			dateFormat: "Y-m-d", // Format for proper URL parameters
+			onChange: function (selectedDates, dateStr) {
+				// Set checkout minimum date to checkin date + 1 day
+				const nextDay = new Date(selectedDates[0]);
+				nextDay.setDate(nextDay.getDate() + 1);
+				checkoutPicker.set("minDate", nextDay);
+
+				// If checkout is before new checkin+1, reset it
+				if (
+					checkoutPicker.selectedDates[0] &&
+					checkoutPicker.selectedDates[0] <= selectedDates[0]
+				) {
+					checkoutPicker.setDate(nextDay);
+				}
+			}
+		});
+
+		// Configure flatpickr for check-out date
+		const checkoutPicker = flatpickr("#end-date", {
+			minDate: new Date().fp_incr(1), // Default: tomorrow
+			dateFormat: "Y-m-d" // Format for proper URL parameters
+		});
+
+		// Form validation
+		document
+			.getElementById("booking-form")
+			.addEventListener("submit", function (e) {
+				const checkin = document.getElementById("start-date").value;
+				const checkout = document.getElementById("end-date").value;
+
+				if (!checkin || !checkout) {
+					e.preventDefault();
+					alert("Please select both check-in and check-out dates");
+					return false;
+				}
+
+				const checkinDate = new Date(checkin);
+				const checkoutDate = new Date(checkout);
+
+				if (checkinDate >= checkoutDate) {
+					e.preventDefault();
+					alert("Check-out date must be after check-in date");
+					return false;
+				}
+
+				return true;
+			});
 	});
 </script>

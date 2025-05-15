@@ -19,28 +19,35 @@ function getDbConfig()
     # Define default database configuration
     $config = [
         //'servername' => 'localhost',
+    # Check first for Heroku JAWSDB_MARIA_URL, or use the one from .env
+    # comment out to test local db
+    $jawsdb_url = getenv('JAWSDB_MARIA_URL');
+    if ($jawsdb_url) {
+        $dbparts = parse_url($jawsdb_url);
+        return [
+            'servername' => $dbparts['host'] . (isset($dbparts['port']) ? ':' . $dbparts['port'] : ''),
+            'username'   => $dbparts['user'],
+            'password'   => $dbparts['pass'],
+            'dbname'     => ltrim($dbparts['path'], '/'),
+        ];
+    }
+
+    # default local database configuration
+    return [
+        // 'servername' => '127.0.0.1:3306',
+
         'servername' => '127.0.0.1:3307',
         'username'   => 'root',
         'password'   => '',
         'dbname'     => 'docksidedb',
     ];
-
-    # Use environment variables if they exist (uncomment for prod)
-    // if (getenv('DB_HOST')) $config['servername'] = getenv('DB_HOST');
-    // if (getenv('DB_USERNAME')) $config['username'] = getenv('DB_USERNAME');
-    // if (getenv('DB_PASSWORD')) $config['password'] = getenv('DB_PASSWORD');
-    // if (getenv('DB_DATABASE')) $config['dbname'] = getenv('DB_DATABASE');
-
-    return $config;
 }
-
 
 function isPersonSet()
 {
     return (isset($_POST['fname'])) && (isset($_POST['lname'])) && (isset($_POST['address'])) && (isset($_POST['phone']))
         && (isset($_POST['birth'])) && (isset($_POST['email'])) && (isset($_POST['password']));
 }
-
 
 function populateRoomEditForm($selectedRoom)
 {

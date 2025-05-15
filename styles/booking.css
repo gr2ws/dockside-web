@@ -1,0 +1,259 @@
+@import "global.css";
+
+/* Main booking page styles */
+body {
+	position: relative;
+}
+
+/* Background pattern */
+body::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-image: url(../assets/svg-patterns/cube1-bg-wh.svg);
+	background-size: 80px;
+	background-repeat: repeat;
+	background-position: center;
+	pointer-events: none;
+	z-index: -1;
+	opacity: 0.35;
+
+	mask-image: linear-gradient(
+		to bottom,
+		transparent 0%,
+		rgba(0, 0, 0, 1) 50%,
+		transparent 100%
+	);
+	-webkit-mask-image: linear-gradient(
+		to bottom,
+		transparent 0%,
+		rgba(0, 0, 0, 1) 50%,
+		transparent 100%
+	);
+}
+
+main {
+	min-height: calc(100vh - 400px);
+}
+
+.booking-success {
+	margin: 4rem auto;
+	max-width: 800px;
+}
+
+/* Booking price card styles */
+.booking-price-card {
+	border-radius: 2px;
+	border: 1px solid var(--accent);
+	box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+	transition: all 0.3s ease;
+}
+
+/* Container for the booking price card styling */
+.booking-summary-section .col-lg-4 {
+	align-self: flex-start;
+}
+
+/* Media queries for responsive behavior */
+@media (max-width: 991px) {
+	.booking-price-card {
+		margin-top: 2rem;
+		margin-bottom: 1rem;
+	}
+}
+
+/* Search section styles */
+.search-section .card {
+	border-radius: 2px;
+	border: 1px solid var(--accent);
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+	transition: all 0.3s ease;
+}
+
+.search-section .card:hover {
+	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Room selection styles */
+.room-selection-section .card {
+	border-radius: 2px;
+	border: 1px solid var(--accent);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	transition: all 0.3s ease;
+}
+
+.room-selection-section .card:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.room-selection-section .card-title {
+	color: var(--base);
+	font: var(--heading-font);
+	font-size: 1.3rem;
+}
+
+/* Enhanced booking summary styles */
+.booking-summary-section .card {
+	border-radius: 2px;
+	border: 1px solid var(--accent);
+	box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+	overflow: hidden;
+}
+
+.booking-summary-section .row {
+	display: flex;
+	align-items: flex-start;
+}
+
+.booking-details {
+	padding: 1rem;
+}
+
+.booking-details h4,
+.booking-details h5 {
+	color: var(--bs-primary);
+	margin-bottom: 1rem;
+}
+
+.room-image img {
+	width: 100%;
+	height: auto;
+	object-fit: cover;
+	border-radius: 2px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.room-description {
+	padding: 0.5rem 0;
+	border-left: 3px solid var(--base);
+	padding-left: 1rem;
+	background-color: rgba(0, 89, 97, 0.05);
+	border-radius: 0 2px 2px 0;
+	font: var(--body-font);
+}
+
+.room-features {
+	background-color: rgba(0, 89, 97, 0.05);
+	padding: 1rem;
+	border-radius: 2px;
+	font: var(--body-font);
+}
+
+.booking-policy {
+	background-color: rgba(131, 197, 190, 0.1);
+	padding: 1rem;
+	border-radius: 2px;
+	border-left: 3px solid var(--base);
+	font: var(--body-font);
+}
+
+.price-details h5 {
+	color: var(--bs-primary);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+	padding-bottom: 0.5rem;
+	margin-bottom: 0.5rem;
+	font-size: 1.1rem;
+}
+
+/* Price summary card */
+.booking-summary-section .bg-light {
+	background-color: rgba(237, 246, 249, 0.5) !important;
+	border-radius: 2px;
+	border: 1px solid var(--accent);
+}
+
+/* Buttons styling */
+.btn-primary {
+	background-color: var(--base);
+	border-color: var(--base);
+}
+
+.btn-primary:hover {
+	background-color: var(--dark);
+	border-color: var(--dark);
+}
+
+.btn-outline-primary {
+	color: var(--base);
+	border-color: var(--base);
+}
+
+.btn-outline-primary:hover {
+	background-color: var(--base);
+	border-color: var(--base);
+	color: white;
+}
+
+.btn-success {
+	background-color: #28a745;
+	border-color: #28a745;
+}
+
+.btn-success:hover {
+	background-color: #218838;
+	border-color: #1e7e34;
+}
+
+/* Form control styles */
+.form-control,
+.form-select {
+	border-radius: 2px;
+	border: 1px solid var(--accent);
+	font: var(--body-font);
+}
+
+.form-control:focus,
+.form-select:focus {
+	border-color: var(--base);
+	box-shadow: 0 0 0 0.25rem rgba(var(--base-rgb), 0.25);
+}
+
+/* Alert styles */
+.alert {
+	border-radius: 2px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+	.booking-summary-section .col-md-5 {
+		margin-top: 2rem;
+	}
+}
+
+@media (max-width: 992px) {
+	.booking-summary-section .col-lg-8,
+	.booking-summary-section .col-lg-4 {
+		margin-bottom: 1.5rem;
+	}
+}
+
+/* Booking Action Modal Styles */
+.action-option {
+	transition: transform 0.2s, box-shadow 0.2s;
+	cursor: pointer;
+}
+
+.action-option:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+#bookingActionModal .modal-body {
+	padding: 1.5rem;
+}
+
+#bookingActionModal .action-options {
+	width: 100%;
+}
+
+#bookingActionModal .booking-info {
+	background-color: rgba(237, 246, 249, 0.9);
+	padding: 1rem;
+	border-radius: 2px;
+	border-left: 4px solid var(--base);
+	font: var(--body-font);
+}
