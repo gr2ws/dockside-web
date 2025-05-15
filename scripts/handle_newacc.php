@@ -85,7 +85,16 @@ function handleNewAcc($redirect = '')
                         $_SESSION['pass']     = $user['pers_pass'];
                         $_SESSION['role']     = $user['pers_role'];                        // Redirect if specified
                         if (!empty($redirect)) {
-                            header("Location: ../" . ltrim($redirect, '/'));
+                            // Clean the redirect URL to prevent duplication
+                            // Remove any domain names or protocol from the URL if present
+                            $redirect = preg_replace('/^(https?:\/\/[^\/]+)?\//', '/', $redirect);
+
+                            // Handle both absolute and relative paths
+                            if (strpos($redirect, '/') === 0) {
+                                header("Location: " . $redirect);
+                            } else {
+                                header("Location: ../" . ltrim($redirect, '/'));
+                            }
                             exit;
                         } else {
                             // Default redirect to user dashboard if no redirect parameter

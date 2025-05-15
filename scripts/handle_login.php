@@ -49,6 +49,10 @@ function handleLogin($redirect = '')
             $_SESSION['pass']     = $user['pers_pass'];
             $_SESSION['role'] = $user['pers_role'];            // Handle redirects if specified
             if (!empty($redirect)) {
+                // Clean the redirect URL to prevent duplication
+                // Remove any domain names or protocol from the URL if present
+                $redirect = preg_replace('/^(https?:\/\/[^\/]+)?\//', '/', $redirect);
+
                 // Check if the redirect is an absolute path (starts with /)
                 if (strpos($redirect, '/') === 0) {
                     header("Location: " . $redirect);

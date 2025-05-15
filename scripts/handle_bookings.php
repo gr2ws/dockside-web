@@ -53,9 +53,21 @@ function getUserBookings($userId)
 function checkBookingAuthentication($redirectUrl = '')
 {
     // Check if user is logged in - more robust check to ensure valid session
-    $isLoggedIn = isset($_SESSION['id']) && !empty($_SESSION['id']) && is_numeric($_SESSION['id']);    // Redirect to login if user is not authenticated
+    $isLoggedIn = isset($_SESSION['id']) && !empty($_SESSION['id']) && is_numeric($_SESSION['id']);
+
+    // Redirect to login if user is not authenticated
     if (!$isLoggedIn) {
         $_SESSION['booking_error'] = "You must be logged in to book a room online.";
+
+        // Clean the redirect URL to prevent duplication
+        if (!empty($redirectUrl)) {
+            // Ensure we use relative paths for redirection
+            $redirectUrl = preg_replace('/^(https?:\/\/[^\/]+)?\/[^\/]+\/pages\//', '', $redirectUrl);
+            if (!$redirectUrl) {
+                $redirectUrl = 'booking.php';  // Use default if the regex fails
+            }
+        }
+
         header("Location: login.php?redirect=" . urlencode($redirectUrl));
         exit;
     }

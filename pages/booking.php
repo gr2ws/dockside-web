@@ -9,7 +9,7 @@ $checkoutDate = isset($_GET['checkout']) ? $_GET['checkout'] : '';
 $roomType = isset($_GET['room_type']) ? $_GET['room_type'] : '';
 
 // Prepare redirect URL to preserve search parameters
-$currentUrl = "/dockside-web/pages/booking.php";
+$currentUrl = "booking.php";  // Use relative path to avoid URL duplication
 if (!empty($checkinDate) || !empty($checkoutDate) || !empty($roomType)) {
     $currentUrl .= '?';
     $params = [];
@@ -462,12 +462,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_booking'])) {
                         </div> <?php endif; ?>
                 </div>
             <?php endif; ?> <?php endif; ?>
-        <script src="../scripts/booking.js"></script>
-        <?php if ($needAuth): ?>
+        <script src="../scripts/booking.js"></script> <?php if ($needAuth): ?>
             <script>
                 // Show the account required dialog when the page loads
                 document.addEventListener('DOMContentLoaded', function() {
-                    const currentUrl = encodeURIComponent(window.location.href);
+                    // Use only the pathname and search parts of the URL to avoid domain duplication issues
+                    const currentPath = window.location.pathname.split('/').pop() + window.location.search;
+                    const currentUrl = encodeURIComponent(currentPath);
                     showAccountRequiredDialog(currentUrl);
                 });
             </script>
