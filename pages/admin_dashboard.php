@@ -2,14 +2,9 @@
 
 session_start();
 
-require '../scripts/setup_vars.php';
-require '../scripts/handle_edit.php';
-require '../scripts/see_history.php';
-
-if (!isset($_SESSION['id'])) {
-    header("Location: login.php");
-    exit;
-}
+require_once __DIR__ . '/../scripts/setup_vars.php';
+require_once __DIR__ . '/../scripts/handle_edit.php';
+require_once __DIR__ . '/../scripts/see_history.php';
 
 // Show update result message only if form was submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['profile_submit'])) {
@@ -29,11 +24,6 @@ $birth = $_SESSION['birthday'];
 $email = $_SESSION['email'];
 $pass = $_SESSION['pass'];
 
-if (isset($_POST['roomnum'])) {
-    $selectedRoom = $_POST['roomnum'];
-    initRoomEdit($selectedRoom);
-}
-
 $message = '';
 if (isset($_SESSION['message'])) {
     $message = $_SESSION['message']; // Retrieve the message
@@ -47,14 +37,25 @@ $availability = isset($_SESSION['room_availability']) ? $_SESSION['room_availabi
 $price = isset($_SESSION['room_price']) ? $_SESSION['room_price'] : '';
 //$bookingid = $_SESSION['booking_id'];
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['type'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['roomcheck_submit'])) {
+    $roomnum = $_POST['roomnum'];
+    populateRoomEditForm($roomnum);
+
+    $type = $_SESSION['room_type'];
+    $capacity = $_SESSION['room_capacity'];
+    $availability = $_SESSION['room_availability'];
+    $price =  $_SESSION['room_price'];
+    header("Location: ./admin_dashboard.php#reservations");
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['roomedit_submit'])) {
     $message = handleRoomEdit($roomnum); // generally means successful form submission once this is triggered
     $_SESSION['message'] = $message; // Store the message in a session variable
     header("Location: ./admin_dashboard.php");
     exit(); // Redirect to the same page to avoid resubmission;
 }
 
-// Process user booking history search
+// Process user booking history search (works ok)
 $userBookings = [];
 $userSearchError = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_user_submit'])) {
@@ -81,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_user_submit'])
     }
 }
 
-// Process room booking history search
+// Process room booking history search (works ok)
 $roomBookings = [];
 $roomSearchError = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])) {
@@ -116,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Dashboard - Dockside Hotel©</title>
+    <title>Admin Dashboard - Dockside Hotel©</title>
     <link rel="stylesheet" href="../styles/admin-dashboard.css">
     <link rel="stylesheet" href="../styles/index.css">
     <?php require_once 'common.php'; ?>
@@ -140,9 +141,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a href="#dashboard" class="nav-link active" data-tab="dashboard"
+                        <a href="#dashboard" class="nav-link" data-tab="dashboard"
                             onclick="ridMessage()">
-                            <span class="fs-md-4"> Dashboard </span>
+                            <span class="fs-md-4 active"> Dashboard </span>
                         </a>
                     </li>
                     <li class="nav-item dropdown">
@@ -171,17 +172,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])
             <div class="dropdown">
                 <button class="btn" type="button" data-bs-toggle="dropdown">
                     <i class="bi-person-circle"></i>
-                    <span class="d-none d-lg-inline"><?php echo $fname; ?></span>
+                    <span class="d-none d-lg-inline person-lk"><?php echo $fname; ?></span>
                     <i class="bi-chevron-down"></i>
                 </button>
                 <div class="dropdown-menu">
-                    <span class="dropdown-header">Welcome back, <?php echo $fname; ?>!</span>
+                    <span class="dropdown-header p-3">Welcome back, <?php echo $fname; ?>!</span>
                     <hr class="dropdown-divider">
-                    <a class="dropdown-item" href="#dashboard" data-tab="dashboard">Dashboard</a>
-                    <a class="dropdown-item" href="#profile" data-tab="profile">Profile</a>
-                    <a class="dropdown-item" href="#settings" data-tab="settings">Settings</a>
+                    <a class="dropdown-item p-2 bi bi-speedometer2" href="#dashboard" data-tab="dashboard"> Dashboard</a>
+                    <a class="dropdown-item p-2 bi bi-door-open-fill" href="#reservations" data-tab="reservations"> Manage Rooms</a>
+                    <a class="dropdown-item p-2 bi bi-person-vcard" href="#userbkgs" data-tab="userbkgs"> User Bookings</a>
+                    <a class="dropdown-item p-2 bi bi-journal-bookmark-fill" href="#userbkgs" data-tab="userbkgs"> Room Bookings</a>
+
                     <hr class="dropdown-divider">
-                    <a class="dropdown-item text-danger" href="../scripts/handle_logout.php">Logout</a>
+                    <a class="dropdown-item text-danger p-3" href="../scripts/handle_logout.php"> Logout</a>
                 </div>
             </div>
         </div>
@@ -207,34 +210,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])
                     <!-- Bookings Today Table -->
                     <div class="card shadow-sm">
                         <div class="card-body">
-                            <h3 class="card-title border-bottom pb-2">Bookings Today</h3>
+                            <h3 class="card-title border-bottom pb-2">Active Bookings Today</h3>
                             <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
+                                <table class="table table-striped table-hover">
+                                    <thead class="sticky-top bg-light">
                                         <tr>
+                                            <th>Booking ID</th>
+                                            <th>User ID</th>
+                                            <th>User Name</th>
+                                            <th>Room ID</th>
                                             <th>Room Type</th>
-                                            <th>Capacity</th>
-                                            <th>Rate/Night</th>
-                                            <th>Status</th>
-                                            <th class="text-end">Action</th>
+                                            <th>Check-in Date</th>
+                                            <th>Check-out Date</th>
+                                            <th>Total Amount</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php foreach ($availableRooms as $room): ?>
+                                        <?php
+
+
+
+                                        foreach ($userBookings as $booking): ?>
                                             <tr>
-                                                <td><?php echo htmlspecialchars($room['room_type']); ?></td>
-                                                <td><?php echo htmlspecialchars($room['capacity']); ?></td>
-                                                <td>₱<?php echo number_format($room['rate'], 2); ?></td>
-                                                <td>
-                                                    <span class="badge bg-<?php echo $room['status'] === 'Available' ? 'success' : 'warning'; ?>">
-                                                        <?php echo htmlspecialchars($room['status']); ?>
-                                                    </span>
-                                                </td>
-                                                <td class="text-end">
-                                                    <button class="btn btn-sm btn-primary" onclick="selectRoom(<?php echo $room['id']; ?>)">
-                                                        <i class="bi bi-calendar-plus"></i> Select
-                                                    </button>
-                                                </td>
+                                                <td><?php echo htmlspecialchars($booking['bkg_id']); ?></td>
+                                                <td><?php echo htmlspecialchars($booking['pers_id']); ?></td>
+                                                <td><?php echo htmlspecialchars($booking['full_name']); ?></td>
+                                                <td><?php echo htmlspecialchars($booking['room_id']); ?></td>
+                                                <td><?php echo htmlspecialchars($booking['room_type']); ?></td>
+                                                <td><?php echo htmlspecialchars($booking['bkg_datein']); ?></td>
+                                                <td><?php echo htmlspecialchars($booking['bkg_dateout']); ?></td>
+                                                <td>₱<?php echo number_format($booking['bkg_totalpr'], 2); ?></td>
                                             </tr>
                                         <?php endforeach; ?>
                                     </tbody>
@@ -248,55 +253,55 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])
                 <div class="content-section d-none" id="reservations-content">
                     <div class=" container-fluid">
 
-                        <!-- Manage Rooms Section -->
-                        <section id="manage-rooms" class="w-100 card shadow-sm p-4">
+                        <section id="manage-rooms" class="w-100 card shadow-sm p-4 mb-4">
                             <h2>Manage Rooms</h2>
-                            <p>Use this section to manage room types, capacity, and availability.</p>
+                            <p>Manage room types, capacity, and availability here.</p>
 
                             <hr>
 
                             <div class="border-0">
+                                <!-- manage rooms form -->
                                 <form id="editrmForm" method="POST" action="./admin_dashboard.php#reservations">
                                     <div class="mb-3">
                                         <label for="roomnum" class="form-label">Room Number</label>
                                         <div class="d-flex justify-center align-center gap-3">
-                                            <select class="form-select w-50" id="roomnum" name="roomnum">
+                                            <select class="form-select w-50" id="roomnum" name="roomnum" placeholder="Select a room:" required>
                                                 <option value="">Select a room:</option>
                                                 <?php
-                                                seeRooms()
+                                                seeRooms() // this is fine
                                                 ?>
                                             </select>
-                                            <button type="submit" id="check-btn" class="btn btn-success" disabled>Check</button>
+                                            <button type="submit" id="check-btn" class="btn btn-success" name="roomcheck_submit">Check</button>
                                             <button type="button" id="unlock-btn" class="btn btn-danger" disabled onclick="lockEdits()">Unlock</button>
                                         </div>
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="type" class="form-label">Room Type</label>
-                                        <input type="text" class="form-control" id="type" name="type" placeholder="Enter room type (e.g., Deluxe, Suite)" value="<?php echo isset($type) ? $type : '' ?>" disabled>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="capacity" class="form-label">Capacity</label>
-                                        <input type="number" class="form-control" id="capacity" name="capacity" placeholder="Enter room capacity" value="<?php echo isset($capacity) ? $capacity : '' ?>" disabled>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="availability" class="form-label">Availability</label>
-                                        <select class="form-select" id="availability" name="availability" value="<?php echo isset($availability) ? $availability : '' ?>" disabled>
-                                            <option value="" <?php echo empty($availability) ? 'selected' : ''; ?> disabled>Select availability status:</option>
-                                            <option value="vacant" <?php echo (isset($availability) && $availability === 'vacant') ? 'selected' : ''; ?>>Vacant</option>
-                                            <option value="occupied" <?php echo (isset($availability) && $availability === 'occupied') ? 'selected' : ''; ?>>Occupied</option>
-                                            <option value="maintenance" <?php echo (isset($availability) && $availability === 'maintenance') ? 'selected' : ''; ?>>Undergoing Maintenance</option>
-                                        </select>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="price" class="form-label">Room Price (per night)</label>
-                                        <input type="text" class="form-control" id="price" name="price" placeholder="Enter room price (in Php)" value="<?php echo isset($price) ? $price : '' ?>" disabled>
-                                    </div>
-
-                                    <!-- flag for conditional data handling based on what form was submitted -->
-                                    <input type="hidden" name="roomedit_submit" value="1">
+                                    <section id="form_details">
+                                        <div class="mb-3">
+                                            <label for="type" class="form-label">Room Type</label>
+                                            <input type="text" class="form-control" id="type" name="type" placeholder="Enter room type (e.g., Deluxe, Suite)" value="<?php echo isset($type) ? $type : '' ?>" disabled>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="capacity" class="form-label">Capacity</label>
+                                            <input type="number" class="form-control" id="capacity" name="capacity" placeholder="Enter room capacity" value="<?php echo isset($capacity) ? $capacity : '' ?>" disabled>
+                                        </div>
+                                        <div class="mb-3">
+                                            <!-- bug here -->
+                                            <label for="availability" class="form-label">Availability</label>
+                                            <select class="form-select" id="availability" name="availability">
+                                                <option value="" <?php echo empty($availability) ? 'selected' : ''; ?> disabled>Select availability status:</option>
+                                                <option value=" vacant" <?php echo (isset($availability) && $availability === 'vacant') ? 'selected' : ''; ?>>Vacant</option>
+                                                <option value="occupied" <?php echo (isset($availability) && $availability === 'occupied') ? 'selected' : ''; ?>>Occupied</option>
+                                                <option value="maintenance" <?php echo (isset($availability) && $availability === 'maintenance') ? 'selected' : ''; ?>>Undergoing Maintenance</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="price" class="form-label">Room Price (per night)</label>
+                                            <input type="text" class="form-control" id="price" name="price" placeholder="Enter room price (in Php)" value="<?php echo isset($price) ? $price : '' ?>" disabled>
+                                        </div>
+                                    </section>
 
                                     <button id="edit-btn" type="button" class="btn btn-primary" disabled onclick="makeEditable()">Edit Room</button>
-                                    <button id="save-btn" type="submit" class="btn btn-primary" disabled>Save Room</button>
+                                    <button id="save-btn" type="submit" class="btn btn-primary" name="roomedit_submit" disabled>Save Room</button>
                                 </form>
                             </div>
                         </section>
@@ -316,7 +321,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])
                                     <input type="numeric" class="form-control" id="search_user_id" name="search_user_id"
                                         placeholder="Enter user ID number" required>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-2">
                                     <button type="submit" name="search_user_submit" value="1" class="btn btn-primary w-100">
                                         <i class="bi bi-search"></i> Search
                                     </button>
@@ -386,7 +391,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])
                                     <input type="numeric" class="form-control" id="search_room_id" name="search_room_id"
                                         placeholder="Enter room ID number" required>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-lg-2">
                                     <button type="submit" name="search_room_submit" value="1" class="btn btn-primary w-100">
                                         <i class="bi bi-search"></i> Search
                                     </button>
@@ -444,48 +449,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="../scripts/user-dashboard.js"></script>
+    <script src="../scripts/admin_dbutil.js"></script>
+    <!-- <script src="../scripts/mobileNav.js"></script> -->
     <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const type = "<?php echo $type ?? ''; ?>";
+            if (type !== '') {
+                makeEditable();
+            }
+        });
+
         function ridMessage() {
             document.querySelector(".alert").classList.remove('d-flex');
             document.querySelector(".alert").classList.add('d-none');
         }
-
-        function makeEditable() {
-            var readItems = document.querySelectorAll('input[disabled], textarea[disabled]');
-            readItems.forEach((readItem) => {
-                readItem.disabled = false;
-            })
-        }
-
-        function showPass(inputId, showBtnId, hideBtnId) {
-            const input = document.getElementById(inputId);
-            const showBtn = document.getElementById(showBtnId);
-            const hideBtn = document.getElementById(hideBtnId);
-
-            input.type = "text";
-            showBtn.classList.add("d-none");
-            showBtn.classList.remove("d-block");
-            hideBtn.classList.remove("d-none");
-            hideBtn.classList.add("d-block");
-        }
-
-        function hidePass(inputId, showBtnId, hideBtnId) {
-            const input = document.getElementById(inputId);
-            const showBtn = document.getElementById(showBtnId);
-            const hideBtn = document.getElementById(hideBtnId);
-
-            input.type = "password";
-            hideBtn.classList.add("d-none");
-            hideBtn.classList.remove("d-block");
-            showBtn.classList.remove("d-none");
-            showBtn.classList.add("d-block");
-        }
     </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../scripts/admin_dbutil.js"></script>
-
 </body>
 
 </html>

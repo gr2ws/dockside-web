@@ -118,55 +118,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 });
 
-document.addEventListener('DOMContentLoaded', function () {
-    // Tab switching functionality
-    const navLinks = document.querySelectorAll('.nav-link[data-tab]');
-    const contentSections = document.querySelectorAll('.content-section');
-
-    function switchTab(tabId) {
-        // Update navigation links
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('data-tab') === tabId) {
-                link.classList.add('active');
-            }
-        });
-
-        // Update content sections
-        contentSections.forEach(section => {
-            section.classList.add('d-none');
-            if (section.id === `${tabId}-content`) {
-                section.classList.remove('d-none');
-            }
-        });
-
-        // Update URL hash without scrolling
-        history.pushState(null, null, `#${tabId}`);
-    }
-
-    // Add click handlers to nav links
-    navLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const tabId = link.getAttribute('data-tab');
-            switchTab(tabId);
-        });
-    });
-
-    // Handle browser back/forward buttons
-    window.addEventListener('popstate', () => {
-        const hash = window.location.hash.slice(1) || 'dashboard';
-        switchTab(hash);
-    });
-
-    // Load initial tab based on URL hash or default to dashboard
-    const initialTab = window.location.hash.slice(1) || 'dashboard';
-    switchTab(initialTab);
-
-    // Initialize forms
-    initializeForms();
-});
-
 async function loadReservations() {
     try {
         const response = await fetch('php/get_user_reservations.php');
