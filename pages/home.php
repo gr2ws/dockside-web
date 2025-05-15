@@ -42,7 +42,7 @@
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <div class="room-card shadow-sm">
                             <div class="room-image">
-                                <img src="../assets/standard.jpg" alt="Standard Room" class="img-fluid">
+                                <img src="../assets/standard-room.jpg" alt="Standard Room" class="img-fluid">
                                 <div class="room-badge">From ₱11,000/night</div>
                             </div>
                             <div class="room-details">
@@ -65,7 +65,7 @@
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <div class="room-card shadow-sm">
                             <div class="room-image">
-                                <img src="../assets/deluxe.jpg" alt="Deluxe Room" class="img-fluid">
+                                <img src="../assets/deluxe-room.jpg" alt="Deluxe Room" class="img-fluid">
                                 <div class="room-badge">From ₱15,000/night</div>
                             </div>
                             <div class="room-details">
@@ -88,7 +88,7 @@
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <div class="room-card shadow-sm">
                             <div class="room-image">
-                                <img src="../assets/executive.jpg" alt="Executive Suite" class="img-fluid">
+                                <img src="../assets/executive-room.jpg" alt="Executive Suite" class="img-fluid">
                                 <div class="room-badge">From ₱18,500/night</div>
                             </div>
                             <div class="room-details">
@@ -111,7 +111,7 @@
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <div class="room-card shadow-sm">
                             <div class="room-image">
-                                <img src="../assets/presidential.jpg" alt="Presidential Suite" class="img-fluid">
+                                <img src="../assets/presidential-room.jpg" alt="Presidential Suite" class="img-fluid">
                                 <div class="room-badge">From ₱25,000/night</div>
                             </div>
                             <div class="room-details">
@@ -247,7 +247,7 @@
                     <div class="row align-items-center">
                         <div class="col-lg-6 mb-4 mb-lg-0">
                             <div class="events-image shadow-lg">
-                                <img src="../assets/hotel-beginning.jpg" alt="Events and Convention Center" class="img-fluid">
+                                <img src="../assets/events-convention.jpg" alt="Events and Convention Center" class="img-fluid">
                             </div>
                         </div>
 
