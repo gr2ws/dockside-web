@@ -16,7 +16,8 @@ function getPersonData()
 
 function getDbConfig()
 {
-    # Check first for Heroku JAWSDB_MARIA_URL
+    # Check first for Heroku JAWSDB_MARIA_URL, or use the one from .env
+    # comment out to test local db
     $jawsdb_url = getenv('JAWSDB_MARIA_URL');
     if ($jawsdb_url) {
         $dbparts = parse_url($jawsdb_url);
@@ -27,8 +28,8 @@ function getDbConfig()
             'dbname'     => ltrim($dbparts['path'], '/'),
         ];
     }
-    
-    # Define default database configuration
+
+    # default local database configuration
     $config = [
         'servername' => 'localhost',
         // 'servername' => '127.0.0.1:3307',
@@ -36,12 +37,6 @@ function getDbConfig()
         'password'   => '',
         'dbname'     => 'docksidedb',
     ];
-
-    # Use environment variables if they exist (uncomment for dev testing to remote)
-    if (getenv('DB_HOST')) $config['servername'] = getenv('DB_HOST');
-    if (getenv('DB_USERNAME')) $config['username'] = getenv('DB_USERNAME');
-    if (getenv('DB_PASSWORD')) $config['password'] = getenv('DB_PASSWORD');
-    if (getenv('DB_DATABASE')) $config['dbname'] = getenv('DB_DATABASE');
 
     return $config;
 }
