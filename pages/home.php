@@ -138,164 +138,153 @@
                     <p class="section-subtitle">Join our exclusive membership program and enjoy premium perks</p>
                 </div>
 
-                <div class="row g-4 justify-content-center">
-                    <div class="col-lg-3 col-md-6">
-                        <div class="text-center">
-                            <div class="benefit-icon">
-                                <i class="bi bi-star-fill"></i>
-                            </div>
-                            <h3 class="benefit-title">Priority Booking</h3>
-                            <p class="benefit-description">Get early access to room bookings and special events</p>
+                <div class="col-lg-3 col-md-6">
+                    <div class="text-center">
+                        <div class="benefit-icon">
+                            <i class="bi bi-tags-fill"></i>
                         </div>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6">
-                        <div class="text-center">
-                            <div class="benefit-icon">
-                                <i class="bi bi-tags-fill"></i>
-                            </div>
-                            <h3 class="benefit-title">Exclusive Discounts</h3>
-                            <p class="benefit-description">Enjoy up to 20% off on room rates and restaurant bills</p>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6">
-                        <div class="text-center">
-                            <div class="benefit-icon">
-                                <i class="bi bi-cup-hot-fill"></i>
-                            </div>
-                            <h3 class="benefit-title">Complimentary Breakfast</h3>
-                            <p class="benefit-description">Start your day with a delicious breakfast on the house</p>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6">
-                        <div class="text-center">
-                            <div class="benefit-icon">
-                                <i class="bi bi-clock-fill"></i>
-                            </div>
-                            <h3 class="benefit-title">Late Checkout</h3>
-                            <p class="benefit-description">Enjoy extended checkout time at no additional cost</p>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6">
-                        <div class="text-center">
-                            <div class="benefit-icon">
-                                <i class="bi bi-calendar-check-fill"></i>
-                            </div>
-                            <h3 class="benefit-title">Online Reservation</h3>
-                            <p class="benefit-description">Book your stay conveniently online anytime</p>
-                        </div>
+                        <h3 class="benefit-title">Exclusive Discounts</h3>
+                        <p class="benefit-description">Enjoy up to 20% off on restaurant bills and other experiences</p>
                     </div>
                 </div>
 
-                <div class="text-center mt-5">
-                    <a href="sign_up.php" class="primary-btn">Become a Member</a>
-                </div>
-            </section>
-
-            <!-- Facilities Section -->
-            <section class="section-container facilities-section my-5">
-                <div class="section-header text-center mb-4">
-                    <h2 class="section-title">Hotel Facilities</h2>
-                    <p class="section-subtitle">Designed for your comfort and convenience</p>
-                    <p class="small text-muted mb-3">Nestled along the pristine shores of the Bohol Sea with breathtaking views</p>
-                </div>
-                <div class="facilities-container">
-                    <div class="facility-item">
-                        <div class="facility-icon">
-                            <i class="bi bi-water"></i>
+                <div class="col-lg-3 col-md-6">
+                    <div class="text-center">
+                        <div class="benefit-icon">
+                            <i class="bi bi-cup-hot-fill"></i>
                         </div>
-                        <h3 class="facility-title">Swimming Pool</h3>
-                        <p class="facility-description">Infinity pool overlooking the ocean with comfortable loungers and poolside service for a refreshing experience.</p>
-                    </div>
-                    <div class="facility-item">
-                        <div class="facility-icon">
-                            <i class="bi bi-heart-pulse"></i>
-                        </div>
-                        <h3 class="facility-title">Fitness Center</h3>
-                        <p class="facility-description">State-of-the-art equipment and professional trainers available to help you maintain your fitness routine while traveling.</p>
-                    </div>
-                    <div class="facility-item">
-                        <div class="facility-icon">
-                            <i class="bi bi-reception-4"></i>
-                        </div>
-                        <h3 class="facility-title">24/7 Reception</h3>
-                        <p class="facility-description">Staff always available to assist with your needs, arrange transportation, and provide local recommendations anytime day or night.</p>
-                    </div>
-                    <div class="facility-item">
-                        <div class="facility-icon">
-                            <i class="bi bi-cup-straw"></i>
-                        </div>
-                        <h3 class="facility-title">Restaurant & Bar</h3>
-                        <p class="facility-description">Elegant in-house dining with international cuisine and a well-stocked bar offering both local and imported beverages for your enjoyment.</p>
-                    </div>
-
-                    <div class="facility-item">
-                        <div class="facility-icon">
-                            <i class="bi bi-wifi"></i>
-                        </div>
-                        <h3 class="facility-title">Free Wi-Fi</h3>
-                        <p class="facility-description">Stay connected with high-speed internet access throughout the property</p>
-                    </div>
-
-                    <div class="facility-item">
-                        <div class="facility-icon">
-                            <i class="bi bi-p-circle"></i>
-                        </div>
-                        <h3 class="facility-title">Free Parking</h3>
-                        <p class="facility-description">Complimentary secure parking for all hotel guests with valet service available upon request for your convenience.</p>
+                        <h3 class="benefit-title">Complimentary Breakfast</h3>
+                        <p class="benefit-description">Start your day with a delicious breakfast on the house</p>
                     </div>
                 </div>
-            </section>
 
-            <!-- Events/Convention Section -->
-            <section class="section-container events-section my-5">
-                <div class="events-content">
-                    <div class="row align-items-center">
-                        <div class="col-lg-6 mb-4 mb-lg-0">
-                            <div class="events-image shadow-lg">
-                                <img src="../assets/events-convention.jpg" alt="Events and Convention Center" class="img-fluid">
-                            </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="text-center">
+                        <div class="benefit-icon">
+                            <i class="bi bi-clock-fill"></i>
                         </div>
-
-                        <div class="col-lg-6">
-                            <div class="events-details">
-                                <h2 class="section-title">Events & Convention Center</h2>
-                                <p class="section-description">Host your special events in our versatile spaces, perfect for weddings, corporate meetings, and social gatherings.</p>
-
-                                <div class="event-features">
-                                    <div class="event-feature">
-                                        <i class="bi bi-people"></i>
-                                        <span>Capacity for up to 300 guests</span>
-                                    </div>
-
-                                    <div class="event-feature">
-                                        <i class="bi bi-laptop"></i>
-                                        <span>State-of-the-art audiovisual equipment</span>
-                                    </div>
-
-                                    <div class="event-feature">
-                                        <i class="bi bi-shop"></i>
-                                        <span>Customizable catering options</span>
-                                    </div>
-
-                                    <div class="event-feature">
-                                        <i class="bi bi-person-lines-fill"></i>
-                                        <span>Dedicated event coordinator</span>
-                                    </div>
-                                </div>
-
-                                <div class="mt-4">
-                                    <a href="events.php" class="primary-btn">Inquire Now</a>
-                                </div>
-                            </div>
-                        </div>
+                        <h3 class="benefit-title">Late Checkout</h3>
+                        <p class="benefit-description">Enjoy extended checkout time at no additional cost</p>
                     </div>
                 </div>
-            </section>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="text-center">
+                        <div class="benefit-icon">
+                            <i class="bi bi-calendar-check-fill"></i>
+                        </div>
+                        <h3 class="benefit-title">Online Reservation</h3>
+                        <p class="benefit-description">Book your stay conveniently online anytime</p>
+                    </div>
+                </div>
         </div>
+
+        <div class="text-center mt-5">
+            <a href="sign_up.php" class="primary-btn">Become a Member</a>
+        </div>
+        </section>
+
+        <!-- Facilities Section -->
+        <section class="section-container facilities-section my-5">
+            <div class="section-header text-center mb-4">
+                <h2 class="section-title">Hotel Facilities</h2>
+                <p class="section-subtitle">Designed for your comfort and convenience</p>
+                <p class="small text-muted mb-3">Nestled along the pristine shores of the Bohol Sea with breathtaking views</p>
+            </div>
+            <div class="facilities-container">
+                <div class="facility-item">
+                    <div class="facility-icon">
+                        <i class="bi bi-water"></i>
+                    </div>
+                    <h3 class="facility-title">Swimming Pool</h3>
+                    <p class="facility-description">Infinity pool overlooking the ocean with comfortable loungers and poolside service for a refreshing experience.</p>
+                </div>
+                <div class="facility-item">
+                    <div class="facility-icon">
+                        <i class="bi bi-heart-pulse"></i>
+                    </div>
+                    <h3 class="facility-title">Fitness Center</h3>
+                    <p class="facility-description">State-of-the-art equipment and professional trainers available to help you maintain your fitness routine while traveling.</p>
+                </div>
+                <div class="facility-item">
+                    <div class="facility-icon">
+                        <i class="bi bi-reception-4"></i>
+                    </div>
+                    <h3 class="facility-title">24/7 Reception</h3>
+                    <p class="facility-description">Staff always available to assist with your needs, arrange transportation, and provide local recommendations anytime day or night.</p>
+                </div>
+                <div class="facility-item">
+                    <div class="facility-icon">
+                        <i class="bi bi-cup-straw"></i>
+                    </div>
+                    <h3 class="facility-title">Restaurant & Bar</h3>
+                    <p class="facility-description">Elegant in-house dining with international cuisine and a well-stocked bar offering both local and imported beverages for your enjoyment.</p>
+                </div>
+
+                <div class="facility-item">
+                    <div class="facility-icon">
+                        <i class="bi bi-wifi"></i>
+                    </div>
+                    <h3 class="facility-title">Free Wi-Fi</h3>
+                    <p class="facility-description">Stay connected with high-speed internet access throughout the property</p>
+                </div>
+
+                <div class="facility-item">
+                    <div class="facility-icon">
+                        <i class="bi bi-p-circle"></i>
+                    </div>
+                    <h3 class="facility-title">Free Parking</h3>
+                    <p class="facility-description">Complimentary secure parking for all hotel guests with valet service available upon request for your convenience.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Events/Convention Section -->
+        <section class="section-container events-section my-5">
+            <div class="events-content">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 mb-4 mb-lg-0">
+                        <div class="events-image shadow-lg">
+                            <img src="../assets/events-convention.jpg" alt="Events and Convention Center" class="img-fluid">
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="events-details">
+                            <h2 class="section-title">Events & Convention Center</h2>
+                            <p class="section-description">Host your special events in our versatile spaces, perfect for weddings, corporate meetings, and social gatherings.</p>
+
+                            <div class="event-features">
+                                <div class="event-feature">
+                                    <i class="bi bi-people"></i>
+                                    <span>Capacity for up to 300 guests</span>
+                                </div>
+
+                                <div class="event-feature">
+                                    <i class="bi bi-laptop"></i>
+                                    <span>State-of-the-art audiovisual equipment</span>
+                                </div>
+
+                                <div class="event-feature">
+                                    <i class="bi bi-shop"></i>
+                                    <span>Customizable catering options</span>
+                                </div>
+
+                                <div class="event-feature">
+                                    <i class="bi bi-person-lines-fill"></i>
+                                    <span>Dedicated event coordinator</span>
+                                </div>
+                            </div>
+
+                            <div class="mt-4">
+                                <a href="events.php" class="primary-btn">Inquire Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
     </div>
 
     <?php placeFooter() ?>
