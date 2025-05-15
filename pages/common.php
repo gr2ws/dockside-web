@@ -1,3 +1,6 @@
+<!-- Favicon -->
+<link rel="icon" href="../assets/favicon.ico">
+
 <!-- Bootstrap CSS -->
 <link
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css"
@@ -46,6 +49,5 @@ function placeBookingHeader()
 # backend functions
 require '../scripts/handle_newacc.php';
 require '../scripts/handle_login.php';
-require '../scripts/handle_edit.php';
 
 ?>
