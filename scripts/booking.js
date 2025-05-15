@@ -290,6 +290,9 @@ function initConfirmationHandler() {
 			checkAuthInput.type = "hidden";
 			checkAuthInput.name = "check_auth";
 			checkAuthInput.value = "1";
+
+			// Store the booking details in the form even if we need to show the auth modal
+			// This ensures we can resume the booking process after login
 			form.appendChild(checkAuthInput);
 		});
 	}
@@ -304,6 +307,20 @@ function showAccountRequiredDialog(redirectUrl) {
 	const backdrop = document.createElement("div");
 	backdrop.className = "modal-backdrop fade show";
 	document.body.appendChild(backdrop); // Create the modal dialog
+
+	// Add a special parameter to indicate this is a booking confirmation redirect
+	// This will help the server know to show the confirmation page, not just search
+	let enhancedRedirectUrl = redirectUrl;
+	if (
+		redirectUrl.includes("selected_room=") &&
+		!redirectUrl.includes("confirm_intent=1")
+	) {
+		enhancedRedirectUrl =
+			redirectUrl +
+			(redirectUrl.includes("?") ? "&" : "?") +
+			"confirm_intent=1";
+	}
+
 	const modalHtml = `
 		<div class="modal fade show" id="accountRequiredModal" tabindex="-1" aria-labelledby="accountRequiredModalLabel" style="display: block;">
 			<div class="modal-dialog modal-dialog-centered">
@@ -317,8 +334,8 @@ function showAccountRequiredDialog(redirectUrl) {
 						<p>Your booking details will be saved so you can complete your reservation after logging in or signing up.</p>
 					</div>
 					<div class="modal-footer">
-						<a href="/pages/login.php?redirect=${redirectUrl}" class="btn btn-primary">Log In</a>
-						<a href="/pages/sign_up.php?redirect=${redirectUrl}" class="btn btn-success">Create an Account</a>
+						<a href="/pages/login.php?redirect=${enhancedRedirectUrl}" class="btn btn-primary">Log In</a>
+						<a href="/pages/sign_up.php?redirect=${enhancedRedirectUrl}" class="btn btn-success">Create an Account</a>
 						<button type="button" class="btn btn-secondary" id="cancelAccountModal">Cancel</button>
 					</div>
 				</div>
@@ -358,4 +375,7 @@ function removeAccountModal() {
 	if (backdrop) {
 		document.body.removeChild(backdrop);
 	}
+
+	// If we're on the booking confirmation page, we can just reload without any special treatment
+	// The PHP code will handle properly showing the form again
 }
