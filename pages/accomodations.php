@@ -13,7 +13,7 @@
     <?php placeHeader() ?>
     <?php placeBookingHeader() ?>
 
-    <main>
+    <main class="background-pattern">
         <!-- Carousel Section -->
         <section id="accom-carousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-indicators">

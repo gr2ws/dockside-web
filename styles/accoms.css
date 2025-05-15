@@ -1,14 +1,49 @@
 @import url('../styles/global.css');
 
+/* BG Image */
+.background-pattern {
+	position: relative;
+	min-height: 100vh;
+	width: 100%;
+	overflow: hidden;
+}
+
+.background-pattern::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-image: url(../assets/svg-patterns/hexag-bg-wh.svg);
+	background-size: 80px;
+	background-repeat: repeat;
+	background-position: center;
+	pointer-events: none;
+	z-index: -99999;
+
+	mask-image: linear-gradient(
+		to bottom,
+		transparent 0%,
+		rgba(0, 0, 0, 1) 50%,
+		transparent 100%
+	);
+	-webkit-mask-image: linear-gradient(
+		to bottom,
+		transparent 0%,
+		rgba(0, 0, 0, 1) 50%,
+		transparent 100%
+	);
+}
+
 /* Room Title Section */
 main .room-title-section {
     padding: 6rem 0 0; 
-    background: white;
 }
 
 main .room-title-section .section-title {
     font: var(--heading-font);
-    color: var(--heading);
+    color: var(--base);
     margin-bottom: 0; 
 }
 
@@ -22,6 +57,7 @@ main .title-underline {
 main .subheading-text {
     font: var(--subheading-font);
     color: var(--heading);
+    font-size: 20px;
     opacity: 0.7;
     margin-bottom: 0.5rem;
     text-align: center;
@@ -29,6 +65,7 @@ main .subheading-text {
 
 main .description-text {
     font: var(--body-font);
+    font-size: 20px;
     color: var(--text);
     margin-top: 0;
     text-align: center;
@@ -44,7 +81,17 @@ main .room-section {
 }
 
 main .room-section:nth-child(even) {
-    background: var(--light-bg);
+    background: white;
+}
+
+main #executive.room-section,
+main #standard.room-section {
+    background: white;
+}
+
+main #presidential.room-section,
+main #deluxe.room-section {
+    background: transparent !important;
 }
 
 main .room-info {
@@ -53,8 +100,15 @@ main .room-info {
 
 main .room-info h2 {
     font: var(--heading-font);
-    margin-bottom: 1rem;
-    color: var(--heading);
+    color: var(--base);
+}
+main .intro-section h2 {
+    font: var(--heading-font);
+    color: var(--base);
+}
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    filter: invert(35%) sepia(100%) saturate(500%) hue-rotate(180deg) brightness(90%) contrast(85%);
 }
 
 main .room-description {
@@ -77,7 +131,7 @@ main .amenity-item {
     font-size: 0.9rem;
     padding: 0.5rem 1rem;
     background: rgba(var(--base-rgb), 0.1);
-    border-radius: 50px;
+    border-radius: 2px;
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
@@ -123,14 +177,13 @@ main .book-btn {
     background: var(--base);
     color: white;
     border: 2px solid var(--base);
-    border-radius: 50px;
+    border-radius: 2px;
     cursor: pointer;
     transition: all var(--transition-speed) ease;
     text-decoration: none;
 }
 
 main .book-btn:hover {
-    transform: translateY(-3px);
     box-shadow: 0 10px 20px var(--shadow-color);
     border: 2px solid var(--base); 
     background-color: var(--white);
@@ -212,8 +265,7 @@ main .carousel-control-prev-icon,
 main .carousel-control-next-icon {
     width: 3rem;
     height: 3rem;
-    background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 50%;
+    border-radius: 2px;
     background-size: 50%;
 }
 
@@ -225,7 +277,7 @@ main .carousel-indicators {
 main .carousel-indicators button {
     width: 12px;
     height: 12px;
-    border-radius: 50%;
+    border-radius: 2px;
     margin: 0 5px;
     background-color: rgba(255, 255, 255, 0.7);
     border: 2px solid transparent;
@@ -243,7 +295,7 @@ main .intro-section {
     background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
     color: var(--heading);
     text-align: center;
-    border-radius: 12px;
+    border-radius: 2px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     margin-bottom: 3rem;
 }
@@ -270,7 +322,7 @@ main .intro-section .btn-primary {
     color: white;
     padding: 0.75rem 2rem;
     font-size: 1.1rem;
-    border-radius: 50px;
+    border-radius: 2px;
     text-decoration: none;
     display: inline-block;
     transition: background-color 0.3s ease;
