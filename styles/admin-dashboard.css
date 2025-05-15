@@ -8,15 +8,11 @@ body {
     flex-direction: column;
 }
 
-.dropdown-menu a:active {
-  color: var(--accent) !important;
-}
-
 * {
   font-family: var(--body-font) !important;
 }
 
-.card {
+.card, .dropdown-menu  {
   border: 1px solid var(--accent) !important;
   border-radius: 2px !important;
 }

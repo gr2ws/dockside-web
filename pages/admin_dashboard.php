@@ -145,7 +145,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])
             </a>
 
             <!-- Main Navigation -->
-            <div class="collapse navbar-collapse" id="navbarNav">
+            <!-- <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
                         <a href="#dashboard" class="nav-link" data-tab="dashboard"
@@ -173,7 +173,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])
                     </li>
 
                 </ul>
-            </div>
+            </div> -->
 
             <!-- User Menu -->
             <div class="dropdown">
@@ -185,10 +185,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])
                 <div class="dropdown-menu">
                     <span class="dropdown-header p-3">Welcome back, <?php echo $fname; ?>!</span>
                     <hr class="dropdown-divider">
-                    <a class="dropdown-item p-2 bi bi-speedometer2" href="#dashboard" data-tab="dashboard"> Dashboard</a>
-                    <a class="dropdown-item p-2 bi bi-door-open-fill" href="#reservations" data-tab="reservations"> Manage Rooms</a>
-                    <a class="dropdown-item p-2 bi bi-person-vcard" href="#userbkgs" data-tab="userbkgs"> User Bookings</a>
-                    <a class="dropdown-item p-2 bi bi-journal-bookmark-fill" href="#roombkgs" data-tab="roombkgs"> Room Bookings</a>
+                    <a class="dropdown-item p-2 bi bi-speedometer2" href="#dashboard" data-tab="dashboard" onclick="ridMessage()"> Dashboard</a>
+                    <a class="dropdown-item p-2 bi bi-door-open-fill" href="#reservations" data-tab="reservations" onclick="ridMessage()"> Manage Rooms</a>
+                    <a class="dropdown-item p-2 bi bi-person-vcard" href="#userbkgs" data-tab="userbkgs" onclick="ridMessage()"> User Bookings</a>
+                    <a class="dropdown-item p-2 bi bi-journal-bookmark-fill" href="#roombkgs" data-tab="roombkgs" onclick="ridMessage()"> Room Bookings</a>
 
                     <hr class="dropdown-divider">
                     <a class="dropdown-item text-danger p-3" href="../scripts/handle_logout.php"> Logout</a>
