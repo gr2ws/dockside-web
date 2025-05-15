@@ -64,12 +64,12 @@ hr + * {
 .service-column,
 .virtual-tour {
     background-color: #ffffff !important;
-    border-radius: 15px;
+    border-radius: 2px;
     overflow: hidden;    
     box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px,
                 rgba(17, 17, 26, 0.05) 0px 8px 32px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--accent);
 }
 
 /* Section Titles */
@@ -80,7 +80,7 @@ hr + * {
     margin: 3rem 0;
     color: var(--base);
     padding: 1rem;
-    border-radius: 15px;
+    border-radius: 2px;
 }
 
 /* Remove background for specific section titles */
@@ -102,7 +102,7 @@ hr + * {
 
 .facility-card {
     background-color: #ffffff;
-    border-radius: 8px;
+    border-radius: 2px;
     overflow: hidden;
     box-shadow: 0 4px 15px var(--card-shadow);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -150,7 +150,7 @@ hr + * {
     font-size: 1.2rem;
     border: 2px solid var(--base);
     padding: 0.8rem 1.5rem;
-    border-radius: 4px;
+    border-radius: 2px;
     background-color: rgba(255, 255, 255, 0.9);
     cursor: pointer;
     transition: all 0.3s ease;
@@ -198,12 +198,13 @@ hr + * {
     width: 60%; 
     max-width: 600px; 
     margin: 20px auto;
-    border-radius: 15px;
+    border-radius: 2px;
     overflow: hidden;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: column;
     max-height: 90vh; 
+    border: 1px solid var(--accent);
 }
 
 .facility-popup-image {
@@ -238,7 +239,7 @@ hr + * {
     top: 15px;
     width: 35px; 
     height: 35px;
-    border-radius: 50%;
+    border-radius: 2px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -256,7 +257,7 @@ hr + * {
 
 .facility-popup-details h2 {
     font: var(--heading-font);
-    font-size: 1.8rem; /* Reduced from 2rem */
+    font-size: 1.8rem; 
     color: var(--base);
     margin-bottom: 1rem;
 }
@@ -286,7 +287,7 @@ hr + * {
 .facility-feature {
     background: var(--light-bg);
     padding: 0.8rem;
-    border-radius: 8px;
+    border-radius: 2px;
     font: var(--body-font);
     font-size: 0.9rem;
     color: var(--text);
@@ -375,14 +376,14 @@ hr + * {
 
 .exp-nav-btn {
     position: absolute;
-    top: 350px;
+    top: 250px;
     transform: translateY(-50%);
     background-color: rgba(255, 255, 255, 0);
     color: var(--base);
     border: 0px solid var(--base);
     width: 50px;
     height: 50px;
-    border-radius: 50%;
+    border-radius: 2px;
     cursor: pointer;
     opacity: 0.8;
     transition: all 0.3s ease;
@@ -394,17 +395,16 @@ hr + * {
 }
 
 .exp-nav-btn:hover {
-    background-color: var(--base);
     color: var(--white);
     opacity: 1;
 }
 
 .prev-btn {
-    left: 5%;
+    left: 2%;
 }
 
 .next-btn {
-    right: 5%;
+    right: 2%;
 }
 
 /* Amenities Grid */
@@ -428,7 +428,7 @@ hr + * {
     width: 100%;
     height: 350px;
     margin-bottom: 0;
-    border-radius: 0;
+    border-radius: 2px;
 }
 
 .amenity-image img {
@@ -476,7 +476,7 @@ hr + * {
 .service-column {
     background-color: #ffffff !important;
     padding: 2.5rem;
-    border-radius: 2%;
+    border-radius: 2px;
     box-shadow: 0 4px 15px var(--card-shadow);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -586,7 +586,7 @@ hr + * {
     margin: 0 auto;
     background: white;
     padding: 2rem;
-    border-radius: 15px;
+    border-radius: 2px;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
 }
 
@@ -603,7 +603,7 @@ hr + * {
     align-items: center;
     justify-content: center;
     background: white;
-    border-radius: 50%;
+    border-radius: 2px;
     transition: all 0.3s ease;
 }
 
@@ -623,7 +623,7 @@ hr + * {
 .gallery-item {
     position: relative;
     overflow: hidden;
-    border-radius: 10px;
+    border-radius: 2px;
     box-shadow: 0 4px 15px var(--card-shadow);
     transition: transform 0.3s ease;
 }
@@ -675,11 +675,6 @@ hr + * {
     .gallery-item img {
         height: 250px;
     }
-}
-
-/* Container Spacing */
-.container {
-    padding: 2rem;
 }
 
 /* Animations */
