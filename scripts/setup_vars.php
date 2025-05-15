@@ -31,7 +31,7 @@ function getDbConfig()
 
     # default local database configuration
     return [
-        'servername' => 'localhost:3306',
+        'servername' => '127.0.0.1:3306',
         // 'servername' => '127.0.0.1:3307',
         'username'   => 'root',
         'password'   => '',
