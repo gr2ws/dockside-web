@@ -29,9 +29,9 @@
 }
 
 .alert-info {
-	background-color: rgba(209, 236, 241, 0.95);
-	border: 1px solid #bee5eb;
-	color: #0c5460;
+	background-color: var(--background);
+	border: 1px solid var(--base);
+	color: var(--text);
 }
 
 h1 {

@@ -20,15 +20,15 @@ main {
 }
 
 .cancel-warning {
-	color: #721c24;
-	background-color: #f8d7da;
-	border-color: #f5c6cb;
+	color: var(--text);
+	background-color: rgba(0, 89, 97, 0.1);
+	border-color: var(--base);
 }
 
 .rebook-info {
-	color: #0c5460;
-	background-color: #d1ecf1;
-	border-color: #bee5eb;
+	color: var(--text);
+	background-color: var(--background);
+	border-color: var(--accent);
 }
 
 /* Button styling */
@@ -68,15 +68,17 @@ main {
 }
 
 .alert-warning {
-	color: #856404;
-	background-color: #fff3cd;
-	border-color: #ffeeba;
+	color: var(--text);
+	background-color: rgba(131, 197, 190, 0.15);
+	border-color: var(--accent);
+	border-left: 4px solid var(--accent);
 }
 
 .alert-info {
-	color: #0c5460;
-	background-color: #d1ecf1;
-	border-color: #bee5eb;
+	color: var(--text);
+	background-color: var(--background);
+	border-color: var(--base);
+	border-left: 4px solid var(--base);
 }
 
 /* Responsive adjustments */

@@ -10,3 +10,106 @@
 	--subheading-font: normal normal 600 1rem/1.5 "Cormorant Garamond", serif;
 	--body-font: normal normal 300 1rem/1.6 "Inter", sans-serif;
 }
+
+/* Alert Styling */
+
+/* Common alert properties */
+.alert:not(.p-4) {
+	backdrop-filter: blur(3px);
+	-webkit-backdrop-filter: blur(3px); /* Safari support */
+}
+
+/* Success alerts (green) */
+.alert-success:not(.p-4) {
+	color: var(--text);
+	background-color: rgba(130, 208, 148, 0.15);
+	border-color: rgba(130, 208, 148, 1);
+	border-left: 4px solid rgba(130, 208, 148, 1);
+}
+
+/* Danger alerts (red) */
+.alert-danger:not(.p-4) {
+	color: var(--text);
+	background-color: rgba(178, 87, 93, 0.12);
+	border-color: rgba(178, 87, 93, 1);
+	border-left: 4px solid rgba(178, 87, 93, 1);
+}
+
+/* Warning alerts (yellow) */
+.alert-warning:not(.p-4) {
+	color: var(--text);
+	background-color: rgba(225, 204, 154, 0.15);
+	border-color: rgba(225, 204, 154, 1);
+	border-left: 4px solid rgba(225, 204, 154, 1);
+}
+
+/* Info alerts (blue) */
+.alert-info:not(.p-4) {
+	color: var(--text);
+	background-color: rgba(237, 246, 249, 0.9);
+	border-color: var(--base);
+	border-left: 4px solid var(--base);
+}
+
+/* Close button styling */
+.btn-close {
+	opacity: 0.8;
+}
+
+.btn-close:focus {
+	box-shadow: 0 0 0 0.25rem rgba(0, 89, 97, 0.25);
+}
+
+/* Alert links */
+.alert-success a,
+.alert-danger a,
+.alert-warning a,
+.alert-info a {
+	color: var(--base);
+	font-weight: 500;
+	text-decoration: underline;
+}
+
+.alert-success a:hover,
+.alert-danger a:hover,
+.alert-warning a:hover,
+.alert-info a:hover {
+	color: rgba(0, 89, 97, 0.8);
+}
+
+/* Alert headings */
+.alert-heading {
+	color: var(--base);
+	font-family: var(--body-font);
+	font-weight: 500;
+}
+
+/* Styles for alerts with p-4 class (alerts with headers) */
+.alert.p-4.alert-success {
+	background-color: rgba(130, 208, 148, 0.2);
+	border-color: rgba(130, 208, 148, 0.8);
+	color: var(--text);
+}
+
+.alert.p-4.alert-danger {
+	background-color: rgba(178, 87, 93, 0.15);
+	border-color: rgba(178, 87, 93, 0.8);
+	color: var(--text);
+}
+
+.alert.p-4.alert-warning {
+	background-color: rgba(225, 204, 154, 0.2);
+	border-color: rgba(225, 204, 154, 0.8);
+	color: var(--text);
+}
+
+.alert.p-4.alert-info {
+	background-color: rgba(237, 246, 249, 0.95);
+	border-color: var(--base);
+	color: var(--text);
+}
+
+/* Alert icons spacing */
+.alert .bi {
+	margin-right: 0.5rem;
+}

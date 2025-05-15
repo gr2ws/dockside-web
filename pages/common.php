@@ -18,6 +18,9 @@
     rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
 
+<!-- Custom Styles (must come after Bootstrap CSS) -->
+<link rel="stylesheet" href="../styles/custom-alerts.css">
+
 <!-- Put all component styles here -->
 
 <link rel="stylesheet" href="../styles/header.css">
