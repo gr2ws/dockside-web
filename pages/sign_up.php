@@ -126,13 +126,13 @@ $redirect = isset($_GET['redirect']) ? $_GET['redirect'] : '';
 
 					<i class=" align-self-center text-center px-5 my-1">
 						<small id="emailHelp" class="form-text text-muted">Have an account?</small>
-						<a href="./login.php" class="text-muted">Log in here!</a></i>
+						<a href="../login.php" class="text-muted">Log in here!</a></i>
 					<i class="align-self-center text-center px-5 mt-1 mb-3">
 						<small id="emailHelp" class="form-text text-muted">To proceed, you must read the
 							<a
 								type="button"
 								id="show-terms"
-								href="./terms.php"
+								href="../terms.php"
 								class="text-muted">
 								<i><u>Terms and Conditions</u></i>
 							</a>
