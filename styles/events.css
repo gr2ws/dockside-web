@@ -58,7 +58,7 @@
 }
 
 #headingevents {
-    font-size: 25px;
+    font-size: 40px;
 }
 
 .slider {
@@ -99,28 +99,19 @@
     max-width: 800px;
 }
 
-/* Events Container */
-.events-container {
-    position: relative;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 40px 20px;
-    z-index: 1;
-}
-
 /* Special Events Section */
 .special-events {
     text-align: center;
-    background-color: var(--accent);
-    color: #ffffff;
-    padding: 30px 20px;
-    margin-bottom: 40px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    color: var(--base);
+    max-width: 1000px;
+    margin: 0 auto;
+    padding-top: 60px;
+    padding-bottom: 10px;
 }
 
 .special-events h2 {
     font: var(--subheading-font);
+    font-size: 1.5em;
     margin-bottom: 15px;
     display: flex;
     align-items: center;
@@ -130,8 +121,11 @@
 
 .special-events p {
     font: var(--body-font);
+    font-size: 1.2em;
     margin: 0;
 }
+
+
 
 /* Event List Container and Navigation */
 .event-list-container {
@@ -156,7 +150,7 @@
     width: 40px;
     height: 40px;
     border: none;
-    border-radius: 50%;
+    border-radius: 2px;
     color: var(--base);
     cursor: pointer;
     display: flex;
@@ -181,12 +175,12 @@
 
 /* Event Card */
 .event-card {
-    min-width: calc(33.333% - 20px);
-    flex: 0 0 calc(33.333% - 20px);
+    min-width: calc(32%);
+    flex: 0 0 calc(25vh);
     background-color: #ffffff;
-    border-radius: 8px;
+    border-radius: 2px;
     overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.1);
     transition: transform 0.3s, box-shadow 0.3s;
     display: flex;
     flex-direction: column;
@@ -247,10 +241,11 @@
     color: white;
     border: none;
     padding: 10px 20px;
-    border-radius: 4px;
+    border-radius: 2px;
     cursor: pointer;
     transition: background-color 0.3s;
     font: var(--body-font);
+    text-decoration: none;
 }
 
 .book-now:hover {
@@ -261,15 +256,14 @@
 .upcoming-events-section {
     margin-top: 40px;
     padding: 40px 20px;
-    background-color: white;
-    border-radius: 8px;
+    border-radius: 2px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
 
 .upcoming-events-section h2 {
     font: var(--heading-font);
-    color: var(--text);
+    color: var(--base);
     margin-bottom: 30px;
 }
 
@@ -284,7 +278,7 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    border-radius: 8px;
+    border-radius: 2px;
     overflow: hidden;
     height: 250px;
     cursor: pointer;
@@ -338,11 +332,18 @@
 
 /* Events & Convention Center */
 .events-convention {
+    position: relative;
+    max-width: 1200px;
+    margin: 40px auto;
     background-color: #ffffff;
-    padding: 40px;
-    border-radius: 8px;
+    padding: 40px 20px;
+    border-radius: 2px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin: 40px 0;
+}
+
+.events-convention .container-wrapper {
+    margin: 0 auto;
+    padding: 0 20px;
 }
 
 .events-convention h2 {
@@ -352,7 +353,7 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
-    color: var(--text);
+    color: var(--base);
 }
 
 .events-convention p {
@@ -376,7 +377,7 @@
 .feature {
     background-color: var(--background);
     padding: 30px;
-    border-radius: 8px;
+    border-radius: 2px;
     text-align: center;
     transition: transform 0.3s, box-shadow 0.3s;
 }

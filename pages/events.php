@@ -8,12 +8,10 @@
     <link rel="stylesheet" href="../styles/events.css" />
     <?php require 'common.php'; ?>
 </head>
+    <?php placeHeader() ?>
 
 <body>
-    <class="main-wrapper">
-        <?php placeHeader() ?>
-        <?php placeBookingHeader() ?>
-
+    <div class="main-wrapper">
         <section class="background-pattern">
             <section class="hero-section">
                 <div class="hero-slider">
@@ -42,9 +40,10 @@
                 </div>
             </section>
 
-            <main class="events-container">
+        <!-- Special Events Section -->
+            <main>
                 <section class="special-events">
-                    <h2 id="headingevents"><i class="bi bi-calendar-event"></i> Host Your Special Events</h2>
+                    <h2 id="headingevents"></i> Host Your Special Events</h2>
                     <p>Host your special events in our versatile spaces, perfect for weddings, corporate meetings, and social gatherings.</p>
                 </section>
 
@@ -53,6 +52,7 @@
                         <i class="bi bi-chevron-left"></i>
                     </button>
                     
+                    <!-- Event List -->
                     <div class="event-list">
                         <article class="event-card">
                             <img src="../assets/events/jazz-night.jpg" alt="Event 1" />
@@ -63,7 +63,7 @@
                                     <p class="date"><strong>Date:</strong> May 15th, 2025</p>
                                 </div>
                                 <div class="actions">
-                                    <button class="book-now">Book Now</button>
+                                    <a class="book-now" href="booking.php">Book Now</a>
                                 </div>
                             </div>
                         </article>
@@ -76,7 +76,7 @@
                                     <p class="date"><strong>Date:</strong> May 22nd, 2025</p>
                                 </div>
                                 <div class="actions">
-                                    <button class="book-now">Book Now</button>
+                                    <a class="book-now" href="booking.php">Book Now</a>
                                 </div>
                             </div>
                         </article>
@@ -89,7 +89,7 @@
                                     <p class="date"><strong>Date:</strong> June 5th, 2025</p>
                                 </div>
                                 <div class="actions">
-                                    <button class="book-now">Book Now</button>
+                                    <a class="book-now" href="booking.php">Book Now</a>
                                 </div>
                             </div>
                         </article>
@@ -102,7 +102,7 @@
                                     <p class="date"><strong>Date:</strong> June 12th, 2025</p>
                                 </div>
                                 <div class="actions">
-                                    <button class="book-now">Book Now</button>
+                                    <a class="book-now" href="booking.php">Book Now</a>
                                 </div>
                             </div>
                         </article>
@@ -115,7 +115,7 @@
                                     <p class="date"><strong>Date:</strong> June 19th, 2025</p>
                                 </div>
                                 <div class="actions">
-                                    <button class="book-now">Book Now</button>
+                                    <a class="book-now" href="booking.php">Book Now</a>
                                 </div>
                             </div>
                         </article>
@@ -128,7 +128,7 @@
                                     <p class="date"><strong>Date:</strong> June 25th, 2025</p>
                                 </div>
                                 <div class="actions">
-                                    <button class="book-now">Book Now</button>
+                                    <a class="book-now" href="booking.php">Book Now</a>
                                 </div>
                             </div>
                         </article>
@@ -139,41 +139,45 @@
                     </button>
                 </section>
 
+                <!-- Events and Convention Center Section -->
                 <section class="events-convention">
-                    <h2><i class="bi bi-building"></i> Events & Convention Center</h2>
-                    <p>Perfect for hosting unforgettable experiences for up to 300 guests.</p>
-                    <div class="features-grid">
-                        <div class="feature">
-                            <i class="bi bi-people-fill"></i>
-                            <h3>Capacity</h3>
-                            <p>Up to 300 guests</p>
-                        </div>
-                        <div class="feature">
-                            <i class="bi bi-camera-video-fill"></i>
-                            <h3>State-of-the-Art Audiovisual Equipment</h3>
-                            <p>Advanced technology to ensure your event runs smoothly.</p>
-                        </div>
-                        <div class="feature">
-                            <i class="bi bi-egg-fried"></i>
-                            <h3>Customizable Catering Options</h3>
-                            <p>Delicious and tailored menus to suit every occasion.</p>
-                        </div>
-                        <div class="feature">
-                            <i class="bi bi-person-badge-fill"></i>
-                            <h3>Dedicated Event Coordinator</h3>
-                            <p>Professional support to make your event seamless.</p>
-                        </div>
-                        <div class="feature">
-                            <i class="bi bi-house"></i>
-                            <h3>Versatile Spaces</h3>
-                            <p>Perfect for weddings, corporate meetings, and social gatherings.</p>
+                    <div class="container-wrapper">
+                        <h2><i class="bi bi-building"></i> Events & Convention Center</h2>
+                        <p>Perfect for hosting unforgettable experiences for up to 300 guests.</p>
+                        <div class="features-grid">
+                            <div class="feature">
+                                <i class="bi bi-people-fill"></i>
+                                <h3>Capacity</h3>
+                                <p>Up to 300 guests</p>
+                            </div>
+                            <div class="feature">
+                                <i class="bi bi-camera-video-fill"></i>
+                                <h3>State-of-the-Art Audiovisual Equipment</h3>
+                                <p>Advanced technology to ensure your event runs smoothly.</p>
+                            </div>
+                            <div class="feature">
+                                <i class="bi bi-egg-fried"></i>
+                                <h3>Customizable Catering Options</h3>
+                                <p>Delicious and tailored menus to suit every occasion.</p>
+                            </div>
+                            <div class="feature">
+                                <i class="bi bi-person-badge-fill"></i>
+                                <h3>Dedicated Event Coordinator</h3>
+                                <p>Professional support to make your event seamless.</p>
+                            </div>
+                            <div class="feature">
+                                <i class="bi bi-house"></i>
+                                <h3>Versatile Spaces</h3>
+                                <p>Perfect for weddings, corporate meetings, and social gatherings.</p>
+                            </div>
                         </div>
                     </div>
                 </section>
             </main>
 
+            <!-- More Upcoming Events Section -->
                 <section class="upcoming-events-section">
-                    <h2>More Upcoming Events</h2>
+<h2><i class="bi bi-calendar-event"></i> More Upcoming Events</h2>
                     <div class="upcoming-events-grid">
                         <div class="upcoming-event-card large" style="background-image: url('../assets/events/car-show.jpg');">
                             <div class="overlay">
