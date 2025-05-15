@@ -55,6 +55,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['roomedit_submit'])) {
     exit(); // Redirect to the same page to avoid resubmission;
 }
 
+// Fetch active bookings for today
+$todaysBookings = [];
+$todayCount = 0;
+$result = getTodaysBookings();
+$todaysBookings = $result['data'];
+$todayCount = $result['count'];
+
 // Process user booking history search (works ok)
 $userBookings = [];
 $userSearchError = '';
@@ -128,9 +135,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])
     <!-- Header Navigation -->
     <nav class="header-nav navbar navbar-expand-md shadow-sm">
         <div class="container">
-            <button type="button" class="mobile-menu-btn d-xs-block d-sm-block d-md-none" id="mobileMenuToggle">
+            <!-- <button type="button" class="mobile-menu-btn d-xs-block d-sm-block d-md-none" id="mobileMenuToggle">
                 <i class="bi-list"></i>
-            </button>
+            </button> -->
 
             <a class="nav-hotel-name" href="index.html">
                 Dockside Hotel
@@ -181,7 +188,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])
                     <a class="dropdown-item p-2 bi bi-speedometer2" href="#dashboard" data-tab="dashboard"> Dashboard</a>
                     <a class="dropdown-item p-2 bi bi-door-open-fill" href="#reservations" data-tab="reservations"> Manage Rooms</a>
                     <a class="dropdown-item p-2 bi bi-person-vcard" href="#userbkgs" data-tab="userbkgs"> User Bookings</a>
-                    <a class="dropdown-item p-2 bi bi-journal-bookmark-fill" href="#userbkgs" data-tab="userbkgs"> Room Bookings</a>
+                    <a class="dropdown-item p-2 bi bi-journal-bookmark-fill" href="#roombkgs" data-tab="roombkgs"> Room Bookings</a>
 
                     <hr class="dropdown-divider">
                     <a class="dropdown-item text-danger p-3" href="../scripts/handle_logout.php"> Logout</a>
@@ -230,7 +237,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])
 
 
 
-                                        foreach ($userBookings as $booking): ?>
+                                        foreach ($todaysBookings as $booking): ?>
                                             <tr>
                                                 <td><?php echo htmlspecialchars($booking['bkg_id']); ?></td>
                                                 <td><?php echo htmlspecialchars($booking['pers_id']); ?></td>
@@ -247,14 +254,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])
                             </div>
                         </div>
                     </div>
+
+                    <div class="py-3">
+                        <p> Total: <?php echo isset($todayCount) ? $todayCount : "-"; ?> bookings found. </p>
+                    </div>
                 </div>
 
                 <!-- Manage Room Section -->
-                <div class="content-section d-none" id="reservations-content">
+                <div class=" content-section d-none" id="reservations-content">
                     <div class=" container-fluid">
 
                         <section id="manage-rooms" class="w-100 card shadow-sm p-4 mb-4">
-                            <h2>Manage Rooms</h2>
+                            <h2 class="card-title">Manage Rooms</h2>
                             <p>Manage room types, capacity, and availability here.</p>
 
                             <hr>
@@ -310,10 +321,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])
 
                 <!-- User Booking History Section -->
                 <div class="content-section d-none container-fluid" id="userbkgs-content">
-                    <div class="card shadow-sm mb-4">
+                    <div class="card shadow-sm p-2 mb-4">
                         <div class="card-body">
-                            <h2 class="card-title border-bottom pb-2">User Booking History</h2>
-                            <p>Search for a user's booking history by entering their ID below.</p>
+
+                            <h2 class="card-title">User Booking History</h2>
+                            <p>Search for a user's booking history by entering their ID below</p>
+
+                            <hr class="mt-4">
 
                             <form method="POST" action="./admin_dashboard.php#userbkgs" class="row g-3 align-items-end mb-4">
                                 <div class="col-md-8">
@@ -380,10 +394,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])
 
                 <!-- Room Booking History Section -->
                 <div class="content-section d-none container-fluid" id="roombkgs-content">
-                    <div class="card shadow-sm mb-4">
+                    <div class="card shadow-sm p-2 mb-4">
                         <div class="card-body">
-                            <h2 class="card-title border-bottom pb-2">Room Booking History</h2>
+                            <h2 class="card-title">Room Booking History</h2>
                             <p>Search for a room's booking history by entering the room ID below.</p>
+
+                            <hr class="mt-4">
 
                             <form method="POST" action="./admin_dashboard.php#roombkgs" class="row g-3 align-items-end mb-4">
                                 <div class="col-md-8">
@@ -450,7 +466,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="../scripts/admin_dbutil.js"></script>
-    <!-- <script src="../scripts/mobileNav.js"></script> -->
     <script>
         window.addEventListener('DOMContentLoaded', () => {
             const type = "<?php echo $type ?? ''; ?>";

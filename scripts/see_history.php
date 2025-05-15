@@ -77,7 +77,7 @@ function getRoomBookingHistory($roomId)
     ];
 }
 
-function getActiveBookings()
+function getTodaysBookings()
 {
     $dbConfig = getDbConfig();
     $conn = new mysqli($dbConfig['servername'], $dbConfig['username'], $dbConfig['password'], $dbConfig['dbname']);
@@ -90,7 +90,7 @@ function getActiveBookings()
     // Get today's date in Y-m-d format
     $today = date('Y-m-d');
 
-    $query = "
+    $SQLcommand = "
         SELECT 
             b.bkg_id, 
             b.bkg_datein, 
@@ -101,31 +101,31 @@ function getActiveBookings()
             r.room_capacity, 
             r.room_price,
             p.pers_id,
-            CONCAT(p.pers_fname, ' ', p.pers_lname) AS guest_name
+            CONCAT(p.pers_fname, ' ', p.pers_lname) AS full_name
         FROM booking b
         JOIN room r ON b.room_id = r.room_id
         JOIN person p ON b.pers_id = p.pers_id
-        WHERE (b.bkg_datein = :today OR 
-              (b.bkg_datein <= :today AND b.bkg_dateout >= :today))
-        ORDER BY b.bkg_datein ASC
+        WHERE (b.bkg_datein = ? OR 
+              (b.bkg_datein <= ? AND b.bkg_dateout >= ?))
+        ORDER BY b.bkg_id ASC
     ";
 
-
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("i", $roomId);
+    $stmt = $conn->prepare($SQLcommand);
+    $stmt->bind_param("sss", $today, $today, $today);
     $stmt->execute();
     $result = $stmt->get_result();
 
-    $bookings = [];
+    $todayBookings = [];
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
-            $bookings[] = $row;
+            $todayBookings[] = $row;
         }
     }
 
     $conn->close();
+
     return [
-        'count' => count($bookings),
-        'data' => $bookings
+        'count' => count($todayBookings),
+        'data' => $todayBookings
     ];
 }

@@ -1,3 +1,4 @@
+@import url('./global.css');
 
 /* Main Layout */
 
@@ -5,6 +6,19 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+}
+
+.dropdown-menu a:active {
+  color: var(--accent) !important;
+}
+
+* {
+  font-family: var(--body-font) !important;
+}
+
+.card {
+  border: 1px solid var(--accent) !important;
+  border-radius: 2px !important;
 }
 
 /* Header Styles */
