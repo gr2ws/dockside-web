@@ -37,12 +37,10 @@ function calculateTotalPrice($checkinDate, $checkoutDate, $roomId)
     return $totalWithFees;
 }
 
-// Get query parameters  [TO REMOVE] - will be replaced with session-based approach
+// Get query parameters
 $checkinDate = isset($_GET['checkin']) ? $_GET['checkin'] : '';
 $checkoutDate = isset($_GET['checkout']) ? $_GET['checkout'] : '';
 $roomType = isset($_GET['room_type']) ? $_GET['room_type'] : '';
-$selectedRoomParam = isset($_GET['selected_room']) ? $_GET['selected_room'] : '';
-$confirmIntent = isset($_GET['confirm_intent']) ? $_GET['confirm_intent'] : '';
 
 // Check if user has logged in or signed up with pending booking details in session
 if (isset($_SESSION['id']) && isset($_SESSION['pending_booking_details']) && !isset($_POST['confirm_booking'])) {
@@ -57,24 +55,10 @@ if (isset($_SESSION['id']) && isset($_SESSION['pending_booking_details']) && !is
 
     // Set flag to not show auth modal since user is authenticated
     $_SESSION['from_booking_flow'] = true;
-
-    // Don't clear the session variables yet - wait until booking is successfully processed
 }
 
-// [TO REMOVE] - Old URL parameter logic
-if ($confirmIntent == '1' && $selectedRoomParam && isset($_SESSION['id'])) {
-    // We'll auto-process the booking in the processing section below
-    // This flag helps us know this request came directly after login
-    $_SESSION['just_logged_in_for_booking'] = true;
-}
-
-// [REMOVED] - Old URL parameter handling
-
-// [REMOVED] - Login redirect with URL parameters
-
-// Only check authentication when submitting the form or selecting a room
-// Don't check during search as we want users to be able to search first
 $needAuth = false;
+
 if (isset($_POST['check_auth'])) {
     $isLoggedIn = isset($_SESSION['id']) && !empty($_SESSION['id']) && is_numeric($_SESSION['id']);
     if (!$isLoggedIn) {
@@ -93,7 +77,6 @@ if (isset($_POST['check_auth'])) {
     }
 }
 
-// Legacy code - to be removed after full migration to new system
 if (isset($_SESSION['id']) && isset($_SESSION['pending_booking']) && !isset($_POST['confirm_booking'])) {
     // Auto-submit the form with the pending booking details
     $_SERVER["REQUEST_METHOD"] = "POST";
@@ -378,44 +361,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_booking'])) {
                 <div class="room-selection-section mb-5">
                     <h3 class="mb-4">Available Rooms</h3>
                     <div class="row row-cols-1 row-cols-md-2 g-4">
-<?php foreach ($availableRooms as $room): ?>
-    <div class="col">
-        <div class="card h-100">
-            <?php
-                // Map room types to the correct image filenames in assets folder
-                switch ($room['room_type']) {
-                    case 'Presidential Suite':
-                        $roomImageFile = 'presidential.jpg';
-                        break;
-                    case 'Executive Suite':
-                        $roomImageFile = 'executive.jpg';
-                        break;
-                    case 'Deluxe Room':
-                        $roomImageFile = 'deluxe.jpg';
-                        break;
-                    case 'Standard Room':
-                    default:
-                        $roomImageFile = 'standard.jpg';
-                        break;
-                }
-                $roomImagePath = "../assets/" . $roomImageFile;
-            ?>
-            <img src="<?php echo $roomImagePath; ?>" class="card-img-top" alt="<?php echo $room['room_type']; ?>">
-            <div class="card-body py-2 px-3">
-                <h5 class="card-title mb-1"><?php echo $room['room_type']; ?></h5>
-                <p class="card-text mb-1">Room #<?php echo $room['room_id']; ?></p>
-                <p class="card-text mb-1">Capacity: <?php echo $room['room_capacity']; ?> guests</p>
-                <p class="card-text fw-bold mb-2">₱<?php echo number_format($room['room_price'], 2); ?> per night</p>
+                        <?php foreach ($availableRooms as $room): ?>
+                            <div class="col">
+                                <div class="card h-100">
+                                    <?php
+                                                                        // Map room types to the correct image filenames in assets folder
+                                                                        switch ($room['room_type']) {
+                                                                            case 'Presidential Suite':
+                                                                                $roomImageFile = 'presidential.jpg';
+                                                                                break;
+                                                                            case 'Executive Suite':
+                                                                                $roomImageFile = 'executive.jpg';
+                                                                                break;
+                                                                            case 'Deluxe Room':
+                                                                                $roomImageFile = 'deluxe.jpg';
+                                                                                break;
+                                                                            case 'Standard Room':
+                                                                            default:
+                                                                                $roomImageFile = 'standard.jpg';
+                                                                                break;
+                                                                        }
+                                                                        $roomImagePath = "../assets/" . $roomImageFile;
+                                    ?>
+                                    <img src="<?php echo $roomImagePath; ?>" class="card-img-top" alt="<?php echo $room['room_type']; ?>">
+                                    <div class="card-body py-2 px-3">
+                                        <h5 class="card-title mb-1"><?php echo $room['room_type']; ?></h5>
+                                        <p class="card-text mb-1">Room #<?php echo $room['room_id']; ?></p>
+                                        <p class="card-text mb-1">Capacity: <?php echo $room['room_capacity']; ?> guests</p>
+                                        <p class="card-text fw-bold mb-2">₱<?php echo number_format($room['room_price'], 2); ?> per night</p>
 
-                <?php if (!empty($checkinDate) && !empty($checkoutDate)): ?>
-                    <a href="booking.php?checkin=<?php echo $checkinDate; ?>&checkout=<?php echo $checkoutDate; ?>&room_type=<?php echo urlencode($room['room_type']); ?>&selected_room=<?php echo $room['room_id']; ?>" class="btn btn-outline-primary btn-sm">Select Room</a>
-                <?php else: ?>
-                    <div class="text-warning small">Please select dates to book this room</div>
-                <?php endif; ?>
-            </div>
-        </div>
-    </div>
-<?php endforeach; ?>
+                                        <?php if (!empty($checkinDate) && !empty($checkoutDate)): ?>
+                                            <a href="booking.php?checkin=<?php echo $checkinDate; ?>&checkout=<?php echo $checkoutDate; ?>&room_type=<?php echo urlencode($room['room_type']); ?>&selected_room=<?php echo $room['room_id']; ?>" class="btn btn-outline-primary btn-sm">Select Room</a>
+                                        <?php else: ?>
+                                            <div class="text-warning small">Please select dates to book this room</div>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             <?php elseif (isset($_GET['checkin']) || isset($_GET['checkout']) || isset($_GET['room_type'])): ?>
