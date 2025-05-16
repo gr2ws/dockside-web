@@ -138,21 +138,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 				</form>
 			</section>
 		</div>
-	</div> <?php placeFooter() ?>
 
-	<!-- Flatpickr JavaScript -->
-	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-	<script>
-		document.addEventListener('DOMContentLoaded', function() {
-			// Initialize birthday date picker with max date of today
-			flatpickr("#birth", {
-				maxDate: "today",
-				altInput: true,
-				altFormat: "F j, Y",
-				dateFormat: "Y-m-d"
+		<!-- Flatpickr JavaScript -->
+		<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+		<script>
+			document.addEventListener('DOMContentLoaded', function() {
+				// Initialize birthday date picker with max date of today
+				flatpickr("#birth", {
+					maxDate: "today",
+					altInput: true,
+					altFormat: "F j, Y",
+					dateFormat: "Y-m-d"
+				});
 			});
-		});
-	</script>
+		</script>
+	</div> <?php placeFooter() ?>
 </body>
 
 </html>
