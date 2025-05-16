@@ -11,9 +11,8 @@
 </head>
 
 <body>
-
-<?php placeHeader() ?>
-<?php placeBookingHeader() ?>
+    <?php placeHeader() ?>
+    <?php placeBookingHeader() ?>
 
     <main id="main-content">
         <div class="body-image">
@@ -51,7 +50,7 @@
                                 </div>
                             </div>
                             <div class="facility-content">
-<h2><i class="bi bi-stars me-2"></i>Luxury Spa</h2>
+                                <h2><i class="bi bi-stars me-2"></i>Luxury Spa</h2>
                                 <p>Indulge in our signature treatments and holistic wellness experiences.</p>
                             </div>
                         </article>
@@ -71,7 +70,8 @@
                     </div>
                 </section>
 
-                <br><hr><br>
+                <br>
+                <hr><br>
 
                 <!-- Amenities Showcase -->
                 <section class="amenities-showcase">
@@ -91,7 +91,7 @@
                                 <img src="../assets/priv-beach.jpg" alt="Private Beach" loading="lazy" />
                             </div>
                             <div class="amenity-content">
-<h3><i class="bi bi-umbrella me-2"></i>Private Beach</h3>
+                                <h3><i class="bi bi-umbrella me-2"></i>Private Beach</h3>
                                 <p>Escape to our secluded private beach and unwind in luxurious premium cabanas. Enjoy dedicated butler service as you soak in the tranquility of the shoreline. Experience unparalleled seaside indulgence.</p>
                             </div>
                         </div>
@@ -109,7 +109,7 @@
                                 <img src="../assets/yacht.jpg" alt="Yacht Services" loading="lazy" />
                             </div>
                             <div class="amenity-content">
-<h3><i class="bi bi-water me-2"></i>Yacht Services</h3>
+                                <h3><i class="bi bi-water me-2"></i>Yacht Services</h3>
                                 <p>Embark on unforgettable voyages from our exclusive private marina. Discover unparalleled freedom with our luxury yacht charters, tailored to your desires for the ultimate maritime experience.</p>
                             </div>
                         </div>
@@ -147,7 +147,7 @@
                     </div>
                 </div>
             </section>
-            
+
             <div class="container"> <!-- Reopen container -->
                 <!-- Premium Services Section -->
                 <section class="luxury-services">
@@ -175,7 +175,8 @@
                         </div>
                     </div>
                 </section>
-                <br><hr><br>
+                <br>
+                <hr><br>
                 <!-- Gallery Section -->
                 <section class="virtual-tour">
                     <div class="tour-content">
@@ -240,4 +241,5 @@
     <?php placeFooter() ?>
     <script src="../scripts/faci.js"></script>
 </body>
+
 </html>

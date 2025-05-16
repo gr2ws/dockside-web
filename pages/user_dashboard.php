@@ -196,6 +196,10 @@ $pass = $_SESSION['pass'];
                     </div>
                 </div>
 
+
+                <!-- Bookings Today Section -->
+                <div class="content-section d-none" id="today-content">
+
                 <!-- Booking History Section -->
                 <div class="content-section d-none" id="history-content">
                     <div class="card shadow-sm">

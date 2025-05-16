@@ -86,7 +86,22 @@ document.addEventListener("DOMContentLoaded", function () {
 	}
 });
 
-// Function to remove alert messages when switching tabs
+async function loadReservations() {
+    try {
+        const response = await fetch('php/get_user_reservations.php');
+        const data = await response.json();
+
+        if (data.success) {
+            displayReservations(data.reservations);
+        } else {
+            throw new Error(data.message);
+        }
+    } catch (error) {
+        console.error('Error loading reservations:', error);
+        // Handle error display
+    }
+
+  // Function to remove alert messages when switching tabs
 function ridMessage() {
 	if (document.querySelector(".alert")) {
 		document.querySelector(".alert").classList.remove("d-flex");

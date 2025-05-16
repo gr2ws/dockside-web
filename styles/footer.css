@@ -41,6 +41,30 @@ footer * {
 	transition: 0.1s ease-in-out;
 }
 
+.footer-dpd {
+	width: 250px !important;
+	background-color: rgba(255, 255, 255, 0.9) !important;
+	backdrop-filter: blur(7px);
+	border: solid 1px var(--accent) !important;
+	border-radius: 3px !important;
+}
+
+.footer-dpd a.dropdown-item {
+	font: var(--body-font) !important;
+	padding: 0.75rem;
+	color: var(--text);
+}
+
+.footer-dpd a.dropdown-item:hover {
+	background-color: rgba(255, 255, 255, 0) !important;
+	color: var(--base) !important;
+}
+
+.footer-dpd .dropdown-item:active {
+	background-color: rgba(var(--base-rgb), 0.1) !important;
+	color: var(--base) !important;
+}
+
 .footer-list-cont {
 	padding-left: 0.6rem;
 	color: white;
@@ -126,8 +150,8 @@ a.cpr-link:hover {
 
 @media (min-width: 992px) {
 	.footer-dpd {
-		position: fixed !important;
-		margin-top: -30px !important;
+		height: 210px !important;
+		top: -12px !important;
 		left: 175px !important;
 	}
 }

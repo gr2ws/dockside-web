@@ -89,7 +89,7 @@
                             </div>
                             <div class="room-pricing">
                                 <span class="price">From ₱25,000 per night</span>
-                                <a class="book-btn" href="/pages/booking.php?room_type=Presidential+Suite">Book Now</a>
+                                <a class="book-btn" href="../pages/booking.php?room_type=Presidential+Suite">Book Now</a>
                             </div>
                         </div>
                     </div>
@@ -131,7 +131,7 @@
                             </div>
                             <div class="room-pricing">
                                 <span class="price">From ₱18,500 per night</span>
-                                <a class="book-btn" href="/pages/booking.php?room_type=Executive+Suite">Book Now</a>
+                                <a class="book-btn" href="../pages/booking.php?room_type=Executive+Suite">Book Now</a>
                             </div>
                         </div>
                     </div>
@@ -162,7 +162,7 @@
                             </div>
                             <div class="room-pricing">
                                 <span class="price">From ₱15,000 per night</span>
-                                <a class="book-btn" href="/pages/booking.php?room_type=Deluxe+Room">Book Now</a>
+                                <a class="book-btn" href="../pages/booking.php?room_type=Deluxe+Room">Book Now</a>
                             </div>
                         </div>
                     </div>
@@ -201,7 +201,7 @@
                             </div>
                             <div class="room-pricing">
                                 <span class="price">From ₱11,000 per night</span>
-                                <a class="book-btn" href="/pages/booking.php?room_type=Standard+Room">Book Now</a>
+                                <a class="book-btn" href="../pages/booking.php?room_type=Standard+Room">Book Now</a>
                             </div>
                         </div>
                     </div>
