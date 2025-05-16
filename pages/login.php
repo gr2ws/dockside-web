@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="alert alert-info d-flex align-items-center mb-3 mt-3 w-100 max-w-md" role="alert">
                 <i class="bi bi-info-circle me-2"></i>
                 <div>
-                    <strong>Please Note:</strong> You must be logged in to book a room online. Please log in below to continue with your booking.
+                    <strong>Please Note:</strong> Log in below to continue with your booking.
                 </div>
             </div>
         <?php

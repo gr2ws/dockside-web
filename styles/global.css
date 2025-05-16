@@ -31,7 +31,7 @@ h6 {
 /* Success alerts (green) */
 .alert-success:not(.p-4) {
 	color: rgb(46, 83, 54);
-	background-color: rgba(140, 222, 159, 0.7);
+	background-color: rgb(144, 211, 160);
 	border-color: rgb(46, 83, 54);
 	border-left: 4px solid rgb(46, 83, 54);
 }
@@ -39,7 +39,7 @@ h6 {
 /* Danger alerts (red) */
 .alert-danger:not(.p-4) {
 	color: rgb(114, 49, 53);
-	background-color: rgba(247, 114, 123, 0.7);
+	background-color: rgb(240, 122, 130);
 	border-color: rgb(114, 49, 53);
 	border-left: 4px solid rgb(114, 49, 53);
 }
@@ -47,7 +47,7 @@ h6 {
 /* Warning alerts (yellow) */
 .alert-warning:not(.p-4) {
 	color: rgb(132, 108, 54);
-	background-color: rgba(225, 204, 154, 0.7);
+	background-color: rgb(238, 213, 155);
 	border-color: rgb(132, 108, 54);
 	border-left: 4px solid rgb(132, 108, 54);
 }
@@ -55,7 +55,7 @@ h6 {
 /* Info alerts (blue) */
 .alert-info:not(.p-4) {
 	color: rgba(0, 89, 97, 1);
-	background-color: rgba(237, 246, 249, 0.7);
+	background-color: rgb(186, 216, 226);
 	border-color: rgba(0, 89, 97, 1);
 	border-left: 4px solid rgba(0, 89, 97, 1);
 }
