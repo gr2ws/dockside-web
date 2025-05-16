@@ -60,7 +60,7 @@ function handleLogin()
             if ($_SESSION['role'] == 'ADMN') {
                 header("Location: ../pages/admin_dashboard.php");
             } else {
-                header("Location: ../pages/user_dashboard.php");
+                header("Location: ../pages/home.php");
             }
             exit;
         } else {

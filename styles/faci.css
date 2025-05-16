@@ -560,8 +560,8 @@ hr + * {
 }
 
 .cta-button:hover {
-    background: var(--base) !important;
-    color: var(--white);
+    background: #a9b7f4;
+    color: var(--base);
     box-shadow: 0 6px 20px rgba(0, 89, 97, 0.2);
 }
 
@@ -608,8 +608,7 @@ hr + * {
 }
 
 .lightbox-close:hover {
-    background: var(--base);
-    color: white;
+    color: var(--base);
     transform: rotate(90deg);
 }
 

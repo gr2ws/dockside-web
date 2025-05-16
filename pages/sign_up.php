@@ -130,7 +130,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 							<a
 								type="button"
 								id="show-terms"
-								href="../terms.php"
+								href="terms.php"
 								class="text-muted">
 								<i><u>Terms and Conditions</u></i>
 							</a>

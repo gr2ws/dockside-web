@@ -81,8 +81,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($loginMessage) {
             echo $loginMessage;
         }
-        ?> <div class="login-container py-4">
-            <h1>Sign In</h1>
+        ?>
+
+        <div class="login-container py-4">
+            <h1>Log In</h1>
             <form id="loginForm" method="POST">
                 <div class="form-group">
                     <label for="email">Email Address</label>
@@ -105,8 +107,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         minlength="8"
                         maxlength="30"
                         required>
-                </div> <button type="submit" class="login-btn">Sign In</button>
-                <a href="/forgot-password" class="forgot-password">Forgot Password?</a>
+                </div>
+                <button type="submit" class="login-btn">Log In</button>
             </form>
             <div class="or-divider">OR</div>
             <button class="secondary-btn" onclick="window.location.href='sign_up.php'">Create an Account</button>
