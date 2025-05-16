@@ -6,6 +6,7 @@ if (session_status() == PHP_SESSION_NONE) {
 $isLoggedIn = isset($_SESSION['id']);
 $fname = $isLoggedIn ? $_SESSION['fname'] : '';
 ?>
+
 <nav class="header-nav navbar navbar-expand-md shadow-sm">
     <div class="container">
         <button
@@ -82,8 +83,9 @@ $fname = $isLoggedIn ? $_SESSION['fname'] : '';
                     <a href="../pages/user_dashboard.php#bookings" class="dropdown-item"><i class="bi bi-calendar-check me-2"></i>My Bookings</a>
                     <a href="../pages/user_dashboard.php#history" class="dropdown-item"><i class="bi bi-clock-history me-2"></i>Booking History</a>
                     <a href="../pages/user_dashboard.php#profile" class="dropdown-item"><i class="bi bi-person me-2"></i>Profile</a>
-                    <a href="../pages/user_dashboard.php#settings" class="dropdown-item"><i class="bi bi-gear me-2"></i>Settings</a>                    <hr class="dropdown-divider" />
-                    <a href="../scripts/handle_logout.php" class="dropdown-item text-danger"><i class="bi bi-box-arrow-right me-2"></i>Logout</a>                <?php else: ?>
+                    <a href="../pages/user_dashboard.php#settings" class="dropdown-item"><i class="bi bi-gear me-2"></i>Settings</a>
+                    <hr class="dropdown-divider" />
+                    <a href="../scripts/handle_logout.php" class="dropdown-item text-danger"><i class="bi bi-box-arrow-right me-2"></i>Logout</a> <?php else: ?>
                     <a href="" class="dropdown-item disabled"><i class="bi bi-calendar-check me-2"></i>My Bookings</a>
                     <a href="" class="dropdown-item disabled"><i class="bi bi-clock-history me-2"></i>Booking History</a>
                     <a href="" class="dropdown-item disabled"><i class="bi bi-person me-2"></i>Profile</a>

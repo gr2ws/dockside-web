@@ -21,7 +21,6 @@
 						name="checkin"
 						class="flatpickr input-sm"
 						placeholder="Check-in..."
-						required
 					/>
 				</div>
 				<div class="date-input-group me-4 me-lg-4 me-md-3 me-sm-0">
@@ -32,7 +31,6 @@
 						name="checkout"
 						class="flatpickr input-sm"
 						placeholder="Check-out..."
-						required
 					/>
 				</div>
 				<button type="submit" class="booking-header-button">Book Now!</button>
@@ -70,7 +68,6 @@
 			minDate: new Date().fp_incr(1), // Default: tomorrow
 			dateFormat: "Y-m-d" // Format for proper URL parameters
 		});
-
 		// Form validation
 		document
 			.getElementById("booking-form")
@@ -78,19 +75,16 @@
 				const checkin = document.getElementById("start-date").value;
 				const checkout = document.getElementById("end-date").value;
 
-				if (!checkin || !checkout) {
-					e.preventDefault();
-					alert("Please select both check-in and check-out dates");
-					return false;
-				}
+				// Only validate dates if both are provided
+				if (checkin && checkout) {
+					const checkinDate = new Date(checkin);
+					const checkoutDate = new Date(checkout);
 
-				const checkinDate = new Date(checkin);
-				const checkoutDate = new Date(checkout);
-
-				if (checkinDate >= checkoutDate) {
-					e.preventDefault();
-					alert("Check-out date must be after check-in date");
-					return false;
+					if (checkinDate >= checkoutDate) {
+						e.preventDefault();
+						alert("Check-out date must be after check-in date");
+						return false;
+					}
 				}
 
 				return true;

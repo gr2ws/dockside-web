@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	// Handle page section visibility based on URL params
 	handlePageVisibility();
+
 	// Add event listener for back button to recalculate visibility
 	window.addEventListener("popstate", function () {
 		handlePageVisibility();
@@ -31,14 +32,63 @@ document.addEventListener("DOMContentLoaded", function () {
 
 /**
  * Auto-submits the search form if URL parameters exist
+ * If only room_type is present, pre-selects it in the dropdown
+ * and sets default dates to help users complete their search
  */
 function autoSubmitSearchOnLoad() {
 	const urlParams = new URLSearchParams(window.location.search);
 	const checkin = urlParams.get("checkin");
 	const checkout = urlParams.get("checkout");
+	const roomType = urlParams.get("room_type");
 
-	// If both check-in and check-out parameters exist, the form will auto-load results
-	// No action needed as PHP already handles this server-side
+	// If we have a room_type parameter but no dates, set default dates
+	// This happens when coming from the accommodations page
+	if (roomType && (!checkin || !checkout)) {
+		console.log("Room type parameter detected:", roomType);
+
+		// Set default check-in to today
+		const today = new Date();
+		const tomorrow = new Date();
+		tomorrow.setDate(today.getDate() + 1);
+
+		// Format dates as YYYY-MM-DD
+		const formatDate = (date) => {
+			const year = date.getFullYear();
+			const month = String(date.getMonth() + 1).padStart(2, "0");
+			const day = String(date.getDate()).padStart(2, "0");
+			return `${year}-${month}-${day}`;
+		};
+
+		const todayFormatted = formatDate(today);
+		const tomorrowFormatted = formatDate(tomorrow);
+		console.log("Setting dates:", todayFormatted, tomorrowFormatted);
+
+		// Set the date inputs
+		const checkinInput = document.getElementById("search-checkin");
+		const checkoutInput = document.getElementById("search-checkout");
+
+		if (checkinInput && checkoutInput) {
+			// Get the flatpickr instances
+			const checkinPicker = checkinInput._flatpickr;
+			const checkoutPicker = checkoutInput._flatpickr;
+
+			if (checkinPicker && checkoutPicker) {
+				// Set the formatted dates
+				checkinPicker.setDate(todayFormatted);
+				checkoutPicker.setDate(tomorrowFormatted);
+
+				// Trigger search with the new dates and room type
+				console.log("Triggering search...");
+				setTimeout(() => {
+					triggerSearch();
+				}, 500); // Increased timeout to ensure date pickers are initialized
+			} else {
+				console.log("Flatpickr instances not found");
+			}
+		} else {
+			console.log("Date inputs not found");
+		}
+	}
 }
 
 /**
@@ -50,9 +100,10 @@ function initRoomTypeAutoUpdate() {
 		roomTypeSelect.addEventListener("change", function () {
 			const checkin = document.getElementById("search-checkin").value;
 			const checkout = document.getElementById("search-checkout").value;
+			const roomType = roomTypeSelect.value;
 
-			// Only auto-submit if we have both dates, otherwise just save the selection
-			if (checkin && checkout) {
+			// Auto-submit if both dates are set or if only room type is selected
+			if ((checkin && checkout) || (roomType && !checkin && !checkout)) {
 				triggerSearch();
 			}
 		});
@@ -67,8 +118,8 @@ function triggerSearch() {
 	const checkout = document.getElementById("search-checkout").value;
 	const roomType = document.getElementById("room-type").value;
 
-	// Only proceed if both dates are set
-	if (checkin && checkout) {
+	// Proceed if either both dates are set OR only room type is selected
+	if ((checkin && checkout) || (roomType && !checkin && !checkout)) {
 		const searchUrl = constructSearchUrl(checkin, checkout, roomType);
 		window.location.href = searchUrl;
 	}
@@ -139,7 +190,6 @@ function tryAutoSubmit() {
 	const roomType = document.getElementById("room-type").value;
 	const urlParams = new URLSearchParams(window.location.search);
 	const hasSelectedRoom = urlParams.has("selected_room");
-
 	// Don't auto-submit if a room is already selected
 	if (hasSelectedRoom) {
 		return;
@@ -154,6 +204,10 @@ function tryAutoSubmit() {
 		if (checkinDate < checkoutDate) {
 			triggerSearch();
 		}
+	}
+	// If only room type is selected (and no dates), also trigger search
+	else if (roomType && !checkin && !checkout) {
+		triggerSearch();
 	}
 }
 
@@ -213,7 +267,16 @@ function initFormValidation() {
 
 			const checkin = document.getElementById("search-checkin").value;
 			const checkout = document.getElementById("search-checkout").value;
+			const roomType = document.getElementById("room-type").value;
 
+			// If room type is selected but no dates, we can set default dates and proceed
+			if (roomType && (!checkin || !checkout)) {
+				// Let triggerSearch handle setting default dates
+				triggerSearch();
+				return;
+			}
+
+			// When dates are provided, validate them
 			if (!checkin || !checkout) {
 				alert("Please select both check-in and check-out dates");
 				return false;
@@ -290,6 +353,9 @@ function initConfirmationHandler() {
 			checkAuthInput.type = "hidden";
 			checkAuthInput.name = "check_auth";
 			checkAuthInput.value = "1";
+
+			// Store the booking details in the form even if we need to show the auth modal
+			// This ensures we can resume the booking process after login
 			form.appendChild(checkAuthInput);
 		});
 	}
@@ -297,15 +363,15 @@ function initConfirmationHandler() {
 
 /**
  * Show a dialog informing the user they need an account to book
- * @param {string} redirectUrl URL to redirect back to after login/signup
  */
-function showAccountRequiredDialog(redirectUrl) {
+function showAccountRequiredDialog() {
 	// Create modal backdrop
 	const backdrop = document.createElement("div");
 	backdrop.className = "modal-backdrop fade show";
 	document.body.appendChild(backdrop);
 
 	// Create the modal dialog
+	// Session variables will handle the state
 	const modalHtml = `
 		<div class="modal fade show" id="accountRequiredModal" tabindex="-1" aria-labelledby="accountRequiredModalLabel" style="display: block;">
 			<div class="modal-dialog modal-dialog-centered">
@@ -316,11 +382,11 @@ function showAccountRequiredDialog(redirectUrl) {
 					</div>
 					<div class="modal-body">
 						<p>You need an account to make online bookings at Dockside Hotel.</p>
-						<p>Your booking details will be saved so you can complete your reservation after logging in or signing up.</p>
+						<p>Your booking details have been saved and will be processed automatically after you log in or create an account.</p>
 					</div>
 					<div class="modal-footer">
-						<a href="login.php?redirect=${redirectUrl}" class="btn btn-primary">Log In</a>
-						<a href="sign_up.php?redirect=${redirectUrl}" class="btn btn-success">Create an Account</a>
+						<a href="../pages/login.php" class="btn btn-primary">Log In</a>
+						<a href="../pages/sign_up.php" class="btn btn-success">Create an Account</a>
 						<button type="button" class="btn btn-secondary" id="cancelAccountModal">Cancel</button>
 					</div>
 				</div>
@@ -360,4 +426,7 @@ function removeAccountModal() {
 	if (backdrop) {
 		document.body.removeChild(backdrop);
 	}
+
+	// If we're on the booking confirmation page, we can just reload without any special treatment
+	// The PHP code will handle properly showing the form again
 }

@@ -4,13 +4,9 @@
 require_once __DIR__ . '/setup_vars.php';
 
 
-function handleLogin($redirect = '')
+function handleLogin()
 {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // Get redirect from POST if it exists (from hidden form field)
-        if (empty($redirect) && isset($_POST['redirect'])) {
-            $redirect = $_POST['redirect'];
-        }
         $email = $_POST['email'] ?? '';
         $pass  = $_POST['password'] ?? '';
 
@@ -47,18 +43,20 @@ function handleLogin($redirect = '')
             $_SESSION['birthday'] = $user['pers_birthdate'];
             $_SESSION['email']    = $user['pers_email'];
             $_SESSION['pass']     = $user['pers_pass'];
-            $_SESSION['role'] = $user['pers_role'];            // Handle redirects if specified
-            if (!empty($redirect)) {
-                // Check if the redirect is an absolute path (starts with /)
-                if (strpos($redirect, '/') === 0) {
-                    header("Location: " . $redirect);
-                } else {
-                    header("Location: ../" . $redirect);
-                }
+            $_SESSION['role']     = $user['pers_role'];            // Check if there's a pending booking that needs to be processed
+            $hasBookingDetails = isset($_SESSION['pending_booking_details']) &&
+                $_SESSION['pending_booking_details']['requires_auth'] === true;
+
+            if ($hasBookingDetails) {
+                // Set a flag to indicate successful login for booking flow
+                $_SESSION['from_booking_flow'] = true;
+
+                // Redirect to booking page to complete the booking process
+                header("Location: ../pages/booking.php");
                 exit;
             }
 
-            // Default redirects if no redirect specified
+            // Default redirects if no booking details in session
             if ($_SESSION['role'] == 'ADMN') {
                 header("Location: ../pages/admin_dashboard.php");
             } else {

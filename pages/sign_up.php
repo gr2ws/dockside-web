@@ -3,8 +3,15 @@ session_start();
 
 require '../scripts/handle_newacc.php';
 
-// Check for redirect parameter
-$redirect = isset($_GET['redirect']) ? $_GET['redirect'] : '';
+// Check if there's a pending booking that needs authentication
+$hasBookingDetails = isset($_SESSION['pending_booking_details']) &&
+	$_SESSION['pending_booking_details']['requires_auth'] === true;
+
+// Process the form submission before any HTML output to avoid "headers already sent" errors
+$signupMessage = '';
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+	$signupMessage = handleNewAcc();
+}
 ?>
 
 <!DOCTYPE html>
@@ -19,12 +26,9 @@ $redirect = isset($_GET['redirect']) ? $_GET['redirect'] : '';
 </head>
 
 <body>
-	<?php placeHeader() ?>
+	<?php placeHeader() ?> <div id="signup-page" class="px-0 px-md-3 flex-col-center">
 
-	<div id="signup-page" class="px-0 px-md-3 flex-col-center">
-
-		<?php handleNewAcc($redirect); ?>
-
+		<?php if (!empty($signupMessage)) echo $signupMessage; ?>
 		<div id="content" class="row w-75 py-4">
 			<section id="side-thumbnail" class="d-none d-md-block col-md-5"></section>
 
@@ -33,9 +37,6 @@ $redirect = isset($_GET['redirect']) ? $_GET['redirect'] : '';
 					method="POST"
 					id="create-acc-form"
 					class="d-flex flex-column justify-content-center align-items-start border border-secondary gap-2 w-sm-50 w-md-25 p-1 p-lg-3">
-					<?php if (!empty($redirect)): ?>
-						<input type="hidden" name="redirect" value="<?php echo htmlspecialchars($redirect); ?>">
-					<?php endif; ?>
 					<h1 class="fw-bolder align-self-center pt-3 global-heading">Sign Up</h1>
 					<div class="form-group flex-col-center container">
 						<label for="fname">First Name:</label>
@@ -119,12 +120,9 @@ $redirect = isset($_GET['redirect']) ? $_GET['redirect'] : '';
 							minlength="8"
 							maxlength="30"
 							required />
-					</div>
-					<button id="signup-btn" type="submit" class="btn align-self-center my-2">
+					</div> <button id="signup-btn" type="submit" class="btn align-self-center my-2">
 						Sign Up
-					</button>
-
-					<i class=" align-self-center text-center px-5 my-1">
+					</button> <i class=" align-self-center text-center px-5 my-1">
 						<small id="emailHelp" class="form-text text-muted">Have an account?</small>
 						<a href="login.php" class="text-muted">Log in here!</a></i>
 					<i class="align-self-center text-center px-5 mt-1 mb-3">

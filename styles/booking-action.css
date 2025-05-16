@@ -1,18 +1,56 @@
 @import "global.css";
 
 /* Booking action page styles */
+body {
+	position: relative;
+}
+
+/* Background pattern */
+body::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-image: url(../assets/svg-patterns/cube1-bg-wh.svg);
+	background-size: 80px;
+	background-repeat: repeat;
+	background-position: center;
+	pointer-events: none;
+	z-index: -1;
+	opacity: 0.35;
+
+	mask-image: linear-gradient(
+		to bottom,
+		transparent 0%,
+		rgba(0, 0, 0, 1) 50%,
+		transparent 100%
+	);
+	-webkit-mask-image: linear-gradient(
+		to bottom,
+		transparent 0%,
+		rgba(0, 0, 0, 1) 50%,
+		transparent 100%
+	);
+}
+
 main {
 	min-height: calc(100vh - 400px);
 }
 
 .booking-info {
-	background-color: #f9f9f9;
+	background-color: rgba(237, 246, 249, 0.9);
 	border-left: 5px solid var(--base) !important;
+	border-radius: 2px;
+	font: var(--body-font);
 }
 
 .booking-info h5 {
 	color: var(--base);
 	font-weight: 600;
+	font: var(--heading-font);
+	font-size: 1.3rem;
 }
 
 .confirmation-actions {
@@ -23,15 +61,24 @@ main {
 	color: var(--text);
 	background-color: rgba(0, 89, 97, 0.1);
 	border-color: var(--base);
+	border-radius: 2px;
+	font: var(--body-font);
 }
 
 .rebook-info {
 	color: var(--text);
 	background-color: var(--background);
 	border-color: var(--accent);
+	border-radius: 2px;
+	font: var(--body-font);
 }
 
 /* Button styling */
+.btn {
+	border-radius: 2px;
+	font: var(--body-font);
+}
+
 .btn-primary {
 	background-color: var(--base);
 	border-color: var(--base);
@@ -64,19 +111,20 @@ main {
 
 /* Alert styling */
 .alert {
-	border-radius: 6px;
+	border-radius: 2px;
+	font: var(--body-font);
 }
 
 .alert-warning {
 	color: var(--text);
-	background-color: rgba(131, 197, 190, 0.15);
-	border-color: var(--accent);
-	border-left: 4px solid var(--accent);
+	background-color: rgba(225, 204, 154, 0.15);
+	border-color: rgba(225, 204, 154, 1);
+	border-left: 4px solid rgba(225, 204, 154, 1);
 }
 
 .alert-info {
 	color: var(--text);
-	background-color: var(--background);
+	background-color: rgba(237, 246, 249, 0.9);
 	border-color: var(--base);
 	border-left: 4px solid var(--base);
 }
@@ -86,9 +134,10 @@ main {
 	.d-md-flex {
 		flex-direction: column;
 	}
-
 	.btn {
 		margin-top: 0.5rem;
 		width: 100%;
+		border-radius: 2px;
+		font: var(--body-font);
 	}
 }
