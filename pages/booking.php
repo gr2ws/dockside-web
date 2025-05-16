@@ -309,8 +309,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_booking'])) {
                     <?php endif; ?>
                     <hr>
                     <p class="mb-0">Check your email for your booking confirmation details.</p>
-                    <div class="mt-4"> <a href="home.php" class="btn btn-primary">Return to Home</a>
-                        <a href="user_dashboard.php?tab=bookings" class="btn btn-outline-primary ms-2">View My Bookings</a>
+                    <div class="mt-4">
+                        <a href="home.php" id="link1" class="btn btn-primary">Return to Home</a>
+                        <a href="user_dashboard.php?tab=bookings" id="link2" class="btn btn-outline-primary ms-2">View My Bookings</a>
                     </div>
                 </div>
             </div>

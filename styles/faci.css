@@ -30,11 +30,6 @@ hr {
 	margin: 2rem 0;
 }
 
-hr + * {
-	opacity: 1;
-	animation: fadeInSection 1s ease-in forwards;
-}
-
 /* Hero Section */
 .hero-section {
 	height: 80vh;

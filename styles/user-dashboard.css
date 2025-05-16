@@ -1,3 +1,5 @@
+@import url("../global.css");
+
 /* Main Layout */
 body {
 	min-height: 100vh;
@@ -45,76 +47,6 @@ body::before {
 		rgba(0, 0, 0, 1) 50%,
 		transparent 100%
 	);
-}
-
-/* Header Styles */
-.header-nav {
-	background-color: #fff;
-	padding: 1rem 0;
-}
-
-.nav-hotel-name {
-	color: #2c3e50;
-	font-size: 1.5rem;
-	font-weight: 600;
-	text-decoration: none;
-	display: flex;
-	align-items: center;
-	gap: 0.5rem;
-}
-
-.nav-hotel-name:hover {
-	color: #2c3e50;
-}
-
-.header-c {
-	font-size: 0.875rem;
-	color: #6c757d;
-}
-
-/* Navigation Menu */
-.navbar-nav {
-	gap: 1rem;
-}
-
-.nav-link {
-	color: #6c757d;
-	font-weight: 500;
-	transition: color 0.3s ease;
-}
-
-.nav-link:hover {
-	color: #2c3e50;
-}
-
-.nav-link.active {
-	color: #2c3e50;
-}
-
-/* Dropdown Styles */
-.dropdown-menu {
-	border: 1px solid var(--accent);
-	box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-	border-radius: 2px;
-	padding: 1rem;
-}
-
-.dropdown-header {
-	color: var(--base);
-	font: var(--body-font);
-	font-weight: 600;
-	padding: 0.5rem 1rem;
-}
-
-.dropdown-item {
-	padding: 0.5rem 1rem;
-	border-radius: 2px;
-	font: var(--body-font);
-}
-
-.dropdown-item:hover {
-	background-color: rgba(131, 197, 190, 0.1);
-	color: var(--base);
 }
 
 /* Card Styles */
@@ -182,7 +114,7 @@ body::before {
 }
 
 .btn-primary:hover {
-	background-color: #007a85;
+	background-color: var(--base);
 	border-color: #007a85;
 }
 
@@ -203,7 +135,6 @@ body::before {
 }
 
 .nav-flex-column .nav-link:hover {
-	background-color: rgba(131, 197, 190, 0.1);
 	color: var(--base);
 }
 
@@ -215,6 +146,7 @@ body::before {
 
 .nav-flex-column .nav-link i {
 	font-size: 1.2em;
+	color: var(--text);
 }
 
 .content-section {
@@ -348,10 +280,9 @@ button.toghide-pword {
 	width: 28px;
 	height: 28px;
 	display: inline-flex;
-	align-items: center;
-	justify-content: center;
+	align-items: right;
+	justify-content: right;
 	border-radius: 2px;
-	margin-right: 0.5rem;
 }
 
 .booking-stat-value {
@@ -375,7 +306,7 @@ button.toghide-pword {
 }
 
 #history-content .bi {
-	margin-right: 0.5rem;
+	margin-right: 6px;
 }
 
 #history-content .table th {
@@ -415,4 +346,16 @@ button.toghide-pword {
 .stat-label {
 	font-size: 0.875rem;
 	opacity: 0.85;
+}
+
+.book1 {
+	color: var(--text);
+}
+
+.bgcolor1 {
+	background-color: var(--accent);
+}
+
+.navcontent {
+	color: var(--text);
 }

@@ -305,8 +305,8 @@ $pass = $_SESSION['pass'];
                                 <!-- Booking Statistics -->
                                 <div class="col-md-4">
                                     <div class="card mb-4">
-                                        <div class="card-header bg-primary text-white">
-                                            <h4 class="m-0"><i class="bi bi-bar-chart-line me-2"></i>Booking Summary</h4>
+                                        <div class="card-header bgcolor1">
+                                            <h4 class="m-0 book1"><i class="bi bi-bar-chart-line me-2"></i>Booking Summary</h4>
                                         </div>
                                         <div class="card-body">
                                             <ul class="list-group list-group-flush">
