@@ -1,3 +1,3 @@
 .idea
 .env
-DB_CONNECT.php
+DBCONNECT.php
