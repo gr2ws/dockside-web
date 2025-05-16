@@ -11,10 +11,6 @@
 	--body-font: normal normal 300 1rem/1.6 "Inter", sans-serif;
 }
 
-* {
-	font: var(--body-font);
-}
-
 h1,
 h2,
 h3,
@@ -34,34 +30,34 @@ h6 {
 
 /* Success alerts (green) */
 .alert-success:not(.p-4) {
-	color: var(--text);
-	background-color: rgba(130, 208, 148, 0.7);
+	color: rgb(46, 83, 54);
+	background-color: rgba(140, 222, 159, 0.7);
 	border-color: rgb(46, 83, 54);
-	border-left: 4px solid rgba(130, 208, 148, 1);
+	border-left: 4px solid rgb(46, 83, 54);
 }
 
 /* Danger alerts (red) */
 .alert-danger:not(.p-4) {
-	color: var(--text);
-	background-color: rgba(178, 87, 93, 0.7);
+	color: rgb(114, 49, 53);
+	background-color: rgba(247, 114, 123, 0.7);
 	border-color: rgb(114, 49, 53);
-	border-left: 4px solid rgba(178, 87, 93, 1);
+	border-left: 4px solid rgb(114, 49, 53);
 }
 
 /* Warning alerts (yellow) */
 .alert-warning:not(.p-4) {
-	color: var(--text);
+	color: rgb(132, 108, 54);
 	background-color: rgba(225, 204, 154, 0.7);
 	border-color: rgb(132, 108, 54);
-	border-left: 4px solid rgba(225, 204, 154, 1);
+	border-left: 4px solid rgb(132, 108, 54);
 }
 
 /* Info alerts (blue) */
 .alert-info:not(.p-4) {
-	color: var(--text);
+	color: rgba(0, 89, 97, 1);
 	background-color: rgba(237, 246, 249, 0.7);
 	border-color: rgba(0, 89, 97, 1);
-	border-left: 4px solid var(--base);
+	border-left: 4px solid rgba(0, 89, 97, 1);
 }
 
 /* Close button styling */
