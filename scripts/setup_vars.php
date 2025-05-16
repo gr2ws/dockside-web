@@ -16,36 +16,29 @@ function getPersonData()
 
 function getDbConfig()
 {
-    try {
-        # Check first for Heroku JAWSDB_MARIA_URL
-        # Doesn't work if .env is parsed and used, 
-        # Moved to DBCONNECT.php for local
-        $jawsdb_url = getenv('JAWSDB_MARIA_URL');
-        if ($jawsdb_url) {
-            $dbparts = parse_url($jawsdb_url);
-            return [
-                'servername' => $dbparts['host'] . (isset($dbparts['port']) ? ':' . $dbparts['port'] : ''),
-                'username'   => $dbparts['user'],
-                'password'   => $dbparts['pass'],
-                'dbname'     => ltrim($dbparts['path'], '/'),
-            ];
-        }
+    # Check first for Heroku JAWSDB_MARIA_URL
+    # environment variable in Heroku deployment
+    # local host -> remote DB always fails, .env and DBCONNECT.php no longer used
+    $jawsdb_url = getenv('JAWSDB_MARIA_URL');
+    if ($jawsdb_url) {
+        $dbparts = parse_url($jawsdb_url);
 
-        # Get credentials to connect to remote JawsDB from local machine
-        if (file_exists(__DIR__ . '/../DBCONNECT.php')) {
-            require_once __DIR__ . '/../DBCONNECT.php';
-            return getRemoteDBCredentials();
-        }
-    } catch (Exception $e) {
-        # Default local database configuration
         return [
-            'servername' => '127.0.0.1:3306',
-            // 'servername' => '127.0.0.1:3307',
-            'username'   => 'root',
-            'password'   => '',
-            'dbname'     => 'docksidedb',
+            'servername' => $dbparts['host'] . (isset($dbparts['port']) ? ':' . $dbparts['port'] : ''),
+            'username'   => $dbparts['user'],
+            'password'   => $dbparts['pass'],
+            'dbname'     => ltrim($dbparts['path'], '/'),
         ];
     }
+
+    # Default local database configuration
+    return [
+        'servername' => '127.0.0.1:3306',
+        // 'servername' => '127.0.0.1:3307',
+        'username'   => 'root',
+        'password'   => '',
+        'dbname'     => 'docksidedb',
+    ];
 }
 
 function isPersonSet()
