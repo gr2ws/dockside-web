@@ -402,16 +402,29 @@ main {
 	color: var(--text);
 }
 
-.modal-footer .btn-secondary {
-	background-color: #e6959b;
-	border: none;
-	color: var(--text);
-	filter: brightness(1);
-	transition: filter 0.3s ease;
+#link1,#link2 {
+	text-decoration: none;
 }
 
-.modal-footer .btn-secondary:hover {
-	background-color: #f8a5aa;
-	filter: none;
+#link1 {
+	border: 1px solid var(--base);
+	color: #ffff;
+	background-color: var(--base);
+}
+
+#link1:hover {
+	border: 1px solid var(--accent);
+	background-color: #00a191;
+}
+
+#link2 {
+	border: 1px solid var(--accent);
 	color: var(--text);
+	background-color: var(--accent);
+}
+
+#link2:hover {
+	border: 1px solid var(--base);
+	color: var(--white);
+	background-color: #0296a3;
 }
