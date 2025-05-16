@@ -179,15 +179,17 @@ main .book-btn {
     border: 2px solid var(--base);
     border-radius: 2px;
     cursor: pointer;
-    transition: all var(--transition-speed) ease;
+    transition: all 0.2s ease;
+    opacity: 1;
     text-decoration: none;
 }
 
 main .book-btn:hover {
+    filter: brightness(120%) !important;
     box-shadow: 0 10px 20px var(--shadow-color);
     border: 2px solid var(--base); 
-    background-color: var(--white);
-    color: var(--subheading-font)!important; 
+    background-color: var(--base);
+    color: white !important;
     text-decoration: none;
 }
 

@@ -47,7 +47,6 @@ $pass = $_SESSION['pass'];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Dashboard - Dockside Hotel©</title>
     <link rel="stylesheet" href="../styles/user-dashboard.css">
-    <link rel="stylesheet" href="../styles/index.css">
     <?php require_once 'common.php'; ?>
 </head>
 
