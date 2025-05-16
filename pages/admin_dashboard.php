@@ -200,7 +200,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['bookdelete_submit']))
             </button> -->
 
             <a class="nav-hotel-name" href="index.html">
-                Dockside Hotel
+                Dockside Admin
                 <sup class="header-c bi-c-circle"></sup>
             </a>
             <!-- User Menu -->

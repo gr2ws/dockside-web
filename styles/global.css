@@ -11,6 +11,14 @@
 	--body-font: normal normal 300 1rem/1.6 "Inter", sans-serif;
 }
 
+* {
+	font:var(--body-font);
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font: var(--heading-font) !important;
+}
+
 /* Alert Styling */
 
 /* Common alert properties */
