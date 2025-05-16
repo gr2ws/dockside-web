@@ -3,36 +3,91 @@ session_start();
 require_once '../scripts/setup_vars.php';
 require_once '../scripts/handle_bookings.php';
 
+// Helper function to calculate total price for auto booking
+function calculateTotalPrice($checkinDate, $checkoutDate, $roomId)
+{
+    // Get room details first
+    $room = null;
+    $availableRooms = getAvailableRooms($checkinDate, $checkoutDate);
+
+    foreach ($availableRooms as $availRoom) {
+        if ($availRoom['room_id'] == $roomId) {
+            $room = $availRoom;
+            break;
+        }
+    }
+
+    if (!$room) {
+        return 0; // Room not available
+    }
+
+    // Calculate booking details
+    $bookingDetails = calculateBookingDetails($checkinDate, $checkoutDate, $room);
+
+    // Calculate additional fees (copied from the display logic)
+    $baseAmount = $bookingDetails['totalPrice'];
+    $serviceCharge = $baseAmount * 0.10;
+    $tourismFee = $bookingDetails['totalNights'] * 150;
+    $roomTax = $baseAmount * 0.12;
+    $environmentalFee = $bookingDetails['totalNights'] * 100;
+
+    // Calculate total with all fees
+    $totalWithFees = $baseAmount + $serviceCharge + $tourismFee + $roomTax + $environmentalFee;
+
+    return $totalWithFees;
+}
+
 // Get query parameters
 $checkinDate = isset($_GET['checkin']) ? $_GET['checkin'] : '';
 $checkoutDate = isset($_GET['checkout']) ? $_GET['checkout'] : '';
 $roomType = isset($_GET['room_type']) ? $_GET['room_type'] : '';
 
-// Prepare redirect URL to preserve search parameters
-$currentUrl = "booking.php";  // Use relative path to avoid URL duplication
-if (!empty($checkinDate) || !empty($checkoutDate) || !empty($roomType)) {
-    $currentUrl .= '?';
-    $params = [];
+// Check if user has logged in or signed up with pending booking details in session
+if (isset($_SESSION['id']) && isset($_SESSION['pending_booking_details']) && !isset($_POST['confirm_booking'])) {
+    // User has logged in/signed up and has pending booking details
+    // Auto-submit the form with the pending booking details
+    $_SERVER["REQUEST_METHOD"] = "POST";
+    $_POST['confirm_booking'] = true;
+    $_POST['room_id'] = $_SESSION['pending_booking_details']['room_id'];
+    $_POST['checkin'] = $_SESSION['pending_booking_details']['checkin_date'];
+    $_POST['checkout'] = $_SESSION['pending_booking_details']['checkout_date'];
+    $_POST['total_price'] = $_SESSION['pending_booking_details']['total_price'];
 
-    if (!empty($checkinDate)) $params[] = 'checkin=' . urlencode($checkinDate);
-    if (!empty($checkoutDate)) $params[] = 'checkout=' . urlencode($checkoutDate);
-    if (!empty($roomType)) $params[] = 'room_type=' . urlencode($roomType);
-
-    $currentUrl .= implode('&', $params);
+    // Set flag to not show auth modal since user is authenticated
+    $_SESSION['from_booking_flow'] = true;
 }
 
-// For any links in the page that need to redirect to login
-$loginRedirect = "login.php?redirect=" . urlencode($currentUrl);
-
-// Only check authentication when submitting the form or selecting a room
-// Don't check during search as we want users to be able to search first
 $needAuth = false;
+
 if (isset($_POST['check_auth'])) {
     $isLoggedIn = isset($_SESSION['id']) && !empty($_SESSION['id']) && is_numeric($_SESSION['id']);
     if (!$isLoggedIn) {
         $needAuth = true;
         $_SESSION['booking_error'] = "You must be logged in to book a room online.";
+
+        // Store comprehensive booking details in session for later processing
+        $_SESSION['pending_booking_details'] = [
+            'room_id' => isset($_POST['room_id']) ? $_POST['room_id'] : null,
+            'checkin_date' => isset($_POST['checkin']) ? $_POST['checkin'] : null,
+            'checkout_date' => isset($_POST['checkout']) ? $_POST['checkout'] : null,
+            'total_price' => isset($_POST['total_price']) ? $_POST['total_price'] : null,
+            'timestamp' => time(), // Add timestamp for potential expiration handling
+            'requires_auth' => true // Flag indicating this booking needs authentication
+        ];
     }
+}
+
+if (isset($_SESSION['id']) && isset($_SESSION['pending_booking']) && !isset($_POST['confirm_booking'])) {
+    // Auto-submit the form with the pending booking details
+    $_SERVER["REQUEST_METHOD"] = "POST";
+    $_POST['confirm_booking'] = true;
+    $_POST['room_id'] = $_SESSION['pending_booking']['room_id'];
+    $_POST['checkin'] = $_SESSION['pending_booking']['checkin'];
+    $_POST['checkout'] = $_SESSION['pending_booking']['checkout'];
+    $_POST['total_price'] = $_SESSION['pending_booking']['total_price'];
+
+    // Clear the pending booking
+    unset($_SESSION['pending_booking']);
 }
 
 // Display any login error messages
@@ -52,10 +107,31 @@ $bookingDetails = [
     'checkoutFormatted' => ''
 ];
 
+// Initialize default dates if only room type is provided
+if (!empty($roomType) && (empty($checkinDate) || empty($checkoutDate))) {
+    // Set default check-in to today
+    $today = date('Y-m-d');
+    $tomorrow = date('Y-m-d', strtotime('+1 day'));
+
+    // Use these as default dates and update URL parameters to match
+    $checkinDate = $today;
+    $checkoutDate = $tomorrow;
+
+    // If we're not already redirecting, update the URL to include these default dates
+    if (!headers_sent()) {
+        $redirectUrl = "booking.php?room_type=" . urlencode($roomType) .
+            "&checkin=" . urlencode($checkinDate) .
+            "&checkout=" . urlencode($checkoutDate);
+        header("Location: " . $redirectUrl);
+        exit();
+    }
+}
+
 // Get available rooms if search parameters exist
 if (!empty($checkinDate) && !empty($checkoutDate)) {
     $availableRooms = getAvailableRooms($checkinDate, $checkoutDate, $roomType);
 } elseif (!empty($roomType)) {
+    // This case should rarely happen now due to the auto-setting of dates above
     $availableRooms = getAvailableRooms(null, null, $roomType);
 }
 
@@ -76,6 +152,20 @@ $bookingSuccess = false;
 $isRebooking = isset($_SESSION['rebooking']) && $_SESSION['rebooking'] === true;
 $rebookingMessage = '';
 
+// Process booking if user has just logged in or signed up with pending booking details
+if (isset($_SESSION['id']) && isset($_SESSION['from_booking_flow']) && isset($_SESSION['pending_booking_details']) && !isset($_POST['confirm_booking'])) {
+    // User has authenticated from booking flow, automatically process the booking
+    $_SERVER["REQUEST_METHOD"] = "POST";
+    $_POST['confirm_booking'] = true;
+    $_POST['room_id'] = $_SESSION['pending_booking_details']['room_id'];
+    $_POST['checkin'] = $_SESSION['pending_booking_details']['checkin_date'];
+    $_POST['checkout'] = $_SESSION['pending_booking_details']['checkout_date'];
+    $_POST['total_price'] = $_SESSION['pending_booking_details']['total_price'];
+
+    // No need to check authentication again
+    unset($_SESSION['from_booking_flow']);
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_booking'])) {
     // First check if user is logged in (if checking auth)
     if (isset($_POST['check_auth'])) {
@@ -84,6 +174,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_booking'])) {
             // Just set a flag so we'll render the modal
             $needAuth = true;
             $_SESSION['booking_error'] = "You must be logged in to book a room online.";
+
+            // Store comprehensive booking details in session for later processing
+            $_SESSION['pending_booking_details'] = [
+                'room_id' => isset($_POST['room_id']) ? $_POST['room_id'] : null,
+                'checkin_date' => isset($_POST['checkin']) ? $_POST['checkin'] : null,
+                'checkout_date' => isset($_POST['checkout']) ? $_POST['checkout'] : null,
+                'total_price' => isset($_POST['total_price']) ? $_POST['total_price'] : null,
+                'timestamp' => time(), // Add timestamp for potential expiration handling
+                'requires_auth' => true // Flag indicating this booking needs authentication
+            ];
+
+            // Legacy - to be removed
+            $_SESSION['pending_booking'] = [
+                'room_id' => isset($_POST['room_id']) ? $_POST['room_id'] : null,
+                'checkin' => isset($_POST['checkin']) ? $_POST['checkin'] : null,
+                'checkout' => isset($_POST['checkout']) ? $_POST['checkout'] : null,
+                'total_price' => isset($_POST['total_price']) ? $_POST['total_price'] : null
+            ];
 
             // Don't process the rest of the booking submission
         } else {
@@ -110,6 +218,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_booking'])) {
 
                     if ($bookingSuccess) {
                         $rebookingMessage .= "Your stay has been successfully rebooked.";
+
+                        // Clear any pending booking details if exists
+                        if (isset($_SESSION['pending_booking_details'])) {
+                            unset($_SESSION['pending_booking_details']);
+                        }
                     } else {
                         $bookingError = $result['error'];
                     }
@@ -123,6 +236,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_booking'])) {
                 $result = processBooking($roomId, $checkinDate, $checkoutDate, $userId, $totalPrice);
                 $bookingSuccess = $result['success'];
                 $bookingError = $result['error'];
+
+                // Clear pending booking details if successful
+                if ($bookingSuccess && isset($_SESSION['pending_booking_details'])) {
+                    unset($_SESSION['pending_booking_details']);
+                }
             }
         }
     } else {
@@ -246,16 +364,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_booking'])) {
                         <?php foreach ($availableRooms as $room): ?>
                             <div class="col">
                                 <div class="card h-100">
-                                    <div class="card-body">
-                                        <h5 class="card-title"><?php echo $room['room_type']; ?></h5>
-                                        <p class="card-text">Room #<?php echo $room['room_id']; ?></p>
-                                        <p class="card-text">Capacity: <?php echo $room['room_capacity']; ?> guests</p>
-                                        <p class="card-text fw-bold">₱<?php echo number_format($room['room_price'], 2); ?> per night</p>
+                                    <?php
+                                                                        // Map room types to the correct image filenames in assets folder
+                                                                        switch ($room['room_type']) {
+                                                                            case 'Presidential Suite':
+                                                                                $roomImageFile = 'presidential.jpg';
+                                                                                break;
+                                                                            case 'Executive Suite':
+                                                                                $roomImageFile = 'executive.jpg';
+                                                                                break;
+                                                                            case 'Deluxe Room':
+                                                                                $roomImageFile = 'deluxe.jpg';
+                                                                                break;
+                                                                            case 'Standard Room':
+                                                                            default:
+                                                                                $roomImageFile = 'standard.jpg';
+                                                                                break;
+                                                                        }
+                                                                        $roomImagePath = "../assets/" . $roomImageFile;
+                                    ?>
+                                    <img src="<?php echo $roomImagePath; ?>" class="card-img-top" alt="<?php echo $room['room_type']; ?>">
+                                    <div class="card-body py-2 px-3">
+                                        <h5 class="card-title mb-1"><?php echo $room['room_type']; ?></h5>
+                                        <p class="card-text mb-1">Room #<?php echo $room['room_id']; ?></p>
+                                        <p class="card-text mb-1">Capacity: <?php echo $room['room_capacity']; ?> guests</p>
+                                        <p class="card-text fw-bold mb-2">₱<?php echo number_format($room['room_price'], 2); ?> per night</p>
 
                                         <?php if (!empty($checkinDate) && !empty($checkoutDate)): ?>
-                                            <a href="booking.php?checkin=<?php echo $checkinDate; ?>&checkout=<?php echo $checkoutDate; ?>&room_type=<?php echo urlencode($room['room_type']); ?>&selected_room=<?php echo $room['room_id']; ?>" class="btn btn-outline-primary">Select Room</a>
+                                            <a href="booking.php?checkin=<?php echo $checkinDate; ?>&checkout=<?php echo $checkoutDate; ?>&room_type=<?php echo urlencode($room['room_type']); ?>&selected_room=<?php echo $room['room_id']; ?>" class="btn btn-outline-primary btn-sm">Select Room</a>
                                         <?php else: ?>
-                                            <div class="text-warning">Please select dates to book this room</div>
+                                            <div class="text-warning small">Please select dates to book this room</div>
                                         <?php endif; ?>
                                     </div>
                                 </div>
@@ -328,12 +466,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_booking'])) {
                                                                             break;
                                                                     }
                                             ?>
-                                            <div class="room-size my-3">
-                                                <h5>Room Specifications</h5>
-                                                <p><strong>Room #:</strong> <?php echo $selectedRoom['room_id']; ?></p>
-                                                <p><strong>Size:</strong> <?php echo $roomSize; ?></p>
-                                                <p><strong>Capacity:</strong> <?php echo $selectedRoom['room_capacity']; ?> guests</p>
-                                                <p><strong>Base Rate:</strong> ₱<?php echo number_format($selectedRoom['room_price'], 2); ?> per night</p>
+                                            <div class="d-flex flex-wrap my-3">
+                                                <div class="room-size flex-grow-1 me-4">
+                                                    <h5>Room Specifications</h5>
+                                                    <p><strong>Room #:</strong> <?php echo $selectedRoom['room_id']; ?></p>
+                                                    <p><strong>Size:</strong> <?php echo $roomSize; ?></p>
+                                                    <p><strong>Capacity:</strong> <?php echo $selectedRoom['room_capacity']; ?> guests</p>
+                                                    <p><strong>Base Rate:</strong> ₱<?php echo number_format($selectedRoom['room_price'], 2); ?> per night</p>
+                                                </div>
+
+                                                <div class="stay-details flex-shrink-0" style="min-width: 220px;">
+                                                    <h5>Your Stay</h5>
+                                                    <p><i class="bi bi-calendar-check me-2"></i><strong>Check-in Date:</strong> <?php echo $bookingDetails['checkinFormatted']; ?></p>
+                                                    <p><i class="bi bi-calendar-x me-2"></i><strong>Check-out Date:</strong> <?php echo $bookingDetails['checkoutFormatted']; ?></p>
+                                                    <p><i class="bi bi-moon me-2"></i><strong>Duration:</strong> <?php echo $bookingDetails['totalNights']; ?> night(s)</p>
+                                                </div>
                                             </div>
 
                                             <div class="room-description my-3">
@@ -341,14 +488,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_booking'])) {
                                                 <p><?php echo $roomDesc; ?></p>
                                             </div>
 
-                                            <div class="room-features my-3">
-                                                <h5>Room Features</h5>
-                                                <div class="row">
-                                                    <?php foreach ($roomFeatures as $feature): ?>
-                                                        <div class="col-md-6 col-lg-4 mb-2">
-                                                            <i class="bi bi-check-circle-fill text-success me-2"></i><?php echo $feature; ?>
-                                                        </div>
-                                                    <?php endforeach; ?>
+                                            <div class="d-flex flex-wrap my-3">
+                                                <div class="room-features flex-grow-1 me-4">
+                                                    <h5>Room Features</h5>
+                                                    <div class="row">
+                                                        <?php foreach ($roomFeatures as $feature): ?>
+                                                            <div class="col-md-6 col-lg-4 mb-2">
+                                                                <i class="bi bi-check-circle-fill text-success me-2"></i><?php echo $feature; ?>
+                                                            </div>
+                                                        <?php endforeach; ?>
+                                                    </div>
                                                 </div>
                                             </div>
 
@@ -357,13 +506,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_booking'])) {
                                                 <p><i class="bi bi-clock me-2"></i><strong>Check-in:</strong> 3:00 PM</p>
                                                 <p><i class="bi bi-clock me-2"></i><strong>Check-out:</strong> 12:00 NN (Philippine Time)</p>
                                                 <p><i class="bi bi-exclamation-circle me-2"></i>All cancellations and rebookings are allowed free of charge.</p>
-                                            </div>
-
-                                            <div class="stay-details mt-4">
-                                                <h5>Your Stay</h5>
-                                                <p><i class="bi bi-calendar-check me-2"></i><strong>Check-in Date:</strong> <?php echo $bookingDetails['checkinFormatted']; ?></p>
-                                                <p><i class="bi bi-calendar-x me-2"></i><strong>Check-out Date:</strong> <?php echo $bookingDetails['checkoutFormatted']; ?></p>
-                                                <p><i class="bi bi-moon me-2"></i><strong>Duration:</strong> <?php echo $bookingDetails['totalNights']; ?> night(s)</p>
                                             </div>
                                         </div>
                                     </div>
@@ -436,11 +578,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_booking'])) {
                                         </div>
 
                                         <!-- Form for booking confirmation -->
-                                        <form action="booking.php" method="POST" class="mt-auto">
+                                        <form action="booking.php" method="POST" class="mt-auto" id="booking-confirmation-form">
                                             <input type="hidden" name="room_id" value="<?php echo $selectedRoom['room_id']; ?>">
                                             <input type="hidden" name="checkin" value="<?php echo $checkinDate; ?>">
                                             <input type="hidden" name="checkout" value="<?php echo $checkoutDate; ?>">
-                                            <input type="hidden" name="total_price" value="<?php echo $totalWithFees; ?>"> <button type="submit" name="confirm_booking" class="btn btn-success w-100">Confirm Booking</button>
+                                            <input type="hidden" name="total_price" value="<?php echo $totalWithFees; ?>">
+                                            <input type="hidden" name="check_auth" value="1">
+
+                                            <!-- Add the selected_room as a hidden parameter to preserve on form submission -->
+                                            <input type="hidden" name="selected_room_param" value="<?php echo $selectedRoom['room_id']; ?>">
+
+                                            <button type="submit" name="confirm_booking" class="btn btn-success w-100">Confirm Booking</button>
                                             <a href="booking.php" class="btn btn-outline-secondary w-100 mt-2" id="back-to-search-btn">
                                                 <i class="bi bi-arrow-left me-2"></i>Back to Search
                                             </a>
@@ -461,13 +609,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_booking'])) {
                             </a>
                         </div> <?php endif; ?>
                 </div>
-            <?php endif; ?> <?php endif; ?> <script src="../scripts/booking.js"></script> <?php if ($needAuth): ?>
-            <script>
+            <?php endif; ?> <?php endif; ?> <script src="../scripts/booking.js"></script> <?php if ($needAuth): ?> <script>
                 // Show the account required dialog when the page loads
                 document.addEventListener('DOMContentLoaded', function() {
-                    // Include the /pages/ directory in the path for proper redirection
-                    const currentUrl = encodeURIComponent('/pages/booking.php' + window.location.search);
-                    showAccountRequiredDialog(currentUrl);
+                    // Simply show the modal - all booking details are already stored in session
+                    showAccountRequiredDialog();
                 });
             </script>
         <?php endif; ?>

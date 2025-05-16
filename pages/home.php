@@ -14,7 +14,7 @@
     <?php placeBookingHeader() ?>
 
     <div class="background-pattern">
-        <div class="home-section-1 container"> <!-- Hero Section -->
+<div class="home-section-1"> <!-- Hero Section -->
             <section class="hero-section">
                 <div class="hero-video-container shadow-lg">
                     <video id="hero-video" autoplay muted loop playsinline>
@@ -29,7 +29,9 @@
                         <p class="hero-blurb mx-auto">Experience luxury and comfort by the waterfront in Dumaguete City. Whether you're here for a romantic escape or a family vacation, we have everything you need to make your stay unforgettable.<a href="#">Learn more <i class="bi-arrow-right"></i></a></p>
                     </div>
                 </div>
-            </section> <!-- Accommodations Section -->
+            </section>
+    </div>
+    <div class="container">
             <section class="section-container accommodations-section my-5">
                 <div class="section-header text-center mb-4">
                     <h2 class="section-title">Elegant Accommodations</h2>
@@ -287,6 +289,7 @@
             </section>
         </div>
     </div>
+
 
     <?php placeFooter() ?>
 </body>

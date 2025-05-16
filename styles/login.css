@@ -1,9 +1,9 @@
-@import url("global.css");
+@import url('../styles/global.css');
 
 .login-body {
 	min-height: 100dvh !important;
 	margin: 0;
-	font-family: var(--body-font);
+	font: var(--body-font);
 	color: var(--text);
 	overflow-x: hidden;
 	background-image: url("../assets/loginbg.jpg");
@@ -24,7 +24,7 @@
 
 .alert {
 	padding: 1rem;
-	border-radius: 0.25rem;
+	border-radius: 2px;
 	margin-bottom: 1rem;
 }
 
@@ -35,7 +35,7 @@
 }
 
 h1 {
-	font-family: var(--heading-font);
+	font: var(--heading-font);
 	text-align: center;
 	margin-bottom: 2rem;
 	color: var(--text);
@@ -50,7 +50,8 @@ h1 {
 .form-group label {
 	display: block;
 	margin-bottom: 0.5rem;
-	font-family: var(--subheading-font);
+	font: var(--body-font);
+	font-size: 17px;
 	color: var(--text);
 }
 
@@ -58,7 +59,7 @@ h1 {
 	width: 100%;
 	padding: 0.75rem;
 	border: 1px solid #ddd;
-	border-radius: 6px;
+	border-radius: 2px;
 	font-size: 1rem;
 	transition: border-color 0.2s ease;
 	box-sizing: border-box;
@@ -68,7 +69,8 @@ h1 {
 	background-color: #ffffff;
 	margin: 3rem 0;
 	padding: 2.5rem;
-	border-radius: 12px;
+	border-radius: 2px;
+	border: 1px solid var(--accent);
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 	width: 100%;
 	max-width: 480px;
@@ -79,7 +81,7 @@ h1 {
 	width: 100%;
 	padding: 0.75rem;
 	border: 1px solid #ddd;
-	border-radius: 6px;
+	border-radius: 2px;
 	font-size: 1rem;
 	transition: border-color 0.2s ease;
 }
@@ -95,8 +97,9 @@ h1 {
 	background-color: var(--base);
 	color: #ffffff;
 	border: none;
-	border-radius: 6px;
+	border-radius: 2px;
 	font-size: 1rem;
+	font: var(--body-font);
 	cursor: pointer;
 	transition: background-color 0.2s ease;
 }
@@ -148,8 +151,9 @@ h1 {
 	padding: 0.75rem;
 	background-color: #f5f5f5;
 	color: var(--text);
+	font: var(--body-font);
 	border: 1px solid #ddd;
-	border-radius: 6px;
+	border-radius: 2px;
 	font-size: 1rem;
 	cursor: pointer;
 	transition: background-color 0.2s ease;
@@ -163,7 +167,7 @@ h1 {
 	background-color: #fff5f5;
 	color: #dc3545;
 	padding: 0.75rem;
-	border-radius: 6px;
+	border-radius: 2px;
 	margin-bottom: 1.5rem;
 	text-align: center;
 }

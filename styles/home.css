@@ -47,7 +47,7 @@
 	min-height: 600px;
 	color: white;
 	overflow: hidden;
-	margin: 20px 0px;
+	margin: 0;
 }
 
 .hero-video-container {
@@ -128,8 +128,8 @@
 .home-section-1 {
 	position: relative;
 	z-index: 1;
-	padding-top: 20px;
-	padding-bottom: 40px;
+	padding-top: 0;
+	padding-bottom: 0;
 }
 
 /* Section common styles */
@@ -339,7 +339,7 @@
 
 /* Membership Benefits Section Styles */
 .membership-section {
-	background-image: url(../assets/benefits.jpg);
+	background-image: url(../assets/pool.jpg);
 	background-size: cover;
 	background-position: center;
 	padding: 60px 5%;

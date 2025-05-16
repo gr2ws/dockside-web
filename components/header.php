@@ -6,6 +6,7 @@ if (session_status() == PHP_SESSION_NONE) {
 $isLoggedIn = isset($_SESSION['id']);
 $fname = $isLoggedIn ? $_SESSION['fname'] : '';
 ?>
+
 <nav class="header-nav navbar navbar-expand-md shadow-sm">
     <div class="container">
         <button
@@ -38,10 +39,10 @@ $fname = $isLoggedIn ? $_SESSION['fname'] : '';
                     <ul
                         class="dropdown-menu dropdown-menu-end rooms-dpd shadow-sm"
                         aria-labelledby="accommodationsDropdown">
-                        <li><a class="dropdown-item" href="../pages/accomodations.php?room=presidential">Presidential Suite</a></li>
-                        <li><a class="dropdown-item" href="../pages/accomodations.php?room=executive">Executive Suite</a></li>
-                        <li><a class="dropdown-item" href="../pages/accomodations.php?room=deluxe">Deluxe Room</a></li>
-                        <li><a class="dropdown-item" href="../pages/accomodations.php?room=standard">Standard Room</a></li>
+                        <li><a class="dropdown-item" href="accomodations.php#presidential">Presidential Suite</a></li>
+                        <li><a class="dropdown-item" href="accomodations.php#executive">Executive Suite</a></li>
+                        <li><a class="dropdown-item" href="accomodations.php#deluxe">Deluxe Room</a></li>
+                        <li><a class="dropdown-item" href="accomodations.php#standard">Standard Room</a></li>
                     </ul>
                 </li>
                 <li><a href="../pages/facilities.php" class="nav-link">Facilities</a></li>
@@ -82,8 +83,9 @@ $fname = $isLoggedIn ? $_SESSION['fname'] : '';
                     <a href="../pages/user_dashboard.php#bookings" class="dropdown-item"><i class="bi bi-calendar-check me-2"></i>My Bookings</a>
                     <a href="../pages/user_dashboard.php#history" class="dropdown-item"><i class="bi bi-clock-history me-2"></i>Booking History</a>
                     <a href="../pages/user_dashboard.php#profile" class="dropdown-item"><i class="bi bi-person me-2"></i>Profile</a>
-                    <a href="../pages/user_dashboard.php#settings" class="dropdown-item"><i class="bi bi-gear me-2"></i>Settings</a>                    <hr class="dropdown-divider" />
-                    <a href="../scripts/handle_logout.php" class="dropdown-item text-danger"><i class="bi bi-box-arrow-right me-2"></i>Logout</a>                <?php else: ?>
+                    <a href="../pages/user_dashboard.php#settings" class="dropdown-item"><i class="bi bi-gear me-2"></i>Settings</a>
+                    <hr class="dropdown-divider" />
+                    <a href="../scripts/handle_logout.php" class="dropdown-item text-danger"><i class="bi bi-box-arrow-right me-2"></i>Logout</a> <?php else: ?>
                     <a href="" class="dropdown-item disabled"><i class="bi bi-calendar-check me-2"></i>My Bookings</a>
                     <a href="" class="dropdown-item disabled"><i class="bi bi-clock-history me-2"></i>Booking History</a>
                     <a href="" class="dropdown-item disabled"><i class="bi bi-person me-2"></i>Profile</a>
@@ -123,16 +125,16 @@ $fname = $isLoggedIn ? $_SESSION['fname'] : '';
             </span>
             <div class="collapse mob-rooms" id="mobileAccommodationsCollapse">
                 <ul class="list-unstyled ps-3">
-                    <a href="../pages/accomodations.php?room=presidential">
+                    <a href="../pages/accomodations.php#presidential">
                         <li>Presidential Suite</li>
                     </a>
-                    <a href="../pages/accomodations.php?room=executive">
+                    <a href="../pages/accomodations.php#executive">
                         <li>Executive Suite</li>
                     </a>
-                    <a href="../pages/accomodations.php?room=deluxe">
+                    <a href="../pages/accomodations.php#deluxe">
                         <li>Deluxe Room</li>
                     </a>
-                    <a href="../pages/accomodations.php?room=standard">
+                    <a href="../pages/accomodations.php#standard">
                         <li>Standard Room</li>
                     </a>
                 </ul>

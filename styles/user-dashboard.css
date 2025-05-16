@@ -6,6 +6,17 @@ body {
 	position: relative;
 }
 
+main.container {
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+}
+
+/* Add bottom padding to content sections to prevent sticking to footer */
+.content-section {
+	padding-bottom: 2rem;
+}
+
 /* Background pattern */
 body::before {
 	content: "";
@@ -219,38 +230,6 @@ body::before {
 	cursor: pointer;
 }
 
-/* Footer Styles */
-.footer {
-	margin-top: auto;
-	padding: 3rem 0;
-}
-
-.footer h5 {
-	color: #fff;
-	font-weight: 600;
-	margin-bottom: 1.5rem;
-}
-
-.footer-links {
-	list-style: none;
-	padding: 0;
-	margin: 0;
-}
-
-.footer-links li {
-	margin-bottom: 0.75rem;
-}
-
-.footer-links a {
-	color: rgba(255, 255, 255, 0.8);
-	text-decoration: none;
-	transition: color 0.3s ease;
-}
-
-.footer-links a:hover {
-	color: #fff;
-}
-
 /* Social Links */
 .social-links a {
 	font-size: 1.25rem;
@@ -318,7 +297,7 @@ body::before {
 
 ::-webkit-scrollbar-thumb {
 	background: #888;
-	border-radius: 4px;
+	border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -371,7 +350,7 @@ button.toghide-pword {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	border-radius: 50%;
+	border-radius: 2px;
 	margin-right: 0.5rem;
 }
 

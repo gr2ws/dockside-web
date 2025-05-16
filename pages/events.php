@@ -62,9 +62,6 @@
                                     <p>Join us for an enchanting evening of live jazz music.</p>
                                     <p class="date"><strong>Date:</strong> May 15th, 2025</p>
                                 </div>
-                                <div class="actions">
-                                    <a class="book-now" href="booking.php">Book Now</a>
-                                </div>
                             </div>
                         </article>
                         <article class="event-card">
@@ -75,10 +72,6 @@
                                     <p>Savor the finest wines from around the world.</p>
                                     <p class="date"><strong>Date:</strong> May 22nd, 2025</p>
                                 </div>
-                                <div class="actions">
-                                    <a class="book-now" href="booking.php">Book Now</a>
-                                </div>
-                            </div>
                         </article>
                         <article class="event-card">
                             <img src="../assets/events/summer-gala.jpg" alt="Event 3" />
@@ -88,10 +81,6 @@
                                     <p>Celebrate summer with an elegant evening of fine dining and entertainment.</p>
                                     <p class="date"><strong>Date:</strong> June 5th, 2025</p>
                                 </div>
-                                <div class="actions">
-                                    <a class="book-now" href="booking.php">Book Now</a>
-                                </div>
-                            </div>
                         </article>
                         <article class="event-card">
                             <img src="../assets/events/moonlit-dinner.jpg" alt="Event 4" />
@@ -100,9 +89,6 @@
                                     <h2><i class="bi bi-moon-stars"></i> Moonlight Dinner</h2>
                                     <p>An exclusive dining experience under the stars.</p>
                                     <p class="date"><strong>Date:</strong> June 12th, 2025</p>
-                                </div>
-                                <div class="actions">
-                                    <a class="book-now" href="booking.php">Book Now</a>
                                 </div>
                             </div>
                         </article>
@@ -114,9 +100,6 @@
                                     <p>Experience an evening of classical masterpieces.</p>
                                     <p class="date"><strong>Date:</strong> June 19th, 2025</p>
                                 </div>
-                                <div class="actions">
-                                    <a class="book-now" href="booking.php">Book Now</a>
-                                </div>
                             </div>
                         </article>
                         <article class="event-card">
@@ -126,9 +109,6 @@
                                     <h2><i class="bi bi-palette"></i> Art Exhibition</h2>
                                     <p>Featuring local and international artists.</p>
                                     <p class="date"><strong>Date:</strong> June 25th, 2025</p>
-                                </div>
-                                <div class="actions">
-                                    <a class="book-now" href="booking.php">Book Now</a>
                                 </div>
                             </div>
                         </article>
@@ -146,12 +126,12 @@
                         <p>Perfect for hosting unforgettable experiences for up to 300 guests.</p>
                         <div class="features-grid">
                             <div class="feature">
-                                <i class="bi bi-people-fill"></i>
+                                <i class="bi bi-people"></i>
                                 <h3>Capacity</h3>
                                 <p>Up to 300 guests</p>
                             </div>
                             <div class="feature">
-                                <i class="bi bi-camera-video-fill"></i>
+                                <i class="bi bi-camera-video"></i>
                                 <h3>State-of-the-Art Audiovisual Equipment</h3>
                                 <p>Advanced technology to ensure your event runs smoothly.</p>
                             </div>
@@ -161,7 +141,7 @@
                                 <p>Delicious and tailored menus to suit every occasion.</p>
                             </div>
                             <div class="feature">
-                                <i class="bi bi-person-badge-fill"></i>
+                                <i class="bi bi-person-badge"></i>
                                 <h3>Dedicated Event Coordinator</h3>
                                 <p>Professional support to make your event seamless.</p>
                             </div>

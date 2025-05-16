@@ -2,15 +2,13 @@
 
 require_once __DIR__ . '/setup_vars.php';
 
-function handleNewAcc($redirect = '')
+function handleNewAcc()
 {
+    // Return message instead of directly outputting it to avoid header issues
+    $message = '';
+
     // Handle form submission
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-        // Check for redirect parameter from form
-        if (empty($redirect) && isset($_POST['redirect'])) {
-            $redirect = $_POST['redirect'];
-        }
 
         //get data from person table
         $personData = getPersonData();
@@ -41,19 +39,18 @@ function handleNewAcc($redirect = '')
             $email = $_POST['email'];
             $exec_SQLCommand = $conn->query("SELECT COUNT(*) AS instanceCount FROM $dbname.`person` WHERE pers_email = '$email'");
             $doesExist = $exec_SQLCommand->fetch_assoc();
-
             if ($doesExist['instanceCount'] != 0) {
                 // Email already exists, clear email and password fields only
                 unset($_POST['email']);
                 unset($_POST['password']);
-                echo '<div class="alert alert-danger d-flex align-items-center mt-4 mb-n2 w-50" role="alert">
+                $message = '<div class="alert alert-danger d-flex align-items-center mt-4 mb-n2 w-50" role="alert">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x-icon lucide-circle-x">
                             <circle cx="12" cy="12" r="10" />
                             <path d="m15 9-6 6" />
                             <path d="m9 9 6 6" />
                         </svg>
                         <div class="ms-3">
-                            Email already in use. Please try another.
+                            Email already exists. Please try another.
                         </div>
                     </div>'; //error message
             } else {
@@ -85,33 +82,21 @@ function handleNewAcc($redirect = '')
                         $_SESSION['pass']     = $user['pers_pass'];
                         $_SESSION['role']     = $user['pers_role'];
 
-                        // Redirect if specified
-                        if (!empty($redirect)) {
-                            // Clean the redirect URL to prevent duplication
-                            // Remove any domain names or protocol from the URL if present
-                            $redirect = preg_replace('/^(https?:\/\/[^\/]+)?\//', '/', $redirect);
+                        // Check if there's a pending booking that needs processing
+                        $hasBookingDetails = isset($_SESSION['pending_booking_details']) &&
+                            $_SESSION['pending_booking_details']['requires_auth'] === true;
 
-                            // Special handling for simple "booking.php" without path
-                            if ($redirect == 'booking.php' || $redirect == '/booking.php') {
-                                header("Location: ../pages/booking.php");
-                                exit;
-                            }
+                        if ($hasBookingDetails) {
+                            // Set flag to indicate we're coming from the booking flow
+                            $_SESSION['from_booking_flow'] = true;
 
-                            // Handle both absolute and relative paths
-                            if (strpos($redirect, '/') === 0) {
-                                header("Location: " . $redirect);
-                            } else {
-                                header("Location: ../" . ltrim($redirect, '/'));
-                            }
+                            // Redirect to booking.php to process the pending booking
+                            header("Location: ../pages/booking.php");
                             exit;
-                        } else {
-                            // Default redirect to user dashboard if no redirect parameter
-                            header("Location: ../pages/user_dashboard.php");
-                            exit;
-                        }
-                    }
-
-                    // These fields are cleared if no redirection happens (should not be reached now)
+                        }                        // Default redirect to user dashboard
+                        header("Location: ../pages/user_dashboard.php");
+                        exit;
+                    }                    // These fields are cleared if no redirection happens (should not be reached now)
                     unset($_POST['fname']);
                     unset($_POST['lname']);
                     unset($_POST['email']);
@@ -119,7 +104,7 @@ function handleNewAcc($redirect = '')
                     unset($_POST['address']);
                     unset($_POST['phone']);
                     unset($_POST['birth']);
-                    echo '<div class="alert alert-success d-flex align-items-center mt-4 mb-n2 w-50" role="alert">
+                    $message = '<div class="alert alert-success d-flex align-items-center mt-4 mb-n2 w-50" role="alert">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-round-check-icon lucide-user-round-check">
                                 <path d="M2 21a8 8 0 0 1 13.292-6" />
                                 <circle cx="10" cy="8" r="5" />
@@ -130,18 +115,21 @@ function handleNewAcc($redirect = '')
                             </div>
                         </div>';
                 } else {
-                    echo '<div class="alert alert-danger d-flex align-items-center mt-4 mb-n2 w-50" role="alert">
+                    $message = '<div class="alert alert-danger d-flex align-items-center mt-4 mb-n2 w-50" role="alert">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x-icon lucide-circle-x">
                                 <circle cx="12" cy="12" r="10" />
                                 <path d="m15 9-6 6" />
                                 <path d="m9 9 6 6" />
-                            </svg>
-                            <div class="ms-3">'
+                            </svg>                            <div class="ms-3">'
                         . $conn->error .
                         '</div>
 </div>';
+                    $message = $message;
                 }
             }
         }
     }
+
+    // Return the message (empty string if no error)
+    return $message;
 }

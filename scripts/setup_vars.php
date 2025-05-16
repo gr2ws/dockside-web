@@ -16,27 +16,23 @@ function getPersonData()
 
 function getDbConfig()
 {
-    // # Define default database configuration
-    // $config = [
-    //     //'servername' => 'localhost',
-    // # Check first for Heroku JAWSDB_MARIA_URL, or use the one from .env
-    // # comment out to test local db
-    // $jawsdb_url = getenv('JAWSDB_MARIA_URL');
-    // if ($jawsdb_url) {
-    //     $dbparts = parse_url($jawsdb_url);
-    //     return [
-    //         'servername' => $dbparts['host'] . (isset($dbparts['port']) ? ':' . $dbparts['port'] : ''),
-    //         'username'   => $dbparts['user'],
-    //         'password'   => $dbparts['pass'],
-    //         'dbname'     => ltrim($dbparts['path'], '/'),
-    //     ];
-    // }
+    # Check first for Heroku JAWSDB_MARIA_URL, or use the one from .env
+    # Comment out to test local db
+    $jawsdb_url = getenv('JAWSDB_MARIA_URL');
+    if ($jawsdb_url) {
+        $dbparts = parse_url($jawsdb_url);
+        return [
+            'servername' => $dbparts['host'] . (isset($dbparts['port']) ? ':' . $dbparts['port'] : ''),
+            'username'   => $dbparts['user'],
+            'password'   => $dbparts['pass'],
+            'dbname'     => ltrim($dbparts['path'], '/'),
+        ];
+    }
 
-    # default local database configuration
+    # Default local database configuration
     return [
-        // 'servername' => '127.0.0.1:3306',
-
-        'servername' => '127.0.0.1:3307',
+        'servername' => '127.0.0.1:3306',
+        // 'servername' => '127.0.0.1:3307',
         'username'   => 'root',
         'password'   => '',
         'dbname'     => 'docksidedb',
