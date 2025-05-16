@@ -16,8 +16,9 @@ function getPersonData()
 
 function getDbConfig()
 {
-    # Check first for Heroku JAWSDB_MARIA_URL, or use the one from .env
-    # Comment out to test local db
+    # Check first for Heroku JAWSDB_MARIA_URL
+    # Doesn't work if .env is parsed and used, 
+    # Moved to DBCONNECT.php for local
     $jawsdb_url = getenv('JAWSDB_MARIA_URL');
     if ($jawsdb_url) {
         $dbparts = parse_url($jawsdb_url);
@@ -27,6 +28,12 @@ function getDbConfig()
             'password'   => $dbparts['pass'],
             'dbname'     => ltrim($dbparts['path'], '/'),
         ];
+    }
+
+    # Get credentials to connect to remote JawsDB from local machine
+    if (file_exists(__DIR__ . '/../DBCONNECT.php')) {
+        require_once __DIR__ . '/../DBCONNECT.php';
+        return getRemoteDBCredentials();
     }
 
     # Default local database configuration

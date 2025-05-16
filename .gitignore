@@ -1,3 +1,3 @@
 .idea
-.blackboxrules
 .env
+DB_CONNECT.php
