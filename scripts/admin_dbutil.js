@@ -8,10 +8,12 @@ const editBtn = document.getElementById("edit-btn");
 
 const bookSelect = document.getElementById("book_id");
 const selectedBookingValue = bookSelect.value;
+
 const checkBookingBtn = document.getElementById("check-booking-btn");
 const unlockBookingBtn = document.getElementById("unlock-booking-btn");
 const editBookingBtn = document.getElementById("edit-booking-btn");
 const saveBookingBtn = document.getElementById("save-booking-btn");
+const deleteBookingBtn = document.getElementById("delete-booking-btn");
 
 // Trigger once on page load to handle pre-selected values
 document.addEventListener("DOMContentLoaded", function () {
@@ -78,6 +80,7 @@ function makeBookingEditable() {
 
     checkBookingBtn.disabled = true;
     editBookingBtn.disabled = false;
+    deleteBookingBtn.disabled = false;
 
 }
 
