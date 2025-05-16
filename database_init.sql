@@ -20,10 +20,13 @@ SET time_zone = "+00:00";
 --
 -- Database: `docksidedb`
 --
+DROP DATABASE IF EXISTS `docksidedb`;
+CREATE DATABASE `docksidedb`;
+USE `docksidedb`;
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Table structure for table `booking`
 --
 
