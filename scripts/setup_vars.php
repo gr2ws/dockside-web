@@ -87,6 +87,43 @@ function populateRoomEditForm($selectedRoom)
     $conn->close();
 }
 
+function populateBookingEditForm($selectedBooking)
+{
+    $dbConfig = getDbConfig();
+    $servername = $dbConfig['servername'];
+    $username = $dbConfig['username'];
+    $password = $dbConfig['password'];
+    $dbname = $dbConfig['dbname'];
+
+    $conn = new mysqli($servername, $username, $password, $dbname);
+
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    // Build and execute SQL query
+    $SQLcommand = "SELECT * FROM booking WHERE bkg_id = $selectedBooking";
+    $result = $conn->query($SQLcommand);
+
+    // Check if the query returned a result
+    if ($result && $result->num_rows > 0) {
+        $row = $result->fetch_assoc(); // Fetch the row as an associative arrays
+
+        // fetch data to plug into session superglobal array.
+        $booking_num = $row['bkg_id'];
+        $date_in = $row['bkg_datein'];
+        $date_out = $row['bkg_dateout'];
+        $total_price = $row['bkg_totalpr'];
+
+        $_SESSION['book_id'] = $booking_num;
+        $_SESSION['bkg_datein'] = $date_in;
+        $_SESSION['bkg_dateout'] = $date_out;
+        $_SESSION['bkg_totalpr'] = $total_price;
+    }
+    $conn->close();
+}
+
+
 function seeRooms()
 {
     $dbConfig = getDbConfig();
@@ -116,6 +153,35 @@ function seeRooms()
     $conn->close();
 }
 
+function seeBookings() // this is OK: returns values properly (except ID)
+{
+    $dbConfig = getDbConfig();
+    $conn = new mysqli($dbConfig['servername'], $dbConfig['username'], $dbConfig['password'], $dbConfig['dbname']);
+
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    // Query to fetch available rooms
+    $sql = "SELECT bkg_id FROM booking ORDER BY bkg_id ASC";
+    $result = $conn->query($sql);
+
+    // Populate the dropdown with available bookings
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $bookingId = $row['bkg_id'];
+            $isSelected = (isset($selectedBkgID) && $selectedBkgID == $bookingId) || (isset($_SESSION['book_id']) && $_SESSION['book_id'] == $bookingId) ? 'selected' : '';
+            echo "<option value='$bookingId' $isSelected>$bookingId</option>";
+        }
+    } else {
+        echo "<option value='' disabled >No bookings available</option>";
+    }
+
+    // Close the connection
+    $conn->close();
+}
+
 function getRoomData()
 {
     return [
@@ -124,5 +190,15 @@ function getRoomData()
         'capacity'    => $_POST['capacity'] ?? '',
         'availability' => $_POST['availability'] ?? '',
         'price'       => $_POST['price'] ?? '',
+    ];
+}
+
+function getBookingData()
+{
+    return [
+        'bkg_id'          => $_POST['book_id'] ?? '',
+        'date_in'        => $_POST['date_in'] ?? '',
+        'date_out'    => $_POST['date_out'] ?? '',
+        'total_price' => $_POST['bkg_amount'] ?? '',
     ];
 }

@@ -25,6 +25,7 @@ if (isset($_SESSION['message'])) {
     unset($_SESSION['message']); // Clear the message from the session
 }
 
+// initiate room edit form
 $roomnum = isset($_SESSION['room_num']) ? $_SESSION['room_num'] : '';
 $type = isset($_SESSION['room_type']) ? $_SESSION['room_type'] : '';
 $capacity = isset($_SESSION['room_capacity']) ? $_SESSION['room_capacity'] : '';
@@ -32,6 +33,7 @@ $availability = isset($_SESSION['room_availability']) ? $_SESSION['room_availabi
 $price = isset($_SESSION['room_price']) ? $_SESSION['room_price'] : '';
 //$bookingid = $_SESSION['booking_id'];
 
+// reads called-upon room's data and populates the form
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['roomcheck_submit'])) {
     $roomnum = $_POST['roomnum'];
     populateRoomEditForm($roomnum);
@@ -43,6 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['roomcheck_submit'])) 
     header("Location: ./admin_dashboard.php#rooms");
 }
 
+// Process room edit form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['roomedit_submit'])) {
     $message = handleRoomEdit($roomnum); // generally means successful form submission once this is triggered
     $_SESSION['message'] = $message; // Store the message in a session variable
@@ -91,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_user_submit'])
     }
 }
 
-// Process room booking history search (works ok)
+// Process room booking history search 
 $roomBookings = [];
 $roomSearchError = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])) {
@@ -117,7 +120,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])
         $roomCount = 0;
     }
 }
+
+// initate booking edit form 
+$book_id = isset($_SESSION['book_id']) ? $_SESSION['book_id'] : '';
+$date_in = isset($_SESSION['bkg_datein']) ? $_SESSION['bkg_datein'] : '';
+$date_out = isset($_SESSION['bkg_dateout']) ? $_SESSION['bkg_dateout'] : '';
+$bkg_amount = isset($_SESSION['bkg_totalpr']) ? $_SESSION['bkg_totalpr'] : '';
+
+// reads called-upon booking's data and populates the form
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['bookcheck_submit'])) {
+    $book_id = $_POST['book_id'];
+    populateBookingEditForm($book_id);
+
+    $book_id = $_SESSION['book_id'];
+    $date_in = $_SESSION['bkg_datein'];
+    $date_out = $_SESSION['bkg_dateout'];
+    $bkg_amount = $_SESSION['bkg_totalpr'];
+
+    header("Location: ./admin_dashboard.php#reservation");
+    exit();
+}
+
+// Process room edit form submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['bookedit_submit'])) {
+    $message = handleBookingEdit($book_id); // generally means successful form submission once this is triggered
+    $_SESSION['message'] = $message; // Store the message in a session variable
+
+    unset($_SESSION['book_id']);
+    unset($_SESSION['bkg_datein']);
+    unset($_SESSION['bkg_dateout']);
+    unset($_SESSION['bkg_totalpr']);
+
+    header("Location: ./admin_dashboard.php");
+    exit(); // Redirect to the same page to avoid resubmission;
+}
 ?>
+
 
 
 <!DOCTYPE html>
@@ -467,7 +505,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])
                 </div>
 
                 <!-- Manage Reservation Section -->
-                <!-- Manage Room Section -->
                 <div class=" content-section d-none" id="reservation-content">
                     <div class=" container-fluid">
 
@@ -478,38 +515,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])
                             <hr>
 
                             <div class="border-0">
-                                <!-- manage reservations form (to edit) -->
-                                <form id="editrmForm" method="POST" action="./admin_dashboard.php#reservation">
+                                <!-- manage reservations form -->
+                                <form id="edit-rsv-form" method="POST" action="./admin_dashboard.php#reservation">
                                     <div class="mb-3">
-                                        <label for="roomnum" class="form-label">Booking ID</label>
+                                        <label for="book_id" class="form-label">Booking ID</label>
                                         <div class="d-flex justify-center align-center gap-3">
-                                            <select class="form-select w-50" id="roomnum" name="roomnum" placeholder="Select a room:" required>
+                                            <select class="form-select w-50" id="book_id" name="book_id" placeholder="Select a Booking ID:" required>
                                                 <option value="">Select booking ID:</option>
-                                                <!-- < ?php
+                                                <?php
                                                 seeBookings() // TODO
-                                                ?> -->
+                                                ?>
                                             </select>
-                                            <button type="submit" id="check-btn" class="btn btn-success" name="roomcheck_submit">Check</button>
-                                            <button type="button" id="unlock-btn" class="btn btn-danger" disabled onclick="lockEdits()">Unlock</button>
+                                            <button type="submit" id="check-booking-btn" class="btn btn-success" name="bookcheck_submit">Check</button>
+                                            <button type="button" id="unlock-booking-btn" class="btn btn-danger" disabled onclick="lockBookingEdits()">Unlock</button>
                                         </div>
                                     </div>
                                     <section id="form_details">
                                         <div class="mb-3">
-                                            <label for="type" class="form-label">Check-In Date</label>
-                                            <input type="date" class="form-control bi bi-calendar d-flex justify-content-start align-items-center gap-3" id="type" name="type" placeholder="Enter Check-In Date" value="<?php echo isset($type) ? $type : '' ?>" disabled>
+                                            <label for="date_in" class="form-label">Check-In Date</label>
+                                            <input type="date" class="form-control d-flex justify-content-start align-items-center gap-3" id="date_in" name="date_in" placeholder="Enter Check-In Date" value="<?php echo isset($date_in) ? $date_in : '' ?>" disabled>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="capacity" class="form-label">Check-Out Date</label>
-                                            <input type="date" class="form-control bi bi-calendar d-flex justify-content-start align-items-center gap-3" id="capacity" name="capacity" placeholder="Enter Check-Out Date" value="<?php echo isset($capacity) ? $capacity : '' ?>" disabled>
+                                            <label for="date_out" class="form-label">Check-Out Date</label>
+                                            <input type="date" class="form-control d-flex justify-content-start align-items-center gap-3" id="date_out" name="date_out" placeholder="Enter Check-Out Date" value="<?php echo isset($date_out) ? $date_out : '' ?>" disabled>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="price" class="form-label">Total Amount</label>
-                                            <input type="number" class="form-control" id="price" name="price" placeholder="Enter total booking price (in Php)" value="<?php echo isset($price) ? $price : '' ?>" disabled>
+                                            <label for="bkg_amount" class="form-label">Total Amount</label>
+                                            <input type="number" class="form-control" id="bkg_amount" name="bkg_amount" placeholder="Enter total booking price (in Php)" value="<?php echo isset($bkg_amount) ? $bkg_amount : '' ?>" disabled>
                                         </div>
                                     </section>
 
-                                    <button id="edit-btn" type="button" class="btn btn-primary" disabled onclick="makeEditable()">Edit Reservation</button>
-                                    <button id="save-btn" type="submit" class="btn btn-primary" name="roomedit_submit" disabled>Save Reservation</button>
+                                    <button id="edit-booking-btn" type="button" class="btn btn-primary" disabled onclick="makeBookingEditable()">Edit Reservation</button>
+                                    <button id="save-booking-btn" type="submit" class="btn btn-primary" name="bookedit_submit" disabled>Save Reservation</button>
                                 </form>
                             </div>
                         </section>
@@ -527,12 +564,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_room_submit'])
     <script>
         window.addEventListener('DOMContentLoaded', () => {
             const type = "<?php echo $type ?? ''; ?>";
+            const bkgin_date = "<?php echo $date_in ?? ''; ?>";
             if (type !== '') {
                 makeEditable();
             }
+            if (bkgin_date !== '') {
+                makeBookingEditable();
+            }
         });
-
-
 
         function ridMessage() {
             document.querySelector(".alert").classList.remove('d-flex');
