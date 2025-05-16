@@ -8,10 +8,6 @@ body {
     flex-direction: column;
 }
 
-* {
-  font-family: var(--body-font) !important;
-}
-
 .card, .dropdown-menu  {
   border: 1px solid var(--accent) !important;
   border-radius: 2px !important;

@@ -154,6 +154,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['bookedit_submit'])) {
     header("Location: ./admin_dashboard.php");
     exit(); // Redirect to the same page to avoid resubmission;
 }
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['bookdelete_submit'])) {
+    $message = handleBookingDelete($book_id); // generally means successful form submission once this is triggered
+    $_SESSION['message'] = $message; // Store the message in a session variable
+
+    unset($_SESSION['book_id']);
+    unset($_SESSION['bkg_datein']);
+    unset($_SESSION['bkg_dateout']);
+    unset($_SESSION['bkg_totalpr']);
+
+    header("Location: ./admin_dashboard.php");
+    exit(); // Redirect to the same page to avoid resubmission;
+}
 ?>
 
 
@@ -187,7 +200,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['bookedit_submit'])) {
             </button> -->
 
             <a class="nav-hotel-name" href="index.html">
-                Dockside Hotel
+                Dockside Admin
                 <sup class="header-c bi-c-circle"></sup>
             </a>
             <!-- User Menu -->
@@ -356,8 +369,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['bookedit_submit'])) {
                                         </div>
                                     </section>
 
-                                    <button id="edit-btn" type="button" class="btn btn-primary" disabled onclick="makeEditable()">Edit Room</button>
-                                    <button id="save-btn" type="submit" class="btn btn-primary" name="roomedit_submit" disabled>Save Room</button>
+                                    <!-- <button id="edit-btn" type="button" class="btn btn-primary" disabled onclick="makeEditable()">Edit Room</button> -->
+                                    <button id="save-btn" type="submit" class="btn btn-primary" name="roomedit_submit" disabled>Save Room Details</button>
                                 </form>
                             </div>
                         </section>
@@ -545,8 +558,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['bookedit_submit'])) {
                                         </div>
                                     </section>
 
-                                    <button id="edit-booking-btn" type="button" class="btn btn-primary" disabled onclick="makeBookingEditable()">Edit Reservation</button>
+                                    <!--<button id="edit-booking-btn" type="button" class="btn btn-primary" disabled onclick="makeBookingEditable()">Edit Reservation</button>-->
                                     <button id="save-booking-btn" type="submit" class="btn btn-primary" name="bookedit_submit" disabled>Save Reservation</button>
+                                    <button id="delete-booking-btn" type="submit" class="btn btn-danger" name="bookdelete_submit" disabled>Delete Reservation</button>
+
                                 </form>
                             </div>
                         </section>

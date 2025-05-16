@@ -160,7 +160,44 @@ function handleBookingEdit($book_id)
         return '<div class="alert alert-success d-flex align-items-center w-100" role="alert">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-round-check-icon lucide-user-round-check"><path d="M2 21a8 8 0 0 1 13.292-6"/><circle cx="10" cy="8" r="5"/><path d="m16 19 2 2 4-4"/></svg>
                                         <div class="ms-3">
-                                            Room edited successfully!
+                                            Booking edited successfully!
+                                        </div>
+                                    </div>';
+    } else {
+        return '<div class="alert alert-danger d-flex align-items-center w-100" role="alert">
+                    <   svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-circle-x me-2"><circle cx="12" cy="12" r="10"/>
+                        <path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+                    <div>Something went wrong. Please try again.</div>
+                </div>';
+    }
+}
+
+function handleBookingDelete($book_id)
+{
+    // get db config data
+    $dbConfig = getDbConfig();
+    $servername = $dbConfig['servername'];
+    $username = $dbConfig['username'];
+    $password = $dbConfig['password'];
+    $dbname = $dbConfig['dbname'];
+
+    $conn = new mysqli($servername, $username, $password, $dbname);
+
+    if ($conn->connect_error) {
+        return '<div class="alert alert-danger mt-3">Database connection failed.</div>';
+    }
+
+    // Build and execute DELETE SQL query
+    $SQLcommand = "DELETE FROM booking WHERE bkg_id = $book_id";
+
+    if ($conn->query($SQLcommand) === TRUE) {
+        // Set a success message
+        return '<div class="alert alert-success d-flex align-items-center w-100" role="alert">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-round-check-icon lucide-user-round-check"><path d="M2 21a8 8 0 0 1 13.292-6"/><circle cx="10" cy="8" r="5"/><path d="m16 19 2 2 4-4"/></svg>
+                                        <div class="ms-3">
+                                            Booking deleted successfully!
                                         </div>
                                     </div>';
     } else {
