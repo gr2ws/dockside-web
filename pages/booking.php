@@ -378,24 +378,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_booking'])) {
                 <div class="room-selection-section mb-5">
                     <h3 class="mb-4">Available Rooms</h3>
                     <div class="row row-cols-1 row-cols-md-2 g-4">
-                        <?php foreach ($availableRooms as $room): ?>
-                            <div class="col">
-                                <div class="card h-100">
-                                    <div class="card-body">
-                                        <h5 class="card-title"><?php echo $room['room_type']; ?></h5>
-                                        <p class="card-text">Room #<?php echo $room['room_id']; ?></p>
-                                        <p class="card-text">Capacity: <?php echo $room['room_capacity']; ?> guests</p>
-                                        <p class="card-text fw-bold">₱<?php echo number_format($room['room_price'], 2); ?> per night</p>
+<?php foreach ($availableRooms as $room): ?>
+    <div class="col">
+        <div class="card h-100">
+            <?php
+                // Map room types to the correct image filenames in assets folder
+                switch ($room['room_type']) {
+                    case 'Presidential Suite':
+                        $roomImageFile = 'presidential.jpg';
+                        break;
+                    case 'Executive Suite':
+                        $roomImageFile = 'executive.jpg';
+                        break;
+                    case 'Deluxe Room':
+                        $roomImageFile = 'deluxe.jpg';
+                        break;
+                    case 'Standard Room':
+                    default:
+                        $roomImageFile = 'standard.jpg';
+                        break;
+                }
+                $roomImagePath = "../assets/" . $roomImageFile;
+            ?>
+            <img src="<?php echo $roomImagePath; ?>" class="card-img-top" alt="<?php echo $room['room_type']; ?>">
+            <div class="card-body py-2 px-3">
+                <h5 class="card-title mb-1"><?php echo $room['room_type']; ?></h5>
+                <p class="card-text mb-1">Room #<?php echo $room['room_id']; ?></p>
+                <p class="card-text mb-1">Capacity: <?php echo $room['room_capacity']; ?> guests</p>
+                <p class="card-text fw-bold mb-2">₱<?php echo number_format($room['room_price'], 2); ?> per night</p>
 
-                                        <?php if (!empty($checkinDate) && !empty($checkoutDate)): ?>
-                                            <a href="booking.php?checkin=<?php echo $checkinDate; ?>&checkout=<?php echo $checkoutDate; ?>&room_type=<?php echo urlencode($room['room_type']); ?>&selected_room=<?php echo $room['room_id']; ?>" class="btn btn-outline-primary">Select Room</a>
-                                        <?php else: ?>
-                                            <div class="text-warning">Please select dates to book this room</div>
-                                        <?php endif; ?>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
+                <?php if (!empty($checkinDate) && !empty($checkoutDate)): ?>
+                    <a href="booking.php?checkin=<?php echo $checkinDate; ?>&checkout=<?php echo $checkoutDate; ?>&room_type=<?php echo urlencode($room['room_type']); ?>&selected_room=<?php echo $room['room_id']; ?>" class="btn btn-outline-primary btn-sm">Select Room</a>
+                <?php else: ?>
+                    <div class="text-warning small">Please select dates to book this room</div>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+<?php endforeach; ?>
                     </div>
                 </div>
             <?php elseif (isset($_GET['checkin']) || isset($_GET['checkout']) || isset($_GET['room_type'])): ?>
@@ -463,12 +483,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_booking'])) {
                                                                             break;
                                                                     }
                                             ?>
-                                            <div class="room-size my-3">
-                                                <h5>Room Specifications</h5>
-                                                <p><strong>Room #:</strong> <?php echo $selectedRoom['room_id']; ?></p>
-                                                <p><strong>Size:</strong> <?php echo $roomSize; ?></p>
-                                                <p><strong>Capacity:</strong> <?php echo $selectedRoom['room_capacity']; ?> guests</p>
-                                                <p><strong>Base Rate:</strong> ₱<?php echo number_format($selectedRoom['room_price'], 2); ?> per night</p>
+                                            <div class="d-flex flex-wrap my-3">
+                                                <div class="room-size flex-grow-1 me-4">
+                                                    <h5>Room Specifications</h5>
+                                                    <p><strong>Room #:</strong> <?php echo $selectedRoom['room_id']; ?></p>
+                                                    <p><strong>Size:</strong> <?php echo $roomSize; ?></p>
+                                                    <p><strong>Capacity:</strong> <?php echo $selectedRoom['room_capacity']; ?> guests</p>
+                                                    <p><strong>Base Rate:</strong> ₱<?php echo number_format($selectedRoom['room_price'], 2); ?> per night</p>
+                                                </div>
+
+                                                <div class="stay-details flex-shrink-0" style="min-width: 220px;">
+                                                    <h5>Your Stay</h5>
+                                                    <p><i class="bi bi-calendar-check me-2"></i><strong>Check-in Date:</strong> <?php echo $bookingDetails['checkinFormatted']; ?></p>
+                                                    <p><i class="bi bi-calendar-x me-2"></i><strong>Check-out Date:</strong> <?php echo $bookingDetails['checkoutFormatted']; ?></p>
+                                                    <p><i class="bi bi-moon me-2"></i><strong>Duration:</strong> <?php echo $bookingDetails['totalNights']; ?> night(s)</p>
+                                                </div>
                                             </div>
 
                                             <div class="room-description my-3">
@@ -476,14 +505,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_booking'])) {
                                                 <p><?php echo $roomDesc; ?></p>
                                             </div>
 
-                                            <div class="room-features my-3">
-                                                <h5>Room Features</h5>
-                                                <div class="row">
-                                                    <?php foreach ($roomFeatures as $feature): ?>
-                                                        <div class="col-md-6 col-lg-4 mb-2">
-                                                            <i class="bi bi-check-circle-fill text-success me-2"></i><?php echo $feature; ?>
-                                                        </div>
-                                                    <?php endforeach; ?>
+                                            <div class="d-flex flex-wrap my-3">
+                                                <div class="room-features flex-grow-1 me-4">
+                                                    <h5>Room Features</h5>
+                                                    <div class="row">
+                                                        <?php foreach ($roomFeatures as $feature): ?>
+                                                            <div class="col-md-6 col-lg-4 mb-2">
+                                                                <i class="bi bi-check-circle-fill text-success me-2"></i><?php echo $feature; ?>
+                                                            </div>
+                                                        <?php endforeach; ?>
+                                                    </div>
                                                 </div>
                                             </div>
 
@@ -492,13 +523,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_booking'])) {
                                                 <p><i class="bi bi-clock me-2"></i><strong>Check-in:</strong> 3:00 PM</p>
                                                 <p><i class="bi bi-clock me-2"></i><strong>Check-out:</strong> 12:00 NN (Philippine Time)</p>
                                                 <p><i class="bi bi-exclamation-circle me-2"></i>All cancellations and rebookings are allowed free of charge.</p>
-                                            </div>
-
-                                            <div class="stay-details mt-4">
-                                                <h5>Your Stay</h5>
-                                                <p><i class="bi bi-calendar-check me-2"></i><strong>Check-in Date:</strong> <?php echo $bookingDetails['checkinFormatted']; ?></p>
-                                                <p><i class="bi bi-calendar-x me-2"></i><strong>Check-out Date:</strong> <?php echo $bookingDetails['checkoutFormatted']; ?></p>
-                                                <p><i class="bi bi-moon me-2"></i><strong>Duration:</strong> <?php echo $bookingDetails['totalNights']; ?> night(s)</p>
                                             </div>
                                         </div>
                                     </div>
