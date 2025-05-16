@@ -369,8 +369,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['bookdelete_submit']))
                                         </div>
                                     </section>
 
-                                    <button id="edit-btn" type="button" class="btn btn-primary" disabled onclick="makeEditable()">Edit Room</button>
-                                    <button id="save-btn" type="submit" class="btn btn-primary" name="roomedit_submit" disabled>Save Room</button>
+                                    <!-- <button id="edit-btn" type="button" class="btn btn-primary" disabled onclick="makeEditable()">Edit Room</button> -->
+                                    <button id="save-btn" type="submit" class="btn btn-primary" name="roomedit_submit" disabled>Save Room Details</button>
                                 </form>
                             </div>
                         </section>
@@ -558,7 +558,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['bookdelete_submit']))
                                         </div>
                                     </section>
 
-                                    <button id="edit-booking-btn" type="button" class="btn btn-primary" disabled onclick="makeBookingEditable()">Edit Reservation</button>
+                                    <!--<button id="edit-booking-btn" type="button" class="btn btn-primary" disabled onclick="makeBookingEditable()">Edit Reservation</button>-->
                                     <button id="save-booking-btn" type="submit" class="btn btn-primary" name="bookedit_submit" disabled>Save Reservation</button>
                                     <button id="delete-booking-btn" type="submit" class="btn btn-danger" name="bookdelete_submit" disabled>Delete Reservation</button>
 
