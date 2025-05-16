@@ -39,10 +39,10 @@ $fname = $isLoggedIn ? $_SESSION['fname'] : '';
                     <ul
                         class="dropdown-menu dropdown-menu-end rooms-dpd shadow-sm"
                         aria-labelledby="accommodationsDropdown">
-                        <li><a class="dropdown-item" href="../pages/accomodations.php?room=presidential">Presidential Suite</a></li>
-                        <li><a class="dropdown-item" href="../pages/accomodations.php?room=executive">Executive Suite</a></li>
-                        <li><a class="dropdown-item" href="../pages/accomodations.php?room=deluxe">Deluxe Room</a></li>
-                        <li><a class="dropdown-item" href="../pages/accomodations.php?room=standard">Standard Room</a></li>
+                        <li><a class="dropdown-item" href="accomodations.php#presidential">Presidential Suite</a></li>
+                        <li><a class="dropdown-item" href="accomodations.php#executive">Executive Suite</a></li>
+                        <li><a class="dropdown-item" href="accomodations.php#deluxe">Deluxe Room</a></li>
+                        <li><a class="dropdown-item" href="accomodations.php#standard">Standard Room</a></li>
                     </ul>
                 </li>
                 <li><a href="../pages/facilities.php" class="nav-link">Facilities</a></li>
@@ -125,16 +125,16 @@ $fname = $isLoggedIn ? $_SESSION['fname'] : '';
             </span>
             <div class="collapse mob-rooms" id="mobileAccommodationsCollapse">
                 <ul class="list-unstyled ps-3">
-                    <a href="../pages/accomodations.php?room=presidential">
+                    <a href="../pages/accomodations.php#presidential">
                         <li>Presidential Suite</li>
                     </a>
-                    <a href="../pages/accomodations.php?room=executive">
+                    <a href="../pages/accomodations.php#executive">
                         <li>Executive Suite</li>
                     </a>
-                    <a href="../pages/accomodations.php?room=deluxe">
+                    <a href="../pages/accomodations.php#deluxe">
                         <li>Deluxe Room</li>
                     </a>
-                    <a href="../pages/accomodations.php?room=standard">
+                    <a href="../pages/accomodations.php#standard">
                         <li>Standard Room</li>
                     </a>
                 </ul>
